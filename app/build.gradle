@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.example.handschoolapplication"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile project(':PhotoPicker')
+    compile files('libs/BaiduLBS_Android.jar')
+    //    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    //轮播图
+    //圆形带背景的图片
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    //    compile 'com.google.zxing:core:3.2.1'
+    //    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.jakewharton:butterknife:8.7.0'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.bigkoo:convenientbanner:2.0.5'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'cn.yipianfengye.android:zxing-library:2.2'
+    compile 'com.github.danielgindi:httprequest:1.2.0'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+}
+repositories {
+    mavenCentral()
+}

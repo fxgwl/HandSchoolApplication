@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/ll"
+    tools:context="com.example.handschoolapplication.activity.NowApplyActivity">
+
+    <include layout="@layout/title_bar_blue"></include>
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="您所选择的学堂"/>
+
+                    <TextView
+                        style="@style/nowapplytv2"
+                        android:text="名家讲坛"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/line"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="您所选择的课程"/>
+
+                    <TextView
+                        style="@style/nowapplytv2"
+                        android:text="名家讲坛"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/line"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="上课时间"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:text="周一  10:30-12:30/15:30-16:30\n周二  10:30-12:30"
+                        />
+                </RelativeLayout>
+
+                <View
+                    style="@style/line"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="班级容量"/>
+
+                    <TextView
+                        style="@style/nowapplytv2"
+                        android:text="12【已报名】 /20人【总人数】"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/line"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="招生对象"/>
+
+                    <TextView
+                        style="@style/nowapplytv2"
+                        android:text="0-3岁"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/line"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="专家讲师"/>
+
+                    <TextView
+                        style="@style/nowapplytv2"
+                        android:text="易中天"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/line"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="课时费用"/>
+
+                    <TextView
+                        style="@style/nowapplytv2"
+                        android:text="800元/10节课"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/line"
+                    android:layout_height="10dp"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="学习课时数量"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="15dp"
+                        android:gravity="center_vertical|right"
+                        android:text="20节"
+                        android:textColor="#000"
+                        android:textSize="15sp"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:gravity="center_vertical|right"
+                    android:text="共N节课       小计: ¥000.00"
+                    android:textColor="#000"/>
+
+                <View
+                    style="@style/line"
+                    android:layout_height="10dp"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="优惠折扣抵"/>
+
+                    <TextView
+                        style="@style/nowapplytv2"
+                        android:text="-¥50.00"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/line"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="金币抵扣"/>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="40dp"
+                        android:src="@drawable/hongquan"/>
+
+                    <TextView
+                        style="@style/nowapplytv2"
+                        android:text="5000金币            -¥50.00"/>
+                </LinearLayout>
+
+                <View
+                    style="@style/line"
+                    android:layout_marginBottom="50dp"></View>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <View
+                style="@style/line"></View>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:padding="14dp"
+                    android:text="合计:"/>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:gravity="center"
+                    android:padding="14dp"
+                    android:text="¥0000.00"
+                    android:textColor="#ff00"/>
+
+                <TextView
+                    android:id="@+id/tv_nowapply_config"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#F4640D"
+                    android:gravity="center"
+                    android:padding="14dp"
+                    android:text="确认报名"
+                    android:textColor="#ffffff"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

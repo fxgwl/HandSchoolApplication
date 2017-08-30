@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="#e6e6e6"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.handschoolapplication.activity.RefundDetailActivity">
+    <RelativeLayout
+        android:background="@color/blue"
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <include
+
+            layout="@layout/title_bar_blue" />
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            
+      
+    <LinearLayout
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="43dp">
+        <TextView
+            android:text="订单编号："
+            android:textColor="@color/t333333"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="123456789"
+            android:textColor="@color/t333333"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <com.example.handschoolapplication.view.MyListView
+        android:layout_marginTop="15dp"
+        android:id="@+id/mlv_refunddetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.example.handschoolapplication.view.MyListView>
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:background="#fff"
+                android:padding="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="申请退款用户："
+                    android:textSize="14sp"
+                    android:textColor="@color/t333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginTop="13dp"
+                    android:text="退款原因："
+                    android:textSize="14sp"
+                    android:textColor="@color/t333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:paddingLeft="20dp"
+                    android:paddingTop="13dp"
+                    android:textColor="@color/t999999"
+                    android:textSize="14sp"
+                    android:text="点错误报名"
+                    android:layout_marginTop="7dp"
+                    android:background="#f7f7f7"
+                    android:layout_width="match_parent"
+                    android:layout_height="74dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:paddingLeft="15dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="15dp"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+                <TextView
+                    android:text="退款状态："
+                    android:textSize="14sp"
+                    android:textColor="@color/t333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="退款中"
+                    android:textSize="14sp"
+                    android:textColor="@color/t333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

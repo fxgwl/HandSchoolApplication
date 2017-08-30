@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e6e6e6"
+    tools:context="com.example.handschoolapplication.activity.FeedBackActivity">
+    <include
+
+        layout="@layout/title_bar_blue" />
+    <EditText
+        android:id="@+id/et_feedback_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:gravity="top|left"
+        android:hint="写下您对我们的建议，我们会及时修改"
+        android:layout_marginTop="43dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="145dp" />
+    <TextView
+        android:id="@+id/tv_feedback_submit"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="200dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:background="@drawable/shape_rect_blue"
+        android:text="提交"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+</LinearLayout>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.example.handschoolapplication.activity.ApplyActivity">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_bar_blue" />
+
+    <LinearLayout
+        android:id="@+id/ll_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/ll_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全部"
+                android:textColor="@color/blue"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/v_all"
+                android:layout_width="57dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_tostart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_tostart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="待开课"
+                android:textColor="@color/t666666"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/v_tostart"
+                android:layout_width="57dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_starting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_starting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开课中"
+                android:textColor="@color/t666666"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/v_starting"
+                android:layout_width="57dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_end"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已结束"
+                android:textColor="@color/t666666"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/v_end"
+                android:layout_width="57dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_course"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_tab"
+        android:divider="@color/colorgrey"
+        android:dividerHeight="14dp"
+        android:scrollbars="none" />
+
+</RelativeLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+
+
+    tools:context="com.example.handschoolapplication.activity.QuestionAnswerActivity">
+<include layout="@layout/title_bar_blue"/>
+    <TextView
+        android:id="@+id/tv_questionanswer_question"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="28dp"
+        android:text="如何快速赚积分"
+        android:textSize="16sp"
+        android:textColor="@color/t333333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_questionanswer_answer"
+        android:text="@string/aboutus"
+        android:textColor="@color/t666666"
+        android:textSize="14sp"
+        android:lineSpacingExtra="6dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

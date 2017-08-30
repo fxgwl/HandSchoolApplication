@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingTop="20dp">
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="比起打骂孩子，孩子最害怕的竟然是这几件事"
+            android:textSize="16sp"
+            android:textColor="@color/textcolor"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="38dp"
+            android:layout_height="20dp"
+            android:text="教育"
+            android:textSize="12sp"
+            android:textColor="#ff2f1f"
+            android:background="@drawable/textview_bg"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            />
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="阅读200人"
+            android:layout_alignBottom="@+id/tv_type"
+            android:layout_toRightOf="@+id/tv_type"
+            android:layout_marginLeft="20dp"
+            android:textSize="12sp"
+            android:textColor="#b3b3b3"
+            />
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_imag"
+        android:layout_width="110dp"
+        android:layout_height="76dp"
+        android:src="@drawable/beijing"
+        android:scaleType="fitXY"/>
+
+
+</LinearLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#11ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/free_dialog_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="15dp"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:gravity="center"
+            android:text="提示"
+            android:textColor="@color/t333333"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_marginTop="15dp"
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="20dp"
+            android:textSize="14sp"
+            android:textColor="@color/t666666"
+            android:text="检测到新版本，更加方便快捷" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            android:textColor="@color/t666666"
+            android:id="@+id/message2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="20dp"
+            android:text="更新包大小：50" />
+
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_marginTop="33dp"
+            android:layout_marginBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/no"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+
+                android:background="@null"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="稍后再说"
+                android:textColor="@color/t666666"
+                android:textSize="14sp" />
+
+
+
+            <Button
+
+                android:id="@+id/yes"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/shape_rect_blue"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="立即更新"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

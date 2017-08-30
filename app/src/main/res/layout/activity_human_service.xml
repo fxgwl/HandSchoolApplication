@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.handschoolapplication.activity.HumanServiceActivity">
+    <include
+        android:id="@+id/include_humanservice"
+        layout="@layout/title_bar_blue" />
+    <ListView
+        android:layout_below="@id/include_humanservice"
+        android:id="@+id/lv_humanservice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+    </ListView>
+    <LinearLayout
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="#fff"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+<EditText
+
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/edittext"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="38dp" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:text="发送"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</RelativeLayout>

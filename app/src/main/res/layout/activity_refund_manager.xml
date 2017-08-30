@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e6e6e6"
+    tools:context="com.example.handschoolapplication.activity.RefundManagerActivity">
+    <RelativeLayout
+        android:background="@color/blue"
+        android:gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <include
+
+            layout="@layout/title_bar_blue" />
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="33dp">
+
+        <LinearLayout
+            android:id="@+id/ll_refundmanager_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_refundmanager_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="6dp"
+                android:text="全部"
+                android:textColor="#27acf6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_refundmanager_allline"
+                android:layout_width="58dp"
+                android:layout_height="3dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#27acf6"
+                android:gravity="bottom" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_refundmanager_tkz"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_marginBottom="6dp"
+                android:id="@+id/tv_refundmanager_tkz"
+                android:textSize="14sp"
+                android:text="退款中"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/t666666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:gravity="bottom"
+                android:id="@+id/tv_refundmanager_tkzline"
+                android:background="#ffffff"
+                android:layout_width="58dp"
+                android:layout_height="3dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_refundmanager_complete"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_marginBottom="6dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/tv_refundmanager_complete"
+                android:textSize="14sp"
+                android:text="已完成"
+                android:textColor="@color/t666666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_refundmanager_completeline"
+                android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
+                android:layout_width="58dp"
+                android:layout_height="3dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:background="@color/t999999"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <ListView
+
+        android:id="@+id/lv_refundmanager"
+        android:dividerHeight="14dp"
+        android:divider="@drawable/divider"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+</LinearLayout>

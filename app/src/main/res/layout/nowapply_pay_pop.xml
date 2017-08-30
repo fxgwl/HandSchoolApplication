@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="#ffffff"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/pop_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="关闭"/>
+    </LinearLayout>
+
+    <View
+        style="@style/line"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="14dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="支付金额"
+            android:textColor="#000"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="800.00元"
+            android:textColor="#000"/>
+    </LinearLayout>
+
+    <View
+        style="@style/line"></View>
+
+    <LinearLayout
+        android:id="@+id/pop_pay_ali"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="14dp">
+
+        <ImageView
+            android:id="@+id/pop_state_ali"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/hongquan"
+            android:text="支付金额"
+            android:textColor="#000"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="24dp"
+            android:src="@drawable/zhifubao"
+            android:text="支付金额"
+            android:textColor="#000"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:text="支付宝"
+            android:textColor="#000"/>
+    </LinearLayout>
+
+    <View
+        style="@style/line"></View>
+
+    <LinearLayout
+        android:id="@+id/pop_pay_weixin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="14dp">
+
+        <ImageView
+            android:id="@+id/pop_state_wx"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/baiquan"
+            android:text="支付金额"
+            android:textColor="#000"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="24dp"
+            android:src="@drawable/weixinzhifu"
+            android:text="支付金额"
+            android:textColor="#000"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:text="微信"
+            android:textColor="#000"/>
+    </LinearLayout>
+
+    <View
+        style="@style/line"></View>
+
+    <TextView
+        android:id="@+id/pop_pay_config"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="30dp"
+        android:background="#27ACF6"
+        android:gravity="center"
+        android:text="确认付款"
+        android:textColor="#ffff"/>
+
+</LinearLayout>

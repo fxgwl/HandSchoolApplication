@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e6e6e6"
+    tools:context="com.example.handschoolapplication.activity.PublishEvaluateActivity">
+<include layout="@layout/title_bar_blue_rt"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:background="#fff"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="课程满意度"
+                android:textColor="@color/t666666"
+                android:textSize="15sp"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RatingBar
+                android:layout_marginTop="6dp"
+                style="@style/foodRatingBar"
+                android:rating="4"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:numStars="5"
+                android:layout_gravity="center_vertical"
+                android:progressTint="#fddb30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginLeft="15dp"
+            android:text="4分"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="25dp"
+
+            android:textSize="15sp"
+            android:textColor="#ff3c4b"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+        <EditText
+            android:textColor="#b3b3b3"
+            android:textSize="15sp"
+            android:gravity="top"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:hint="课程是否满意呢，请聊聊您的感受吧"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="40dp"
+            android:background="#f7f7f7"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+        <LinearLayout
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="28dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <CheckBox
+                style="@style/CustomCheckboxTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:textSize="15sp"
+                android:textColor="@color/t666666"
+                android:text="匿名评价"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="40dp"
+                android:textColor="#b3b3b3"
+                android:textSize="15sp"
+                android:text="您写的评价会以匿名形式展现"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:background="#e6e6e6"
+            android:layout_width="match_parent"
+            android:layout_height="34dp" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center"
+                android:src="@drawable/hongquan"
+                android:layout_width="35dp"
+                android:layout_height="35dp" />
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:text="爱心学堂"
+                android:textColor="@color/t333333"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="学堂评分"
+                android:textColor="@color/t666666"
+                android:textSize="15sp"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RatingBar
+                android:numStars="5"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:layout_marginTop="6dp"
+                style="@style/foodRatingBar"
+                android:rating="4"
+                android:layout_gravity="center_vertical"
+                android:progressTint="#fddb30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:text="4分"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="25dp"
+                android:textSize="15sp"
+                android:textColor="#ff3c4b"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

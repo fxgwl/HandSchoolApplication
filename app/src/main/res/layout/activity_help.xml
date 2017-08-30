@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.handschoolapplication.activity.HelpActivity">
+        <include
+            android:id="@+id/include"
+            layout="@layout/title_bar_blue" />
+<LinearLayout
+    android:id="@+id/ll_help_top"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:layout_below="@id/include"
+    android:background="#f0f2f4"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@drawable/rect_full_white"
+        android:layout_gravity="center"
+        android:layout_width="280dp"
+        android:layout_height="33dp">
+        <EditText
+            android:layout_marginLeft="20dp"
+            android:textSize="14sp"
+            android:textColorHint="#b3b3b3"
+            android:hint="搜索您想问的问题"
+            android:background="@null"
+            android:layout_width="0dp"
+            android:layout_weight="8"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="#b3b3b3"
+            android:layout_width="1dp"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@drawable/search"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <TextView
+        android:textSize="15sp"
+        android:textColor="@color/t999999"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="15dp"
+        android:text="热点问题"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+    <ListView
+        android:background="#fff"
+        android:layout_below="@id/ll_help_top"
+        android:id="@+id/lv_help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+    <LinearLayout
+       android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="53dp">
+        <LinearLayout
+            android:id="@+id/ll_help_service"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/custom_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="15sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000000"
+                android:text="联系客服"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:background="#e3e5e7"
+            android:layout_gravity="center_vertical"
+            android:layout_width="1dp"
+            android:layout_height="25dp" />
+        <LinearLayout
+            android:id="@+id/ll_help_feedback"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/custom_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textColor="#000000"
+                android:text="意见反馈"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

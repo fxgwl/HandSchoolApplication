@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="httprequest-1.2.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/2d04fc9001221398bb7f54c09ba3a093ed150c05/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/2d04fc9001221398bb7f54c09ba3a093ed150c05/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.danielgindi/httprequest/1.2.0/5b89b59827cd61c1c080d838e2f30ea38821017a/httprequest-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
