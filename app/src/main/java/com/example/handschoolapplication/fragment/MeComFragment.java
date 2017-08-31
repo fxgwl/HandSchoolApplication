@@ -10,16 +10,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.ApplyActivity;
+import com.example.handschoolapplication.activity.ClassActivity;
 import com.example.handschoolapplication.activity.CommentManagerActivity;
 import com.example.handschoolapplication.activity.DealManagerActivity;
 import com.example.handschoolapplication.activity.MyAccountActivity;
-import com.example.handschoolapplication.activity.SchoolHomePageActivity;
 import com.example.handschoolapplication.activity.SchoolInformationActivity;
 import com.example.handschoolapplication.activity.SettingsActivity;
 import com.example.handschoolapplication.base.BaseFragment;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,6 +73,7 @@ public class MeComFragment extends BaseFragment {
     @BindView(R.id.ll_code)
     LinearLayout llCode;
     private View view;
+    private int REQUEST_CODE;
 
 
     public MeComFragment() {
@@ -109,9 +113,11 @@ public class MeComFragment extends BaseFragment {
             case R.id.iv_edit://编辑
                 break;
             case R.id.ll_scan://扫一扫
+                Intent intent = new Intent(getActivity(), CaptureActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.ll_my_class://我的学堂
-                startActivity(new Intent(getActivity(), SchoolHomePageActivity.class));
+                startActivity(new Intent(getActivity(), ClassActivity.class));
                 break;
             case R.id.ll_my_account://我的账户
                 startActivity(new Intent(getActivity(),MyAccountActivity.class));
@@ -130,6 +136,26 @@ public class MeComFragment extends BaseFragment {
             case R.id.civ_usericon:
                 startActivity(new Intent(getActivity(), SchoolInformationActivity.class));
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    Toast.makeText(getActivity(), "解析结果:" + result, Toast.LENGTH_LONG).show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
+                }
+            }
         }
     }
 }
