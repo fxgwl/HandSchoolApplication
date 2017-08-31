@@ -237,6 +237,7 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
               //学堂地址
             case R.id.ll_schoolinfo_schooladdress:
+                startActivity(new Intent(SchoolInformationActivity.this,SchoolAddressActivity.class));
                 break;
             //保存
             case R.id.btn_schoolinfo_save:
