@@ -3,6 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+    android:background="@color/white"
               tools:context="com.example.handschoolapplication.fragment.HomeFragment">
 
     <RelativeLayout
@@ -195,7 +196,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="85dp"
-        android:layout_marginTop="15dp"
+
         android:gravity="center_horizontal">
 
         <LinearLayout
