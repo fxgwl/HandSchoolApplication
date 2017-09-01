@@ -24,7 +24,7 @@ public class AboutUsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            tvTitle.setText("关于我们");
+        tvTitle.setText("关于我们");
     }
 
     @Override

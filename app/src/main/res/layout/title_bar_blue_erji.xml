@@ -1,63 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="65dp"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
 
-    android:background="@color/blue">
+                android:background="@color/blue">
+
     <RelativeLayout
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
-    <RelativeLayout
-        android:id="@+id/rl_back"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_centerVertical="true">
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true">
 
-        <ImageView
-            android:id="@+id/iv_back"
+        <RelativeLayout
+            android:id="@+id/rl_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/back_white" />
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/back_white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/iv_back"
+                android:text="返回"
+                android:textColor="#fff"
+                android:textSize="14sp"/>
+        </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="标题"
+            android:textColor="#fff"
+            android:textSize="17sp"/>
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/threepoint"
+            />
+
+        <TextView
+            android:id="@+id/tv_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/iv_back"
-            android:text="返回"
-            android:textColor="#fff"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="标题"
-        android:textSize="17sp"
-        android:textColor="#fff" />
-    <ImageView
-        android:id="@+id/iv_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/threepoint"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        />
-    <TextView
-        android:id="@+id/tv_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="保存"
-        android:layout_centerVertical="true"
-        android:textColor="#fff"
-        android:layout_toLeftOf="@+id/iv_menu"
-        android:layout_marginRight="15dp"/>
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/iv_menu"
+            android:text="保存"
+            android:textColor="#fff"/>
     </RelativeLayout>
 </RelativeLayout>

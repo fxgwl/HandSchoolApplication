@@ -228,6 +228,7 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             //学堂类别
             case R.id.ll_schoolinfo_schoolclass:
+                startActivity(new Intent(this,ClassTypeActivity.class));
                 break;
             //身份认证
             case R.id.ll_schoolinfo_shenfenrenzheng:
