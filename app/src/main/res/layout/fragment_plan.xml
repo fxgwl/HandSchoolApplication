@@ -1,4 +1,4 @@
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -37,83 +37,46 @@
                 android:textColor="#666666"/>
         </RelativeLayout>
 
-        <ListView
+        <ExpandableListView
             android:id="@+id/lv_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"/>
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingTop="10dp"-->
-            <!--android:layout_marginTop="1dp"-->
-            <!--android:paddingBottom="20dp"-->
-            <!--android:background="#fff">-->
-            <!--<ImageView-->
-                <!--android:id="@+id/iv_select_all"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/baiquan"-->
-                <!--android:layout_marginLeft="20dp"/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/tv_listname"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="新东方拓展训练营"-->
-                <!--android:textSize="14sp"-->
-                <!--android:textColor="@color/textcolor"-->
-                <!--android:layout_marginLeft="15dp"/>-->
-            <!--<ImageView-->
-                <!--android:id="@+id/iv_to_detail"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/xiayiye"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:layout_marginLeft="16dp"/>-->
-        <!--</LinearLayout>-->
-
-        <!--<ListView-->
-            <!--android:id="@+id/lv_list"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="#f7f7f7"/>-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingTop="10dp"-->
-            <!--android:layout_marginTop="1dp"-->
-            <!--android:paddingBottom="20dp"-->
-            <!--android:background="#fff">-->
-            <!--<ImageView-->
-                <!--android:id="@+id/iv_select_allo"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/baiquan"-->
-                <!--android:layout_marginLeft="20dp"/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/tv_listnameo"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="新东方拓展训练营"-->
-                <!--android:textSize="14sp"-->
-                <!--android:textColor="@color/textcolor"-->
-                <!--android:layout_marginLeft="15dp"/>-->
-            <!--<ImageView-->
-                <!--android:id="@+id/iv_to_detailo"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:src="@drawable/xiayiye"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:layout_marginLeft="16dp"/>-->
-        <!--</LinearLayout>-->
-
-        <!--<ListView-->
-            <!--android:id="@+id/lv_listo"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="#f7f7f7"/>-->
+            android:layout_weight="1"
+            android:background="#fff"
+            android:childIndicator="@null"
+            android:groupIndicator="@null"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white">
+            <CheckBox
+                android:id="@+id/cb_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                style="@style/cb_select"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全选"
+                android:textColor="@color/t666666"
+                android:textSize="15sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tv_delect"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="#ff3c4b"
+                android:text="删除"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:gravity="center"/>
+        </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

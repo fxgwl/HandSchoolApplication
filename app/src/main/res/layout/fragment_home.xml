@@ -124,7 +124,7 @@
         <com.bigkoo.convenientbanner.ConvenientBanner
             android:id="@+id/convenientBanner"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="154dp"
             android:layout_marginTop="10dp"
             app:canLoop="true"/>
 
@@ -312,6 +312,7 @@
                         android:background="@drawable/textview_bg"
                         android:gravity="center"
                         android:text="教育"
+                        android:textSize="12sp"
                         android:textColor="#f00"/>
 
                     <TextView
@@ -339,6 +340,7 @@
                         android:background="@drawable/textview_bg"
                         android:gravity="center"
                         android:text="教育"
+                        android:textSize="12sp"
                         android:textColor="#f00"/>
 
                     <TextView

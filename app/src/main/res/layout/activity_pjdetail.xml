@@ -130,7 +130,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="159条评论   浏览20次"/>
+                    android:text="159条评论"/>
 
                 <View
                     android:layout_width="match_parent"

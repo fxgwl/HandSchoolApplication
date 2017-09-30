@@ -94,13 +94,13 @@ public class NewsFragment extends BaseFragment {
     @OnClick({R.id.ll_learn_news, R.id.ll_notification_news, R.id.ll_interaction_news})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.ll_learn_news:
+            case R.id.ll_learn_news://学习消息
                 startActivity(new Intent(getActivity(), LearnNewsActivity.class));
                 break;
-            case R.id.ll_notification_news:
+            case R.id.ll_notification_news://通知消息
                 startActivity(new Intent(getActivity(), NotificationNewsActivity.class));
                 break;
-            case R.id.ll_interaction_news:
+            case R.id.ll_interaction_news://互动消息
                 startActivity(new Intent(getActivity(),InteractionNewsActivity.class));
                 break;
         }

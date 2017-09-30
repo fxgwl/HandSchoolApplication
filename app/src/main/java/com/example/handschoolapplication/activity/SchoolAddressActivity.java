@@ -1,5 +1,6 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,12 +44,14 @@ public class SchoolAddressActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
+                finish();
                 break;
             case R.id.iv_menu:
                 break;
             case R.id.tv_save:
                 break;
             case R.id.tv_schooladdress_add:
+                startActivity(new Intent(this,AddAddressActivity.class));
                 break;
         }
     }

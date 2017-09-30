@@ -9,7 +9,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
@@ -32,6 +31,8 @@ public class SettingsActivity extends BaseActivity {
     LinearLayout llShenji;
     @BindView(R.id.ll_help)
     LinearLayout llHelp;
+
+    private TextView tvType;
     private String type;
     private ShenjiDialog selfDialog;
 
@@ -39,15 +40,16 @@ public class SettingsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        tvType = (TextView) findViewById(R.id.tv_type);
         tvTitle.setText("设置");
         ivMenu.setVisibility(View.VISIBLE);
         type = getIntent().getStringExtra("type");
         switch (type) {
             case "com":
-
+                tvType.setText("学堂资料");
                 break;
             case "per":
-
+                tvType.setText("个人资料");
                 break;
         }
 
@@ -68,7 +70,9 @@ public class SettingsActivity extends BaseActivity {
             case R.id.iv_menu:
                 break;
             case R.id.ll_change_info:
+                if (type.equals("per"))
                 startActivity(new Intent(this, MyInformationActivity.class));
+                else startActivity(new Intent(this, SchoolInformationActivity.class));
                 break;
             //修改手机号
             case R.id.ll_change_phone:

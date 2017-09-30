@@ -23,10 +23,11 @@
         <LinearLayout
             android:id="@+id/ll_phone_num"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:gravity="center_vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -40,7 +41,8 @@
                 android:layout_marginLeft="10dp"
                 android:background="@null"
                 android:hint="用户名/邮箱/手机号"
-                app:theme="@style/MyEditText" />
+                app:theme="@style/MyEditText"
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <View
@@ -54,10 +56,11 @@
         <LinearLayout
             android:id="@+id/ll_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -71,6 +74,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@null"
                 android:hint="请输入密码"
+                android:textSize="16sp"
                 android:inputType="textPassword"
                 app:theme="@style/MyEditText" />
         </LinearLayout>
@@ -89,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/btn_background"
             android:text="登录"
             android:textColor="#fff" />

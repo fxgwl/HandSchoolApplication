@@ -22,7 +22,7 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MyInformationActivity extends BaseActivity {
+public class MyInformationActivity extends BaseActivity{
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -68,24 +68,26 @@ public class MyInformationActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+//                BaseActivity.setMenu(this);
+                BaseActivity.showMenuPop(this,view);
                 break;
             case R.id.ll_icon:
                 showChoosePicDialog();
                 break;
             case R.id.ll_username:
-                startActivityForResult(new Intent(this,SetUserNameActivity.class),1);
+                startActivityForResult(new Intent(this, SetUserNameActivity.class), 1);
                 break;
             case R.id.ll_name:
-                startActivityForResult(new Intent(this,SetNameActivity.class),1);
+                startActivityForResult(new Intent(this, SetNameActivity.class), 1);
                 break;
             case R.id.ll_sex:
-                startActivityForResult(new Intent(this,SelectSexActivity.class),1);
+                startActivityForResult(new Intent(this, SelectSexActivity.class), 1);
                 break;
             case R.id.ll_idcode:
-                startActivityForResult(new Intent(this,SetIdCodeActivity.class),1);
+                startActivityForResult(new Intent(this, SetIdCodeActivity.class), 1);
                 break;
             case R.id.ll_myaddress:
-                startActivityForResult(new Intent(this,CurrentCityActivity.class),1);
+                startActivityForResult(new Intent(this, CurrentCityActivity.class), 1);
                 break;
             case R.id.btn_save:
                 break;
@@ -98,7 +100,7 @@ public class MyInformationActivity extends BaseActivity {
     protected void showChoosePicDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("设置头像");
-        String[] items = { "选择本地照片", "拍照" };
+        String[] items = {"选择本地照片", "拍照"};
         builder.setNegativeButton("取消", null);
         builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -130,19 +132,19 @@ public class MyInformationActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1&&resultCode==11){
+        if (requestCode == 1 && resultCode == 11) {
             String sex = data.getStringExtra("sex");
             tvSex.setText(sex);
         }
-        if (requestCode==1&&resultCode==22){
+        if (requestCode == 1 && resultCode == 22) {
             String username = data.getStringExtra("username");
             tvUsername.setText(username);
         }
-        if (requestCode==1&&resultCode==33){
+        if (requestCode == 1 && resultCode == 33) {
             String idcode = data.getStringExtra("idcode");
             tvIdcode.setText(idcode);
         }
-        if (requestCode==1&&resultCode==44){
+        if (requestCode == 1 && resultCode == 44) {
             String name = data.getStringExtra("name");
             tvName.setText(name);
         }
@@ -194,7 +196,6 @@ public class MyInformationActivity extends BaseActivity {
      * 保存裁剪之后的图片数据
      *
      * @param
-     *
      * @param
      */
     protected void setImageToView(Intent data) {
@@ -202,6 +203,8 @@ public class MyInformationActivity extends BaseActivity {
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
             photo = Utils.toRoundBitmap(photo, tempUri); // 这个时候的图片已经被处理成圆形的了
+            Log.e("aaa",
+                    "(MyInformationActivity.java:206)" + photo);
             ivUsericon.setImageBitmap(photo);
             uploadPic(photo);
         }
@@ -216,8 +219,8 @@ public class MyInformationActivity extends BaseActivity {
         String imagePath = Utils.savePhoto(bitmap, Environment
                 .getExternalStorageDirectory().getAbsolutePath(), String
                 .valueOf(System.currentTimeMillis()));
-        Log.e("imagePath", imagePath+"");
-        if(imagePath != null){
+        Log.e("imagePath", imagePath + "");
+        if (imagePath != null) {
             // 拿着imagePath上传了
             // ...
         }

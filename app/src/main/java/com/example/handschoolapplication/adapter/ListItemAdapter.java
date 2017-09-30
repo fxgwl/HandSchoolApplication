@@ -1,20 +1,19 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.ListItemBean;
-
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 /**
  * Created by Administrator on 2017/7/25.
@@ -73,34 +72,21 @@ public class ListItemAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String string = finalHolder.tvNum.getText().toString();
                 num = Integer.parseInt(string);
-                num--;
+                if (num == 1 || num == 0) {
+                    num = 0;
+                } else {
+                    num--;
+                }
                 finalHolder.tvNum.setText(num + "");
             }
         });
-
-        holder.ivSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Log.e("aaa",
-                    "(ListItemAdapter.java:86)"+"点击了单选按钮");
-                if (finalHolder.flag == 0) {
-                    finalHolder.ivSelect.setImageResource(R.drawable.hongquan);
-                    finalHolder.flag = 1;
-                } else {
-                    finalHolder.ivSelect.setImageResource(R.drawable.baiquan);
-                    finalHolder.flag = 0;
-                }
-            }
-        });
-
 
         return view;
     }
 
     static class ViewHolder {
         @BindView(R.id.iv_select)
-        ImageView ivSelect;
+        CheckBox ivSelect;
         @BindView(R.id.iv_imag)
         ImageView ivImag;
         @BindView(R.id.tv_name)
@@ -113,8 +99,10 @@ public class ListItemAdapter extends BaseAdapter {
         TextView tvNum;
         @BindView(R.id.tv_add)
         TextView tvAdd;
-
-        int flag = 0;
+        @BindView(R.id.ll_edit_num)
+        LinearLayout llEditNum;
+        @BindView(R.id.ll_number)
+        LinearLayout llNumber;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

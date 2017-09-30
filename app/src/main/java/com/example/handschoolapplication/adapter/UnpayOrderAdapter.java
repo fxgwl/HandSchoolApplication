@@ -58,7 +58,7 @@ public class UnpayOrderAdapter extends BaseAdapter {
 
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_order_lv, null);
+            convertView = View.inflate(context, R.layout.item_unpay_lv, null);
             holder=new ViewHolder(convertView);
             convertView.setTag(holder);
         }else {
@@ -75,6 +75,10 @@ public class UnpayOrderAdapter extends BaseAdapter {
     static class ViewHolder {
         @BindView(R.id.tv_organization)
         TextView tvOrganization;
+        @BindView(R.id.tv_cancel)
+        TextView tvCancel;
+        @BindView(R.id.tv_pay)
+        TextView tvPay;
         @BindView(R.id.lv_order)
         ListView lvOrder;
 

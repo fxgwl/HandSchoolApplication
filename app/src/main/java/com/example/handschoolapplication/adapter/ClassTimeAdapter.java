@@ -7,9 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.bean.TimeBean;
+import com.example.handschoolapplication.bean.TimeHourBean;
 import com.example.handschoolapplication.view.MyGridView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,17 +22,23 @@ import butterknife.ButterKnife;
 
 public class ClassTimeAdapter extends BaseAdapter {
     private Context context;
-    private List<String> mlist;
+    private List<TimeBean> mlist;
+    private List<TimeHourBean> mHourList;
+    private int size = 0;
 
-    public ClassTimeAdapter(Context context, List<String> mlist) {
+    public ClassTimeAdapter(Context context, List<TimeBean> mlist,List<TimeHourBean> mHourList) {
         this.context = context;
         this.mlist = mlist;
+        this.mHourList=mHourList;
     }
 
     @Override
     public int getCount() {
 
-        return 5;
+        if (mlist != null) {
+            size = mlist.size();
+        }
+        return size;
     }
 
     @Override
@@ -56,7 +63,7 @@ public class ClassTimeAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        TimeAdapter timeAdapter = new TimeAdapter(context, new ArrayList<String>());
+        TimeAdapter timeAdapter = new TimeAdapter(context,mHourList );
         holder.timechooseGv.setAdapter(timeAdapter);
         return view;
     }

@@ -110,13 +110,6 @@ public class MultiPickResultView extends FrameLayout {
 
     }
 
-
-
-
-
-
-
-
     public  void onActivityResult(int requestCode, int resultCode, Intent data){
         if (action == ACTION_SELECT){
             PhotoPickUtils.onActivityResult(requestCode, resultCode, data, new PhotoPickUtils.PickHandler() {

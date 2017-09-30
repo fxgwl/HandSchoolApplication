@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -37,11 +38,14 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
     private UnEvaluateOrderFragment unEvaluateOrderFragment;
     private VertifyOrderFragment vertifyOrderFragment;
     private RefundFragment refundFragment;
+    private String flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        flag = getIntent().getStringExtra("flag");
+        Log.e("aaa",
+                "(MyOrderActivity.java:47)" + flag);
         initView();
 
     }
@@ -79,20 +83,43 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
 
         tvTitle.setText("订单中心");
 
-        initFirstFragment();
+        initFirstFragment(flag);
     }
 
-    private void initFirstFragment() {
-
+    private void initFirstFragment(String flag) {
         currentFragment = new Fragment();
-        if (allOrderFragment == null) {
-            allOrderFragment = new AllOrderFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.fl_fragment, allOrderFragment).commit();
-        } else {
-            getSupportFragmentManager().beginTransaction().show(allOrderFragment).commit();
+        switch (flag) {
+            case "all":
+                if (allOrderFragment == null) {
+                    allOrderFragment = new AllOrderFragment();
+                    getSupportFragmentManager().beginTransaction().add(R.id.fl_fragment, allOrderFragment).commit();
+                } else {
+                    getSupportFragmentManager().beginTransaction().show(allOrderFragment).commit();
+                }
+                selectAllorder();
+                currentFragment = allOrderFragment;
+                break;
+            case "pay":
+                if (unpayOrderFragment == null) {
+                    unpayOrderFragment = new UnpayOrderFragment();
+                    getSupportFragmentManager().beginTransaction().add(R.id.fl_fragment, unpayOrderFragment).commit();
+                } else {
+                    getSupportFragmentManager().beginTransaction().show(unpayOrderFragment).commit();
+                }
+                selectUnpay();
+                currentFragment = unpayOrderFragment;
+                break;
+            case "eva":
+                if (unEvaluateOrderFragment == null) {
+                    unEvaluateOrderFragment = new UnEvaluateOrderFragment();
+                    getSupportFragmentManager().beginTransaction().add(R.id.fl_fragment, unEvaluateOrderFragment).commit();
+                } else {
+                    getSupportFragmentManager().beginTransaction().show(unEvaluateOrderFragment).commit();
+                }
+                selectUnevaluta();
+                currentFragment = unEvaluateOrderFragment;
+                break;
         }
-
-        currentFragment = allOrderFragment;
     }
 
     @Override
@@ -110,32 +137,14 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
 
                 break;
             case R.id.ll_all_order:
-                tvAllOrder.setTextColor(getResources().getColor(R.color.blue));
-                vAllOrder.setBackgroundColor(getResources().getColor(R.color.blue));
-                tvUnpayOrder.setTextColor(Color.parseColor("#666666"));
-                vUnpayOrder.setBackgroundColor(Color.parseColor("#ffffff"));
-                tvVertifyOrder.setTextColor(Color.parseColor("#666666"));
-                vVertifyOrder.setBackgroundColor(Color.parseColor("#ffffff"));
-                tvUnEvaluateOrder.setTextColor(Color.parseColor("#666666"));
-                vUnEvaluateOrder.setBackgroundColor(Color.parseColor("#ffffff"));
-                tvRefundOrder.setTextColor(Color.parseColor("#666666"));
-                vRefundOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+                selectAllorder();
                 if (allOrderFragment == null) allOrderFragment = new AllOrderFragment();
                 addFragmentShow(getSupportFragmentManager(), allOrderFragment);
                 break;
             case R.id.ll_unpay_order:
-                tvUnpayOrder.setTextColor(getResources().getColor(R.color.blue));
-                vUnpayOrder.setBackgroundColor(getResources().getColor(R.color.blue));
-                tvAllOrder.setTextColor(Color.parseColor("#666666"));
-                vAllOrder.setBackgroundColor(Color.parseColor("#ffffff"));
-                tvVertifyOrder.setTextColor(Color.parseColor("#666666"));
-                vVertifyOrder.setBackgroundColor(Color.parseColor("#ffffff"));
-                tvUnEvaluateOrder.setTextColor(Color.parseColor("#666666"));
-                vUnEvaluateOrder.setBackgroundColor(Color.parseColor("#ffffff"));
-                tvRefundOrder.setTextColor(Color.parseColor("#666666"));
-                vRefundOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+                selectUnpay();
                 if (unpayOrderFragment == null) unpayOrderFragment = new UnpayOrderFragment();
-                addFragmentShow(getSupportFragmentManager(),unpayOrderFragment);
+                addFragmentShow(getSupportFragmentManager(), unpayOrderFragment);
                 break;
             case R.id.ll_verify_order:
                 tvVertifyOrder.setTextColor(getResources().getColor(R.color.blue));
@@ -149,21 +158,13 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
                 tvRefundOrder.setTextColor(Color.parseColor("#666666"));
                 vRefundOrder.setBackgroundColor(Color.parseColor("#ffffff"));
                 if (vertifyOrderFragment == null) vertifyOrderFragment = new VertifyOrderFragment();
-                addFragmentShow(getSupportFragmentManager(),vertifyOrderFragment);
+                addFragmentShow(getSupportFragmentManager(), vertifyOrderFragment);
                 break;
             case R.id.ll_unevalutae_order:
-                tvUnEvaluateOrder.setTextColor(getResources().getColor(R.color.blue));
-                vUnEvaluateOrder.setBackgroundColor(getResources().getColor(R.color.blue));
-                tvAllOrder.setTextColor(Color.parseColor("#666666"));
-                vAllOrder.setBackgroundColor(Color.parseColor("#ffffff"));
-                tvUnpayOrder.setTextColor(Color.parseColor("#666666"));
-                vUnpayOrder.setBackgroundColor(Color.parseColor("#ffffff"));
-                tvVertifyOrder.setTextColor(Color.parseColor("#666666"));
-                vVertifyOrder.setBackgroundColor(Color.parseColor("#ffffff"));
-                tvRefundOrder.setTextColor(Color.parseColor("#666666"));
-                vRefundOrder.setBackgroundColor(Color.parseColor("#ffffff"));
-                if (unEvaluateOrderFragment == null) unEvaluateOrderFragment = new UnEvaluateOrderFragment();
-                addFragmentShow(getSupportFragmentManager(),unEvaluateOrderFragment);
+                selectUnevaluta();
+                if (unEvaluateOrderFragment == null)
+                    unEvaluateOrderFragment = new UnEvaluateOrderFragment();
+                addFragmentShow(getSupportFragmentManager(), unEvaluateOrderFragment);
                 break;
             case R.id.ll_refund:
                 tvRefundOrder.setTextColor(getResources().getColor(R.color.blue));
@@ -177,18 +178,59 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
                 tvUnEvaluateOrder.setTextColor(Color.parseColor("#666666"));
                 vUnEvaluateOrder.setBackgroundColor(Color.parseColor("#ffffff"));
                 if (refundFragment == null) refundFragment = new RefundFragment();
-                addFragmentShow(getSupportFragmentManager(),refundFragment);
+                addFragmentShow(getSupportFragmentManager(), refundFragment);
                 break;
         }
     }
+
+    private void selectUnevaluta() {
+        tvUnEvaluateOrder.setTextColor(getResources().getColor(R.color.blue));
+        vUnEvaluateOrder.setBackgroundColor(getResources().getColor(R.color.blue));
+        tvAllOrder.setTextColor(Color.parseColor("#666666"));
+        vAllOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+        tvUnpayOrder.setTextColor(Color.parseColor("#666666"));
+        vUnpayOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+        tvVertifyOrder.setTextColor(Color.parseColor("#666666"));
+        vVertifyOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+        tvRefundOrder.setTextColor(Color.parseColor("#666666"));
+        vRefundOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+    }
+
+    private void selectAllorder() {
+        tvAllOrder.setTextColor(getResources().getColor(R.color.blue));
+        vAllOrder.setBackgroundColor(getResources().getColor(R.color.blue));
+        tvUnpayOrder.setTextColor(Color.parseColor("#666666"));
+        vUnpayOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+        tvVertifyOrder.setTextColor(Color.parseColor("#666666"));
+        vVertifyOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+        tvUnEvaluateOrder.setTextColor(Color.parseColor("#666666"));
+        vUnEvaluateOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+        tvRefundOrder.setTextColor(Color.parseColor("#666666"));
+        vRefundOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+    }
+
+    private void selectUnpay() {
+        tvUnpayOrder.setTextColor(getResources().getColor(R.color.blue));
+        vUnpayOrder.setBackgroundColor(getResources().getColor(R.color.blue));
+        tvAllOrder.setTextColor(Color.parseColor("#666666"));
+        vAllOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+        tvVertifyOrder.setTextColor(Color.parseColor("#666666"));
+        vVertifyOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+        tvUnEvaluateOrder.setTextColor(Color.parseColor("#666666"));
+        vUnEvaluateOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+        tvRefundOrder.setTextColor(Color.parseColor("#666666"));
+        vRefundOrder.setBackgroundColor(Color.parseColor("#ffffff"));
+    }
+
+
 
     private void addFragmentShow(FragmentManager manager, Fragment fragment) {
 
         FragmentTransaction ft = manager.beginTransaction();
         if (currentFragment != fragment) {
-            if (!fragment.isAdded()){
-                ft.hide(currentFragment).add(R.id.fl_fragment,fragment).commit();
-            }else {
+            if (!fragment.isAdded()) {
+                ft.hide(currentFragment).add(R.id.fl_fragment, fragment).commit();
+            } else {
                 ft.hide(currentFragment).show(fragment).commit();
             }
         } else {

@@ -73,6 +73,7 @@ public class EducationActivity extends BaseActivity implements AdapterView.OnIte
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
+                finish();
                 break;
             case R.id.iv_menu:
                 break;

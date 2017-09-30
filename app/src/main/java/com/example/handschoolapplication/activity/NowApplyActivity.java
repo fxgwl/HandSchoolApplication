@@ -1,7 +1,6 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,13 +10,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.view.MyPopupWindow;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NowApplyActivity extends AppCompatActivity {
+public class NowApplyActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -27,9 +27,13 @@ public class NowApplyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_now_apply);
         ButterKnife.bind(this);
         tvTitle.setText("立即报名");
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_now_apply;
     }
 
     @OnClick({R.id.rl_back, R.id.tv_nowapply_config})

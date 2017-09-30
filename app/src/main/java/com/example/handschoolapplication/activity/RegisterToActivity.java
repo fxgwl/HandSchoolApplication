@@ -27,15 +27,17 @@ public class RegisterToActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
-                //返回
+                finish();
                 break;
             case R.id.ll_person:
                 //个人注册
-                startActivity(new Intent(RegisterToActivity.this,RegisterPersonActivity.class).putExtra("type","per"));
+                startActivity(new Intent(RegisterToActivity.this,RegisterPersonActivity.class).putExtra("type","0"));
+//                finish();
                 break;
             case R.id.ll_company:
                 //企业注册
-                startActivity(new Intent(RegisterToActivity.this,RegisterPersonActivity.class).putExtra("type","com"));
+                startActivity(new Intent(RegisterToActivity.this,RegisterPersonActivity.class).putExtra("type","1"));
+//                finish();
                 break;
         }
     }

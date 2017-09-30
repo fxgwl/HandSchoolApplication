@@ -24,11 +24,13 @@ public class InteractionNewsAdapter extends BaseAdapter {
     private Context context;
     private List<InteractionNewsBean> mList;
     private int size = 0;
+    private OnDetailClickListener listener;
 
 
-    public InteractionNewsAdapter(Context context, List<InteractionNewsBean> mList) {
+    public InteractionNewsAdapter(Context context, List<InteractionNewsBean> mList, OnDetailClickListener listener) {
         this.context = context;
         this.mList = mList;
+        this.listener = listener;
     }
 
     @Override
@@ -51,17 +53,24 @@ public class InteractionNewsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
 
         ViewHolder holder = null;
 
         if (view == null) {
             view = View.inflate(context, R.layout.item_in_lv, null);
-            holder=new ViewHolder(view);
+            holder = new ViewHolder(view);
             view.setTag(holder);
-        }else {
-            holder= (ViewHolder) view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
+
+        holder.tvDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onDetailClick(position);
+            }
+        });
         return view;
     }
 
@@ -80,5 +89,9 @@ public class InteractionNewsAdapter extends BaseAdapter {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface OnDetailClickListener {
+        void onDetailClick(int position);
     }
 }

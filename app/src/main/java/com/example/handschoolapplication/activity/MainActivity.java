@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -19,6 +20,7 @@ import com.example.handschoolapplication.fragment.HomeFragment;
 import com.example.handschoolapplication.fragment.LearnPlanFragment;
 import com.example.handschoolapplication.fragment.MeComFragment;
 import com.example.handschoolapplication.fragment.MeFragment;
+import com.example.handschoolapplication.fragment.NewsComFragment;
 import com.example.handschoolapplication.fragment.NewsFragment;
 
 import butterknife.BindView;
@@ -55,6 +57,7 @@ public class MainActivity extends BaseActivity {
     private HomeFragment homeFragment;
     private FindFragment findFragment;
     private NewsFragment newsFragment;
+    private NewsComFragment newsComFragment;
     private LearnPlanFragment planFragment;
     private MeFragment meFragment;
     private Fragment currentFragment;
@@ -65,8 +68,10 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        flag = getIntent().getStringExtra("flag");
-        if (flag.equals("com")) {
+        flag = getIntent().getStringExtra("flag");//0代表个人  1代表企业
+        Log.e("aaa",
+                "(MainActivity.java:71)flag ==== " + flag);
+        if (flag.equals("1")) {
             llPlan.setVisibility(View.GONE);
         }
         initTab();
@@ -164,8 +169,13 @@ public class MainActivity extends BaseActivity {
                 ivPlan.setImageResource(R.drawable.plan);
                 tvMe.setTextColor(Color.parseColor("#333333"));
                 ivMe.setImageResource(R.drawable.me);
-                if (newsFragment == null) newsFragment = new NewsFragment();
-                addOrShowFragment(getSupportFragmentManager(), newsFragment);
+                if (flag.equals("1")){
+                    if (newsComFragment==null)newsComFragment=new NewsComFragment();
+                    addOrShowFragment(getSupportFragmentManager(),newsComFragment);
+                }else {
+                    if (newsFragment == null) newsFragment = new NewsFragment();
+                    addOrShowFragment(getSupportFragmentManager(), newsFragment);
+                }
                 break;
             case R.id.ll_plan:
                 tvHome.setTextColor(Color.parseColor("#333333"));
@@ -192,7 +202,7 @@ public class MainActivity extends BaseActivity {
                 ivPlan.setImageResource(R.drawable.plan);
                 tvMe.setTextColor(Color.parseColor("#27acf6"));
                 ivMe.setImageResource(R.drawable.mes);
-                if (flag.equals("com")) {
+                if (flag.equals("1")) {
                     if (meComFragment == null) meComFragment = new MeComFragment();
                     addOrShowFragment(getSupportFragmentManager(), meComFragment);
                 } else {

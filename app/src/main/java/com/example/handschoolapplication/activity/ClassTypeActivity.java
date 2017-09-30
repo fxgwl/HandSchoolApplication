@@ -2,7 +2,6 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ClassTypeAdapter;
 import com.example.handschoolapplication.adapter.ClassTypeAddAdapter;
+import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.view.MyListView;
 import com.example.handschoolapplication.view.MyPopupWindow;
 
@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ClassTypeActivity extends AppCompatActivity {
+public class ClassTypeActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -33,9 +33,13 @@ public class ClassTypeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_class_type);
         ButterKnife.bind(this);
         initView();
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_class_type;
     }
 
     private void initView() {
@@ -48,6 +52,7 @@ public class ClassTypeActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
+                setResult(22,new Intent().putExtra("type","文体艺术/音乐"));
                 finish();
                 break;
             case R.id.tv_save:

@@ -18,6 +18,7 @@ import com.example.handschoolapplication.activity.GradeActivity;
 import com.example.handschoolapplication.activity.LearningActivity;
 import com.example.handschoolapplication.activity.MyBroswerActivity;
 import com.example.handschoolapplication.activity.MyDiscountcouponActivity;
+import com.example.handschoolapplication.activity.MyEvaluateActivity;
 import com.example.handschoolapplication.activity.MyInformationActivity;
 import com.example.handschoolapplication.activity.MyLoveActivity;
 import com.example.handschoolapplication.activity.MyOrderActivity;
@@ -89,10 +90,11 @@ public class MeFragment extends BaseFragment {
 
     @OnClick({R.id.iv_edit, R.id.ll_course_all, R.id.ll_islearning, R.id.ll_unpay, R.id.ll_isevaluate,
             R.id.tv_more, R.id.iv_more, R.id.ll_scan, R.id.ll_evaluate, R.id.ll_broswer, R.id.ll_love,
-            R.id.ll_discountcoupon, R.id.iv_settings,R.id.ll_dengji,R.id.civ_usericon})
+            R.id.ll_discountcoupon, R.id.iv_settings, R.id.ll_dengji, R.id.civ_usericon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_edit://编辑
+                startActivity(new Intent(getActivity(), MyInformationActivity.class));
                 break;
             case R.id.ll_course_all://全部课程
                 startActivity(new Intent(getActivity(), AllCourseActivity.class));
@@ -101,18 +103,21 @@ public class MeFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), LearningActivity.class));
                 break;
             case R.id.ll_unpay://未付款
+                startActivity(new Intent(getActivity(), MyOrderActivity.class).putExtra("flag", "pay"));
                 break;
             case R.id.ll_isevaluate://待评价
+                startActivity(new Intent(getActivity(), MyOrderActivity.class).putExtra("flag", "eva"));
                 break;
             case R.id.tv_more:
             case R.id.iv_more://我的订单更多
-                startActivity(new Intent(getActivity(), MyOrderActivity.class));
+                startActivity(new Intent(getActivity(), MyOrderActivity.class).putExtra("flag", "all"));
                 break;
             case R.id.ll_scan://扫一扫
                 Intent intent = new Intent(getActivity(), CaptureActivity.class);
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.ll_evaluate://评价
+                startActivity(new Intent(getActivity(), MyEvaluateActivity.class));
                 break;
             case R.id.ll_broswer://足迹
                 startActivity(new Intent(getActivity(), MyBroswerActivity.class));
@@ -124,10 +129,10 @@ public class MeFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), MyDiscountcouponActivity.class));
                 break;
             case R.id.iv_settings:
-                startActivity(new Intent(getActivity(), SettingsActivity.class).putExtra("type","per"));
+                startActivity(new Intent(getActivity(), SettingsActivity.class).putExtra("type", "per"));
                 break;
             case R.id.ll_dengji:
-                startActivity(new Intent(getActivity(),GradeActivity.class));
+                startActivity(new Intent(getActivity(), GradeActivity.class));
                 break;
             case R.id.civ_usericon:
                 startActivity(new Intent(getActivity(), MyInformationActivity.class));

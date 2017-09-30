@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.fragment.CdDetailFragment;
 import com.example.handschoolapplication.fragment.CdPingJiaFragment;
 
@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CourseDetailActivity extends AppCompatActivity {
+public class CourseDetailActivity extends BaseActivity {
 
     @BindView(R.id.tv1)
     TextView tv1;
@@ -31,9 +31,13 @@ public class CourseDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_detail);
         ButterKnife.bind(this);
         initView();
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_course_detail;
     }
 
     private void initView() {

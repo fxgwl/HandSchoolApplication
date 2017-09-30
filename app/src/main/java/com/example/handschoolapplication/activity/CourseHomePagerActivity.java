@@ -3,7 +3,6 @@ package com.example.handschoolapplication.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +19,9 @@ import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ClassTimeAdapter;
 import com.example.handschoolapplication.adapter.TimeAdapter;
+import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.TimeBean;
+import com.example.handschoolapplication.bean.TimeHourBean;
 import com.example.handschoolapplication.view.MyGridView;
 import com.example.handschoolapplication.view.MyListView;
 import com.example.handschoolapplication.view.MyPopupWindow;
@@ -31,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CourseHomePagerActivity extends AppCompatActivity {
+public class CourseHomePagerActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -72,14 +74,22 @@ public class CourseHomePagerActivity extends AppCompatActivity {
     private String s4 = "http://img0.imgtn.bdimg.com/it/u=1660138183,1040754863&fm=23&gp=0.jpg";
     private List<String> listImg = new ArrayList<>();
 
+    private List<TimeHourBean> mHourList;//每周的具体小时上课时间
+    private List<TimeBean> mList;
+
+    private List<TimeHourBean> mFeeList;//课时费用
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course_homepager);
         ButterKnife.bind(this);
         convenientBanner = (ConvenientBanner) findViewById(R.id.convenientBanner);
         tvTitle.setText("课程主页");
         initConvenientBannerData();
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_course_homepager;
     }
 
     private void initConvenientBannerData() {
@@ -128,15 +138,17 @@ public class CourseHomePagerActivity extends AppCompatActivity {
             case R.id.course_classcost:
                 initClassCost();
                 break;
-            case R.id.course_classdetail:
+            case R.id.course_classdetail://课程详情
                 Intent intent = new Intent(this, CourseDetailActivity.class);
                 startActivity(intent);
                 break;
             case R.id.course_allpingjia_btn:
                 break;
             case R.id.course_kefu:
+                startActivity(new Intent(this,HumanServiceActivity.class));
                 break;
             case R.id.course_xuetang:
+                startActivity(new Intent(this,ClassActivity.class));
                 break;
             case R.id.course_save:
                 break;
@@ -157,7 +169,12 @@ public class CourseHomePagerActivity extends AppCompatActivity {
         TextView classmoney_config = (TextView) v.findViewById(R.id.classmoney_config);
         final MyPopupWindow courTimePoP = new MyPopupWindow(this, v);
         courTimePoP.showAtLocation(v, Gravity.BOTTOM, 0, 0);
-        TimeAdapter timeAdapter = new TimeAdapter(this, new ArrayList<String>());
+        mHourList=new ArrayList<>();
+        mHourList.add(new TimeHourBean());
+        mHourList.add(new TimeHourBean());
+        mHourList.add(new TimeHourBean());
+        mHourList.add(new TimeHourBean());
+        TimeAdapter timeAdapter = new TimeAdapter(this, mHourList);
         classmoney_mlv.setAdapter(timeAdapter);
 
         classmoney_back.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +209,12 @@ public class CourseHomePagerActivity extends AppCompatActivity {
         TextView classtime_config = (TextView) v.findViewById(R.id.classtime_config);
         final MyPopupWindow courTimePoP = new MyPopupWindow(this, v);
         courTimePoP.showAtLocation(v, Gravity.BOTTOM, 0, 0);
-        ClassTimeAdapter ctAdapter = new ClassTimeAdapter(this, new ArrayList<String>());
+        mList = new ArrayList<>();
+        mList.add(new TimeBean());
+        mList.add(new TimeBean());
+        mList.add(new TimeBean());
+        mList.add(new TimeBean());
+        ClassTimeAdapter ctAdapter = new ClassTimeAdapter(this, mList,mHourList);
         mylistview.setAdapter(ctAdapter);
         classtime_back.setOnClickListener(new View.OnClickListener() {
             @Override

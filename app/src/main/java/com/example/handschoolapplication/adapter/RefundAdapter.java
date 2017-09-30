@@ -31,7 +31,7 @@ public class RefundAdapter extends BaseAdapter {
     public RefundAdapter(Context context, List<RefundBean> mList, List<OrderBean> mOrderList) {
         this.context = context;
         this.mList = mList;
-        this.mOrderList=mOrderList;
+        this.mOrderList = mOrderList;
     }
 
     @Override
@@ -58,30 +58,31 @@ public class RefundAdapter extends BaseAdapter {
 
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_order_lv, null);
-            holder=new ViewHolder(convertView);
+            convertView = View.inflate(context, R.layout.item_refund_lv, null);
+            holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-        }else {
-            holder= (ViewHolder) convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        OrderAdapter orderAdapter = new OrderAdapter(context,mOrderList);
+        OrderAdapter orderAdapter = new OrderAdapter(context, mOrderList);
         holder.lvOrder.setAdapter(orderAdapter);
         MyUtiles.setListViewHeightBasedOnChildren(holder.lvOrder);
 
         return convertView;
     }
 
+
     static class ViewHolder {
         @BindView(R.id.tv_organization)
         TextView tvOrganization;
         @BindView(R.id.lv_order)
         ListView lvOrder;
+        @BindView(R.id.tv_refund)
+        TextView tvRefund;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
-
-
 }

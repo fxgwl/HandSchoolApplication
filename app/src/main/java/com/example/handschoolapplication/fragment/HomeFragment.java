@@ -29,10 +29,12 @@ import com.example.handschoolapplication.activity.HomeEduActivity;
 import com.example.handschoolapplication.activity.LearnHelpActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
 import com.example.handschoolapplication.activity.TrusteeshipActivity;
+import com.example.handschoolapplication.adapter.HPClassAdapter;
 import com.example.handschoolapplication.adapter.HPCourseAdapter;
 import com.example.handschoolapplication.adapter.HorizontalActivityListViewAdapter;
 import com.example.handschoolapplication.adapter.HorizontalLearnListViewAdapter;
 import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
+import com.example.handschoolapplication.bean.ClassBean;
 import com.example.handschoolapplication.bean.CourseBean;
 import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.view.HorizontalActivityListView;
@@ -111,7 +113,9 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     List<String> mActivityData;//活动拓展横向的Listview数据源
     private ListView LvCourseName;
     private HPCourseAdapter courseAdapter;
+    private HPClassAdapter classAdapter;
     private List<CourseBean> courseBeanList;
+    private List<ClassBean> classBeanList;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -149,20 +153,34 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     }
 
     private void initLvData() {
+        courseBeanList = new ArrayList<>();
+        classBeanList = new ArrayList<>();
+        classBeanList.add(new ClassBean());
+        classBeanList.add(new ClassBean());
+        classBeanList.add(new ClassBean());
+
+//        courseAdapter = new HPCourseAdapter(courseBeanList, getActivity());
+//        LvCourseName.setAdapter(courseAdapter);
+//        MyUtiles.setListViewHeightBasedOnChildren(LvCourseName, getActivity());
         courseAdapter = new HPCourseAdapter(courseBeanList, getActivity());
+        classAdapter = new HPClassAdapter(getActivity(),classBeanList);
+
+        LvCourseName.setAdapter(courseAdapter);
+        MyUtiles.setListViewHeightBasedOnChildren(LvCourseName);
+
         lvLearnName.setAdapter(courseAdapter);
         MyUtiles.setListViewHeightBasedOnChildren(lvLearnName, getActivity());
 
         lvActivityName.setAdapter(courseAdapter);
         MyUtiles.setListViewHeightBasedOnChildren(lvActivityName, getActivity());
 
-        lvChildName.setAdapter(courseAdapter);
+        lvChildName.setAdapter(classAdapter);
         MyUtiles.setListViewHeightBasedOnChildren(lvChildName, getActivity());
 
-        lvTrusteeshipName.setAdapter(courseAdapter);
+        lvTrusteeshipName.setAdapter(classAdapter);
         MyUtiles.setListViewHeightBasedOnChildren(lvTrusteeshipName, getActivity());
 
-        lvHomelearnName.setAdapter(courseAdapter);
+        lvHomelearnName.setAdapter(classAdapter);
         MyUtiles.setListViewHeightBasedOnChildren(lvHomelearnName, getActivity());
 
     }
@@ -221,10 +239,10 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         mAdapter = new HorizontalListViewAdapter(getActivity(), mData);
         hlArt.setAdapter(mAdapter);
 
-        courseBeanList = new ArrayList<>();
-        courseAdapter = new HPCourseAdapter(courseBeanList, getActivity());
-        LvCourseName.setAdapter(courseAdapter);
-        MyUtiles.setListViewHeightBasedOnChildren(LvCourseName, getActivity());
+//        courseBeanList = new ArrayList<>();
+//        courseAdapter = new HPCourseAdapter(courseBeanList, getActivity());
+//        LvCourseName.setAdapter(courseAdapter);
+//        MyUtiles.setListViewHeightBasedOnChildren(LvCourseName, getActivity());
 
 
         hlArt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -309,14 +327,19 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                 startActivity(new Intent(getActivity(), ArtActivity.class));
                 break;
             case R.id.tv_more_learn:
+                startActivity(new Intent(getActivity(), LearnHelpActivity.class));
                 break;
             case R.id.tv_more_activity:
+                startActivity(new Intent(getActivity(), ActivityActivity.class));
                 break;
             case R.id.tv_more_child:
+                startActivity(new Intent(getActivity(), ChildEduActivity.class));
                 break;
             case R.id.tv_more_trusteeship:
+                startActivity(new Intent(getActivity(), TrusteeshipActivity.class));
                 break;
             case R.id.tv_more_home:
+                startActivity(new Intent(getActivity(), HomeEduActivity.class));
                 break;
             case R.id.et_search:
                 startActivity(new Intent(getActivity(), SearchActivity.class));

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,6 +51,7 @@ public class ClassActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFragments();
+        tvTitle.setText("学堂主页");
     }
 
     private void initFragments() {
@@ -79,6 +79,7 @@ public class ClassActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
+                finish();
                 break;
             case R.id.iv_menu:
                 break;
@@ -91,7 +92,6 @@ public class ClassActivity extends BaseActivity {
                 bgConditionLine.setBackgroundColor(Color.WHITE);
                 bgTearcherLine.setBackgroundColor(Color.WHITE);
                 bgCourseLine.setBackgroundColor(Color.WHITE);
-
                 setIndexSelected(0);
                 break;
             case R.id.ll_condition:
@@ -113,7 +113,6 @@ public class ClassActivity extends BaseActivity {
                 tvBgInfoLine.setBackgroundColor(Color.WHITE);
                 bgConditionLine.setBackgroundColor(Color.WHITE);
                 bgTearcherLine.setBackgroundColor(Color.WHITE);
-
                 setIndexSelected(3);
                 break;
         }
@@ -132,7 +131,6 @@ public class ClassActivity extends BaseActivity {
         }else {
             ft.show(fragments[index]);
         }
-
         ft.commit();
         mIndex=index;
     }

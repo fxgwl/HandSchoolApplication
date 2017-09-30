@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.view.View;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -237,5 +238,16 @@ public class Utils {
 	 */
 	private static boolean isMediaDocument(Uri uri) {
 		return "com.android.providers.media.documents".equals(uri.getAuthority());
+	}
+
+	/**
+	 * 测量View的宽高
+	 *
+	 * @param view View
+	 */
+	public static void measureWidthAndHeight(View view) {
+		int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		view.measure(w, h);
 	}
 }

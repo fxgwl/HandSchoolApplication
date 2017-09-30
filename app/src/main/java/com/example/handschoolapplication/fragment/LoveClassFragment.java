@@ -16,6 +16,7 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseFragment;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,26 +76,36 @@ public class LoveClassFragment extends BaseFragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
             if (convertView == null) {
-                convertView = View.inflate(getActivity(), R.layout.item_love_course_lv, null);
-                holder = new ViewHolder();
-                holder.tvCourse = (TextView) convertView.findViewById(R.id.tv_course);
-                holder.ivCourse = (ImageView) convertView.findViewById(R.id.iv_course);
-                holder.tvPrice = (TextView) convertView.findViewById(R.id.tv_price);
-                holder.ivShare = (ImageView) convertView.findViewById(R.id.iv_share);
+                convertView = View.inflate(getActivity(), R.layout.item_love_class_lv, null);
+                holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
-            }else {
-                holder= (ViewHolder) convertView.getTag();
+            } else {
+                holder = (ViewHolder) convertView.getTag();
             }
             return convertView;
         }
 
-        class ViewHolder {
-
-            ImageView ivCourse;
-            TextView tvCourse;
-            TextView tvPrice;
+         class ViewHolder {
+            @BindView(R.id.iv_class)
+            ImageView ivClass;
+            @BindView(R.id.tv_class)
+            TextView tvClass;
+            @BindView(R.id.iv_xing1)
+            ImageView ivXing1;
+            @BindView(R.id.iv_xing2)
+            ImageView ivXing2;
+            @BindView(R.id.iv_xing3)
+            ImageView ivXing3;
+            @BindView(R.id.iv_xing4)
+            ImageView ivXing4;
+            @BindView(R.id.iv_xing5)
+            ImageView ivXing5;
+            @BindView(R.id.iv_share)
             ImageView ivShare;
 
+            ViewHolder(View view) {
+                ButterKnife.bind(this, view);
+            }
         }
     }
 

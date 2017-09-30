@@ -7,10 +7,15 @@
     android:background="@color/white"
     tools:context="com.example.handschoolapplication.activity.TimeChooseActivity">
 
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_bar_blue" />
+
     <LinearLayout
         android:id="@+id/ll_time_choose"
         android:layout_width="match_parent"
-        android:layout_height="30dp">
+        android:layout_height="30dp"
+        android:layout_below="@+id/title">
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,102 +36,127 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorgrey"
-        android:layout_below="@+id/ll_time_choose"/>
+        android:layout_below="@+id/ll_time_choose"
+        android:background="@color/colorgrey" />
+
     <LinearLayout
         android:id="@+id/ll_week"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/f2f2f2"
-        android:layout_below="@+id/ll_time_choose"
-        android:layout_marginTop="1dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:text="周一"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="@color/t666666"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorgrey"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:text="周二"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="@color/t666666"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorgrey"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:text="周三"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="@color/t666666"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorgrey"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:text="周四"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="@color/t666666"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorgrey"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:text="周五"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="@color/t666666"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorgrey"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:text="周六"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="@color/t666666"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorgrey"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:text="周日"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:textColor="@color/t666666"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorgrey"/>
-    </LinearLayout>
-    <GridView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="3"
-        android:layout_toRightOf="@+id/ll_week"
         android:layout_below="@+id/ll_time_choose"
         android:layout_marginTop="1dp"
-        android:padding="20dp"/>
+        android:background="@color/f2f2f2"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_Mon"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:gravity="center"
+            android:text="周一"
+            android:textColor="@color/t666666"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorgrey" />
+
+        <TextView
+            android:id="@+id/tv_Tue"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:gravity="center"
+            android:text="周二"
+            android:textColor="@color/t666666"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorgrey" />
+
+        <TextView
+            android:id="@+id/tv_Wed"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:gravity="center"
+            android:text="周三"
+            android:textColor="@color/t666666"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorgrey" />
+
+        <TextView
+            android:id="@+id/tv_Thu"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:gravity="center"
+            android:text="周四"
+            android:textColor="@color/t666666"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/e6" />
+
+        <TextView
+            android:id="@+id/tv_Fri"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:gravity="center"
+            android:text="周五"
+            android:textColor="@color/t666666"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorgrey" />
+
+        <TextView
+            android:id="@+id/tv_Sat"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:gravity="center"
+            android:text="周六"
+            android:textColor="@color/t666666"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorgrey" />
+
+        <TextView
+            android:id="@+id/tv_Sun"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:gravity="center"
+            android:text="周日"
+            android:textColor="@color/t666666"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorgrey" />
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/gv_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_time_choose"
+        android:layout_marginTop="1dp"
+        android:layout_toRightOf="@+id/ll_week"
+        android:numColumns="2"
+        android:columnWidth="14dp"
+        android:scrollbars="none"/>
 
 
 </RelativeLayout>

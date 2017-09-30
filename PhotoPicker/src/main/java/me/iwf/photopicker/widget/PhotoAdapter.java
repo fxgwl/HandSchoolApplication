@@ -87,7 +87,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
       holder.ivPhoto.setPadding(padding,padding,padding,padding);
 
 
-      if (position == getItemCount() -1){//最后一个始终是+号，点击能够跳去添加图片
+        if (position == getItemCount() -1){//最后一个始终是+号，点击能够跳去添加图片
         Glide.with(mContext)
                 .load("")
                 .centerCrop()
@@ -98,10 +98,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            if (photoPaths != null && photoPaths.size() ==9){
-              Toast.makeText(mContext,"已选了9张图片",Toast.LENGTH_SHORT).show();
+            if (photoPaths != null && photoPaths.size() ==3){
+              Toast.makeText(mContext,"已选了3张图片",Toast.LENGTH_SHORT).show();
             }else {
-              PhotoPickUtils.startPick((Activity) mContext,false,9,photoPaths);
+              PhotoPickUtils.startPick((Activity) mContext,false,3,photoPaths);
             }
           }
         });

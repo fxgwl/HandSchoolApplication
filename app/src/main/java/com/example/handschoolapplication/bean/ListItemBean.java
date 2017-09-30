@@ -5,4 +5,13 @@ package com.example.handschoolapplication.bean;
  */
 
 public class ListItemBean {
+    public boolean isCheck;
+
+    public boolean ischeck() {
+        return isCheck;
+    }
+
+    public void setIscheck(boolean ischeck) {
+        this.isCheck = ischeck;
+    }
 }

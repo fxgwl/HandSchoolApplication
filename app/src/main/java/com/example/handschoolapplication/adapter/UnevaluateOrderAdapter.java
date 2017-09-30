@@ -60,7 +60,7 @@ public class UnevaluateOrderAdapter extends BaseAdapter {
 
         ViewHolder holder = null;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_order_lv, null);
+            convertView = View.inflate(context, R.layout.item_uneva_lv, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {

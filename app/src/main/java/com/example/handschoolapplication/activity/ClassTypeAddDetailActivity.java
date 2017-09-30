@@ -1,7 +1,6 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
+import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.view.HorizontalListView;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ClassTypeAddDetailActivity extends AppCompatActivity {
+public class ClassTypeAddDetailActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -30,9 +30,13 @@ public class ClassTypeAddDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_class_type_add_detail);
         ButterKnife.bind(this);
         initView();
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_class_type_add_detail;
     }
 
     private void initView() {
