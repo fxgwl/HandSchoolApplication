@@ -2,15 +2,22 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class SetUserNameActivity extends BaseActivity {
 
@@ -18,11 +25,12 @@ public class SetUserNameActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.et_username)
     EditText etUsername;
+    private String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        user_id = (String) SPUtils.get(this, "userId", "");
         tvTitle.setText("会员名称");
     }
 
@@ -40,9 +48,30 @@ public class SetUserNameActivity extends BaseActivity {
             case R.id.iv_menu:
                 break;
             case R.id.tv_save:
-                String username = etUsername.getText().toString().trim();
-                setResult(22,new Intent().putExtra("username",username));
-                finish();
+                final String username = etUsername.getText().toString().trim();
+                OkHttpUtils.post()
+                        .url(Internet.REALNAME)
+                        .addParams("user_id", user_id)
+                        .addParams("name", username)
+                        .build()
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+
+                            }
+
+                            @Override
+                            public void onResponse(String response, int id) {
+                                Log.e("aaa",
+                                        "(SetUserNameActivity.java:64)" + response);
+                                if (response.contains("成功")) {
+                                    Toast.makeText(SetUserNameActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                                }
+                                setResult(22, new Intent().putExtra("username", username));
+                                finish();
+                            }
+                        });
+
                 break;
         }
     }

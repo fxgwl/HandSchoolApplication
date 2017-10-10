@@ -83,7 +83,6 @@ public class SchoolInformationActivity extends BaseActivity {
     }
 
 
-
     /**
      * 显示修改头像的对话框
      */
@@ -228,17 +227,18 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             //学堂类别
             case R.id.ll_schoolinfo_schoolclass:
-                startActivity(new Intent(this,ClassTypeActivity.class));
+                startActivity(new Intent(this, ClassTypeActivity.class));
                 break;
             //身份认证
             case R.id.ll_schoolinfo_shenfenrenzheng:
+                startActivity(new Intent(this, IdentityCardActivity.class));
                 break;
             //资质认证
             case R.id.ll_schoolinfo_qualification:
                 break;
-              //学堂地址
+            //学堂地址
             case R.id.ll_schoolinfo_schooladdress:
-                startActivity(new Intent(SchoolInformationActivity.this,SchoolAddressActivity.class));
+                startActivity(new Intent(SchoolInformationActivity.this, SchoolAddressActivity.class));
                 break;
             //保存
             case R.id.btn_schoolinfo_save:

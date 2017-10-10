@@ -11,6 +11,7 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.UserBean;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -54,13 +55,7 @@ public class LoginActivity extends BaseActivity {
             case R.id.btn_login:
                 String phone = etPhoneNum.getText().toString().trim();
                 String pwd = etPassword.getText().toString().trim();
-
                 login(phone, pwd);
-//                if (phone.equals("1")){
-//                    startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("flag", "1"));
-//                }else
-//                startActivity(new Intent(LoginActivity.this,MainActivity.class).putExtra("flag","per"));
-
                 break;
             case R.id.iv_wechat_login:
 
@@ -107,10 +102,10 @@ public class LoginActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject data = jsonObject.getJSONObject("data");
-
                             UserBean userBean = new Gson().fromJson(data.toString(), UserBean.class);
                             String user_type = userBean.getUser_type();
                             String msg = jsonObject.getString("msg");
+                            SPUtils.put(LoginActivity.this, "userId", userBean.getUser_id());
                             Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
                             if (user_type.equals("0")) {
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("flag", "0"));

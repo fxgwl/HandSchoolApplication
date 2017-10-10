@@ -8,21 +8,35 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.UserInfoBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.MyUtiles;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.utils.Utils;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
-public class MyInformationActivity extends BaseActivity{
+public class MyInformationActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -46,14 +60,48 @@ public class MyInformationActivity extends BaseActivity{
     private static final int CROP_SMALL_PICTURE = 2;
     protected static Uri tempUri;
     private ImageView iv_personal_icon;
+    private String image64;
+    private String userId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        userId = (String) SPUtils.get(MyInformationActivity.this, "userId", "");
         tvTitle.setText("个人资料");
         ivMenu.setVisibility(View.VISIBLE);
+        initView();
+    }
+
+    private void initView() {
+        OkHttpUtils.post()
+                .url(Internet.USERINFO)
+                .addParams("user_id", userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(MyInformationActivity.java:87)" + response);
+                        Gson gson = new Gson();
+                        UserInfoBean.DataBean user = gson.fromJson(response, UserInfoBean.class).getData();
+                        Glide.with(MyInformationActivity.this)
+                                .load(Internet.BASE_URL + user.getHead_photo())
+                                .error(R.drawable.touxiang)
+                                .centerCrop()
+                                .into(ivUsericon);
+                        tvUsername.setText(user.getMember_name());
+                        tvName.setText(user.getUser_name());
+                        tvSex.setText(user.getUser_sex());
+                        tvIdcode.setText(user.getId_number());
+                        tvMyaddress.setText(user.getUser_area());
+                    }
+                });
     }
 
     @Override
@@ -69,13 +117,17 @@ public class MyInformationActivity extends BaseActivity{
                 break;
             case R.id.iv_menu:
 //                BaseActivity.setMenu(this);
-                BaseActivity.showMenuPop(this,view);
+                BaseActivity.showMenuPop(this, view);
                 break;
             case R.id.ll_icon:
                 showChoosePicDialog();
                 break;
             case R.id.ll_username:
-                startActivityForResult(new Intent(this, SetUserNameActivity.class), 1);
+                if ("会员名称".equals(tvUsername.getText().toString())) {
+                    startActivityForResult(new Intent(this, SetUserNameActivity.class), 1);
+                } else {
+                    Toast.makeText(this, "会员名称只能修改一次", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.ll_name:
                 startActivityForResult(new Intent(this, SetNameActivity.class), 1);
@@ -84,14 +136,59 @@ public class MyInformationActivity extends BaseActivity{
                 startActivityForResult(new Intent(this, SelectSexActivity.class), 1);
                 break;
             case R.id.ll_idcode:
-                startActivityForResult(new Intent(this, SetIdCodeActivity.class), 1);
+                if (TextUtils.isEmpty(tvIdcode.getText().toString())) {
+                    startActivityForResult(new Intent(this, SetIdCodeActivity.class), 1);
+                } else {
+                    Toast.makeText(this, "身份证号只能修改一次", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.ll_myaddress:
                 startActivityForResult(new Intent(this, CurrentCityActivity.class), 1);
                 break;
             case R.id.btn_save:
+                //保存资料
+                saveInfo();
                 break;
         }
+    }
+
+    private void saveInfo() {
+        String user_name = tvName.getText().toString();
+        String user_sex = tvSex.getText().toString();
+        String user_area = tvMyaddress.getText().toString();
+        Log.e("aaa",
+                "(MyInformationActivity.java:115)" + userId);
+        OkHttpUtils.post()
+                .url(Internet.CHANGEHEAD)
+                .addParams("url", "")
+                .addParams("user_id", userId)
+                .addParams("user_name", user_name)
+                .addParams("user_sex", user_sex)
+                .addParams("user_area", user_area)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(MyInformationActivity.java:128保存资料返回)" + response);
+                        try {
+                            JSONObject json = new JSONObject(response);
+                            if (response.contains("成功")) {
+                                finish();
+                            }
+                            Toast.makeText(MyInformationActivity.this, json.getString("msg"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
     }
 
     /**
@@ -215,14 +312,39 @@ public class MyInformationActivity extends BaseActivity{
         // ... 可以在这里把Bitmap转换成file，然后得到file的url，做文件上传操作
         // 注意这里得到的图片已经是圆形图片了
         // bitmap是没有做个圆形处理的，但已经被裁剪了
+//        String imagePath = Utils.savePhoto(bitmap, Environment
+//                .getExternalStorageDirectory().getAbsolutePath(), String
+//                .valueOf(System.currentTimeMillis()));
+//        Log.e("imagePath", imagePath + "");
+//        if (imagePath != null) {
+//            // 拿着imagePath上传了
+//        }
 
-        String imagePath = Utils.savePhoto(bitmap, Environment
-                .getExternalStorageDirectory().getAbsolutePath(), String
-                .valueOf(System.currentTimeMillis()));
-        Log.e("imagePath", imagePath + "");
-        if (imagePath != null) {
-            // 拿着imagePath上传了
-            // ...
+        image64 = MyUtiles.bitmapToBase64(bitmap);
+        Log.e("aaa",
+                "(MyInformationActivity.java:230)" + image64);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("photo", image64);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        OkHttpUtils.post()
+                .url(Internet.CHANGEHEAD)
+                .addParams("user_id", userId)
+                .addParams("url", json.toString())
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(MyInformationActivity.java:260保存头像返回)" + response);
+                    }
+                });
     }
 }

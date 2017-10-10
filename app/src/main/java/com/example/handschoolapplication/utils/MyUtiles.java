@@ -2,6 +2,8 @@ package com.example.handschoolapplication.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -9,6 +11,7 @@ import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,12 +25,12 @@ import java.util.regex.Pattern;
 
 public class MyUtiles {
 
-    public static void setHeight(ListView listview){
+    public static void setHeight(ListView listview) {
         int height = 0;
         int count = listview.getAdapter().getCount();
-        for(int i=0;i<count;i++){
-            View temp = listview.getAdapter().getView(i,null,listview);
-            temp.measure(0,0);
+        for (int i = 0; i < count; i++) {
+            View temp = listview.getAdapter().getView(i, null, listview);
+            temp.measure(0, 0);
             height += temp.getMeasuredHeight();
         }
         ListView.LayoutParams params = (ListView.LayoutParams) listview.getLayoutParams();
@@ -42,7 +45,7 @@ public class MyUtiles {
         return (int) (dp * scale + 0.5f);
     }
 
-    public static void setListViewHeightBasedOnChildren(ListView listView,Context context) {
+    public static void setListViewHeightBasedOnChildren(ListView listView, Context context) {
 
         //获取listview的适配器
         ListAdapter listAdapter = listView.getAdapter(); //item的高度
@@ -58,11 +61,12 @@ public class MyUtiles {
 
             listItem.measure(0, 0); //计算子项View 的宽高 //统计所有子项的总高度
 //            totalHeight += Dp2Px(context,listItem.getMeasuredHeight())+listView.getDividerHeight();
-            totalHeight+=listItem.getMeasuredHeight()+listView.getDividerHeight();
+            totalHeight += listItem.getMeasuredHeight() + listView.getDividerHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
 
-        params.height = totalHeight; listView.setLayoutParams(params);
+        params.height = totalHeight;
+        listView.setLayoutParams(params);
 
     }
 
@@ -98,11 +102,11 @@ public class MyUtiles {
     }
 
     /**
+     * @param path 图片路径
+     * @return
      * @将图片文件转化为字节数组字符串，并对其进行Base64编码处理
      * @author QQ986945193
      * @Date 2015-01-26
-     * @param path 图片路径
-     * @return
      */
     public static String imageToBase64(String path) {
         // 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
@@ -129,22 +133,50 @@ public class MyUtiles {
 
     public static void saveBeanByFastJson(Context context, String key,
                                           Object obj) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(key,Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = context.getSharedPreferences(key, Context.MODE_PRIVATE).edit();
         String objString = JSON.toJSONString(obj);// fastjson的方法，需要导包的
         editor.putString(key, objString).commit();
     }
 
     /**
-     *
      * @param context
      * @param key
-     * @param clazz
-     *            这里传入一个类就是我们所需要的实体类(obj)
+     * @param clazz   这里传入一个类就是我们所需要的实体类(obj)
      * @return 返回我们封装好的该实体类(obj)
      */
     public static <T> T getBeanByFastJson(Context context, String key,
                                           Class<T> clazz) {
-        String objString = context.getSharedPreferences(key,Context.MODE_PRIVATE).getString(key, "");
+        String objString = context.getSharedPreferences(key, Context.MODE_PRIVATE).getString(key, "");
         return JSON.parseObject(objString, clazz);
+    }
+
+    public static String bitmapToBase64(Bitmap bitmap) {
+
+        String result = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            if (bitmap != null) {
+                baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                baos.flush();
+                baos.close();
+
+                byte[] bitmapBytes = baos.toByteArray();
+                result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.flush();
+                    baos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 }

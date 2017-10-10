@@ -77,7 +77,6 @@ public class MeFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
-
         unbinder = ButterKnife.bind(this, view);
         return view;
     }

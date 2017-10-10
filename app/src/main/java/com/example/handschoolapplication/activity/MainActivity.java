@@ -169,10 +169,10 @@ public class MainActivity extends BaseActivity {
                 ivPlan.setImageResource(R.drawable.plan);
                 tvMe.setTextColor(Color.parseColor("#333333"));
                 ivMe.setImageResource(R.drawable.me);
-                if (flag.equals("1")){
-                    if (newsComFragment==null)newsComFragment=new NewsComFragment();
-                    addOrShowFragment(getSupportFragmentManager(),newsComFragment);
-                }else {
+                if (flag.equals("1")) {
+                    if (newsComFragment == null) newsComFragment = new NewsComFragment();
+                    addOrShowFragment(getSupportFragmentManager(), newsComFragment);
+                } else {
                     if (newsFragment == null) newsFragment = new NewsFragment();
                     addOrShowFragment(getSupportFragmentManager(), newsFragment);
                 }
