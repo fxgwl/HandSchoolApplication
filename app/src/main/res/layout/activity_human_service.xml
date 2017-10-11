@@ -5,37 +5,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0F2F4"
     tools:context="com.example.handschoolapplication.activity.HumanServiceActivity">
+
     <include
         android:id="@+id/include_humanservice"
-        layout="@layout/title_bar_blue" />
+        layout="@layout/title_bar_blue"/>
+
     <ListView
-        android:layout_below="@id/include_humanservice"
         android:id="@+id/lv_humanservice"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
+        android:layout_height="wrap_content"
+        android:layout_below="@id/include_humanservice"
+        android:layout_marginBottom="60dp"
+        android:divider="@null">
+
     </ListView>
+
     <LinearLayout
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:background="#fff"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-<EditText
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        android:paddingLeft="20dp">
 
-    android:layout_gravity="center_vertical"
-    android:background="@drawable/edittext"
-    android:layout_width="0dp"
-    android:layout_weight="1"
-    android:layout_height="38dp" />
-        <TextView
-            android:layout_marginLeft="10dp"
+        <EditText
+
+            android:id="@+id/tv_contact_content"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
             android:layout_gravity="center_vertical"
-            android:text="发送"
+            android:layout_weight="1"
+            android:background="@drawable/edittext"
+            android:paddingLeft="20dp"/>
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_contact_send"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="发送"/>
     </LinearLayout>
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +37,17 @@ import com.example.handschoolapplication.adapter.HorizontalLearnListViewAdapter;
 import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
 import com.example.handschoolapplication.bean.ClassBean;
 import com.example.handschoolapplication.bean.CourseBean;
+import com.example.handschoolapplication.bean.TeachNewsBean;
+import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.view.HorizontalActivityListView;
 import com.example.handschoolapplication.view.HorizontalLearnListView;
 import com.example.handschoolapplication.view.HorizontalListView;
+import com.example.handschoolapplication.view.Marquee;
+import com.example.handschoolapplication.view.MarqueeView;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +56,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.Call;
 
 
 /**
@@ -74,14 +83,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     ImageView ivFamilyEdu;
     @BindView(R.id.ll_learn)
     LinearLayout llLearn;
-    @BindView(R.id.tv_tip)
-    TextView tvTip;
-    @BindView(R.id.tv_text)
-    TextView tvText;
-    @BindView(R.id.tv_tips)
-    TextView tvTips;
-    @BindView(R.id.tv_tetxs)
-    TextView tvTetxs;
+    //    @BindView(R.id.tv_tip)
+//    TextView tvTip;
+//    @BindView(R.id.tv_text)
+//    TextView tvText;
+//    @BindView(R.id.tv_tips)
+//    TextView tvTips;
+//    @BindView(R.id.tv_tetxs)
+//    TextView tvTetxs;
     Unbinder unbinder;
     @BindView(R.id.hl_art)
     HorizontalListView hlArt;
@@ -116,6 +125,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     private HPClassAdapter classAdapter;
     private List<CourseBean> courseBeanList;
     private List<ClassBean> classBeanList;
+    private MarqueeView marqueeView;
+    List<Marquee> marquees = new ArrayList<>();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -134,6 +145,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
+        marqueeView = (MarqueeView) view.findViewById(R.id.marqueeView);
         initConvenientBannerData();
         unbinder = ButterKnife.bind(this, view);
         LvCourseName = (ListView) view.findViewById(R.id.lv_course_name);
@@ -141,15 +153,54 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         initHLLearnData();
         initHLActivityData();
         initLvData();
-        tvText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                startActivity(new Intent(getActivity(), EducationActivity.class));
-            }
-        });
+        //教育资讯跑马灯
+        initTeachNews();
 
-
+//        tvText.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                startActivity(new Intent(getActivity(), EducationActivity.class));
+//            }
+//        });
         return view;
+    }
+
+    private void initTeachNews() {
+        OkHttpUtils.post()
+                .url(Internet.TEACHNEWS)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(HomeFragment.java:185)" + response);
+                        Gson gson = new Gson();
+                        ArrayList<TeachNewsBean.DataBean> teachNewsList =
+                                (ArrayList<TeachNewsBean.DataBean>) gson.fromJson(response, TeachNewsBean.class).getData();
+                        for (int i = 0; i < teachNewsList.size(); i++) {
+                            if (i % 2 == 0 && i != teachNewsList.size()) {
+                                Marquee marquee = new Marquee();
+                                marquee.setFirstimgUrl(teachNewsList.get(i).getNews_type());
+                                marquee.setFirsttitle(teachNewsList.get(i).getNews_title());
+                                marquee.setImgUrl(teachNewsList.get(i + 1).getNews_type());
+                                marquee.setTitle(teachNewsList.get(i + 1).getNews_title());
+                                marquees.add(marquee);
+                            }
+                        }
+                        marqueeView.startWithList(marquees);
+                        marqueeView.setOnClick(new MarqueeView.OnClick() {
+                            @Override
+                            public void onClick() {
+                                startActivity(new Intent(getActivity(), EducationActivity.class));
+                            }
+                        });
+                    }
+                });
     }
 
     private void initLvData() {
@@ -163,7 +214,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
 //        LvCourseName.setAdapter(courseAdapter);
 //        MyUtiles.setListViewHeightBasedOnChildren(LvCourseName, getActivity());
         courseAdapter = new HPCourseAdapter(courseBeanList, getActivity());
-        classAdapter = new HPClassAdapter(getActivity(),classBeanList);
+        classAdapter = new HPClassAdapter(getActivity(), classBeanList);
 
         LvCourseName.setAdapter(courseAdapter);
         MyUtiles.setListViewHeightBasedOnChildren(LvCourseName);
@@ -296,7 +347,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
             R.id.rl_child_edu, R.id.rl_trusteeship, R.id.rl_family_edu,
             R.id.tv_more_art, R.id.tv_more_learn, R.id.tv_more_activity,
             R.id.tv_more_child, R.id.tv_more_trusteeship, R.id.tv_more_home
-            , R.id.et_search,R.id.ll_texts,R.id.ll_text})
+            , R.id.et_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_search://搜索
@@ -343,12 +394,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
             case R.id.et_search:
                 startActivity(new Intent(getActivity(), SearchActivity.class));
-                break;
-            case R.id.ll_texts:
-                startActivity(new Intent(getActivity(), EducationActivity.class));
-                break;
-            case R.id.ll_text:
-                startActivity(new Intent(getActivity(), EducationActivity.class));
                 break;
         }
     }

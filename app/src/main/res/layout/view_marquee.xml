@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ivMarquee"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_rectangle"
+            android:gravity="center"
+            android:text="教育"
+            android:textColor="#ff00"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/tvMarquee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/ivMarquee"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="1111"
+            android:textColor="#666666"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ivMarquee2"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_rectangle"
+            android:gravity="center"
+            android:text="教育"
+            android:textColor="#ff00"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/tvMarquee2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/ivMarquee2"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="1111"
+            android:textColor="#666666"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+</LinearLayout>

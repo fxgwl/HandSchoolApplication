@@ -53,6 +53,16 @@ public class Internet {
     //热点问题详情
     public static final String INFODETAIL = BASE_URL + "HelpInfo/getHelpInfo";
     //联系客服：
-    public static final String CONTACT = BASE_URL + "ArtificialMessage/insertArtificialMessage";
+    public static final String CONTACTSERVICE = BASE_URL + "ArtificialMessage/insertArtificialMessage";
+    //客服对话列表
+    public static final String SERVICELIST = BASE_URL + "ArtificialMessage/listByuser";
+    //教育资讯列表：
+    public static final String TEACHNEWS = BASE_URL + "NewsInfo/listNewsInfo";
+
+
+
+
+
+
 
 }
