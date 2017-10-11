@@ -71,7 +71,7 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
         tvTitle.setText("资料填写");
         tvCity = (TextView) findViewById(R.id.tv_city);
         tvAddress = (TextView) findViewById(R.id.tv_address);
-        tvType = (TextView) findViewById(tv_type);
+        tvType = (TextView) findViewById(R.id.tv_type);
 
         dialog = new BottomDialog(this);
         dialog.setOnAddressSelectedListener(this);
@@ -194,7 +194,7 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
             }
 
             for (int i = 0; i < photoStr.size(); i++) {
-                json2.put("photo"+i,photoStr.get(i));
+                json2.put("photo" + i, photoStr.get(i));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -206,7 +206,7 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
         params.put("sd_content", street);//资质证明
 
         Log.e("aaa",
-            "(AddDataActivity.java:204)params ==== ==== =="+params);
+                "(AddDataActivity.java:204)params ==== ==== ==" + params);
 
         OkHttpUtils.post()
                 .url(Internet.COMMITINFO)
@@ -229,7 +229,7 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
                             JSONObject jsonObject1 = new JSONObject(response);
                             String msg = jsonObject1.getString("msg");
                             Toast.makeText(AddDataActivity.this, msg, Toast.LENGTH_SHORT).show();
-                            if (jsonObject1.getInt("result")==0){
+                            if (jsonObject1.getInt("result") == 0) {
                                 finish();
                             }
                         } catch (JSONException e) {

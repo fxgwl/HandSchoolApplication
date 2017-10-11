@@ -43,39 +43,45 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#e6e6e6"/>
+
     <LinearLayout
         android:id="@+id/ll_schoolinfo_schoolname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:text="学堂名称"
-            android:textSize="15sp"
-            android:textColor="@color/t333333" />
+            android:textColor="@color/t333333"
+            android:textSize="15sp"/>
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1"/>
+
         <TextView
             android:id="@+id/tv_schoolinfo_schoolname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="成龙音乐学堂"
             android:textColor="@color/t999999"
-            android:textSize="15sp"
-            android:layout_gravity="center_vertical"/>
+            android:textSize="15sp"/>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/xiayiye"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="10dp"/>
+            android:src="@drawable/xiayiye"/>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

@@ -207,12 +207,15 @@
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:gravity="center_vertical">
+
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="学习码："
-                android:paddingLeft="10dp"/>
+                android:paddingLeft="10dp"
+                android:text="学习码："/>
+
             <LinearLayout
                 android:id="@+id/ll_learn_code"
                 android:layout_width="0dp"

@@ -16,14 +16,26 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.SchoolInfoBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.MyUtiles;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.utils.Utils;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class SchoolInformationActivity extends BaseActivity {
 
@@ -67,14 +79,47 @@ public class SchoolInformationActivity extends BaseActivity {
     @BindView(R.id.btn_schoolinfo_save)
     Button btnSchoolinfoSave;
     private ImageView iv_personal_icon;
+    private String user_id;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        user_id = (String) SPUtils.get(this, "userId", "");
         tvTitle.setText("学堂资料");
         ivMenu.setVisibility(View.VISIBLE);
+        initView();
+    }
+
+    //初始化数据
+    private void initView() {
+        OkHttpUtils.post()
+                .url(Internet.USERINFO)
+                .addParams("user_id", user_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(SchoolInformationActivity.java:102)" + response);
+                        Gson gson = new Gson();
+                        SchoolInfoBean.DataBean schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
+                        Glide.with(SchoolInformationActivity.this)
+                                .load(Internet.BASE_URL + schoolInfo.getHead_photo())
+                                .error(R.drawable.touxiang)
+                                .centerCrop()
+                                .into(ivUsericon);
+                        tvSchoolinfoSchoolname.setText(schoolInfo.getMechanism_name());
+                        tvSchoolinfoSchoolclass.setText(schoolInfo.getMechanism_type());
+                        tvSchoolinfoShenfenrenzheng.setText(schoolInfo.getId_number());
+//                        tvSchoolinfoQualification.setText(schoolInfo.getQualification_prove());
+                    }
+                });
     }
 
     @Override
@@ -118,9 +163,9 @@ public class SchoolInformationActivity extends BaseActivity {
     }
 
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 //        if (requestCode == 1 && resultCode == 11) {
 //            String sex = data.getStringExtra("sex");
 //            tvSex.setText(sex);
@@ -137,25 +182,25 @@ public class SchoolInformationActivity extends BaseActivity {
 //            String name = data.getStringExtra("name");
 //            tvName.setText(name);
 //        }
-//
-//        if (resultCode == RESULT_OK) { // 如果返回码是可以用的
-//            switch (requestCode) {
-//                case TAKE_PICTURE:
-//                    startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
-//                    break;
-//                case CHOOSE_PICTURE:
-//                    Uri newUri = Uri.parse("file:///" + Utils.getPath(this, data.getData()));
-//                    startPhotoZoom(newUri); // 开始对图片进行裁剪处理
-//                    break;
-//                case CROP_SMALL_PICTURE:
-//                    if (data != null) {
-//                        setImageToView(data); // 让刚才选择裁剪得到的图片显示在界面上
-//                    }
-//                    break;
-//            }
-//        }
-//
-//    }
+
+        if (resultCode == RESULT_OK) { // 如果返回码是可以用的
+            switch (requestCode) {
+                case TAKE_PICTURE:
+                    startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
+                    break;
+                case CHOOSE_PICTURE:
+                    Uri newUri = Uri.parse("file:///" + Utils.getPath(this, data.getData()));
+                    startPhotoZoom(newUri); // 开始对图片进行裁剪处理
+                    break;
+                case CROP_SMALL_PICTURE:
+                    if (data != null) {
+                        setImageToView(data); // 让刚才选择裁剪得到的图片显示在界面上
+                    }
+                    break;
+            }
+        }
+
+    }
 
     /**
      * 裁剪图片方法实现
@@ -191,7 +236,7 @@ public class SchoolInformationActivity extends BaseActivity {
         Bundle extras = data.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
-            photo = Utils.toRoundBitmap(photo, tempUri); // 这个时候的图片已经被处理成圆形的了
+//            photo = Utils.toRoundBitmap(photo, tempUri); // 这个时候的图片已经被处理成圆形的了
             ivUsericon.setImageBitmap(photo);
             uploadPic(photo);
         }
@@ -202,14 +247,30 @@ public class SchoolInformationActivity extends BaseActivity {
         // ... 可以在这里把Bitmap转换成file，然后得到file的url，做文件上传操作
         // 注意这里得到的图片已经是圆形图片了
         // bitmap是没有做个圆形处理的，但已经被裁剪了
+//        asdf
+        String icon64 = MyUtiles.bitmapToBase64(bitmap);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("icon", icon64);
+            OkHttpUtils.post()
+                    .url(Internet.CHANGEHEAD)
+                    .addParams("user_id", user_id)
+                    .addParams("url", json.toString())
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
 
-        String imagePath = Utils.savePhoto(bitmap, Environment
-                .getExternalStorageDirectory().getAbsolutePath(), String
-                .valueOf(System.currentTimeMillis()));
-        Log.e("imagePath", imagePath + "");
-        if (imagePath != null) {
-            // 拿着imagePath上传了
-            // ...
+                        }
+
+                        @Override
+                        public void onResponse(String response, int id) {
+                            Log.e("aaa",
+                                    "(SchoolInformationActivity.java:270)" + response);
+                        }
+                    });
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -227,11 +288,11 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             //学堂类别
             case R.id.ll_schoolinfo_schoolclass:
-                startActivity(new Intent(this, ClassTypeActivity.class));
+//                startActivity(new Intent(this, ClassTypeActivity.class));
                 break;
             //身份认证
             case R.id.ll_schoolinfo_shenfenrenzheng:
-                startActivity(new Intent(this, IdentityCardActivity.class));
+//                startActivity(new Intent(this, IdentityCardActivity.class));
                 break;
             //资质认证
             case R.id.ll_schoolinfo_qualification:

@@ -102,11 +102,11 @@ public class LoginActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject data = jsonObject.getJSONObject("data");
+                            String msg = jsonObject.getString("msg");
+                            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
                             UserBean userBean = new Gson().fromJson(data.toString(), UserBean.class);
                             String user_type = userBean.getUser_type();
-                            String msg = jsonObject.getString("msg");
                             SPUtils.put(LoginActivity.this, "userId", userBean.getUser_id());
-                            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
                             if (user_type.equals("0")) {
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("flag", "0"));
                             }

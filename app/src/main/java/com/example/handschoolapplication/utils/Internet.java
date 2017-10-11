@@ -34,4 +34,25 @@ public class Internet {
     public static final String USERIDCARD = BASE_URL + "UserInfo/usercard";
     //更换身份证号
     public static final String USERINFO = BASE_URL + "UserInfo/getoneUser";
+    //添加地址
+    public static final String ADDADDRESS = BASE_URL + "SchoolAddress/insertSchoolAddress";
+    //获取地址列表
+    public static final String ADDRESSLIST = BASE_URL + "SchoolAddress/listmyAddress";
+    //获取地址列表
+    public static final String DELETEADDRESS = BASE_URL + "SchoolAddress/deleteSchoolAddress";
+    //修改手机号获取验证码
+    public static final String CHANGEPHONECODE = BASE_URL + "UserInfo/getcode";
+    //修改手机号
+    public static final String CHANGEPHONE = BASE_URL + "UserInfo/phonenum";
+    //提交意见反馈：
+    public static final String BACKINFO = BASE_URL + "FeedbackInfo/insertFeedbackInfo";
+    //搜索热点问题：
+    public static final String INFOSEARCH = BASE_URL + "HelpInfo/search";
+    //热点问题列表
+    public static final String ALLINFO = BASE_URL + "HelpInfo/listHelpInfo";
+    //热点问题详情
+    public static final String INFODETAIL = BASE_URL + "HelpInfo/getHelpInfo";
+    //联系客服：
+    public static final String CONTACT = BASE_URL + "ArtificialMessage/insertArtificialMessage";
+
 }

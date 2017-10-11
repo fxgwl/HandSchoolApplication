@@ -178,7 +178,7 @@ public class RegisterPersonActivity extends BaseActivity {
                             if (result == 0) {
                                 JSONObject data = jsonObject.getJSONObject("data");
                                 String user_id = data.getString("user_id");
-                                MyUtiles.saveBeanByFastJson(RegisterPersonActivity.this,"userId",user_id);
+                                MyUtiles.saveBeanByFastJson(RegisterPersonActivity.this, "userId", user_id);
                                 switch (RegisterPersonActivity.this.type) {
                                     case "0":
                                         startActivity(new Intent(RegisterPersonActivity.this, LoginActivity.class));

@@ -6,112 +6,131 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.handschoolapplication.activity.HelpActivity">
-        <include
-            android:id="@+id/include"
-            layout="@layout/title_bar_blue" />
-<LinearLayout
-    android:id="@+id/ll_help_top"
-    android:paddingTop="15dp"
-    android:paddingBottom="15dp"
-    android:layout_below="@id/include"
-    android:background="#f0f2f4"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/title_bar_blue"/>
+
     <LinearLayout
-        android:orientation="horizontal"
-        android:background="@drawable/rect_full_white"
-        android:layout_gravity="center"
-        android:layout_width="280dp"
-        android:layout_height="33dp">
-        <EditText
-            android:layout_marginLeft="20dp"
-            android:textSize="14sp"
-            android:textColorHint="#b3b3b3"
-            android:hint="搜索您想问的问题"
-            android:background="@null"
-            android:layout_width="0dp"
-            android:layout_weight="8"
-            android:layout_height="match_parent" />
+        android:id="@+id/ll_help_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/include"
+        android:background="#f0f2f4"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="33dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rect_full_white"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_question"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="8"
+                android:background="@null"
+                android:hint="搜索您想问的问题"
+                android:textColorHint="#b3b3b3"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="6dp"
+                android:background="#b3b3b3"/>
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="6dp"
+                android:src="@drawable/search"/>
+        </LinearLayout>
+
         <TextView
-            android:layout_gravity="center"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:background="#b3b3b3"
-            android:layout_width="1dp"
-            android:layout_height="match_parent" />
-        <ImageView
-            android:layout_gravity="center"
-            android:src="@drawable/search"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="25dp"
+            android:text="热点问题"
+            android:textColor="@color/t999999"
+            android:textSize="15sp"/>
     </LinearLayout>
-    <TextView
-        android:textSize="15sp"
-        android:textColor="@color/t999999"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="15dp"
-        android:text="热点问题"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+
     <ListView
-        android:background="#fff"
-        android:layout_below="@id/ll_help_top"
         android:id="@+id/lv_help"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_help_top"
+        android:background="#fff">
 
     </ListView>
+
     <LinearLayout
-       android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="53dp">
+        android:orientation="horizontal">
+
         <LinearLayout
             android:id="@+id/ll_help_service"
-            android:gravity="center"
-            android:orientation="horizontal"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <ImageView
-                android:src="@drawable/custom_service"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/custom_service"/>
+
             <TextView
-                android:textSize="15sp"
-                android:layout_marginLeft="10dp"
-                android:textColor="#000000"
-                android:text="联系客服"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="联系客服"
+                android:textColor="#000000"
+                android:textSize="15sp"/>
         </LinearLayout>
+
         <TextView
-            android:background="#e3e5e7"
-            android:layout_gravity="center_vertical"
             android:layout_width="1dp"
-            android:layout_height="25dp" />
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:background="#e3e5e7"/>
+
         <LinearLayout
             android:id="@+id/ll_help_feedback"
-            android:gravity="center"
-            android:orientation="horizontal"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <ImageView
-                android:src="@drawable/custom_service"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/custom_service"/>
+
             <TextView
-                android:layout_marginLeft="10dp"
-                android:textColor="#000000"
-                android:text="意见反馈"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="意见反馈"
+                android:textColor="#000000"
+                android:textSize="15sp"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
