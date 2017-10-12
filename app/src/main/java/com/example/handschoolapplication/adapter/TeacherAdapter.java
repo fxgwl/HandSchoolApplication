@@ -7,8 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.Teacher;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.util.List;
 
@@ -22,34 +24,26 @@ import butterknife.ButterKnife;
 public class TeacherAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Teacher> mList;
-    private int size = 0;
+    private List<Teacher.DataBean> mList;
 
-    public TeacherAdapter(Context context) {
+    public TeacherAdapter(Context context, List<Teacher.DataBean> mList) {
         this.context = context;
-    }
-
-    public void setData(List<Teacher> mList){
         this.mList = mList;
     }
 
     @Override
     public int getCount() {
-        if (mList != null) {
-            size = mList.size();
-        }
-        return size;
-
+        return mList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -58,12 +52,22 @@ public class TeacherAdapter extends BaseAdapter {
         ViewHolder holder = null;
         if (view == null) {
             view = View.inflate(context, R.layout.item_teacher_lv, null);
-            holder=new ViewHolder(view);
+            holder = new ViewHolder(view);
             view.setTag(holder);
-        }else {
-            holder= (ViewHolder) view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
-
+        Teacher.DataBean teachBean = mList.get(position);
+        Glide.with(context)
+                .load(Internet.BASE_URL + teachBean.getTeacher_photo())
+                .centerCrop()
+                .error(R.drawable.meinv)
+                .into(holder.ivTeacher);
+        holder.tvName.setText(teachBean.getTeacher_name());
+        holder.tvEduBg.setText(teachBean.getTeacher_education());
+        holder.tvProfession.setText(teachBean.getTeacher_longevity());
+        holder.tvExperience.setText(teachBean.getTeacher_through());
+        holder.tvSay.setText(teachBean.getTeacher_motto());
         return view;
 
     }

@@ -86,7 +86,6 @@ public class MeComFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
-
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -104,11 +103,11 @@ public class MeComFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.civ_usericon,R.id.iv_settings, R.id.iv_edit, R.id.ll_scan, R.id.ll_my_class, R.id.ll_my_account, R.id.ll_apply, R.id.ll_deal_manager, R.id.ll_evaluate_manager, R.id.ll_code})
+    @OnClick({R.id.civ_usericon, R.id.iv_settings, R.id.iv_edit, R.id.ll_scan, R.id.ll_my_class, R.id.ll_my_account, R.id.ll_apply, R.id.ll_deal_manager, R.id.ll_evaluate_manager, R.id.ll_code})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_settings://设置
-                startActivity(new Intent(getActivity(), SettingsActivity.class).putExtra("type","com"));
+                startActivity(new Intent(getActivity(), SettingsActivity.class).putExtra("type", "com"));
                 break;
             case R.id.iv_edit://编辑
                 break;
@@ -120,10 +119,10 @@ public class MeComFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), ClassActivity.class));
                 break;
             case R.id.ll_my_account://我的账户
-                startActivity(new Intent(getActivity(),MyAccountActivity.class));
+                startActivity(new Intent(getActivity(), MyAccountActivity.class));
                 break;
             case R.id.ll_apply://报名信息
-                startActivity(new Intent(getActivity(),ApplyActivity.class));
+                startActivity(new Intent(getActivity(), ApplyActivity.class));
                 break;
             case R.id.ll_deal_manager:
                 startActivity(new Intent(getActivity(), DealManagerActivity.class));

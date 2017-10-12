@@ -58,11 +58,14 @@ public class Internet {
     public static final String SERVICELIST = BASE_URL + "ArtificialMessage/listByuser";
     //教育资讯列表：
     public static final String TEACHNEWS = BASE_URL + "NewsInfo/listNewsInfo";
-
-
-
-
-
+    //首页广告位：
+    public static final String HOMEAD = BASE_URL + "AdvertisingInfo/listAdvertisingInfo";
+    //学堂简介 环境：
+    public static final String SCHOOLINTO = BASE_URL + "UserInfo/selectSchool";
+    //师资
+    public static final String SHIZI = BASE_URL + "TeacherInfo/listbySchool";
+    //师资
+    public static final String COURSEINFO = BASE_URL + "CourseInfo/listbySchool";
 
 
 }

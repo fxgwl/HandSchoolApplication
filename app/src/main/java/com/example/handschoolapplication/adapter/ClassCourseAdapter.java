@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.ClassCourse;
 
@@ -22,17 +23,13 @@ import butterknife.ButterKnife;
 public class ClassCourseAdapter extends BaseAdapter {
 
     private Context context;
-    private List<ClassCourse> mList;
+    private List<ClassCourse.DataBean> mList;
     private int size = 0;
 
-    public ClassCourseAdapter(Context context) {
+    public ClassCourseAdapter(Context context, List<ClassCourse.DataBean> mList) {
         this.context = context;
+        this.mList = mList;
     }
-
-    public void setData(List<ClassCourse> mList){
-        this.mList=mList;
-    }
-
 
     @Override
     public int getCount() {
@@ -44,25 +41,36 @@ public class ClassCourseAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        ViewHolder holder=null;
+        ViewHolder holder = null;
         if (view == null) {
             view = View.inflate(context, R.layout.item_class_course_lv, null);
-            holder=new ViewHolder(view);
+            holder = new ViewHolder(view);
             view.setTag(holder);
-        }else {
-            holder= (ViewHolder) view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
+        ClassCourse.DataBean classCourse = mList.get(position);
+        Glide.with(context)
+                .load(classCourse.getCourse_photo().split(",")[0])
+                .centerCrop()
+                .error(R.drawable.kecheng)
+                .into(holder.ivCourse);
+        holder.tvCourse.setText(classCourse.getCourse_name());
+        holder.tvDiscount.setText("金币抵" + classCourse.getPreferential_price() + "%");
+//        holder.tvXianshi.setText();
+        holder.tvPrice.setText("价格： ¥" + classCourse.getCourse_money());
+        holder.popularity.setText("(" + classCourse.getPopularity_num() + "人已报名)");
         return view;
     }
 

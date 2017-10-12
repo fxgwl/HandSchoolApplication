@@ -37,6 +37,7 @@ import com.example.handschoolapplication.adapter.HorizontalLearnListViewAdapter;
 import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
 import com.example.handschoolapplication.bean.ClassBean;
 import com.example.handschoolapplication.bean.CourseBean;
+import com.example.handschoolapplication.bean.HomeAdBean;
 import com.example.handschoolapplication.bean.TeachNewsBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.MyUtiles;
@@ -146,7 +147,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         view = inflater.inflate(R.layout.fragment_home, null);
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         marqueeView = (MarqueeView) view.findViewById(R.id.marqueeView);
-        initConvenientBannerData();
         unbinder = ButterKnife.bind(this, view);
         LvCourseName = (ListView) view.findViewById(R.id.lv_course_name);
         initHLArtData();
@@ -155,6 +155,8 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         initLvData();
         //教育资讯跑马灯
         initTeachNews();
+        //初始化首页广告位
+        initHomeAd();
 
 //        tvText.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -163,6 +165,31 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
 //            }
 //        });
         return view;
+    }
+
+    private void initHomeAd() {
+        OkHttpUtils.post()
+                .url(Internet.HOMEAD)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(HomeFragment.java:183)" + response);
+                        Gson gson = new Gson();
+                        ArrayList<HomeAdBean.DataBean> homeAdList =
+                                (ArrayList<HomeAdBean.DataBean>) gson.fromJson(response, HomeAdBean.class).getData();
+                        for (int i = 0; i < homeAdList.size(); i++) {
+                            listImg.add(Internet.BASE_URL + homeAdList.get(i).getAdvertising_photo());
+                        }
+                        setConvenientBanner(listImg);
+                    }
+                });
     }
 
     private void initTeachNews() {
@@ -307,17 +334,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
 
     }
 
-    private void initConvenientBannerData() {
-        listImg.add(s1);
-        listImg.add(s2);
-        listImg.add(s3);
-        listImg.add(s4);
-        setConvenientBanner(listImg);
-    }
-
     private void setConvenientBanner(List<String> bannerList) {
-
-
         convenientBanner.setPages(
                 new CBViewHolderCreator<NetWorkImageHolderView>() {
                     @Override
@@ -333,7 +350,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         //设置翻页的效果，不需要翻页效果可用不设
         //.setPageTransformer(Transformer.DefaultTransformer);  //  集成特效之后会有白屏现象，新版已经分离，如果要集成特效的例子可以看Demo的点击响应。
         //   convenientBanner.setManualPageable(false);//设置不能手动影响
-
     }
 
 
