@@ -19,6 +19,10 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +52,7 @@ public class ClassCourseFragment extends BaseFragment {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
         lvClassCourse = (ListView) view.findViewById(R.id.lv_class_course);
+        EventBus.getDefault().register(ClassCourseFragment.this);
         school_id = (String) SPUtils.get(getActivity(), "school_id", "");
         mAdapter = new ClassCourseAdapter(getActivity(), mList);
         lvClassCourse.setAdapter(mAdapter);
@@ -78,9 +83,48 @@ public class ClassCourseFragment extends BaseFragment {
                 });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(String event) {
+        initCourseType(event);
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_class_course;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(ClassCourseFragment.this);
+    }
+
+    //课程类型
+    private void initCourseType(String s) {
+        OkHttpUtils.post()
+                .url(Internet.COURSESTATE)
+                .addParams("school_id", school_id)
+                .addParams("course_state", s)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ClassActivity.java:236)" + response);
+                        Gson gson = new Gson();
+                        mList.clear();
+                        if (response.contains("没有信息")) {
+
+                        } else {
+                            mList.addAll(gson.fromJson(response, ClassCourse.class).getData());
+                        }
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
+    }
 }

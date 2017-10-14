@@ -3,6 +3,8 @@ package com.example.handschoolapplication.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,11 +22,17 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ClassTimeAdapter;
 import com.example.handschoolapplication.adapter.TimeAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.CourseDertailBean;
 import com.example.handschoolapplication.bean.TimeBean;
 import com.example.handschoolapplication.bean.TimeHourBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.MyGridView;
 import com.example.handschoolapplication.view.MyListView;
 import com.example.handschoolapplication.view.MyPopupWindow;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +40,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class CourseHomePagerActivity extends BaseActivity {
 
@@ -68,36 +77,72 @@ public class CourseHomePagerActivity extends BaseActivity {
     @BindView(R.id.course_mlv_pingjia)
     MyListView courseMlvPingjia;
     private ConvenientBanner convenientBanner;
-    private String s1 = "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1525187520,1111175605&fm=23&gp=0.jpg";
-    private String s2 = "http://img0.imgtn.bdimg.com/it/u=1660138183,1040754863&fm=23&gp=0.jpg";
-    private String s3 = "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1525187520,1111175605&fm=23&gp=0.jpg";
-    private String s4 = "http://img0.imgtn.bdimg.com/it/u=1660138183,1040754863&fm=23&gp=0.jpg";
     private List<String> listImg = new ArrayList<>();
 
     private List<TimeHourBean> mHourList;//每周的具体小时上课时间
     private List<TimeBean> mList;
 
     private List<TimeHourBean> mFeeList;//课时费用
+    private String course_id;
+    private String user_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         convenientBanner = (ConvenientBanner) findViewById(R.id.convenientBanner);
         tvTitle.setText("课程主页");
-        initConvenientBannerData();
+        course_id = getIntent().getStringExtra("course_id");
+        user_id = (String) SPUtils.get(this, "userId", "");
+        initData();
+//        initConvenientBannerData();
+    }
+
+    private void initData() {
+        OkHttpUtils.post()
+                .url(Internet.COURSEHOMEPAGE)
+                .addParams("user_id", user_id)
+                .addParams("course_id", course_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(CourseHomePagerActivity.java:116)" + response);
+                        Gson gson = new Gson();
+                        CourseDertailBean.DataBean courseDetail =
+                                gson.fromJson(response, CourseDertailBean.class).getData();
+                        courseName.setText(courseDetail.getCourse_name());
+                        courseMoneyTv.setText("¥" + courseDetail.getPreferential_price());
+                        courseOldmoneyTv.setText("¥" + courseDetail.getOriginal_price());
+                        courseClassml.setText(courseDetail.getCourse_capacity());
+                        courseDuixiang.setText(courseDetail.getAge_range());
+                        courseTeacher.setText(courseDetail.getCourse_teacher());
+                        courseAddress.setText(courseDetail.getCourse_address());
+                        String photos = courseDetail.getCourse_photo();
+                        if (!TextUtils.isEmpty(photos)) {
+                            if (photos.contains(",")) {
+                                for (String photo :
+                                        photos.split(",")) {
+                                    listImg.add(Internet.BASE_URL + photo);
+                                }
+                            } else {
+                                listImg.add(Internet.BASE_URL + photos);
+                            }
+                        }
+                        setConvenientBanner(listImg);
+                    }
+                });
     }
 
     @Override
     public int getContentViewId() {
         return R.layout.activity_course_homepager;
-    }
-
-    private void initConvenientBannerData() {
-        listImg.add(s1);
-        listImg.add(s2);
-        listImg.add(s3);
-        listImg.add(s4);
-        setConvenientBanner(listImg);
     }
 
     private void setConvenientBanner(List<String> bannerList) {
@@ -145,10 +190,10 @@ public class CourseHomePagerActivity extends BaseActivity {
             case R.id.course_allpingjia_btn:
                 break;
             case R.id.course_kefu:
-                startActivity(new Intent(this,HumanServiceActivity.class));
+                startActivity(new Intent(this, HumanServiceActivity.class));
                 break;
             case R.id.course_xuetang:
-                startActivity(new Intent(this,ClassActivity.class));
+                startActivity(new Intent(this, ClassActivity.class));
                 break;
             case R.id.course_save:
                 break;
@@ -169,7 +214,7 @@ public class CourseHomePagerActivity extends BaseActivity {
         TextView classmoney_config = (TextView) v.findViewById(R.id.classmoney_config);
         final MyPopupWindow courTimePoP = new MyPopupWindow(this, v);
         courTimePoP.showAtLocation(v, Gravity.BOTTOM, 0, 0);
-        mHourList=new ArrayList<>();
+        mHourList = new ArrayList<>();
         mHourList.add(new TimeHourBean());
         mHourList.add(new TimeHourBean());
         mHourList.add(new TimeHourBean());
@@ -203,6 +248,23 @@ public class CourseHomePagerActivity extends BaseActivity {
 
     //课程时间的选择
     private void initClassTime() {
+        OkHttpUtils.post()
+                .url(Internet.COURSETIME)
+                .addParams("course_id", course_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(CourseHomePagerActivity.java:264)课程时间" + response);
+                        Gson gson = new Gson();
+                    }
+                });
         View v = View.inflate(CourseHomePagerActivity.this, R.layout.class_time, null);
         ImageView classtime_back = (ImageView) v.findViewById(R.id.classtime_back);
         ListView mylistview = (ListView) v.findViewById(R.id.mylistview);
@@ -210,11 +272,18 @@ public class CourseHomePagerActivity extends BaseActivity {
         final MyPopupWindow courTimePoP = new MyPopupWindow(this, v);
         courTimePoP.showAtLocation(v, Gravity.BOTTOM, 0, 0);
         mList = new ArrayList<>();
-        mList.add(new TimeBean());
-        mList.add(new TimeBean());
-        mList.add(new TimeBean());
-        mList.add(new TimeBean());
-        ClassTimeAdapter ctAdapter = new ClassTimeAdapter(this, mList,mHourList);
+        for (int i = 0; i < 5; i++) {
+            ArrayList<TimeHourBean> hourList = new ArrayList<>();
+            TimeBean timebean = new TimeBean();
+            for (int m = 0; m < 5; m++) {
+                TimeHourBean thb = new TimeHourBean();
+                thb.setChecked(false);
+                hourList.add(thb);
+            }
+            timebean.setMlist(hourList);
+            mList.add(timebean);
+        }
+        ClassTimeAdapter ctAdapter = new ClassTimeAdapter(this, mList);
         mylistview.setAdapter(ctAdapter);
         classtime_back.setOnClickListener(new View.OnClickListener() {
             @Override

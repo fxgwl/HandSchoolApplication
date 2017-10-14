@@ -1,10 +1,12 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.TimeHourBean;
@@ -22,10 +24,15 @@ public class TimeAdapter extends BaseAdapter {
     private Context context;
     private List<TimeHourBean> mlist;
     private int size = 0;
+    private ChooseItem chooseItem;
 
     public TimeAdapter(Context context, List<TimeHourBean> mlist) {
         this.context = context;
         this.mlist = mlist;
+    }
+
+    public void setChooseItem(ChooseItem chooseItem) {
+        this.chooseItem = chooseItem;
     }
 
     @Override
@@ -34,21 +41,21 @@ public class TimeAdapter extends BaseAdapter {
         if (mlist != null) {
             size = mlist.size();
         }
-        return size;
+        return mlist.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mlist.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, final ViewGroup parent) {
 
         ViewHolder holder = null;
 
@@ -59,16 +66,38 @@ public class TimeAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        holder.tvTime.setChecked(mlist.get(position).isChecked());
+        holder.tvTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                // TODO Auto-generated method stub
+                if (isChecked) {
+                    Log.e("aaa",
+                            "(TimeAdapter.java:79)" + parent.getTag());
+                    chooseItem.cbCheck(position, Integer.parseInt(parent.getTag() + ""), true);
+                    mlist.get(position).setChecked(true);
+                } else {
+                    chooseItem.cbCheck(position, Integer.parseInt(parent.getTag() + ""), false);
+                    mlist.get(position).setChecked(false);
+                }
+            }
+
+        });
         return view;
     }
 
     static class ViewHolder {
-        @BindView(R.id.tv_time)
-        TextView tvTime;
+        @BindView(R.id.cb_time)
+        CheckBox tvTime;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    interface ChooseItem {
+        public void cbCheck(int position, int parentPosition, boolean cb);
     }
 }

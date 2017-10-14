@@ -5,8 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
@@ -18,9 +22,12 @@ import com.example.handschoolapplication.fragment.ClassInfoFragment;
 import com.example.handschoolapplication.fragment.ClassTeacherFragment;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
+import com.example.handschoolapplication.view.MyPopupWindow;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -47,6 +54,10 @@ public class ClassActivity extends BaseActivity {
     TextView bgCourseLine;
     @BindView(R.id.tv_schoolname)
     TextView tvSchoolname;
+    @BindView(R.id.ll_course)
+    LinearLayout llCourse;
+    @BindView(R.id.iv_love)
+    ImageView ivLove;
 
     private int mIndex = 0;
 
@@ -56,11 +67,13 @@ public class ClassActivity extends BaseActivity {
     private ClassTeacherFragment classTeacherFragment;
     private ClassCourseFragment classCourseFragment;
     private String school_id;
+    private String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         school_id = (String) SPUtils.get(this, "school_id", "");
+        user_id = (String) SPUtils.get(this, "userId", "");
         initFragments();
         initView();
         tvTitle.setText("学堂主页");
@@ -100,7 +113,6 @@ public class ClassActivity extends BaseActivity {
         classConditionFragment = new ClassConditionFragment();
         classTeacherFragment = new ClassTeacherFragment();
         classCourseFragment = new ClassCourseFragment();
-
         fragments = new Fragment[]{
                 classInfoFragment, classConditionFragment, classTeacherFragment, classCourseFragment
         };
@@ -124,6 +136,31 @@ public class ClassActivity extends BaseActivity {
             case R.id.iv_menu:
                 break;
             case R.id.ll_love:
+                //收藏
+                OkHttpUtils.post()
+                        .url(Internet.SAVECLASS)
+                        .addParams("user_id", user_id)
+                        .addParams("school_id", school_id)
+                        .build()
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+
+                            }
+
+                            @Override
+                            public void onResponse(String response, int id) {
+                                Log.e("aaa",
+                                        "(ClassActivity.java:153)" + response);
+                                if (response.contains("收藏成功")) {
+                                    Toast.makeText(ClassActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                                    ivLove.setImageResource(R.drawable.wujiaoxing);
+                                } if (response.contains("取消收藏成功")){
+                                    Toast.makeText(ClassActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                                    ivLove.setImageResource(R.drawable.wujiaoxinghuise);
+                                }
+                            }
+                        });
                 break;
             case R.id.ll_share:
                 break;
@@ -149,6 +186,42 @@ public class ClassActivity extends BaseActivity {
                 setIndexSelected(2);
                 break;
             case R.id.ll_course:
+                View view1 = View.inflate(this, R.layout.course_type, null);
+                final MyPopupWindow myPopupWindow = new MyPopupWindow(this, view1);
+                TextView tv_course_finish = (TextView) view1.findViewById(R.id.tv_course_finish);
+                TextView tv_course_baoming = (TextView) view1.findViewById(R.id.tv_course_baoming);
+                int intw = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                int inth = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                view1.measure(intw, inth);
+                int hight = view1.getMeasuredHeight();
+                int width = view1.getMeasuredWidth();
+                myPopupWindow.setHeight(hight);
+                Log.e("aaa",
+                        "(ClassActivity.java:166)" + hight);
+                myPopupWindow.setWidth(width);
+                myPopupWindow.showAsDropDown(llCourse);
+                tv_course_finish.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myPopupWindow.dismiss();
+                        EventBus.getDefault().post("1");
+                    }
+                });
+                tv_course_baoming.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myPopupWindow.dismiss();
+                        EventBus.getDefault().post("0");
+                    }
+                });
+                myPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        WindowManager.LayoutParams lp = getWindow().getAttributes();
+                        lp.alpha = 1f;
+                        getWindow().setAttributes(lp);
+                    }
+                });
                 bgCourseLine.setBackgroundResource(R.color.blue);
                 tvBgInfoLine.setBackgroundResource(R.color.white);
                 bgConditionLine.setBackgroundResource(R.color.white);

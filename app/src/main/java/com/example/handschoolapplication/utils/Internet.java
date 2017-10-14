@@ -64,8 +64,31 @@ public class Internet {
     public static final String SCHOOLINTO = BASE_URL + "UserInfo/selectSchool";
     //师资
     public static final String SHIZI = BASE_URL + "TeacherInfo/listbySchool";
-    //师资
+    //课程
     public static final String COURSEINFO = BASE_URL + "CourseInfo/listbySchool";
+    //课程类型选择
+    public static final String COURSESTATE= BASE_URL + "CourseInfo/listbyState";
+    //收藏/取消收藏 学堂：
+    public static final String SAVECLASS= BASE_URL + "CollectSchool/insertCollectSchool";
+    //课程类型：
+    public static final String CLASSTYPE= BASE_URL + "TypeOneInfo/listOneTwo";
+    //机构列表：
+    public static final String ORGANLIST= BASE_URL + "UserInfo/selectUser";
+    //课程列表
+    public static final String COURSELIST= BASE_URL + "CourseInfo/listbyType";
+    //课程主页
+    public static final String COURSEHOMEPAGE= BASE_URL + "CourseInfo/getCourseInfo";
+    //课程时间
+    public static final String COURSETIME= BASE_URL + "CourseTimeInfo/getByCourseId";
+
+
+
+
+
+
+
+
+
 
 
 }

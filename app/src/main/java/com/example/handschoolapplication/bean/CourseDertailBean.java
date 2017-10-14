@@ -1,22 +1,28 @@
 package com.example.handschoolapplication.bean;
 
-import java.util.List;
-
 /**
- * Created by Administrator on 2017/7/24.
+ * Created by Administrator on 2017/10/13.
  */
 
-public class CourseBean {
+public class CourseDertailBean {
 
     /**
-     * data : [{"age_range":"2-6岁","course_address":"1","course_capacity":"28","course_id":"1506153404911","course_info":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_name":"音乐","course_photo":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_state":"0","course_teacher":"1","course_time":"2017-09-23 15:56:44","course_type":"书画,中小学教育","enrol_num":"26","original_price":"660","popularity_num":"107","preferential_price":"330","school_id":"1505805630236","school_name":"我的小学堂a","study_num":"1506153404911","user_id":"8841f54f7b574f06a470ee9002043f8d"},{"age_range":"2-6岁","course_address":"1","course_capacity":"28","course_id":"1506153961723","course_info":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_name":"音乐3","course_photo":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_state":"0","course_teacher":"1","course_time":"2017-09-23 16:06:02","course_type":"书画,球类","enrol_num":"27","original_price":"660","popularity_num":"90","preferential_price":"330","school_id":"1505805630236","school_name":"我的小学堂a","study_num":"1506153961723","user_id":"8841f54f7b574f06a470ee9002043f8d"}]
+     * data : {"age_range":"2-6岁","course_address":"1","course_capacity":"28","course_id":"1505888221350","course_info":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_money":"","course_name":"艺术1","course_photo":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_state":"1","course_teacher":"1","course_time":"2017-09-20 14:17:01","course_type":"夏令营,中小学教育","enrol_num":"26","original_price":"660","popularity_num":"101","preferential_price":"330","school_id":"1505805630235","school_jing":"1","school_name":"我的小学堂b","school_wei":"1","study_num":"1505888221351","user_id":"4c975ad7eeb646f7b0e06cabc8290ddd"}
      * msg : 成功
      * result : 0
      */
 
+    private DataBean data;
     private String msg;
     private int result;
-    private List<DataBean> data;
+
+    public DataBean getData() {
+        return data;
+    }
+
+    public void setData(DataBean data) {
+        this.data = data;
+    }
 
     public String getMsg() {
         return msg;
@@ -34,68 +40,38 @@ public class CourseBean {
         this.result = result;
     }
 
-    public List<DataBean> getData() {
-        return data;
-    }
-
-    public void setData(List<DataBean> data) {
-        this.data = data;
-    }
-
     public static class DataBean {
-        @Override
-        public String toString() {
-            return "DataBean{" +
-                    "age_range='" + age_range + '\'' +
-                    ", course_address='" + course_address + '\'' +
-                    ", course_capacity='" + course_capacity + '\'' +
-                    ", course_id='" + course_id + '\'' +
-                    ", course_info='" + course_info + '\'' +
-                    ", course_name='" + course_name + '\'' +
-                    ", course_photo='" + course_photo + '\'' +
-                    ", course_state='" + course_state + '\'' +
-                    ", course_teacher='" + course_teacher + '\'' +
-                    ", course_time='" + course_time + '\'' +
-                    ", course_type='" + course_type + '\'' +
-                    ", enrol_num='" + enrol_num + '\'' +
-                    ", original_price='" + original_price + '\'' +
-                    ", popularity_num='" + popularity_num + '\'' +
-                    ", preferential_price='" + preferential_price + '\'' +
-                    ", school_id='" + school_id + '\'' +
-                    ", school_name='" + school_name + '\'' +
-                    ", study_num='" + study_num + '\'' +
-                    ", user_id='" + user_id + '\'' +
-                    '}';
-        }
-
         /**
          * age_range : 2-6岁
          * course_address : 1
          * course_capacity : 28
-         * course_id : 1506153404911
+         * course_id : 1505888221350
          * course_info : bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg
-         * course_name : 音乐
+         * course_money :
+         * course_name : 艺术1
          * course_photo : bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg
-         * course_state : 0
+         * course_state : 1
          * course_teacher : 1
-         * course_time : 2017-09-23 15:56:44
-         * course_type : 书画,中小学教育
+         * course_time : 2017-09-20 14:17:01
+         * course_type : 夏令营,中小学教育
          * enrol_num : 26
          * original_price : 660
-         * popularity_num : 107
+         * popularity_num : 101
          * preferential_price : 330
-         * school_id : 1505805630236
-         * school_name : 我的小学堂a
-         * study_num : 1506153404911
-         * user_id : 8841f54f7b574f06a470ee9002043f8d
+         * school_id : 1505805630235
+         * school_jing : 1
+         * school_name : 我的小学堂b
+         * school_wei : 1
+         * study_num : 1505888221351
+         * user_id : 4c975ad7eeb646f7b0e06cabc8290ddd
          */
-
 
         private String age_range;
         private String course_address;
         private String course_capacity;
         private String course_id;
         private String course_info;
+        private String course_money;
         private String course_name;
         private String course_photo;
         private String course_state;
@@ -107,7 +83,9 @@ public class CourseBean {
         private String popularity_num;
         private String preferential_price;
         private String school_id;
+        private String school_jing;
         private String school_name;
+        private String school_wei;
         private String study_num;
         private String user_id;
 
@@ -149,6 +127,14 @@ public class CourseBean {
 
         public void setCourse_info(String course_info) {
             this.course_info = course_info;
+        }
+
+        public String getCourse_money() {
+            return course_money;
+        }
+
+        public void setCourse_money(String course_money) {
+            this.course_money = course_money;
         }
 
         public String getCourse_name() {
@@ -239,12 +225,28 @@ public class CourseBean {
             this.school_id = school_id;
         }
 
+        public String getSchool_jing() {
+            return school_jing;
+        }
+
+        public void setSchool_jing(String school_jing) {
+            this.school_jing = school_jing;
+        }
+
         public String getSchool_name() {
             return school_name;
         }
 
         public void setSchool_name(String school_name) {
             this.school_name = school_name;
+        }
+
+        public String getSchool_wei() {
+            return school_wei;
+        }
+
+        public void setSchool_wei(String school_wei) {
+            this.school_wei = school_wei;
         }
 
         public String getStudy_num() {
