@@ -14,6 +14,7 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.fragment.LoveClassFragment;
 import com.example.handschoolapplication.fragment.LoveCourseFragment;
+import com.example.handschoolapplication.utils.SPUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,11 +42,12 @@ public class MyLoveActivity extends BaseActivity {
     LoveCourseFragment loveCourseFragment;
 
     private Fragment currentFragment;
+    private String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        user_id = (String) SPUtils.get(this, "userId", "");
         tvTitle.setText("我的收藏");
         ivMenu.setVisibility(View.VISIBLE);
         tvEdit.setVisibility(View.VISIBLE);
@@ -97,6 +99,7 @@ public class MyLoveActivity extends BaseActivity {
 
         FragmentTransaction ft = manager.beginTransaction();
         if (currentFragment == fragment) {
+
             return;
         } else {
             if (!fragment.isAdded()) {

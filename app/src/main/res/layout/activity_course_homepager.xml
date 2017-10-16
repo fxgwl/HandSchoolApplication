@@ -351,7 +351,7 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
-                    android:drawableTop="@drawable/shoucang"
+                    android:drawableTop="@drawable/wujiaoxinghuise"
                     android:gravity="center"
                     android:padding="4dp"
                     android:text="收藏"/>

@@ -64,8 +64,58 @@ public class Internet {
     public static final String SCHOOLINTO = BASE_URL + "UserInfo/selectSchool";
     //师资
     public static final String SHIZI = BASE_URL + "TeacherInfo/listbySchool";
-    //师资
+    //课程
     public static final String COURSEINFO = BASE_URL + "CourseInfo/listbySchool";
+    //课程类型选择
+    public static final String COURSESTATE = BASE_URL + "CourseInfo/listbyState";
+    //收藏/取消收藏 学堂：
+    public static final String SAVECLASS = BASE_URL + "CollectSchool/insertCollectSchool";
+    //课程类型：
+    public static final String CLASSTYPE = BASE_URL + "TypeOneInfo/listOneTwo";
+    //机构列表：
+    public static final String ORGANLIST = BASE_URL + "UserInfo/selectUser";
+    //课程列表
+    public static final String COURSELIST = BASE_URL + "CourseInfo/listbyType";
+    //课程主页
+    public static final String COURSEHOMEPAGE = BASE_URL + "CourseInfo/getCourseInfo";
+    //课程时间
+    public static final String COURSETIME = BASE_URL + "CourseTimeInfo/getByCourseId";
+    //课程费用
+    public static final String COURSEMONEY = BASE_URL + "CoursePriceInfo/getByCourseId";
+    //收藏/取消收藏 课程
+    public static final String SAVECOURSE = BASE_URL + "CollectInfo/insertCollectInfo";
+    //课程收藏列表
+    public static final String SAVECOURSELIST = BASE_URL + "CollectInfo/getmyCollect";
+    //课程收藏删除
+    public static final String DELETECOLLECT = BASE_URL + "CollectInfo/deleteCollectInfo";
+    //学堂收藏列表
+    public static final String SCHOOLCOLLECT = BASE_URL + "CollectSchool/getmySchool";
+    //学堂收藏删除
+    public static final String DELETESCHOOLCOLLECT = BASE_URL + "CollectSchool/deleteCollectSchool";
+    //课程(模糊)搜索
+    public static final String COURSESEARCH = BASE_URL + "CourseInfo/listbyname";
+    //学堂(模糊)搜索
+    public static final String SCHOOLSEARCH = BASE_URL + "UserInfo/selectschool";
+    //签到
+    public static final String SIGN = BASE_URL + "SignInfo/insertSignInfo";
+    //足迹列表
+    public static final String FOOTLIST = BASE_URL + "FootprintInfo/listFootprint";
+    //积分记录
+    public static final String INTEGRALRECORD = BASE_URL + "IntegralInfo/listIntegral";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

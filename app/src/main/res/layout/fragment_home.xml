@@ -154,6 +154,7 @@
                         android:src="@drawable/wenyi"/>
 
                     <TextView
+                        android:id="@+id/tv_hometype1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/iv_style_art"
@@ -176,6 +177,7 @@
                         android:src="@drawable/xuexi"/>
 
                     <TextView
+                        android:id="@+id/tv_hometype2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/iv_learn_help"
@@ -198,6 +200,7 @@
                         android:src="@drawable/huodong"/>
 
                     <TextView
+                        android:id="@+id/tv_hometype3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/iv_activity"
@@ -227,6 +230,7 @@
                         android:src="@drawable/zaojiao"/>
 
                     <TextView
+                        android:id="@+id/tv_hometype4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/iv_child_edu"
@@ -249,6 +253,7 @@
                         android:src="@drawable/xuexi"/>
 
                     <TextView
+                        android:id="@+id/tv_hometype5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/iv_trusteeship"
@@ -271,6 +276,7 @@
                         android:src="@drawable/huodong"/>
 
                     <TextView
+                        android:id="@+id/tv_hometype6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/iv_family_edu"
@@ -299,31 +305,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!--<LinearLayout-->
-                <!--android:id="@+id/ll_text"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/tv_tip"-->
-                <!--android:layout_width="38dp"-->
-                <!--android:layout_height="20dp"-->
-                <!--android:background="@drawable/textview_bg"-->
-                <!--android:gravity="center"-->
-                <!--android:text="教育"-->
-                <!--android:textSize="12sp"-->
-                <!--android:textColor="#f00"/>-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/tv_text"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:ellipsize="end"-->
-                <!--android:maxLines="1"-->
-                <!--android:text="比起大骂，孩子更害怕这几件事"/>-->
                 <com.example.handschoolapplication.view.MarqueeView
                     android:id="@+id/marqueeView"
                     android:layout_width="match_parent"
@@ -332,35 +313,6 @@
                     app:mvInterval="3000"
                     app:mvTextSize="14sp"></com.example.handschoolapplication.view.MarqueeView>
             </LinearLayout>
-
-            <!--<LinearLayout-->
-            <!--android:id="@+id/ll_texts"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginTop="3dp"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tv_tips"-->
-            <!--android:layout_width="38dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:background="@drawable/textview_bg"-->
-            <!--android:gravity="center"-->
-            <!--android:text="教育"-->
-            <!--android:textSize="12sp"-->
-            <!--android:textColor="#f00"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tv_tetxs"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="15dp"-->
-            <!--android:ellipsize="end"-->
-            <!--android:maxLines="1"-->
-            <!--android:text="比起大骂，孩子更害怕这几件事"/>-->
-            <!--</LinearLayout>-->
-            <!--</LinearLayout>-->
         </LinearLayout>
 
         <View
@@ -382,6 +334,7 @@
             />
 
             <TextView
+                android:id="@+id/tv_hometypelist1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -454,6 +407,7 @@
             />
 
             <TextView
+                android:id="@+id/tv_hometypelist2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -525,6 +479,7 @@
             />
 
             <TextView
+                android:id="@+id/tv_hometypelist3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -596,6 +551,7 @@
             />
 
             <TextView
+                android:id="@+id/tv_hometypelist4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -642,6 +598,7 @@
             />
 
             <TextView
+                android:id="@+id/tv_hometypelist5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -688,6 +645,7 @@
             />
 
             <TextView
+                android:id="@+id/tv_hometypelist6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

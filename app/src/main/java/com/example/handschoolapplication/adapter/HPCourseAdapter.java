@@ -2,6 +2,7 @@ package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.bean.CourseBean;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.util.List;
 
@@ -25,11 +28,11 @@ import butterknife.ButterKnife;
 
 public class HPCourseAdapter extends BaseAdapter {
 
-    private List<CourseBean> courseBeanList;
+    private List<CourseBean.DataBean> courseBeanList;
     private LayoutInflater inflater;
     private Context context;
 
-    public HPCourseAdapter(List<CourseBean> courseBeanList, Context context) {
+    public HPCourseAdapter(List<CourseBean.DataBean> courseBeanList, Context context) {
         this.courseBeanList = courseBeanList;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -37,21 +40,21 @@ public class HPCourseAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return courseBeanList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return courseBeanList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_hf_course_lv, null);
@@ -60,10 +63,24 @@ public class HPCourseAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        Log.e("aaa",
+                "(HPCourseAdapter.java:66)" + courseBeanList.get(position).toString());
+        Glide.with(context)
+                .load(Internet.BASE_URL + courseBeanList.get(position).getCourse_photo())
+                .centerCrop()
+                .error(R.drawable.kecheng)
+                .into(holder.ivCourse);
+        holder.tvCourse.setText(courseBeanList.get(position).getCourse_name());
+        holder.tvPrice.setText("价格： ¥" + courseBeanList.get(position).getPreferential_price());
+        holder.popularity.setText("(" + courseBeanList.get(position).getCourse_name() + "人已报名)");
+
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, CourseHomePagerActivity.class));
+                Intent intent = new Intent(context, CourseHomePagerActivity.class);
+                intent.putExtra("school_id", courseBeanList.get(position).getSchool_id());
+                intent.putExtra("course_id", courseBeanList.get(position).getCourse_id());
+                context.startActivity(intent);
             }
         });
 

@@ -24,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:choiceMode="singleChoice"
             android:numColumns="3"></com.example.handschoolapplication.view.MyGridView>
     </LinearLayout>
 

@@ -9,9 +9,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.ClassActivity;
 import com.example.handschoolapplication.bean.ClassBean;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.util.List;
 
@@ -25,10 +27,10 @@ import butterknife.ButterKnife;
 public class HPClassAdapter extends BaseAdapter {
 
     private Context context;
-    private List<ClassBean> mList;
+    private List<ClassBean.DataBean> mList;
     private int size = 0;
 
-    public HPClassAdapter(Context context, List<ClassBean> mList) {
+    public HPClassAdapter(Context context, List<ClassBean.DataBean> mList) {
         this.context = context;
         this.mList = mList;
     }
@@ -43,30 +45,39 @@ public class HPClassAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        ViewHolder holder=null;
+        ViewHolder holder = null;
         if (view == null) {
             view = View.inflate(context, R.layout.item_hf_class_lv, null);
-            holder=new ViewHolder(view);
+            holder = new ViewHolder(view);
             view.setTag(holder);
-        }else {
-            holder= (ViewHolder) view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
-
+        final ClassBean.DataBean classBean = mList.get(position);
+        Glide.with(context)
+                .load(Internet.BASE_URL + classBean.getHead_photo())
+                .centerCrop()
+                .error(R.drawable.kecheng)
+                .into(holder.ivCourse);
+        holder.tvCourse.setText(classBean.getMechanism_name());
+        holder.popularity.setText("(" + classBean.getUser_renqi() + "人已报名)");
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, ClassActivity.class));
+                Intent intent = new Intent(context, ClassActivity.class);
+                intent.putExtra("school_id", classBean.getSchool_id());
+                context.startActivity(intent);
             }
         });
         return view;
@@ -83,6 +94,7 @@ public class HPClassAdapter extends BaseAdapter {
         TextView popularity;
         @BindView(R.id.rl_item)
         RelativeLayout rlItem;
+
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }

@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.TimeBean;
-import com.example.handschoolapplication.bean.TimeHourBean;
 import com.example.handschoolapplication.view.MyGridView;
 
 import java.util.List;
@@ -23,13 +22,12 @@ import butterknife.ButterKnife;
 public class ClassTimeAdapter extends BaseAdapter {
     private Context context;
     private List<TimeBean> mlist;
-    private List<TimeHourBean> mHourList;
     private int size = 0;
+    private TimeAdapter timeAdapter;
 
-    public ClassTimeAdapter(Context context, List<TimeBean> mlist,List<TimeHourBean> mHourList) {
+    public ClassTimeAdapter(Context context, List<TimeBean> mlist) {
         this.context = context;
         this.mlist = mlist;
-        this.mHourList=mHourList;
     }
 
     @Override
@@ -43,12 +41,12 @@ public class ClassTimeAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mlist.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -63,8 +61,16 @@ public class ClassTimeAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        TimeAdapter timeAdapter = new TimeAdapter(context,mHourList );
+        holder.timechooseWeek.setText(mlist.get(position).getName());
+        timeAdapter = new TimeAdapter(context, mlist.get(position).getMlist());
         holder.timechooseGv.setAdapter(timeAdapter);
+        holder.timechooseGv.setTag(position);
+        timeAdapter.setChooseItem(new TimeAdapter.ChooseItem() {
+            @Override
+            public void cbCheck(int position, int parentPosition, boolean cb) {
+                mlist.get(parentPosition).getMlist().get(position).setChecked(cb);
+            }
+        });
         return view;
     }
 

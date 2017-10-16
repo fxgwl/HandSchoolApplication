@@ -1,16 +1,14 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.bean.TimeHourBean;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,19 +18,15 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2017/8/24.
  */
 
-public class TimeAdapter extends BaseAdapter {
+public class CostAdapter extends BaseAdapter {
     private Context context;
-    private List<TimeHourBean> mlist;
+    private List<String> mlist;
     private int size = 0;
-    private ChooseItem chooseItem;
+    HashMap<String, Boolean> states = new HashMap<String, Boolean>();
 
-    public TimeAdapter(Context context, List<TimeHourBean> mlist) {
+    public CostAdapter(Context context, List<String> mlist) {
         this.context = context;
         this.mlist = mlist;
-    }
-
-    public void setChooseItem(ChooseItem chooseItem) {
-        this.chooseItem = chooseItem;
     }
 
     @Override
@@ -66,27 +60,30 @@ public class TimeAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.tvTime.setChecked(mlist.get(position).isChecked());
-        Log.e("aaa",
-            "(TimeAdapter.java:71)"+mlist.toString());
-        holder.tvTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        final ViewHolder finalHolder = holder;
+        holder.tvTime.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-                // TODO Auto-generated method stub
-                if (isChecked) {
-                    Log.e("aaa",
-                            "(TimeAdapter.java:79)" + parent.getTag());
-                    chooseItem.cbCheck(position, Integer.parseInt(parent.getTag() + ""), true);
-                    mlist.get(position).setChecked(true);
-                } else {
-                    chooseItem.cbCheck(position, Integer.parseInt(parent.getTag() + ""), false);
-                    mlist.get(position).setChecked(false);
+            public void onClick(View v) {
+
+                // 重置，确保最多只有一项被选中
+                for (String key : states.keySet()) {
+                    states.put(key, false);
+
                 }
+                states.put(String.valueOf(position), finalHolder.tvTime.isChecked());
+                notifyDataSetChanged();
             }
-
         });
+
+        boolean res = false;
+        if (states.get(String.valueOf(position)) == null
+                || states.get(String.valueOf(position)) == false) {
+            res = false;
+            states.put(String.valueOf(position), false);
+        } else
+            res = true;
+        holder.tvTime.setText(mlist.get(position));
+        holder.tvTime.setChecked(res);
         return view;
     }
 
@@ -97,9 +94,5 @@ public class TimeAdapter extends BaseAdapter {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-    }
-
-    interface ChooseItem {
-        public void cbCheck(int position, int parentPosition, boolean cb);
     }
 }

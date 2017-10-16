@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,14 +11,18 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
-import com.example.handschoolapplication.bean.Integral;
+import com.example.handschoolapplication.bean.IntegralBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class GradeActivity extends BaseActivity {
 
@@ -38,30 +43,38 @@ public class GradeActivity extends BaseActivity {
     @BindView(R.id.lv_integral)
     ListView lvIntegral;
 
-    private List<Integral> mList;
+    private List<IntegralBean> mList;
     private MyAdapter myAdapter;
+    private String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         tvTitle.setText("等级详情");
-
+        user_id = (String) SPUtils.get(this, "userId", "");
         initData();
     }
 
     private void initData() {
-
-        mList = new ArrayList<>();
-        mList.add(new Integral());
-        mList.add(new Integral());
-        mList.add(new Integral());
-        mList.add(new Integral());
-        mList.add(new Integral());
-        mList.add(new Integral());
-
         myAdapter = new MyAdapter();
         lvIntegral.setAdapter(myAdapter);
+        OkHttpUtils.post()
+                .url(Internet.INTEGRALRECORD)
+                .addParams("user_id", user_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+
+                        Log.e("aaa",
+                                "(GradeActivity.java:73)" + response);
+                    }
+                });
     }
 
     @Override
