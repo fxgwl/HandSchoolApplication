@@ -41,7 +41,7 @@ public class ClassTimeAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mlist.get(position);
     }
 
     @Override
@@ -61,6 +61,7 @@ public class ClassTimeAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        holder.timechooseWeek.setText(mlist.get(position).getName());
         timeAdapter = new TimeAdapter(context, mlist.get(position).getMlist());
         holder.timechooseGv.setAdapter(timeAdapter);
         holder.timechooseGv.setTag(position);

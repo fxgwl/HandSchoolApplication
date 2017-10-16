@@ -75,10 +75,15 @@ public class HumanServiceActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(HumanServiceActivity.java:67)" + response);
-                        Gson gson = new Gson();
-                        contactList.clear();
-                        contactList.addAll(gson.fromJson(response, ContactServiceBean.class).getData());
-                        contactAdapter.notifyDataSetChanged();
+                        if (response.contains("没有信息")) {
+                            contactList.clear();
+                            contactAdapter.notifyDataSetChanged();
+                        } else {
+                            Gson gson = new Gson();
+                            contactList.clear();
+                            contactList.addAll(gson.fromJson(response, ContactServiceBean.class).getData());
+                            contactAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
 

@@ -67,28 +67,31 @@ public class Internet {
     //课程
     public static final String COURSEINFO = BASE_URL + "CourseInfo/listbySchool";
     //课程类型选择
-    public static final String COURSESTATE= BASE_URL + "CourseInfo/listbyState";
+    public static final String COURSESTATE = BASE_URL + "CourseInfo/listbyState";
     //收藏/取消收藏 学堂：
-    public static final String SAVECLASS= BASE_URL + "CollectSchool/insertCollectSchool";
+    public static final String SAVECLASS = BASE_URL + "CollectSchool/insertCollectSchool";
     //课程类型：
-    public static final String CLASSTYPE= BASE_URL + "TypeOneInfo/listOneTwo";
+    public static final String CLASSTYPE = BASE_URL + "TypeOneInfo/listOneTwo";
     //机构列表：
-    public static final String ORGANLIST= BASE_URL + "UserInfo/selectUser";
+    public static final String ORGANLIST = BASE_URL + "UserInfo/selectUser";
     //课程列表
-    public static final String COURSELIST= BASE_URL + "CourseInfo/listbyType";
+    public static final String COURSELIST = BASE_URL + "CourseInfo/listbyType";
     //课程主页
-    public static final String COURSEHOMEPAGE= BASE_URL + "CourseInfo/getCourseInfo";
+    public static final String COURSEHOMEPAGE = BASE_URL + "CourseInfo/getCourseInfo";
     //课程时间
-    public static final String COURSETIME= BASE_URL + "CourseTimeInfo/getByCourseId";
-
-
-
-
-
-
-
-
-
+    public static final String COURSETIME = BASE_URL + "CourseTimeInfo/getByCourseId";
+    //课程费用
+    public static final String COURSEMONEY = BASE_URL + "CoursePriceInfo/getByCourseId";
+    //收藏/取消收藏 课程
+    public static final String SAVECOURSE = BASE_URL + "CollectInfo/insertCollectInfo";
+    //课程收藏列表
+    public static final String SAVECOURSELIST = BASE_URL + "CollectInfo/getmyCollect";
+    //课程收藏删除
+    public static final String DELETECOLLECT = BASE_URL + "CollectInfo/deleteCollectInfo";
+    //学堂收藏列表
+    public static final String SCHOOLCOLLECT = BASE_URL + "CollectSchool/getmySchool";
+    //学堂收藏删除
+    public static final String DELETESCHOOLCOLLECT = BASE_URL + "CollectSchool/deleteCollectSchool";
 
 
 }

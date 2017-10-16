@@ -72,7 +72,7 @@ public class ClassActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        school_id = (String) SPUtils.get(this, "school_id", "");
+        school_id = getIntent().getStringExtra("school_id");
         user_id = (String) SPUtils.get(this, "userId", "");
         initFragments();
         initView();
@@ -152,12 +152,13 @@ public class ClassActivity extends BaseActivity {
                             public void onResponse(String response, int id) {
                                 Log.e("aaa",
                                         "(ClassActivity.java:153)" + response);
-                                if (response.contains("收藏成功")) {
-                                    Toast.makeText(ClassActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
-                                    ivLove.setImageResource(R.drawable.wujiaoxing);
-                                } if (response.contains("取消收藏成功")){
+
+                                if (response.contains("取消收藏成功")) {
                                     Toast.makeText(ClassActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
                                     ivLove.setImageResource(R.drawable.wujiaoxinghuise);
+                                } else {
+                                    Toast.makeText(ClassActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                                    ivLove.setImageResource(R.drawable.wujiaoxing);
                                 }
                             }
                         });

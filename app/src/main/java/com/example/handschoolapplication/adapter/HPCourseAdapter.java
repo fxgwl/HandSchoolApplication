@@ -78,6 +78,7 @@ public class HPCourseAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CourseHomePagerActivity.class);
+                intent.putExtra("school_id", courseBeanList.get(position).getSchool_id());
                 intent.putExtra("course_id", courseBeanList.get(position).getCourse_id());
                 context.startActivity(intent);
             }

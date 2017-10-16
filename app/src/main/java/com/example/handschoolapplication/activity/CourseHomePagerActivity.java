@@ -2,6 +2,7 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
@@ -20,9 +22,11 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ClassTimeAdapter;
-import com.example.handschoolapplication.adapter.TimeAdapter;
+import com.example.handschoolapplication.adapter.CostAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.CostBean;
 import com.example.handschoolapplication.bean.CourseDertailBean;
+import com.example.handschoolapplication.bean.CourseTimeBean;
 import com.example.handschoolapplication.bean.TimeBean;
 import com.example.handschoolapplication.bean.TimeHourBean;
 import com.example.handschoolapplication.utils.Internet;
@@ -76,15 +80,18 @@ public class CourseHomePagerActivity extends BaseActivity {
     TextView coursePingjia;
     @BindView(R.id.course_mlv_pingjia)
     MyListView courseMlvPingjia;
+    @BindView(R.id.course_save)
+    TextView courseSave;
     private ConvenientBanner convenientBanner;
     private List<String> listImg = new ArrayList<>();
 
-    private List<TimeHourBean> mHourList;//每周的具体小时上课时间
+
     private List<TimeBean> mList;
 
     private List<TimeHourBean> mFeeList;//课时费用
     private String course_id;
     private String user_id;
+    private String school_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +99,9 @@ public class CourseHomePagerActivity extends BaseActivity {
         ButterKnife.bind(this);
         convenientBanner = (ConvenientBanner) findViewById(R.id.convenientBanner);
         tvTitle.setText("课程主页");
+
         course_id = getIntent().getStringExtra("course_id");
+        school_id = getIntent().getStringExtra("school_id");
         user_id = (String) SPUtils.get(this, "userId", "");
         initData();
 //        initConvenientBannerData();
@@ -193,9 +202,40 @@ public class CourseHomePagerActivity extends BaseActivity {
                 startActivity(new Intent(this, HumanServiceActivity.class));
                 break;
             case R.id.course_xuetang:
-                startActivity(new Intent(this, ClassActivity.class));
+                //跳转到学堂主页
+                Intent intent2 = new Intent(this, ClassActivity.class);
+                intent2.putExtra("school_id", school_id);
+                startActivity(intent2);
                 break;
             case R.id.course_save:
+                //收藏
+                OkHttpUtils.post()
+                        .url(Internet.SAVECOURSE)
+                        .addParams("user_id", user_id)
+                        .addParams("course_id", course_id)
+                        .build()
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+
+                            }
+
+                            @Override
+                            public void onResponse(String response, int id) {
+                                Log.e("aaa",
+                                        "(ClassActivity.java:153)" + response);
+
+                                if (response.contains("取消收藏成功")) {
+                                    Toast.makeText(CourseHomePagerActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                                    Drawable top = getResources().getDrawable(R.drawable.wujiaoxinghuise);
+                                    courseSave.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
+                                } else {
+                                    Toast.makeText(CourseHomePagerActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                                    Drawable top = getResources().getDrawable(R.drawable.wujiaoxing);
+                                    courseSave.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
+                                }
+                            }
+                        });
                 break;
             case R.id.course_learnplan:
                 break;
@@ -208,41 +248,59 @@ public class CourseHomePagerActivity extends BaseActivity {
 
     //课堂费用选择
     private void initClassCost() {
-        View v = View.inflate(CourseHomePagerActivity.this, R.layout.class_money, null);
-        ImageView classmoney_back = (ImageView) v.findViewById(R.id.classmoney_back);
-        MyGridView classmoney_mlv = (MyGridView) v.findViewById(R.id.classmoney_mlv);
-        TextView classmoney_config = (TextView) v.findViewById(R.id.classmoney_config);
-        final MyPopupWindow courTimePoP = new MyPopupWindow(this, v);
-        courTimePoP.showAtLocation(v, Gravity.BOTTOM, 0, 0);
-        mHourList = new ArrayList<>();
-        mHourList.add(new TimeHourBean());
-        mHourList.add(new TimeHourBean());
-        mHourList.add(new TimeHourBean());
-        mHourList.add(new TimeHourBean());
-        TimeAdapter timeAdapter = new TimeAdapter(this, mHourList);
-        classmoney_mlv.setAdapter(timeAdapter);
+        OkHttpUtils.post()
+                .url(Internet.COURSEMONEY)
+                .addParams("course_id", course_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
 
-        classmoney_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                courTimePoP.dismiss();
-            }
-        });
-        classmoney_config.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                courTimePoP.dismiss();
-            }
-        });
-        courTimePoP.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                // 设置背景颜色变暗
-                WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 1f;
-                getWindow().setAttributes(lp);
-            }
-        });
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(CourseHomePagerActivity.java:225)费用" + response);
+                        Gson gson = new Gson();
+                        CostBean costBean = gson.fromJson(response, CostBean.class);
+                        ArrayList<String> costs = new ArrayList<String>();
+                        for (int i = 0; i < costBean.getData().size(); i++) {
+                            costs.add(costBean.getData().get(i).getPrice_num());
+                        }
+                        View v = View.inflate(CourseHomePagerActivity.this, R.layout.class_money, null);
+                        ImageView classmoney_back = (ImageView) v.findViewById(R.id.classmoney_back);
+                        MyGridView classmoney_mlv = (MyGridView) v.findViewById(R.id.classmoney_mlv);
+                        TextView classmoney_config = (TextView) v.findViewById(R.id.classmoney_config);
+                        final MyPopupWindow courTimePoP = new MyPopupWindow(CourseHomePagerActivity.this, v);
+                        courTimePoP.showAtLocation(v, Gravity.BOTTOM, 0, 0);
+                        CostAdapter costAdapter = new CostAdapter(CourseHomePagerActivity.this, costs);
+                        classmoney_mlv.setAdapter(costAdapter);
+
+                        classmoney_back.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                courTimePoP.dismiss();
+                            }
+                        });
+                        classmoney_config.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                courTimePoP.dismiss();
+                            }
+                        });
+                        courTimePoP.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                // 设置背景颜色变暗
+                                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                                lp.alpha = 1f;
+                                getWindow().setAttributes(lp);
+                            }
+                        });
+
+                    }
+                });
 
     }
 
@@ -263,49 +321,55 @@ public class CourseHomePagerActivity extends BaseActivity {
                         Log.e("aaa",
                                 "(CourseHomePagerActivity.java:264)课程时间" + response);
                         Gson gson = new Gson();
+                        CourseTimeBean courseTime = gson.fromJson(response, CourseTimeBean.class);
+                        mList = new ArrayList<>();
+                        for (int i = 0; i < courseTime.getData().size(); i++) {
+                            ArrayList<TimeHourBean> hourList = new ArrayList<>();
+                            TimeBean timebean = new TimeBean();
+                            timebean.setName(courseTime.getData().get(i).getCtime_week());
+                            for (int m = 0; m < courseTime.getData().get(i).getCtime_times().split(",").length; m++) {
+                                TimeHourBean thb = new TimeHourBean();
+                                thb.setTime(courseTime.getData().get(i).getCtime_times().split(",")[m]);
+                                thb.setChecked(false);
+                                hourList.add(thb);
+                            }
+                            timebean.setMlist(hourList);
+                            mList.add(timebean);
+                        }
+                        Log.e("aaa",
+                                "(CourseHomePagerActivity.java:283)" + mList.toString());
+                        View v = View.inflate(CourseHomePagerActivity.this, R.layout.class_time, null);
+                        ImageView classtime_back = (ImageView) v.findViewById(R.id.classtime_back);
+                        ListView mylistview = (ListView) v.findViewById(R.id.mylistview);
+                        TextView classtime_config = (TextView) v.findViewById(R.id.classtime_config);
+                        final MyPopupWindow courTimePoP = new MyPopupWindow(CourseHomePagerActivity.this, v);
+                        courTimePoP.showAtLocation(v, Gravity.BOTTOM, 0, 0);
+                        ClassTimeAdapter ctAdapter = new ClassTimeAdapter(CourseHomePagerActivity.this, mList);
+                        mylistview.setAdapter(ctAdapter);
+                        classtime_back.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                courTimePoP.dismiss();
+                            }
+                        });
+                        classtime_config.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                courTimePoP.dismiss();
+                            }
+                        });
+                        courTimePoP.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                // 设置背景颜色变暗
+                                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                                lp.alpha = 1f;
+                                getWindow().setAttributes(lp);
+                            }
+                        });
                     }
                 });
-        View v = View.inflate(CourseHomePagerActivity.this, R.layout.class_time, null);
-        ImageView classtime_back = (ImageView) v.findViewById(R.id.classtime_back);
-        ListView mylistview = (ListView) v.findViewById(R.id.mylistview);
-        TextView classtime_config = (TextView) v.findViewById(R.id.classtime_config);
-        final MyPopupWindow courTimePoP = new MyPopupWindow(this, v);
-        courTimePoP.showAtLocation(v, Gravity.BOTTOM, 0, 0);
-        mList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            ArrayList<TimeHourBean> hourList = new ArrayList<>();
-            TimeBean timebean = new TimeBean();
-            for (int m = 0; m < 5; m++) {
-                TimeHourBean thb = new TimeHourBean();
-                thb.setChecked(false);
-                hourList.add(thb);
-            }
-            timebean.setMlist(hourList);
-            mList.add(timebean);
-        }
-        ClassTimeAdapter ctAdapter = new ClassTimeAdapter(this, mList);
-        mylistview.setAdapter(ctAdapter);
-        classtime_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                courTimePoP.dismiss();
-            }
-        });
-        classtime_config.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                courTimePoP.dismiss();
-            }
-        });
-        courTimePoP.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                // 设置背景颜色变暗
-                WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 1f;
-                getWindow().setAttributes(lp);
-            }
-        });
+
     }
 
     class NetWorkImageHolderView implements Holder<String> {
