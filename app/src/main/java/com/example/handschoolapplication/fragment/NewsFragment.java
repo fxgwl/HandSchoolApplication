@@ -4,6 +4,7 @@ package com.example.handschoolapplication.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,19 @@ import com.example.handschoolapplication.activity.LearnNewsActivity;
 import com.example.handschoolapplication.activity.NotificationNewsActivity;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.NewsBean;
+import com.example.handschoolapplication.bean.NewsListBean;
+import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,6 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
 
 
 /**
@@ -51,8 +64,11 @@ public class NewsFragment extends BaseFragment {
 
     private View view;
 
-    private List<NewsBean> newsBeanList;
+    private List<NewsBean> newsBeanList;//个人版消息列表
+
+    private List<NewsListBean> newsList;//上面三个消息
     private MyAdapter myAdapter;
+    private String userId;
 
 
     public NewsFragment() {
@@ -67,7 +83,54 @@ public class NewsFragment extends BaseFragment {
         view = super.onCreateView(inflater, container, savedInstanceState);
         initViewData();
         unbinder = ButterKnife.bind(this, view);
+        userId = (String) SPUtils.get(getActivity(), "userId", "");
+        getNews();
         return view;
+    }
+
+    private void getNews() {
+        newsList = new ArrayList<>();
+        OkHttpUtils.post()
+                .url(InternetS.NEWSLIST)
+                .addParams("user_id", userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(NewsFragment.java:90)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(NewsFragment.java:97)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String data = jsonObject.getString("data");
+                            Gson gson = new Gson();
+                            newsList.addAll((Collection<? extends NewsListBean>) gson.fromJson(data.toString(), new TypeToken<ArrayList<NewsListBean>>() {
+                            }.getType()));
+
+                            for (int i = 0; i < newsList.size(); i++) {
+                                String message_type = newsList.get(i).getMessage_type();
+                                if (message_type.equals("0")){
+                                    tvLearn.setText(newsList.get(i).getMessage_content());
+                                    tvLearnTime.setText(newsList.get(i).getMessage_date());
+                                }else if (message_type.equals("1")){
+                                    tvLearn.setText(newsList.get(i).getMessage_content());
+                                    tvLearnTime.setText(newsList.get(i).getMessage_date());
+                                }else if (message_type.equals("2")){
+                                    tvLearn.setText(newsList.get(i).getMessage_content());
+                                    tvLearnTime.setText(newsList.get(i).getMessage_date());
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
     }
 
     private void initViewData() {
@@ -101,7 +164,7 @@ public class NewsFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), NotificationNewsActivity.class));
                 break;
             case R.id.ll_interaction_news://互动消息
-                startActivity(new Intent(getActivity(),InteractionNewsActivity.class));
+                startActivity(new Intent(getActivity(), InteractionNewsActivity.class));
                 break;
         }
     }

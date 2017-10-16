@@ -27,12 +27,14 @@ public class AllOrderAdapter extends BaseAdapter {
     private List<AllOrderBean> mList;
     private List<OrderBean> mOrderList;
     private int size = 0;
+    private EvaluateListener listener;
 
-    public AllOrderAdapter(Context context, List<AllOrderBean> mList,List<OrderBean> mOrderList) {
+    public AllOrderAdapter(Context context, List<AllOrderBean> mList, List<OrderBean> mOrderList) {
         this.context = context;
         this.mList = mList;
-        this.mOrderList=mOrderList;
+        this.mOrderList = mOrderList;
     }
+
 
     @Override
     public int getCount() {
@@ -54,20 +56,26 @@ public class AllOrderAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_order_lv, null);
-            holder=new ViewHolder(convertView);
+            holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-        }else {
-            holder= (ViewHolder) convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        OrderAdapter orderAdapter = new OrderAdapter(context,mOrderList);
+        OrderAdapter orderAdapter = new OrderAdapter(context, mOrderList);
         holder.lvOrder.setAdapter(orderAdapter);
         MyUtiles.setListViewHeightBasedOnChildren(holder.lvOrder);
+        holder.tvMake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onEvaluate(position);
+            }
+        });
 
         return convertView;
     }
@@ -77,10 +85,20 @@ public class AllOrderAdapter extends BaseAdapter {
         TextView tvOrganization;
         @BindView(R.id.lv_order)
         ListView lvOrder;
+        @BindView(R.id.tv_make)
+        TextView tvMake;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface EvaluateListener {
+        void onEvaluate(int position);
+    }
+
+    public void setEvaluateListener(EvaluateListener listener) {
+        this.listener = listener;
     }
 
 

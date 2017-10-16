@@ -24,9 +24,13 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
 import okhttp3.Call;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements PlatformActionListener {
 
     @BindView(R.id.et_phone_num)
     EditText etPhoneNum;
@@ -59,11 +63,13 @@ public class LoginActivity extends BaseActivity {
                 login(phone, pwd);
                 break;
             case R.id.iv_wechat_login:
-
+                wechatLogin();
+//                showShare();
                 break;
             case R.id.iv_weibo_login:
                 break;
             case R.id.iv_qq_login:
+
                 break;
             case R.id.tv_forget_pwd:
                 startActivity(new Intent(LoginActivity.this, ForgetPwdActivity.class));
@@ -73,6 +79,18 @@ public class LoginActivity extends BaseActivity {
                 break;
         }
     }
+
+    private void wechatLogin() {
+        Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
+        wechat.SSOSetting(false);  //设置false表示使用SSO授权方式
+        if (!wechat.isClientValid()) {
+            Toast.makeText(LoginActivity.this, "微信未安装,请先安装微信", Toast.LENGTH_LONG).show();
+        }
+        wechat.setPlatformActionListener(this); // 设置分享事件回调
+//        wechat.showUser(null);//授权并获取用户信息
+        wechat.authorize();
+    }
+
 
     private void login(String phone, String pwd) {
 
@@ -124,5 +142,28 @@ public class LoginActivity extends BaseActivity {
                 });
 
     }
+
+    //三方登录的回调
+
+    //微信登录的回调
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+
+    }
+
+    /**
+     * 三方登录
+     * */
+
 
 }

@@ -3,6 +3,7 @@ package com.example.handschoolapplication;
 import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.mob.MobSDK;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 /**
@@ -13,7 +14,18 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         SDKInitializer.initialize(getApplicationContext());
         ZXingLibrary.initDisplayOpinion(this);
+        MobSDK.init(this);
     }
+
+    protected String getAppkey() {
+        return null;
+    }
+
+    protected String getAppSecret() {
+        return null;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.PublishEvaluateActivity;
 import com.example.handschoolapplication.adapter.AllOrderAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.AllOrderBean;
@@ -23,7 +25,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UnEvaFragment extends BaseFragment {
+public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.EvaluateListener {
 
     @BindView(R.id.lv_all_order)
     ListView lvAllOrder;
@@ -66,6 +68,7 @@ public class UnEvaFragment extends BaseFragment {
 
         mAdapter=new AllOrderAdapter(getActivity(),mList,mOrderList);
         lvAllOrder.setAdapter(mAdapter);
+        mAdapter.setEvaluateListener(this);
     }
 
     @Override
@@ -73,4 +76,9 @@ public class UnEvaFragment extends BaseFragment {
         return R.layout.fragment_all_order;
     }
 
+    //去评价
+    @Override
+    public void onEvaluate(int position) {
+        startActivity(new Intent(getActivity(), PublishEvaluateActivity.class));
+    }
 }

@@ -67,11 +67,15 @@ dependencies {
     compile project(':PhotoPicker')
     compile files('libs/BaiduLBS_Android.jar')
     //    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
     //轮播图
+
     //圆形带背景的图片
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     //    compile 'com.google.zxing:core:3.2.1'
+
     //    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
+
     //地址选择器
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -88,6 +92,22 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.smarttop:jd-address:1.1.0'
     compile 'com.alibaba:fastjson:1.2.37'
+    compile files('src/main/libs/MobCommons-2017.0914.1125.jar')
+    compile files('src/main/libs/MobTools-2017.0914.1125.jar')
+    compile files('src/main/libs/ShareSDK-Alipay-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-Alipay-Core-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-Alipay-Moments-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-Core-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-QQ-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-QZone-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-Renren-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-ShortMessage-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-SinaWeibo-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-TencentWeibo-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-Core-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-Favorite-3.1.0.jar')
+    compile files('src/main/libs/ShareSDK-Wechat-Moments-3.1.0.jar')
 }
 repositories {
     mavenCentral()

@@ -53,14 +53,15 @@
                     android:layout_height="wrap_content"
                     android:text="10:25"/>
             </LinearLayout>
+
             <TextView
                 android:id="@+id/tv_learn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="您有新的课程需要学习，请准时来上课呦..."
-                android:maxLines="1"
                 android:layout_marginTop="10dp"
-                android:ellipsize="end"/>
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="您还没有学习消息" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -103,7 +104,7 @@
                 android:id="@+id/tv_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="亲，点此签到领取10金币！"
+                android:text="您还没有通知消息"
                 android:maxLines="1"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"/>
@@ -149,7 +150,7 @@
                 android:id="@+id/tv_interact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="鲁迅给你发了一条新消息"
+                android:text="您还没有互动消息"
                 android:maxLines="1"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"/>
