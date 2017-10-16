@@ -64,7 +64,7 @@ public class HPClassAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        ClassBean.DataBean classBean = mList.get(position);
+        final ClassBean.DataBean classBean = mList.get(position);
         Glide.with(context)
                 .load(Internet.BASE_URL + classBean.getHead_photo())
                 .centerCrop()
@@ -75,7 +75,9 @@ public class HPClassAdapter extends BaseAdapter {
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, ClassActivity.class));
+                Intent intent = new Intent(context, ClassActivity.class);
+                intent.putExtra("school_id", classBean.getSchool_id());
+                context.startActivity(intent);
             }
         });
         return view;

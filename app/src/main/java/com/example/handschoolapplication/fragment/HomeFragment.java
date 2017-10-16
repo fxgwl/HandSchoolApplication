@@ -45,6 +45,7 @@ import com.example.handschoolapplication.bean.HomeClassTypeBean;
 import com.example.handschoolapplication.bean.TeachNewsBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.MyUtiles;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.HorizontalActivityListView;
 import com.example.handschoolapplication.view.HorizontalLearnListView;
 import com.example.handschoolapplication.view.HorizontalListView;
@@ -53,6 +54,9 @@ import com.example.handschoolapplication.view.MarqueeView;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,6 +168,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     private TextView[] type;
     private TextView[] typelist;
     private ArrayList<ArrayList<String>> typetwolist;
+    private String user_id;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -193,6 +198,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         marqueeView = (MarqueeView) view.findViewById(R.id.marqueeView);
         unbinder = ButterKnife.bind(this, view);
+        user_id = (String) SPUtils.get(getActivity(), "userId", "");
         type = new TextView[]{tvHometype1, tvHometype2, tvHometype3, tvHometype4, tvHometype5, tvHometype6};
         typelist = new TextView[]{tvHometypelist1, tvHometypelist2, tvHometypelist3, tvHometypelist4, tvHometypelist5, tvHometypelist6};
         LvCourseName = (ListView) view.findViewById(R.id.lv_course_name);
@@ -545,21 +551,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                         }
                     }
                 });
-
-//
-//        FutureTarget<File> future = Glide.with(getActivity())
-//                .load("")
-//                .downloadOnly(500, 500);
-//
-//        try {
-//            File file = future.get();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
-//
-//        Glide.with(getActivity()).load("").diskCacheStrategy(DiskCacheStrategy.ALL).into(new ImageView(getActivity()));
     }
 
     private void setConvenientBanner(List<String> bannerList) {
@@ -597,8 +588,35 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
             case R.id.iv_search://搜索
                 break;
             case R.id.ll_sign_in://签到
-                llSignIn.setVisibility(View.GONE);
-                llSignIns.setVisibility(View.VISIBLE);
+//                城市根据定位重新调整
+                OkHttpUtils.post()
+                        .url(Internet.SIGN)
+                        .addParams("user_id", user_id)
+                        .addParams("sign_city", "天津市")
+                        .build()
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+
+                            }
+
+                            @Override
+                            public void onResponse(String response, int id) {
+                                Log.e("aaa",
+                                        "(HomeFragment.java:603)" + response);
+                                try {
+                                    JSONObject json = new JSONObject(response);
+                                    String msg = json.getString("msg");
+                                    if (msg.contains("成功")) {
+                                        llSignIn.setVisibility(View.GONE);
+                                        llSignIns.setVisibility(View.VISIBLE);
+                                    }
+                                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                 break;
             case R.id.rl_style_art://文艺
                 startActivity(new Intent(getActivity(), ArtActivity.class));

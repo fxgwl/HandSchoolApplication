@@ -92,6 +92,30 @@ public class Internet {
     public static final String SCHOOLCOLLECT = BASE_URL + "CollectSchool/getmySchool";
     //学堂收藏删除
     public static final String DELETESCHOOLCOLLECT = BASE_URL + "CollectSchool/deleteCollectSchool";
+    //课程(模糊)搜索
+    public static final String COURSESEARCH = BASE_URL + "CourseInfo/listbyname";
+    //学堂(模糊)搜索
+    public static final String SCHOOLSEARCH = BASE_URL + "UserInfo/selectschool";
+    //签到
+    public static final String SIGN = BASE_URL + "SignInfo/insertSignInfo";
+    //足迹列表
+    public static final String FOOTLIST = BASE_URL + "FootprintInfo/listFootprint";
+    //积分记录
+    public static final String INTEGRALRECORD = BASE_URL + "IntegralInfo/listIntegral";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

@@ -1,18 +1,19 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.bean.BroCourseBean;
-import com.example.handschoolapplication.bean.BroswerBean;
-import com.example.handschoolapplication.utils.MyUtiles;
+import com.example.handschoolapplication.activity.CourseHomePagerActivity;
+import com.example.handschoolapplication.bean.MyBroswerBean;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.util.List;
 
@@ -26,33 +27,29 @@ import butterknife.ButterKnife;
 public class BroswerAdapter extends BaseAdapter {
 
     private Context context;
-    private List<BroswerBean> mList;
+    private List<MyBroswerBean.DataBean> mList;
     private LayoutInflater inflater;
 
-    private List<BroCourseBean> mBroCourseList;
-
-    public BroswerAdapter(Context context, List<BroswerBean> mList, List<BroCourseBean> mBroCourseList) {
+    public BroswerAdapter(Context context, List<MyBroswerBean.DataBean> mList) {
         this.context = context;
         this.mList = mList;
-        this.mBroCourseList = mBroCourseList;
         inflater = LayoutInflater.from(context);
     }
 
 
     @Override
     public int getCount() {
-//        return mList.size();
-        return 5;
+        return mList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -67,69 +64,33 @@ public class BroswerAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        MyBroswerBean.DataBean dataBean = mList.get(position);
+        holder.tvTime.setText(dataBean.getFootprint_time());
+        Glide.with(context)
+                .load(Internet.BASE_URL + dataBean.getFootprint_name())
+                .centerCrop()
+                .error(R.drawable.kecheng)
+                .into(holder.ivCourse);
+        holder.tvCourse.setText(dataBean.getCourse_name());
+        holder.tvPrice.setText("价格： ¥" + dataBean.getCourse_money());
 
-        MyAdapter myAdapter = new MyAdapter();
-        holder.lvBroCourse.setAdapter(myAdapter);
-        MyUtiles.setListViewHeightBasedOnChildren(holder.lvBroCourse);
         return convertView;
     }
 
     static class ViewHolder {
         @BindView(R.id.tv_time)
         TextView tvTime;
-        @BindView(R.id.lv_bro_course)
-        ListView lvBroCourse;
+        @BindView(R.id.iv_course)
+        ImageView ivCourse;
+        @BindView(R.id.tv_course)
+        TextView tvCourse;
+        @BindView(R.id.tv_price)
+        TextView tvPrice;
+        @BindView(R.id.iv_share)
+        ImageView ivShare;
+
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
-        }
-    }
-
-    class MyAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-//            return mBroCourseList.size();
-            return 5;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup parent) {
-            ViewHolder holder = null;
-
-            if (view == null) {
-                view = View.inflate(context, R.layout.item_bro_course_lv, null);
-                holder = new ViewHolder(view);
-                view.setTag(holder);
-            } else {
-                holder = (ViewHolder) view.getTag();
-            }
-
-            return view;
-        }
-
-        class ViewHolder {
-            @BindView(R.id.iv_course)
-            ImageView ivCourse;
-            @BindView(R.id.tv_course)
-            TextView tvCourse;
-            @BindView(R.id.tv_price)
-            TextView tvPrice;
-            @BindView(R.id.iv_share)
-            ImageView ivShare;
-
-            ViewHolder(View view) {
-                ButterKnife.bind(this, view);
-            }
         }
     }
 }
