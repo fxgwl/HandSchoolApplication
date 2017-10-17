@@ -92,6 +92,7 @@ public class CourseHomePagerActivity extends BaseActivity {
     private String course_id;
     private String user_id;
     private String school_id;
+    private String schooluid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +103,9 @@ public class CourseHomePagerActivity extends BaseActivity {
 
         course_id = getIntent().getStringExtra("course_id");
         school_id = getIntent().getStringExtra("school_id");
+        schooluid = getIntent().getStringExtra("schooluid");
         user_id = (String) SPUtils.get(this, "userId", "");
+
         initData();
 //        initConvenientBannerData();
     }
@@ -199,7 +202,11 @@ public class CourseHomePagerActivity extends BaseActivity {
             case R.id.course_allpingjia_btn:
                 break;
             case R.id.course_kefu:
-                startActivity(new Intent(this, HumanServiceActivity.class));
+                Intent intent3 = new Intent(this, HumanServiceActivity.class);
+                intent3.putExtra("type", "0");
+                intent3.putExtra("course_id", course_id);
+                intent3.putExtra("schooluid", schooluid);
+                startActivity(intent3);
                 break;
             case R.id.course_xuetang:
                 //跳转到学堂主页

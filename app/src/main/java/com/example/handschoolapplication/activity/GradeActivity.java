@@ -14,9 +14,11 @@ import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.IntegralBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,7 +45,7 @@ public class GradeActivity extends BaseActivity {
     @BindView(R.id.lv_integral)
     ListView lvIntegral;
 
-    private List<IntegralBean> mList;
+    private List<IntegralBean.DataBean> mList = new ArrayList<>();
     private MyAdapter myAdapter;
     private String user_id;
 
@@ -70,9 +72,16 @@ public class GradeActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(String response, int id) {
-
                         Log.e("aaa",
                                 "(GradeActivity.java:73)" + response);
+                        Gson gson = new Gson();
+                        mList.clear();
+                        if (response.contains("没有信息")) {
+
+                        } else {
+                            mList.addAll(gson.fromJson(response, IntegralBean.class).getData());
+                        }
+                        myAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -97,24 +106,19 @@ public class GradeActivity extends BaseActivity {
 
     class MyAdapter extends BaseAdapter {
 
-        int size = 0;
-
         @Override
         public int getCount() {
-            if (mList != null) {
-                size = mList.size();
-            }
-            return size;
+            return mList.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return mList.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -127,7 +131,12 @@ public class GradeActivity extends BaseActivity {
             } else {
                 holder = (ViewHolder) view.getTag();
             }
-
+            IntegralBean.DataBean interalBean = mList.get(position);
+            holder.tvContent.setText(interalBean.getIntegral_cause().equals("0") ? "签到" : "评论");
+            holder.tvNum.setText("+" + interalBean.getIntegral_num());
+            holder.tvDay.setText(interalBean.getIntegral_time().split(" ")[0]);
+            holder.tvHour.setText(interalBean.getIntegral_time().split(" ")[1].split(":")[0] +
+                    ":" + interalBean.getIntegral_time().split(" ")[1].split(":")[1]);
             return view;
         }
 

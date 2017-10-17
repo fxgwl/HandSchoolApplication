@@ -105,16 +105,17 @@ public class LoginActivity extends BaseActivity {
                             JSONObject data = jsonObject.getJSONObject("data");
                             String msg = jsonObject.getString("msg");
                             Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
-
                             if (data.getString("user_type").equals("0")) {
                                 UserBean userBean = new Gson().fromJson(data.toString(), UserBean.class);
                                 SPUtils.put(LoginActivity.this, "userId", userBean.getUser_id());
+                                SPUtils.put(LoginActivity.this, "user_type", userBean.getUser_type());
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("flag", "0"));
                             }
                             if (data.getString("user_type").equals("1")) {
                                 SchoolBean schoolBean = new Gson().fromJson(data.toString(), SchoolBean.class);
                                 SPUtils.put(LoginActivity.this, "userId", schoolBean.getUser_id());
                                 SPUtils.put(LoginActivity.this, "school_id", schoolBean.getSchool_id());
+                                SPUtils.put(LoginActivity.this, "user_type", schoolBean.getUser_type());
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("flag", "1"));
                             }
                         } catch (JSONException e) {

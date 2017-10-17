@@ -102,6 +102,14 @@ public class Internet {
     public static final String FOOTLIST = BASE_URL + "FootprintInfo/listFootprint";
     //积分记录
     public static final String INTEGRALRECORD = BASE_URL + "IntegralInfo/listIntegral";
+    //首页联系客服
+    public static final String HOMECONTACT = BASE_URL + "ConsultMessage/insertConsultMessage";
+    //对话列表
+    public static final String CONTACTLIST = BASE_URL + "ConsultMessage/getConsult";
+    //立即报名/加入购物车
+    public static final String SINGUP = BASE_URL + "OrderInfo/insertOrderInfo";
+
+
 
 
 

@@ -80,6 +80,7 @@ public class HPCourseAdapter extends BaseAdapter {
                 Intent intent = new Intent(context, CourseHomePagerActivity.class);
                 intent.putExtra("school_id", courseBeanList.get(position).getSchool_id());
                 intent.putExtra("course_id", courseBeanList.get(position).getCourse_id());
+                intent.putExtra("schooluid", courseBeanList.get(position).getUser_id());
                 context.startActivity(intent);
             }
         });
