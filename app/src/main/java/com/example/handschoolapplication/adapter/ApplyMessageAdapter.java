@@ -7,8 +7,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.ApplyMessage;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.util.List;
 
@@ -24,12 +26,12 @@ public class ApplyMessageAdapter extends BaseAdapter {
     private Context context;
     private List<ApplyMessage> mList;
     private int size = 0;
-    private int state=1;
+    private String state = "0";
 
-    private CancelListener cancelListener;
-    private StartLisener startLisener;
-    private EndListener endListener;
-    private HaveEndListener haveEndListener;
+    public CancelListener cancelListener;
+    public StartListener startLisener;
+    public EndListener endListener;
+    public HaveEndListener haveEndListener;
 
     public ApplyMessageAdapter(Context context, List<ApplyMessage> mList) {
         this.context = context;
@@ -58,16 +60,15 @@ public class ApplyMessageAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
 
-        ViewHolder holder=null;
+        ViewHolder holder = null;
 
         if (view == null) {
             view = View.inflate(context, R.layout.item_applymsg_lv, null);
-            holder=new ViewHolder(view);
+            holder = new ViewHolder(view);
             view.setTag(holder);
-        }else {
-            holder= (ViewHolder) view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
-
 
 
         holder.tvCancel.setOnClickListener(new View.OnClickListener() {
@@ -94,25 +95,26 @@ public class ApplyMessageAdapter extends BaseAdapter {
                 haveEndListener.hadEnd(position);
             }
         });
+        ApplyMessage applyMessage = mList.get(position);
+        String course_state = applyMessage.getCourse_state();
 
 
-        switch (state){
-            case 1:
-                int num = position % 3;
-                switch (num){
-                    case 0:
+        switch (state) {
+            case "":
+                switch (course_state) {
+                    case "0"://待开课
                         holder.tvCancel.setVisibility(View.VISIBLE);
                         holder.tvStart.setVisibility(View.VISIBLE);
                         holder.tvHadEnd.setVisibility(View.GONE);
                         holder.tvEnd.setVisibility(View.GONE);
                         break;
-                    case 1:
+                    case "1"://已开课
                         holder.tvStart.setVisibility(View.GONE);
                         holder.tvCancel.setVisibility(View.GONE);
                         holder.tvHadEnd.setVisibility(View.GONE);
                         holder.tvEnd.setVisibility(View.VISIBLE);
                         break;
-                    case 2:
+                    case "2"://已结束
                         holder.tvStart.setVisibility(View.GONE);
                         holder.tvCancel.setVisibility(View.GONE);
                         holder.tvEnd.setVisibility(View.GONE);
@@ -120,31 +122,35 @@ public class ApplyMessageAdapter extends BaseAdapter {
                         break;
                 }
                 break;
-            case 2:
+            case "0":
                 holder.tvCancel.setVisibility(View.VISIBLE);
                 holder.tvStart.setVisibility(View.VISIBLE);
                 holder.tvHadEnd.setVisibility(View.GONE);
                 holder.tvEnd.setVisibility(View.GONE);
                 break;
-            case 3:
+            case "1":
                 holder.tvStart.setVisibility(View.GONE);
                 holder.tvCancel.setVisibility(View.GONE);
                 holder.tvHadEnd.setVisibility(View.GONE);
                 holder.tvEnd.setVisibility(View.VISIBLE);
                 break;
-            case 4:
+            case "2":
                 holder.tvStart.setVisibility(View.GONE);
                 holder.tvCancel.setVisibility(View.GONE);
                 holder.tvEnd.setVisibility(View.GONE);
                 holder.tvHadEnd.setVisibility(View.VISIBLE);
                 break;
         }
-
+        Glide.with(context).load(Internet.BASE_URL + applyMessage.getCourse_photo()).centerCrop().into(holder.ivCourse);//课程图片
+        holder.tvCourseName.setText(applyMessage.getCourse_name());//课程名称
+        holder.tvNum1.setText(applyMessage.getEnrol_num());//已报名人数
+        holder.tvNum2.setText(applyMessage.getCourse_capacity());//班级容量
+        holder.tvTearcher.setText(applyMessage.getCourse_teacher());//主讲人
         return view;
     }
 
-    public void setState(int state){
-        this.state=state;
+    public void setState(String state) {
+        this.state = state;
     }
 
     static class ViewHolder {
@@ -172,34 +178,39 @@ public class ApplyMessageAdapter extends BaseAdapter {
         }
     }
 
-    private interface CancelListener{
+    public interface CancelListener {
         void onCancel(int position);
     }
-    private interface StartLisener{
+
+    public interface StartListener {
         void onStart(int position);
     }
-    private interface EndListener{
+
+    public interface EndListener {
         void onEnd(int position);
     }
-    private interface HaveEndListener{
+
+    public interface HaveEndListener {
         void hadEnd(int position);
     }
 
     //取消按键
-    private void setOnCancelListener(CancelListener listener){
-        this.cancelListener=listener;
+    public void setOnCancelListener(CancelListener listener) {
+        this.cancelListener = listener;
     }
 
     //开课按键
-    private void setOnStartListener(StartLisener listener){
-        this.startLisener=listener;
+    public void setOnStartListener(StartListener listener) {
+        this.startLisener = listener;
     }
+
     //结束按键
-    private void setOnEndListener(EndListener listener){
-        this.endListener=listener;
+    public void setOnEndListener(EndListener listener) {
+        this.endListener = listener;
     }
+
     //已结束按键
-    private void setOnHadEndListener(HaveEndListener listener){
-        this.haveEndListener=listener;
+    public void setOnHadEndListener(HaveEndListener listener) {
+        this.haveEndListener = listener;
     }
 }

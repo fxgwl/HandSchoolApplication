@@ -30,6 +30,7 @@ import com.example.handschoolapplication.bean.CourseTimeBean;
 import com.example.handschoolapplication.bean.TimeBean;
 import com.example.handschoolapplication.bean.TimeHourBean;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.MyGridView;
 import com.example.handschoolapplication.view.MyListView;
@@ -119,6 +120,36 @@ public class CourseHomePagerActivity extends BaseActivity {
         user_id = (String) SPUtils.get(this, "userId", "");
         initData();
 //        initConvenientBannerData();
+        //获取课程的总评价数
+        getEvaTotalNum();
+    }
+
+    private void getEvaTotalNum() {
+
+        OkHttpUtils.post()
+                .addParams("course_id", course_id)
+                .url(InternetS.TOTALEVANUM)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(CourseHomePagerActivity.java:123)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(CourseHomePagerActivity.java:129)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            int data = jsonObject.getInt("data");
+                            coursePingjia.setText("评价（" + data + "）");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     private void initData() {
@@ -225,6 +256,9 @@ public class CourseHomePagerActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.course_allpingjia_btn:
+                startActivity(new Intent(CourseHomePagerActivity.this,CourseDetailActivity.class)
+                        .putExtra("from","chp")
+                        .putExtra("courseId",course_id));
                 break;
             case R.id.course_kefu:
                 Intent intent3 = new Intent(this, HumanServiceActivity.class);

@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -9,12 +10,24 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.LearnNewsAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.LearnNewsBean;
+import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class LearnNewsActivity extends BaseActivity {
 
@@ -24,11 +37,12 @@ public class LearnNewsActivity extends BaseActivity {
     ListView lvLearnNews;
     private List<LearnNewsBean> mList;
     private LearnNewsAdapter mAdapter;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        userId = (String) SPUtils.get(this, "userId", "");
         tvTitle.setText("学习消息");
         initData();
 
@@ -36,13 +50,35 @@ public class LearnNewsActivity extends BaseActivity {
 
     private void initData() {
         mList = new ArrayList<>();
-        mList.add(new LearnNewsBean());
-        mList.add(new LearnNewsBean());
-        mList.add(new LearnNewsBean());
-        mList.add(new LearnNewsBean());
-        mList.add(new LearnNewsBean());
-        mAdapter = new LearnNewsAdapter(this, mList);
-        lvLearnNews.setAdapter(mAdapter);
+        OkHttpUtils.post()
+                .url(InternetS.LEARNNEWS)
+                .addParams("user_id",userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                            "(LearnNewsActivity.java:53)"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                            "(LearnNewsActivity.java:60)"+response);
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mList.addAll((Collection<? extends LearnNewsBean>) new Gson().fromJson(data.toString(),new TypeToken<ArrayList<LearnNewsBean>>(){}.getType()));
+                            mAdapter = new LearnNewsAdapter(LearnNewsActivity.this, mList);
+                            lvLearnNews.setAdapter(mAdapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
     }
 
     @Override

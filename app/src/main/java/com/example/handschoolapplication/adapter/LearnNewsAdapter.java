@@ -60,6 +60,13 @@ public class LearnNewsAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        LearnNewsBean learnNewsBean = mList.get(position);
+//        Glide.with(context).load(Internet.BASE_URL+learnNewsBean)//学堂头像
+        holder.tvClassName.setText(learnNewsBean.getSchool_name());//学堂昵称
+        holder.tvTime.setText(learnNewsBean.getMessage_time());//通知时间
+        holder.tvNewsContent.setText(learnNewsBean.getMessage_content());//通知内容
+
+
         return view;
     }
 

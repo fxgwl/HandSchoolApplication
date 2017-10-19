@@ -11,24 +11,29 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/iv_usericon"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_margin="10dp"
             android:src="@mipmap/ic_launcher"/>
 
         <TextView
+            android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="名字"
             android:textColor="#000"/>
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:id="@+id/iv_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/zuanshi"/>
 
         <TextView
+            android:id="@+id/tv_time"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
@@ -37,32 +42,40 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="好评!\n好评!\n好评!\n"
         android:textColor="#000"/>
-
-    <TextView
+    <com.example.handschoolapplication.view.MyListView
+        android:id="@+id/lv_reply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="学堂回复:  非常感谢您的支持,我们会继续努力"/>
+        android:dividerHeight="0dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="用户追评"
-        android:textColor="#ff00"/>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_class_reply"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:text="学堂回复:  非常感谢您的支持,我们会继续努力"/>-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="非常好,老师讲的很好"
-        android:textColor="#000"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:text="用户追评"-->
+        <!--android:textColor="#ff00"/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_content_add"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:text="非常好,老师讲的很好"-->
+        <!--android:textColor="#000"/>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -71,6 +84,7 @@
         android:layout_marginBottom="10dp">
 
         <TextView
+            android:id="@+id/tv_look"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

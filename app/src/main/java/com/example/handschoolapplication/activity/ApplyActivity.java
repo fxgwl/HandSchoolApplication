@@ -3,8 +3,8 @@ package com.example.handschoolapplication.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -14,14 +14,28 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ApplyMessageAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.ApplyMessage;
+import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
-public class ApplyActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class ApplyActivity extends BaseActivity implements AdapterView.OnItemClickListener, ApplyMessageAdapter.StartListener,
+        ApplyMessageAdapter.CancelListener, ApplyMessageAdapter.EndListener {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -48,28 +62,58 @@ public class ApplyActivity extends BaseActivity implements AdapterView.OnItemCli
 
     private List<ApplyMessage> mList;
     private ApplyMessageAdapter mAdapter;
-    private int state=1;
+    private String state = "";
+    private String school_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tvTitle.setText("报名信息");
-
-        initData();
-
+        school_id = (String) SPUtils.get(this, "school_id", "");
+        mList = new ArrayList<>();
+        mAdapter = new ApplyMessageAdapter(ApplyActivity.this, mList);
+        lvCourse.setAdapter(mAdapter);
+        initData("");
         lvCourse.setOnItemClickListener(this);
+        mAdapter.setOnStartListener(this);
+        mAdapter.setOnCancelListener(this);
+        mAdapter.setOnEndListener(this);
     }
 
-    private void initData() {
-        mList=new ArrayList<>();
-        mList.add(new ApplyMessage());
-        mList.add(new ApplyMessage());
-        mList.add(new ApplyMessage());
-        mList.add(new ApplyMessage());
-        mList.add(new ApplyMessage());
-        mList.add(new ApplyMessage());
-        mAdapter=new ApplyMessageAdapter(this,mList);
-        lvCourse.setAdapter(mAdapter);
+    private void initData(final String state) {
+        mList.clear();
+        HashMap<String, String> params = new HashMap<>();
+        if (!"".equals(state)) params.put("State", state);
+        params.put("school_id", school_id);
+        OkHttpUtils.post()
+                .url(InternetS.APPLYINFOR)
+                .params(params)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ApplyActivity.java:81)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ApplyActivity.java:88)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mList.addAll((Collection<? extends ApplyMessage>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ApplyMessage>>() {
+                            }.getType()));
+                            mAdapter.setState(state);
+                            mAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
     }
 
     @Override
@@ -94,9 +138,8 @@ public class ApplyActivity extends BaseActivity implements AdapterView.OnItemCli
                 vStarting.setBackgroundColor(Color.parseColor("#ffffff"));
                 tvEnd.setTextColor(Color.parseColor("#666666"));
                 vEnd.setBackgroundColor(Color.parseColor("#ffffff"));
-                state=1;
-                mAdapter.setState(state);
-                mAdapter.notifyDataSetChanged();
+                state = "";
+                initData(state);
                 break;
             case R.id.ll_tostart:
                 tvTostart.setTextColor(Color.parseColor("#27acf6"));
@@ -107,9 +150,8 @@ public class ApplyActivity extends BaseActivity implements AdapterView.OnItemCli
                 vStarting.setBackgroundColor(Color.parseColor("#ffffff"));
                 tvEnd.setTextColor(Color.parseColor("#666666"));
                 vEnd.setBackgroundColor(Color.parseColor("#ffffff"));
-                state=2;
-                mAdapter.setState(state);
-                mAdapter.notifyDataSetChanged();
+                state = "0";
+                initData(state);
                 break;
             case R.id.ll_starting:
                 tvStarting.setTextColor(Color.parseColor("#27acf6"));
@@ -120,9 +162,8 @@ public class ApplyActivity extends BaseActivity implements AdapterView.OnItemCli
                 vAll.setBackgroundColor(Color.parseColor("#ffffff"));
                 tvEnd.setTextColor(Color.parseColor("#666666"));
                 vEnd.setBackgroundColor(Color.parseColor("#ffffff"));
-                state=3;
-                mAdapter.setState(state);
-                mAdapter.notifyDataSetChanged();
+                state = "1";
+                initData(state);
                 break;
             case R.id.ll_end:
                 tvEnd.setTextColor(Color.parseColor("#27acf6"));
@@ -133,15 +174,74 @@ public class ApplyActivity extends BaseActivity implements AdapterView.OnItemCli
                 vStarting.setBackgroundColor(Color.parseColor("#ffffff"));
                 tvAll.setTextColor(Color.parseColor("#666666"));
                 vAll.setBackgroundColor(Color.parseColor("#ffffff"));
-                state=4;
-                mAdapter.setState(state);
-                mAdapter.notifyDataSetChanged();
+                state = "2";
+                initData(state);
                 break;
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(this,TimeChooseActivity.class));
+        startActivity(new Intent(this, TimeChooseActivity.class));
+    }
+
+    //开课
+    @Override
+    public void onStart(int position) {
+        String course_id = mList.get(position).getCourse_id();
+        startCourse(course_id);
+    }
+
+    @Override
+    public void onCancel(int position) {
+
+    }
+
+    @Override
+    public void onEnd(int position) {
+        String course_id = mList.get(position).getCourse_id();
+        endCourse(course_id);
+    }
+
+
+    private void startCourse(String course_id) {
+        OkHttpUtils.post()
+                .url(InternetS.BEGINCOURSE)
+                .addParams("course_id", course_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ApplyActivity.java:212)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ApplyActivity.java:218)" + response);
+                    }
+                });
+    }
+
+    private void endCourse(String course_id) {
+        OkHttpUtils.post()
+                .url(InternetS.ENDCOURSE)
+                .addParams("course_id", course_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ApplyActivity.java:237)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+
+                        Log.e("aaa",
+                                "(ApplyActivity.java:244)" + response);
+                    }
+                });
     }
 }

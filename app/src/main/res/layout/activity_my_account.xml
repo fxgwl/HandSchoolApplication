@@ -15,7 +15,7 @@
             android:id="@+id/tv_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="200000000.00"
+            android:text="0.00"
             android:textColor="@color/white"
             android:textSize="43dp"
             android:layout_centerHorizontal="true"

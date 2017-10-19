@@ -27,11 +27,13 @@ public class CourseDetailActivity extends BaseActivity {
     LinearLayout content;
     private int mIndex;
     private Fragment[] fragments;
+    private String courseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        courseId = getIntent().getStringExtra("courseId");
         initView();
     }
 
@@ -41,8 +43,14 @@ public class CourseDetailActivity extends BaseActivity {
     }
 
     private void initView() {
+
+//        getIntent().get
         CdDetailFragment cdDetailFragment = new CdDetailFragment();
         CdPingJiaFragment cdPingJiaFragment = new CdPingJiaFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("courseId",courseId );
+        cdDetailFragment.setArguments(bundle);
+        cdPingJiaFragment.setArguments(bundle);
         fragments = new Fragment[]{cdDetailFragment, cdPingJiaFragment};
 
         //开启事务
@@ -52,6 +60,11 @@ public class CourseDetailActivity extends BaseActivity {
         //添加首页
         ft.add(R.id.content, cdDetailFragment).commit();
         //默认设置为第0个
+        if ("chp".equals(getIntent().getStringExtra("from"))){
+            tv1.setVisibility(View.INVISIBLE);
+            tv2.setVisibility(View.VISIBLE);
+            setIndexSelected(1);
+        }else
         setIndexSelected(0);
     }
 
