@@ -89,17 +89,20 @@ public class MyInformationActivity extends BaseActivity {
                         Log.e("aaa",
                                 "(MyInformationActivity.java:87)" + response);
                         Gson gson = new Gson();
-                        UserInfoBean.DataBean user = gson.fromJson(response, UserInfoBean.class).getData();
-                        Glide.with(MyInformationActivity.this)
-                                .load(Internet.BASE_URL + user.getHead_photo())
-                                .error(R.drawable.touxiang)
-                                .centerCrop()
-                                .into(ivUsericon);
-                        tvUsername.setText(user.getMember_name());
-                        tvName.setText(user.getUser_name());
-                        tvSex.setText(user.getUser_sex());
-                        tvIdcode.setText(user.getId_number());
-                        tvMyaddress.setText(user.getUser_area());
+                        try {
+                            UserInfoBean.DataBean user = gson.fromJson(response, UserInfoBean.class).getData();
+                            Glide.with(MyInformationActivity.this)
+                                    .load(Internet.BASE_URL + user.getHead_photo())
+                                    .error(R.drawable.touxiang)
+                                    .centerCrop()
+                                    .into(ivUsericon);
+                            tvUsername.setText(user.getMember_name());
+                            tvName.setText(user.getUser_name());
+                            tvSex.setText(user.getUser_sex());
+                            tvIdcode.setText(user.getId_number());
+                            tvMyaddress.setText(user.getUser_area());
+                        } catch (Exception e) {
+                        }
                     }
                 });
     }

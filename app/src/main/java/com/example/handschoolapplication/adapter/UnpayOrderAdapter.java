@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.OrderBean;
 import com.example.handschoolapplication.bean.UnpayOrderBean;
-import com.example.handschoolapplication.utils.MyUtiles;
 
 import java.util.List;
 
@@ -65,9 +64,9 @@ public class UnpayOrderAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
 
-        OrderAdapter orderAdapter = new OrderAdapter(context,mOrderList);
-        holder.lvOrder.setAdapter(orderAdapter);
-        MyUtiles.setListViewHeightBasedOnChildren(holder.lvOrder);
+//        OrderAdapter orderAdapter = new OrderAdapter(context,mOrderList);
+//        holder.lvOrder.setAdapter(orderAdapter);
+//        MyUtiles.setListViewHeightBasedOnChildren(holder.lvOrder);
 
         return convertView;
     }

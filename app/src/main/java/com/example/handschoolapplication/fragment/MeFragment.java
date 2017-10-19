@@ -4,6 +4,7 @@ package com.example.handschoolapplication.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.AllCourseActivity;
 import com.example.handschoolapplication.activity.GradeActivity;
@@ -24,14 +26,21 @@ import com.example.handschoolapplication.activity.MyLoveActivity;
 import com.example.handschoolapplication.activity.MyOrderActivity;
 import com.example.handschoolapplication.activity.SettingsActivity;
 import com.example.handschoolapplication.base.BaseFragment;
+import com.example.handschoolapplication.bean.SchoolInfoBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
 
 
 /**
@@ -65,6 +74,7 @@ public class MeFragment extends BaseFragment {
 
     private View view;
     private int REQUEST_CODE;
+    private String user_id;
 
 
     public MeFragment() {
@@ -78,7 +88,42 @@ public class MeFragment extends BaseFragment {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
+        user_id = (String) SPUtils.get(getActivity(), "userId", "");
+        initView();
         return view;
+    }
+
+    //初始化界面
+    private void initView() {
+        OkHttpUtils.post()
+                .url(Internet.USERINFO)
+                .addParams("user_id", user_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(MeFragment.java:107)" + response);
+                        Gson gson = new Gson();
+                        try {
+                            SchoolInfoBean.DataBean dataBean = gson.fromJson(response, SchoolInfoBean.class).getData();
+                            Glide.with(getActivity())
+                                    .load(Internet.BASE_URL + dataBean.getHead_photo())
+                                    .centerCrop()
+                                    .error(R.drawable.touxiang)
+                                    .into(civUsericon);
+                            tvPercent.setText(dataBean.getData_integrity() + "%");
+                            tvDays.setText(dataBean.getSigned_num());
+                            tvGoldNum.setText(dataBean.getUser_gold());
+                        } catch (Exception e) {
+                        }
+                    }
+                });
     }
 
     @Override

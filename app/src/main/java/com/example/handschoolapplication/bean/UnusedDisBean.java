@@ -5,4 +5,5 @@ package com.example.handschoolapplication.bean;
  */
 
 public class UnusedDisBean {
+
 }

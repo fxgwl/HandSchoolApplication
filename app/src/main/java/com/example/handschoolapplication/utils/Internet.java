@@ -7,6 +7,7 @@ package com.example.handschoolapplication.utils;
 public class Internet {
 
     public static final String BASE_URL = "http://axehome.viphk.ngrok.org/PrivateSchool/";
+//    public static final String BASE_URL = "http://157.10.1.105/PrivateSchool/";
 
     //注册登录等相关
 
@@ -32,13 +33,13 @@ public class Internet {
 
     //更换身份证号
     public static final String USERIDCARD = BASE_URL + "UserInfo/usercard";
-    //更换身份证号
+    //个人信息
     public static final String USERINFO = BASE_URL + "UserInfo/getoneUser";
     //添加地址
     public static final String ADDADDRESS = BASE_URL + "SchoolAddress/insertSchoolAddress";
     //获取地址列表
     public static final String ADDRESSLIST = BASE_URL + "SchoolAddress/listmyAddress";
-    //获取地址列表
+    //删除地址列表
     public static final String DELETEADDRESS = BASE_URL + "SchoolAddress/deleteSchoolAddress";
     //修改手机号获取验证码
     public static final String CHANGEPHONECODE = BASE_URL + "UserInfo/getcode";
@@ -112,6 +113,48 @@ public class Internet {
     public static final String SHOPCAR = BASE_URL + "OrderInfo/listBySchool";
     //购物车--改变数量
     public static final String CHANGENUM = BASE_URL + "OrderInfo/updateOrderInfo";
+    //订单详情
+    public static final String ORDERINFO = BASE_URL + "OrderInfo/getOrderInfo";
+    //订单中心==全部
+    public static final String ALLORDER = BASE_URL + "OrderInfo/getMyall";
+
+    //不同状态订单
+    public static final String ORDERSTATE = BASE_URL + "OrderInfo/getUserOrder";
+    //取消订单
+    public static final String CLOSEORDER = BASE_URL + "OrderInfo/closeOrder";
+    //退款
+    public static final String RETURNMONEY = BASE_URL + "OrderInfo/refundment";
+    //优惠券
+    public static final String DISCOUNT = BASE_URL + "OrderInfo/getOrderCoupons";
+    //金币信息
+    public static final String GOLDDISCOUNT = BASE_URL + "OrderInfo/ins";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

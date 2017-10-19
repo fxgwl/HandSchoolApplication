@@ -3,22 +3,29 @@ package com.example.handschoolapplication.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.adapter.AllOrderAdapter;
+import com.example.handschoolapplication.adapter.OrderAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
-import com.example.handschoolapplication.bean.AllOrderBean;
 import com.example.handschoolapplication.bean.OrderBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.Unbinder;
+import okhttp3.Call;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,10 +36,8 @@ public class AllOrderFragment extends BaseFragment {
     ListView lvAllOrder;
     Unbinder unbinder;
     private View view;
-    private List<AllOrderBean> mList;
-    private List<OrderBean> mOrderList;
-
-    private AllOrderAdapter mAdapter;
+    private List<OrderBean.DataBean> mOrderList = new ArrayList<>();
+    private String user_id;
 
 
     public AllOrderFragment() {
@@ -45,27 +50,43 @@ public class AllOrderFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
-
+        user_id = (String) SPUtils.get(getActivity(), "userId", "");
         initDataView();
         return view;
     }
 
     private void initDataView() {
+        OkHttpUtils.post()
+                .url(Internet.ALLORDER)
+                .addParams("user_id", user_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
 
-        mList=new ArrayList<>();
-        mOrderList = new ArrayList<>();
+                    }
 
-        mList.add(new AllOrderBean());
-        mList.add(new AllOrderBean());
-        mList.add(new AllOrderBean());
-
-
-        mOrderList.add(new OrderBean());
-        mOrderList.add(new OrderBean());
-
-
-        mAdapter=new AllOrderAdapter(getActivity(),mList,mOrderList);
-        lvAllOrder.setAdapter(mAdapter);
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(AllOrderFragment.java:73)" + response);
+                        Gson gson = new Gson();
+                        mOrderList.clear();
+                        try {
+                            mOrderList.addAll(gson.fromJson(response, OrderBean.class).getData());
+                        } catch (Exception e) {
+                        }
+                        OrderAdapter orderAdapter = new OrderAdapter(getActivity(), mOrderList);
+                        lvAllOrder.setAdapter(orderAdapter);
+                        lvAllOrder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Log.e("aaa",
+                                        "(AllOrderFragment.java:85)" + 22);
+                            }
+                        });
+                    }
+                });
     }
 
     @Override
@@ -73,4 +94,9 @@ public class AllOrderFragment extends BaseFragment {
         return R.layout.fragment_all_order;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initDataView();
+    }
 }

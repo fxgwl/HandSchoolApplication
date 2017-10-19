@@ -344,6 +344,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                     return;
                 }
                 Intent intent1 = new Intent(this, NowApplyActivity.class);
+                intent1.putExtra("school_id", school_id);
                 intent1.putExtra("school_name", school_name);
                 intent1.putExtra("course_name", course_name);
                 intent1.putExtra("course_time", course_time);

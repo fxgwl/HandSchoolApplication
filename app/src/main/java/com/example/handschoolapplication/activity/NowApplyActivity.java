@@ -2,6 +2,7 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,11 +13,18 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.SchoolInfoBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.MyPopupWindow;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class NowApplyActivity extends BaseActivity {
 
@@ -50,6 +58,8 @@ public class NowApplyActivity extends BaseActivity {
     TextView tvAllmoney;
     @BindView(R.id.tv_nowapply_config)
     TextView tvNowapplyConfig;
+    @BindView(R.id.iv_golddiscount)
+    ImageView ivGolddiscount;
     private Intent intent;
     private String school_name;
     private String course_name;
@@ -62,13 +72,20 @@ public class NowApplyActivity extends BaseActivity {
     private String preferential_price;
     private String class_money;
     private String course_id;
+    private String school_id;
+    private String m;
+    private String user_id;
+    int tag = 1;
+    private int g;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         intent = getIntent();
+        user_id = (String) SPUtils.get(this, "userId", "");
         school_name = intent.getStringExtra("school_name");
+        school_id = intent.getStringExtra("school_id");
         course_name = intent.getStringExtra("course_name");
 //        course_time = intent.getStringExtra("course_time");
         enrol_num = intent.getStringExtra("enrol_num");
@@ -86,6 +103,13 @@ public class NowApplyActivity extends BaseActivity {
         tvAge.setText(age_range);
         tvTeacher.setText(course_teacher);
         tvCosttime.setText(class_money);
+        String s = class_money.split("/")[1].split("节")[0];
+        m = class_money.split("元")[0];
+        tvCoursenum.setText(s + "课");
+        tvCoursemoney.setText("共" + s + "节课       小计: ¥" + m);
+        tvAllmoney.setText("¥" + m);
+        //金币
+        initGold();
     }
 
     @Override
@@ -93,7 +117,7 @@ public class NowApplyActivity extends BaseActivity {
         return R.layout.activity_now_apply;
     }
 
-    @OnClick({R.id.rl_back, R.id.tv_nowapply_config})
+    @OnClick({R.id.rl_back, R.id.tv_nowapply_config, R.id.tv_discount, R.id.iv_golddiscount})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
@@ -102,7 +126,55 @@ public class NowApplyActivity extends BaseActivity {
             case R.id.tv_nowapply_config:
                 initPayPop();
                 break;
+            case R.id.tv_discount:
+                Intent intent1 = new Intent(this, MyDiscountActivity.class);
+                intent1.putExtra("school_id", school_id);
+                intent1.putExtra("money", m);
+                startActivityForResult(intent1, 1);
+                break;
+            case R.id.iv_golddiscount:
+                if (tag == 1) {
+                    ivGolddiscount.setImageResource(R.drawable.hongquan);
+                    tag = 0;
+                    tvAllmoney.setText("¥" + (Integer.parseInt(tvAllmoney.getText().toString().split("¥")[1]) - g));
+                } else {
+                    ivGolddiscount.setImageResource(R.drawable.baiquan);
+                    tag = 1;
+                    tvAllmoney.setText("¥" + (Integer.parseInt(tvAllmoney.getText().toString().split("¥")[1]) + g));
+                }
+                break;
         }
+    }
+
+    //
+    private void initGold() {
+        OkHttpUtils.post()
+                .url(Internet.USERINFO)
+                .addParams("user_id", user_id)
+                .build()
+                .execute(new StringCallback() {
+
+                    private SchoolInfoBean.DataBean dataBean;
+
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(NowApplyActivity.java:148)" + response);
+                        Gson gson = new Gson();
+                        try {
+                            dataBean = gson.fromJson(response, SchoolInfoBean.class).getData();
+                            g = Integer.parseInt(dataBean.getUser_gold());
+                        } catch (Exception e) {
+
+                        }
+                        tvMoneydi.setText(dataBean.getUser_gold() + "金币            -¥" + dataBean.getUser_gold());
+                    }
+                });
     }
 
     //初始化支付
@@ -151,5 +223,13 @@ public class NowApplyActivity extends BaseActivity {
                 getWindow().setAttributes(lp);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String discount = data.getStringExtra("discount");
+        tvDiscount.setText("-¥" + discount);
+        tvAllmoney.setText("¥" + (Integer.parseInt(m) - Integer.parseInt(discount)));
     }
 }

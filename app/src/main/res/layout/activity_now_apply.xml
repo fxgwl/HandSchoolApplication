@@ -191,7 +191,7 @@
                     <TextView
                         android:id="@+id/tv_discount"
                         style="@style/nowapplytv2"
-                        android:text="-¥50.00"/>
+                        android:text="-¥0.00"/>
                 </LinearLayout>
 
                 <View
@@ -207,15 +207,16 @@
                         android:text="金币抵扣"/>
 
                     <ImageView
+                        android:id="@+id/iv_golddiscount"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="40dp"
-                        android:src="@drawable/hongquan"/>
+                        android:src="@drawable/baiquan"/>
 
                     <TextView
                         android:id="@+id/tv_moneydi"
                         style="@style/nowapplytv2"
-                        android:text="5000金币            -¥50.00"/>
+                        android:text="0金币            -¥0.00"/>
                 </LinearLayout>
 
                 <View

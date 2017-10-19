@@ -114,7 +114,10 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
                                 "(LearnPlanFragment.java:101)" + response);
                         Gson gson = new Gson();
                         carBeans.clear();
-                        carBeans.addAll(gson.fromJson(response, CarListBean.class).getData());
+                        try {
+                            carBeans.addAll(gson.fromJson(response, CarListBean.class).getData());
+                        } catch (Exception e) {
+                        }
                         HashMap<String, ArrayList<CarListBean.DataBean>> map = new HashMap<String, ArrayList<CarListBean.DataBean>>();
                         for (int i = 0; i < carBeans.size(); i++) {
                             if (map.containsKey(carBeans.get(i).getSchool_name())) {
@@ -142,20 +145,6 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
                         initEvents();
                     }
                 });
-//        for (int i = 0; i < 6; i++) {
-//
-//            groups.add(new GroupInfo(i + "", (i + 1) + "号店"));
-//
-//            List<ProductInfo> products = new ArrayList<ProductInfo>();
-//            for (int j = 0; j <= i; j++) {
-//
-//                products.add(new ProductInfo(j + "", "商品", "", groups.get(i).getName() + "的第" + (j + 1) + "个商品", 120.00 + i * j, 1));
-//            }
-//            children.put(groups.get(i).getId(), products);// 将组元素的一个唯一值，这里取Id，作为子元素List的Key
-//        }
-//
-//        mAdapter = new LearnPlansAdapter(groups, children, getActivity());
-//        lvList.setAdapter(mAdapter);
     }
 
     private void initEvents() {
