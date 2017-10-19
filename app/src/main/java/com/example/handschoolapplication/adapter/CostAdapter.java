@@ -21,20 +21,20 @@ import butterknife.ButterKnife;
 public class CostAdapter extends BaseAdapter {
     private Context context;
     private List<String> mlist;
-    private int size = 0;
     HashMap<String, Boolean> states = new HashMap<String, Boolean>();
+    private CbClick cbClick;
 
     public CostAdapter(Context context, List<String> mlist) {
         this.context = context;
         this.mlist = mlist;
     }
 
+    public void setCbClick(CbClick cbClick) {
+        this.cbClick = cbClick;
+    }
+
     @Override
     public int getCount() {
-
-        if (mlist != null) {
-            size = mlist.size();
-        }
         return mlist.size();
     }
 
@@ -68,7 +68,6 @@ public class CostAdapter extends BaseAdapter {
                 // 重置，确保最多只有一项被选中
                 for (String key : states.keySet()) {
                     states.put(key, false);
-
                 }
                 states.put(String.valueOf(position), finalHolder.tvTime.isChecked());
                 notifyDataSetChanged();
@@ -84,6 +83,12 @@ public class CostAdapter extends BaseAdapter {
             res = true;
         holder.tvTime.setText(mlist.get(position));
         holder.tvTime.setChecked(res);
+        holder.tvTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cbClick.onCBClick(position);
+            }
+        });
         return view;
     }
 
@@ -94,5 +99,9 @@ public class CostAdapter extends BaseAdapter {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface CbClick {
+        void onCBClick(int postion);
     }
 }

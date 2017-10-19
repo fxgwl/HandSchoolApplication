@@ -108,22 +108,10 @@ public class Internet {
     public static final String CONTACTLIST = BASE_URL + "ConsultMessage/getConsult";
     //立即报名/加入购物车
     public static final String SINGUP = BASE_URL + "OrderInfo/insertOrderInfo";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //购物车--根据学堂分类
+    public static final String SHOPCAR = BASE_URL + "OrderInfo/listBySchool";
+    //购物车--改变数量
+    public static final String CHANGENUM = BASE_URL + "OrderInfo/updateOrderInfo";
 
 
 }

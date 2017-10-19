@@ -3,9 +3,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center"
+              android:descendantFocusability="blocksDescendants"
               android:orientation="vertical">
 
     <CheckBox
+        android:focusable="false"
+        android:clickable="false"
         android:id="@+id/cb_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

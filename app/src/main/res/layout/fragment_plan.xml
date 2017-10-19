@@ -4,37 +4,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.handschoolapplication.fragment.HomeFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#e6e6e6">
+        android:background="#e6e6e6"
+        android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="#fff"
+            android:orientation="horizontal"
             android:paddingBottom="10dp">
+
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="学习计划"
-                android:textSize="18sp"
-                android:textColor="@color/textcolor"
-                android:layout_marginTop="30dp"
                 android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"/>
+                android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
+                android:text="学习计划"
+                android:textColor="@color/textcolor"
+                android:textSize="18sp"/>
+
             <TextView
                 android:id="@+id/tv_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="完成"
-                android:layout_alignParentRight="true"
                 android:layout_alignBottom="@+id/tv_title"
+                android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"
-                android:textSize="14sp"
-                android:textColor="#666666"/>
+                android:text="完成"
+                android:textColor="#666666"
+                android:textSize="14sp"/>
         </RelativeLayout>
 
         <ExpandableListView
@@ -45,38 +49,75 @@
             android:background="#fff"
             android:childIndicator="@null"
             android:groupIndicator="@null"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/white">
+
             <CheckBox
                 android:id="@+id/cb_all"
+                style="@style/cb_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                style="@style/cb_select"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
                 android:text="全选"
                 android:textColor="@color/t666666"
-                android:textSize="15sp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/tv_delect"
-                android:layout_width="80dp"
+                android:textSize="15sp"/>
+
+            <LinearLayout
+                android:id="@+id/ll_delete"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="#ff3c4b"
-                android:text="删除"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:gravity="center"/>
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/tv_delect"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:background="#ff3c4b"
+                    android:gravity="center"
+                    android:text="删除"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_jiesuan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_heji"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="合计:  ¥666.66"/>
+
+                <TextView
+                    android:id="@+id/tv_jiesuan"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:background="#ff3c4b"
+                    android:gravity="center"
+                    android:text="结算(2)"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
