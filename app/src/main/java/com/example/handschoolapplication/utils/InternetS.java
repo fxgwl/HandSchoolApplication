@@ -35,5 +35,15 @@ public class InternetS {
 
     //84收入/提现记录
     public static final String ACCOUNTLIST = BASE_URL+"AccountRecord/getUserRecord";
+    //85课程排序
+    public static final String COURSE_RANK = BASE_URL+"CourseInfo/listCourseInfo";
+    //86机构排序
+    public static final String ORGANIZATION_RANK = BASE_URL+"UserInfo/findjigou";
+    //87等级推荐  星级排行
+    public static final String GRADE_RANK = BASE_URL+"UserInfo/findSchooldengji";
+    //88人气排行
+    public static final String POPULIRATION_RANK = BASE_URL+"UserInfo/findSchoolrenqi";
+    //89价格排序：由高到低
+    public static final String PRICE_UP_RANK = BASE_URL+"CourseInfo/listBymoney";
 
 }

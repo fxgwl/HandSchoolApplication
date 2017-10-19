@@ -169,6 +169,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     private TextView[] typelist;
     private ArrayList<ArrayList<String>> typetwolist;
     private String user_id;
+    private ArrayList<String> typeones;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -267,7 +268,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                                 "(HomeFragment.java:180)" + response);
                         Gson gson = new Gson();
                         HomeClassTypeBean homeClassType = gson.fromJson(response, HomeClassTypeBean.class);
-                        ArrayList<String> typeones = new ArrayList<String>();
+                        typeones = new ArrayList<String>();
                         typetwolist = new ArrayList<ArrayList<String>>();
                         for (int i = 0; i < homeClassType.getData().size(); i++) {
                             typeones.add(homeClassType.getData().get(i).getType_one_name());
@@ -619,13 +620,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                         });
                 break;
             case R.id.rl_style_art://文艺
-                startActivity(new Intent(getActivity(), ArtActivity.class));
+                startActivity(new Intent(getActivity(), ArtActivity.class).putExtra("types",typetwolist.get(0)));
                 break;
             case R.id.rl_learn_help://学习辅导
-                startActivity(new Intent(getActivity(), LearnHelpActivity.class));
+                startActivity(new Intent(getActivity(), LearnHelpActivity.class).putExtra("types",typetwolist.get(1)));
                 break;
             case R.id.rl_activity://活动
-                startActivity(new Intent(getActivity(), ActivityActivity.class));
+                startActivity(new Intent(getActivity(), ActivityActivity.class).putExtra("types",typetwolist.get(2)));
                 break;
             case R.id.rl_child_edu://早教
                 startActivity(new Intent(getActivity(), ChildEduActivity.class));
@@ -637,13 +638,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                 startActivity(new Intent(getActivity(), HomeEduActivity.class));
                 break;
             case R.id.tv_more_art:
-                startActivity(new Intent(getActivity(), ArtActivity.class));
+                startActivity(new Intent(getActivity(), ArtActivity.class).putExtra("types",typetwolist.get(0)));
                 break;
             case R.id.tv_more_learn:
-                startActivity(new Intent(getActivity(), LearnHelpActivity.class));
+                startActivity(new Intent(getActivity(), LearnHelpActivity.class).putExtra("types",typetwolist.get(1)));
                 break;
             case R.id.tv_more_activity:
-                startActivity(new Intent(getActivity(), ActivityActivity.class));
+                startActivity(new Intent(getActivity(), ActivityActivity.class).putExtra("types",typetwolist.get(2)));
                 break;
             case R.id.tv_more_child:
                 startActivity(new Intent(getActivity(), ChildEduActivity.class));

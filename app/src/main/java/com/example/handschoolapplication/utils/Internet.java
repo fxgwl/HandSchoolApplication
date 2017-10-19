@@ -9,6 +9,9 @@ public class Internet {
     public static final String BASE_URL = "http://axehome.viphk.ngrok.org/PrivateSchool/";
 //    public static final String BASE_URL = "http://157.10.1.105/PrivateSchool/";
 
+//    public static final String BASE_URL = "http://157.10.1.105/PrivateSchool/";
+
+
     //注册登录等相关
 
     //获取注册验证码

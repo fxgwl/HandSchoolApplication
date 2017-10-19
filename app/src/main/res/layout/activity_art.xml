@@ -110,8 +110,19 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp" />
     </LinearLayout>
-    <ListView
-        android:id="@+id/lv_course"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content">
+        <ListView
+            android:id="@+id/lv_course"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:id="@+id/iv_img_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000"
+            android:alpha="0.5"
+            android:visibility="gone"/>
+    </RelativeLayout>
 </LinearLayout>

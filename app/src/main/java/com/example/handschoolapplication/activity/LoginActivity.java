@@ -2,6 +2,7 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -96,8 +97,12 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
 
 //        if (!MyUtiles.isPhone(phone)) {
 //            Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
-//            return;
+//           return;
 //        }
+        if (TextUtils.isEmpty(pwd)||TextUtils.isEmpty(phone)){
+            Toast.makeText(this, "输入有误！", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         HashMap<String, String> params = new HashMap<>();
         params.put("user_phone", phone);
