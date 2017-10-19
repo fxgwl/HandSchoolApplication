@@ -1,5 +1,6 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -23,12 +24,68 @@ public class NowApplyActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.ll)
     LinearLayout ll;
+    @BindView(R.id.tv_schoolname)
+    TextView tvSchoolname;
+    @BindView(R.id.tv_coursename)
+    TextView tvCoursename;
+    @BindView(R.id.tv_coursetime)
+    TextView tvCoursetime;
+    @BindView(R.id.tv_personnum)
+    TextView tvPersonnum;
+    @BindView(R.id.tv_age)
+    TextView tvAge;
+    @BindView(R.id.tv_teacher)
+    TextView tvTeacher;
+    @BindView(R.id.tv_costtime)
+    TextView tvCosttime;
+    @BindView(R.id.tv_coursenum)
+    TextView tvCoursenum;
+    @BindView(R.id.tv_coursemoney)
+    TextView tvCoursemoney;
+    @BindView(R.id.tv_discount)
+    TextView tvDiscount;
+    @BindView(R.id.tv_moneydi)
+    TextView tvMoneydi;
+    @BindView(R.id.tv_allmoney)
+    TextView tvAllmoney;
+    @BindView(R.id.tv_nowapply_config)
+    TextView tvNowapplyConfig;
+    private Intent intent;
+    private String school_name;
+    private String course_name;
+    private String course_time;
+    private String enrol_num;
+    private String course_capacity;
+    private String age_range;
+    private String course_teacher;
+    private String original_price;
+    private String preferential_price;
+    private String class_money;
+    private String course_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        intent = getIntent();
+        school_name = intent.getStringExtra("school_name");
+        course_name = intent.getStringExtra("course_name");
+//        course_time = intent.getStringExtra("course_time");
+        enrol_num = intent.getStringExtra("enrol_num");
+        course_capacity = intent.getStringExtra("course_capacity");
+        age_range = intent.getStringExtra("age_range");
+        course_teacher = intent.getStringExtra("course_teacher");
+        original_price = intent.getStringExtra("original_price");
+        preferential_price = intent.getStringExtra("preferential_price");
+        class_money = intent.getStringExtra("class_money");
+        course_id = intent.getStringExtra("course_id");
         tvTitle.setText("立即报名");
+        tvSchoolname.setText(school_name);
+        tvCoursename.setText(course_name);
+        tvPersonnum.setText(enrol_num + "【已报名】 /" + course_capacity + "人【总人数】");
+        tvAge.setText(age_range);
+        tvTeacher.setText(course_teacher);
+        tvCosttime.setText(class_money);
     }
 
     @Override

@@ -2,16 +2,15 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/ll"
     tools:context="com.example.handschoolapplication.activity.NowApplyActivity">
 
     <include layout="@layout/title_bar_blue"></include>
 
     <RelativeLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -33,6 +32,7 @@
                         android:text="您所选择的学堂"/>
 
                     <TextView
+                        android:id="@+id/tv_schoolname"
                         style="@style/nowapplytv2"
                         android:text="名家讲坛"/>
                 </LinearLayout>
@@ -49,6 +49,7 @@
                         android:text="您所选择的课程"/>
 
                     <TextView
+                        android:id="@+id/tv_coursename"
                         style="@style/nowapplytv2"
                         android:text="名家讲坛"/>
                 </LinearLayout>
@@ -65,6 +66,7 @@
                         android:text="上课时间"/>
 
                     <TextView
+                        android:id="@+id/tv_coursetime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -86,6 +88,7 @@
                         android:text="班级容量"/>
 
                     <TextView
+                        android:id="@+id/tv_personnum"
                         style="@style/nowapplytv2"
                         android:text="12【已报名】 /20人【总人数】"/>
                 </LinearLayout>
@@ -102,6 +105,7 @@
                         android:text="招生对象"/>
 
                     <TextView
+                        android:id="@+id/tv_age"
                         style="@style/nowapplytv2"
                         android:text="0-3岁"/>
                 </LinearLayout>
@@ -118,6 +122,7 @@
                         android:text="专家讲师"/>
 
                     <TextView
+                        android:id="@+id/tv_teacher"
                         style="@style/nowapplytv2"
                         android:text="易中天"/>
                 </LinearLayout>
@@ -134,6 +139,7 @@
                         android:text="课时费用"/>
 
                     <TextView
+                        android:id="@+id/tv_costtime"
                         style="@style/nowapplytv2"
                         android:text="800元/10节课"/>
                 </LinearLayout>
@@ -151,6 +157,7 @@
                         android:text="学习课时数量"/>
 
                     <TextView
+                        android:id="@+id/tv_coursenum"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginRight="15dp"
@@ -161,6 +168,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_coursemoney"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
@@ -181,6 +189,7 @@
                         android:text="优惠折扣抵"/>
 
                     <TextView
+                        android:id="@+id/tv_discount"
                         style="@style/nowapplytv2"
                         android:text="-¥50.00"/>
                 </LinearLayout>
@@ -204,6 +213,7 @@
                         android:src="@drawable/hongquan"/>
 
                     <TextView
+                        android:id="@+id/tv_moneydi"
                         style="@style/nowapplytv2"
                         android:text="5000金币            -¥50.00"/>
                 </LinearLayout>
@@ -239,7 +249,7 @@
                     android:text="合计:"/>
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tv_allmoney"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.2"

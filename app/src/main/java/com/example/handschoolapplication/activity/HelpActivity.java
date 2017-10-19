@@ -98,7 +98,9 @@ public class HelpActivity extends BaseActivity {
         switch (view.getId()) {
             //联系客服
             case R.id.ll_help_service:
-                startActivity(new Intent(HelpActivity.this, HumanServiceActivity.class));
+                Intent intent = new Intent(HelpActivity.this, HumanServiceActivity.class);
+                intent.putExtra("type", "1");
+                startActivity(intent);
                 break;
             //意见反馈
             case R.id.ll_help_feedback:

@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -9,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.bean.CarListBean;
 import com.example.handschoolapplication.bean.GroupInfo;
-import com.example.handschoolapplication.bean.ProductInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
 
 
     private List<GroupInfo> mList;
-    private Map<String, List<ProductInfo>> childrens;
+    private Map<String, List<CarListBean.DataBean>> childrens;
     private Context context;
 
     private CheckInterface checkInterface;
@@ -33,7 +34,7 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
     private static final int MODE_EDIT = 1;
     private int currentMode = MODE_NORMAL;
 
-    public LearnPlansAdapter(List<GroupInfo> mList, Map<String, List<ProductInfo>> childrens, Context context) {
+    public LearnPlansAdapter(List<GroupInfo> mList, Map<String, List<CarListBean.DataBean>> childrens, Context context) {
         this.mList = mList;
         this.childrens = childrens;
         this.context = context;
@@ -65,19 +66,19 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        List<ProductInfo> childs = childrens.get(mList.get(groupPosition).getId());
+        List<CarListBean.DataBean> childs = childrens.get(mList.get(groupPosition).getId());
 
         return childs.get(childPosition);
     }
 
     @Override
     public long getGroupId(int groupPosition) {
-        return 0;
+        return groupPosition;
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return 0;
+        return childPosition;
     }
 
     @Override
@@ -130,8 +131,9 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
             cholder.iv_increase = (TextView) convertView.findViewById(R.id.tv_add);//课程数量增加
             cholder.iv_decrease = (TextView) convertView.findViewById(R.id.tv_sub);//课程数量减少
             cholder.tv_count = (TextView) convertView.findViewById(R.id.tv_num);//课程数量
-            cholder.ll_num= (LinearLayout) convertView.findViewById(R.id.ll_number);
-            cholder.ll_edit_num= (LinearLayout) convertView.findViewById(R.id.ll_edit_num);
+            cholder.ll_num = (LinearLayout) convertView.findViewById(R.id.ll_number);
+            cholder.tv_editnum = (TextView) convertView.findViewById(R.id.tv_editnum);
+            cholder.ll_edit_num = (LinearLayout) convertView.findViewById(R.id.ll_edit_num);
 
             // childrenMap.put(groupPosition, convertView);
             convertView.setTag(cholder);
@@ -139,22 +141,23 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
             // convertView = childrenMap.get(groupPosition);
             cholder = (ChildHolder) convertView.getTag();
         }
-        final ProductInfo product = (ProductInfo) getChild(groupPosition, childPosition);
+        final CarListBean.DataBean product = (CarListBean.DataBean) getChild(groupPosition, childPosition);
 
         if (product != null) {
 
-            if (currentMode==MODE_EDIT){
+            if (currentMode == MODE_EDIT) {
                 cholder.ll_edit_num.setVisibility(View.VISIBLE);
                 cholder.ll_num.setVisibility(View.GONE);
             }
-            if (currentMode==MODE_NORMAL){
-                cholder.ll_num.setVisibility(View.GONE);
-                cholder.ll_edit_num.setVisibility(View.VISIBLE);
+            if (currentMode == MODE_NORMAL) {
+                cholder.ll_num.setVisibility(View.VISIBLE);
+                cholder.ll_edit_num.setVisibility(View.GONE);
             }
 
-            cholder.tv_product_desc.setText(product.getDesc());
-            cholder.tv_price.setText("￥" + product.getPrice() + "");
-            cholder.tv_count.setText(product.getCount() + "");
+            cholder.tv_editnum.setText(TextUtils.isEmpty(product.getCourse_num()) ? 0 + "" : product.getCourse_num());
+            cholder.tv_product_desc.setText(product.getClass_name());
+            cholder.tv_price.setText("￥" + product.getClass_money() + "");
+            cholder.tv_count.setText(TextUtils.isEmpty(product.getCourse_num()) ? 0 + "" : product.getCourse_num());
             cholder.cb_check.setChecked(product.isChoosed());
             cholder.cb_check.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -168,12 +171,14 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     modifyCountInterface.doIncrease(groupPosition, childPosition, cholder.tv_count, cholder.cb_check.isChecked());// 暴露增加接口
+                    cholder.tv_editnum.setText(cholder.tv_count.getText().toString());
                 }
             });
             cholder.iv_decrease.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     modifyCountInterface.doDecrease(groupPosition, childPosition, cholder.tv_count, cholder.cb_check.isChecked());// 暴露删减接口
+                    cholder.tv_editnum.setText(cholder.tv_count.getText().toString());
                 }
             });
         }
@@ -188,7 +193,6 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
     public void switchMode() {
 
         currentMode = MODE_EDIT;
-
         notifyDataSetChanged();
     }
 
@@ -219,6 +223,7 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
     private class ChildHolder {
         CheckBox cb_check;
 
+        TextView tv_editnum;
         TextView tv_product_name;
         TextView tv_product_desc;
         TextView tv_price;
