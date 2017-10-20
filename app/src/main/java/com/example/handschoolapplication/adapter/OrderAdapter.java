@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.PublishEvaluateActivity;
 import com.example.handschoolapplication.activity.ReturnMoneyActivity;
 import com.example.handschoolapplication.bean.OrderBean;
 import com.example.handschoolapplication.utils.Internet;
@@ -148,6 +149,14 @@ public class OrderAdapter extends BaseAdapter {
                 holder.llYituikuan.setVisibility(View.VISIBLE);
                 break;
         }
+        holder.tvMake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PublishEvaluateActivity.class);
+                intent.putExtra("order_id", dataBean.getOrder_id());
+                context.startActivity(intent);
+            }
+        });
         holder.tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

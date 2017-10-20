@@ -66,21 +66,23 @@ public class PingJiaAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
+
+        final EvaluateBean evaluateBean = mlist.get(position);
         holder.tvPingjia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, PJDetailActivity.class));
+                Intent intent = new Intent(context, PJDetailActivity.class);
+                intent.putExtra("interact_id", evaluateBean.getInteract_id());
+                context.startActivity(intent);
             }
         });
 
-        EvaluateBean evaluateBean = mlist.get(position);
         Glide.with(context).load(Internet.BASE_URL + evaluateBean.getSend_photo()).centerCrop().into(holder.ivUsericon);
         holder.tvUsername.setText(evaluateBean.getSend_name());
         holder.tvTime.setText(evaluateBean.getInteract_time());
         holder.tvContent.setText(evaluateBean.getContents());
         MyAdapter adapter = new MyAdapter((ArrayList<EvaluateBean.ReplyInfoBean>) evaluateBean.getReplyInfo());
         holder.listView.setAdapter(adapter);
-
 //        holder.tvClassReply.setText("学堂回复："+evaluateBean.getReplyInfo().get(0).getReply_content());
 
         return view;
@@ -148,20 +150,19 @@ public class PingJiaAdapter extends BaseAdapter {
                 view = View.inflate(context, R.layout.item_reply_lv, null);
                 holder = new ViewHolder(view);
                 view.setTag(holder);
-            }else {
+            } else {
                 holder = (ViewHolder) view.getTag();
             }
-            if ("0".equals(replyList.get(position).getReply_type())){
+            if ("0".equals(replyList.get(position).getReply_type())) {
                 holder.textView.setVisibility(View.VISIBLE);
                 holder.tvContentAdd.setVisibility(View.VISIBLE);
                 holder.tvClassReply.setVisibility(View.GONE);
                 holder.tvContentAdd.setText(replyList.get(position).getReply_content());
-            }else
-            if ("1".equals(replyList.get(position).getReply_type())){
+            } else if ("1".equals(replyList.get(position).getReply_type())) {
                 holder.tvClassReply.setVisibility(View.VISIBLE);
                 holder.textView.setVisibility(View.GONE);
                 holder.tvContentAdd.setVisibility(View.GONE);
-                holder.tvClassReply.setText("学堂回复："+replyList.get(position).getReply_content());
+                holder.tvClassReply.setText("学堂回复：" + replyList.get(position).getReply_content());
             }
             return view;
         }

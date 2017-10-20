@@ -85,4 +85,9 @@ public class UnEvaluateOrderFragment extends BaseFragment {
         return R.layout.fragment_unevaluate_order;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initDataView();
+    }
 }

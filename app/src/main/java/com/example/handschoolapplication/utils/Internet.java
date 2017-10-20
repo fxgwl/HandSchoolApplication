@@ -131,33 +131,12 @@ public class Internet {
     public static final String DISCOUNT = BASE_URL + "OrderInfo/getOrderCoupons";
     //金币信息
     public static final String GOLDDISCOUNT = BASE_URL + "OrderInfo/ins";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //发表评价
+    public static final String COMMENT = BASE_URL + "InteractMessage/insertInteractMessage";
+    //评价回复
+    public static final String REPLAYCOMMENT = BASE_URL + "ReplyInfo/insertReplyInfo";
+    //评价详情
+    public static final String COMMENTDETAIL = BASE_URL + "InteractMessage/getInteractInfo";
 
 
 }
