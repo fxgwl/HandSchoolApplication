@@ -114,15 +114,15 @@ public class NewsFragment extends BaseFragment {
 
                             for (int i = 0; i < newsList.size(); i++) {
                                 String message_type = newsList.get(i).getMessage_type();
-                                if (message_type.equals("0")){
+                                if (message_type.equals("0")){//学习消息
                                     tvLearn.setText(newsList.get(i).getMessage_content());
                                     tvLearnTime.setText(newsList.get(i).getMessage_date());
-                                }else if (message_type.equals("1")){
-                                    tvLearn.setText(newsList.get(i).getMessage_content());
-                                    tvLearnTime.setText(newsList.get(i).getMessage_date());
-                                }else if (message_type.equals("2")){
-                                    tvLearn.setText(newsList.get(i).getMessage_content());
-                                    tvLearnTime.setText(newsList.get(i).getMessage_date());
+                                }else if (message_type.equals("1")){//通知消息
+                                    tvNotification.setText(newsList.get(i).getMessage_content());
+                                    tvNotificationTime.setText(newsList.get(i).getMessage_date());
+                                }else if (message_type.equals("2")){//互动消息
+                                    tvInteract.setText(newsList.get(i).getMessage_content());
+                                    tvInteractTime.setText(newsList.get(i).getMessage_date());
                                 }
                             }
                         } catch (JSONException e) {

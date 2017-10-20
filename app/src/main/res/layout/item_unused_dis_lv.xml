@@ -1,46 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ffffff"
-                android:orientation="horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#f0f2f4"
-        android:orientation="horizontal"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:background="#f0f2f4"
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/weishiyong"/>
+                android:src="@drawable/weishiyong" />
 
-            <TextView
-                android:id="@+id/tv_classname"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="成龙音乐学院"
-                android:textColor="@color/white"
-                android:textStyle="bold"/>
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_condition"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/textview_bg2"
-                android:text="满1000元使用"
-                android:textColor="@color/white"/>
+                <TextView
+                    android:id="@+id/tv_classname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="成龙音乐学院"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_condition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/textview_bg2"
+                    android:text="满1000元使用"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -55,7 +67,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="500元"
                 android:textColor="#4d4d4d"
-                android:textSize="28sp"/>
+                android:textSize="28sp" />
 
             <TextView
                 android:id="@+id/tv_time"
@@ -64,14 +76,14 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
-                android:text="2016/03/02-2017/03/02"/>
+                android:text="2016/03/02-2017/03/02" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/tv_time"
                 android:layout_marginLeft="10dp"
-                android:text="有效期："/>
+                android:text="有效期：" />
 
         </RelativeLayout>
     </LinearLayout>

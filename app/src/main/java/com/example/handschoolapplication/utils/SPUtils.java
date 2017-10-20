@@ -11,8 +11,7 @@ import java.util.Map;
  * Created by Administrator on 2017/9/30.
  */
 
-public class SPUtils
-{
+public class SPUtils {
     /**
      * 保存在手机里面的文件名
      */
@@ -25,8 +24,7 @@ public class SPUtils
      * @param key
      * @param object
      */
-    public static void put(Context context, String key, Object object)
-    {
+    public static void put(Context context, String key, Object object) {
 
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);

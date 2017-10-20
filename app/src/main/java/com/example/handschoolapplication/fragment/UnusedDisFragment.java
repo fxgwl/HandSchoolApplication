@@ -3,6 +3,7 @@ package com.example.handschoolapplication.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,20 @@ import android.widget.TextView;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.UnusedDisBean;
+import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +39,7 @@ public class UnusedDisFragment extends BaseFragment {
     private View view;
     private List<UnusedDisBean> mList;
     private MyAdapter myAdapter;
+    private String userId;
 
     public UnusedDisFragment() {
         // Required empty public constructor
@@ -41,13 +51,36 @@ public class UnusedDisFragment extends BaseFragment {
 
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
-
+        userId = (String) SPUtils.get(getActivity(), "userId", "");
         initDataView();
         return view;
     }
 
     private void initDataView() {
         mList = new ArrayList<>();
+
+        OkHttpUtils.post()
+                .url(InternetS.DISCOUNT_PAPER_LIST)
+                .addParams("user_id", userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(UnusedDisFragment.java:66)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(UnusedDisFragment.java:73)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
         mList.add(new UnusedDisBean());
         mList.add(new UnusedDisBean());
         mList.add(new UnusedDisBean());

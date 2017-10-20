@@ -132,6 +132,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                                 UserBean userBean = new Gson().fromJson(data.toString(), UserBean.class);
                                 SPUtils.put(LoginActivity.this, "userId", userBean.getUser_id());
                                 SPUtils.put(LoginActivity.this, "user_type", userBean.getUser_type());
+                                SPUtils.put(LoginActivity.this, "user_phone", userBean.getUser_phone());
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("flag", "0"));
                             }
                             if (data.getString("user_type").equals("1")) {
@@ -139,6 +140,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                                 SPUtils.put(LoginActivity.this, "userId", schoolBean.getUser_id());
                                 SPUtils.put(LoginActivity.this, "school_id", schoolBean.getSchool_id());
                                 SPUtils.put(LoginActivity.this, "user_type", schoolBean.getUser_type());
+                                SPUtils.put(LoginActivity.this, "user_phone", schoolBean.getUser_phone());
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("flag", "1"));
                             }
                         } catch (JSONException e) {
