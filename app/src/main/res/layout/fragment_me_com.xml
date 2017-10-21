@@ -1,10 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
-              tools:context="com.example.handschoolapplication.fragment.HomeFragment">
+    android:orientation="vertical"
+    tools:context="com.example.handschoolapplication.fragment.HomeFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginLeft="30dp"
-            android:src="@drawable/touxiang"/>
+            android:src="@drawable/touxiang" />
 
         <ImageView
             android:id="@+id/iv_settings"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:src="@drawable/shezhi"/>
+            android:src="@drawable/shezhi" />
 
         <TextView
             android:id="@+id/tv_text1"
@@ -37,7 +37,7 @@
             android:layout_toRightOf="@+id/civ_usericon"
             android:text="资料完整度："
             android:textColor="#fff"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_percent"
@@ -47,7 +47,7 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/tv_text1"
             android:text="80%"
-            android:textColor="#fff"/>
+            android:textColor="#fff" />
 
         <ImageView
             android:id="@+id/iv_edit"
@@ -56,7 +56,7 @@
             android:layout_alignBottom="@+id/tv_percent"
             android:layout_marginBottom="2dp"
             android:layout_toRightOf="@id/tv_percent"
-            android:src="@drawable/bianji"/>
+            android:src="@drawable/bianji" />
 
         <TextView
             android:id="@+id/tv_text2"
@@ -67,7 +67,7 @@
             android:layout_marginTop="15dp"
             android:text="个人积分："
             android:textColor="#fff"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_integral"
@@ -78,7 +78,7 @@
             android:layout_toRightOf="@+id/tv_text2"
             android:text="50000"
             android:textColor="#fff"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
 
         <LinearLayout
@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/xuetangdengji"/>
+                    android:src="@drawable/xuetangdengji" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,14 +109,14 @@
                     android:layout_marginTop="5dp"
                     android:text="学堂等级"
                     android:textColor="#fff"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </RelativeLayout>
 
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:background="#fff"/>
+                android:background="#fff" />
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -152,31 +152,31 @@
                         android:id="@+id/iv_img1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wujiaoxing"/>
+                        android:src="@drawable/wujiaoxing" />
 
                     <ImageView
                         android:id="@+id/iv_img2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wujiaoxing"/>
+                        android:src="@drawable/wujiaoxing" />
 
                     <ImageView
                         android:id="@+id/iv_img3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wujiaoxing"/>
+                        android:src="@drawable/wujiaoxing" />
 
                     <ImageView
                         android:id="@+id/iv_img4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wujiaoxing"/>
+                        android:src="@drawable/wujiaoxing" />
 
                     <ImageView
                         android:id="@+id/iv_img5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wujiaoxing"/>
+                        android:src="@drawable/wujiaoxing" />
 
                 </LinearLayout>
 
@@ -188,7 +188,7 @@
                     android:layout_marginTop="5dp"
                     android:text="用户评价等级"
                     android:textColor="#fff"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -211,13 +211,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/saoyisao"/>
+                android:src="@drawable/saoyisao" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="扫一扫"/>
+                android:text="扫一扫" />
         </LinearLayout>
 
         <LinearLayout
@@ -232,13 +232,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wodexuetang"/>
+                android:src="@drawable/wodexuetang" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="我的学堂"/>
+                android:text="我的学堂" />
         </LinearLayout>
 
         <LinearLayout
@@ -253,13 +253,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wodezhanghu"/>
+                android:src="@drawable/wodezhanghu" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="我的账户"/>
+                android:text="我的账户" />
         </LinearLayout>
 
     </LinearLayout>
@@ -267,7 +267,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e6e6e6"/>
+        android:background="#e6e6e6" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -285,13 +285,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/baomingxinxi"/>
+                android:src="@drawable/baomingxinxi" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="报名信息"/>
+                android:text="报名信息" />
         </LinearLayout>
 
         <LinearLayout
@@ -306,13 +306,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/jiaoyiguanli"/>
+                android:src="@drawable/jiaoyiguanli" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="交易管理"/>
+                android:text="交易管理" />
         </LinearLayout>
 
         <LinearLayout
@@ -322,19 +322,18 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/pingjiaguanli"/>
+                android:src="@drawable/pingjiaguanli" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="评价管理"/>
+                android:text="评价管理" />
         </LinearLayout>
 
     </LinearLayout>
@@ -342,7 +341,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e6e6e6"/>
+        android:background="#e6e6e6" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -360,13 +359,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/xuetangerweima"/>
+                android:src="@drawable/xuetangerweima" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="学堂二维码"/>
+                android:text="学堂二维码" />
         </LinearLayout>
 
         <LinearLayout
@@ -381,13 +380,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/jiaoyiguanli"/>
+                android:src="@drawable/jiaoyiguanli" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="交易管理"/>
+                android:text="交易管理" />
         </LinearLayout>
 
         <LinearLayout
@@ -397,19 +396,18 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="invisible"
-            >
+            android:visibility="invisible">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/pingjiaguanli"/>
+                android:src="@drawable/pingjiaguanli" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="评价管理"/>
+                android:text="评价管理" />
         </LinearLayout>
 
     </LinearLayout>

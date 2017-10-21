@@ -1,30 +1,34 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.adapter.HPClassAdapter;
-import com.example.handschoolapplication.adapter.HPCourseAdapter;
+import com.example.handschoolapplication.adapter.RecommendAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
-import com.example.handschoolapplication.bean.ClassBean;
-import com.example.handschoolapplication.bean.CourseBean;
-import com.example.handschoolapplication.bean.HistorySearch;
-import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.bean.RecommendBean;
+import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.ListDataSave;
+import com.example.handschoolapplication.view.MyListView;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,37 +42,69 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.tv_search_title)
     TextView tvSearchTitle;
     @BindView(R.id.lv_history)
-    ListView lvHistory;
-    @BindView(R.id.rb_search_type)
-    CheckBox rbSearchType;
+    MyListView lvHistory;
+    @BindView(R.id.tv_clear_history)
+    TextView tvClear;
+    @BindView(R.id.lv_recommand)
+    MyListView lvRecommand;
 
-    private List<HistorySearch> mlist;
+
+    private List<String> mlist;
     private MySearchAdapter mySearchAdapter;
 
-    private List<CourseBean.DataBean> courseBeanList = new ArrayList<>();
-    private List<ClassBean.DataBean> classBeanList = new ArrayList<>();
-    private HPCourseAdapter courseAdapter;
-    private HPClassAdapter classAdapter;
+    private List<RecommendBean> recommendBeenList = new ArrayList<>();
+    private RecommendAdapter recommendAdapter;
+    private List<String> history;
+    private ListDataSave listDataSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        courseAdapter = new HPCourseAdapter(courseBeanList, this);
-        classAdapter = new HPClassAdapter(this, classBeanList);
+//        classAdapter = new HPClassAdapter(this, classBeanList);
+        recommendAdapter = new RecommendAdapter(this, recommendBeenList);
+        listDataSave = new ListDataSave(this,"search");
+        history = listDataSave.getDataList("history");
         initViewData();
+
+        getRecommand();
+    }
+
+    private void getRecommand() {
+        recommendBeenList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.HOT_RECOMMEND)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                            "(SearchActivity.java:77)"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                            "(SearchActivity.java:84)"+response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            recommendBeenList.addAll((Collection<? extends RecommendBean>) new Gson().fromJson(data.toString(),new TypeToken<ArrayList<RecommendBean>>(){}.getType()));
+                            recommendAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     private void initViewData() {
-
         mlist = new ArrayList<>();
-        mlist.add(new HistorySearch());
-        mlist.add(new HistorySearch());
-        mlist.add(new HistorySearch());
-        mlist.add(new HistorySearch());
-        mlist.add(new HistorySearch());
-        mlist.add(new HistorySearch());
+        if (history!=null){
+            mlist.addAll(history);
+        }
         mySearchAdapter = new MySearchAdapter();
         lvHistory.setAdapter(mySearchAdapter);
+        lvRecommand.setAdapter(recommendAdapter);
     }
 
     @Override
@@ -76,7 +112,7 @@ public class SearchActivity extends BaseActivity {
         return R.layout.activity_search;
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_back, R.id.iv_search})
+    @OnClick({R.id.iv_back, R.id.tv_back, R.id.iv_search,R.id.tv_clear_history})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -84,85 +120,37 @@ public class SearchActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_search:
-                tvSearchTitle.setText("搜索结果");
 //                Internet.COURSESEARCH
                 //搜索成功调用的方法
                 if (TextUtils.isEmpty(etSearch.getText().toString())) {
                     Toast.makeText(this, "搜索不能为空", Toast.LENGTH_SHORT).show();
                     return;
+                }else {
+                    String search = etSearch.getText().toString();
+                    history.add(search);
+                    listDataSave.setDataList("history",history);
+                    startActivity(new Intent(this,SearchResultActivity.class).putExtra("search",search));
                 }
-                if (rbSearchType.isChecked()) {
-                    //初始化课堂
-                    setViewCourseData();
-                } else {
-                    //初始化学堂
-                    setViewSchoolData();
-                }
+                break;
+            case R.id.tv_clear_history:
+                history.clear();
+                listDataSave.clearDataList("history");
+                mlist.clear();
+                mySearchAdapter.notifyDataSetChanged();
                 break;
         }
     }
 
-    private void setViewSchoolData() {
-        OkHttpUtils.post()
-                .url(Internet.SCHOOLSEARCH)
-                .addParams("mechanism_name", etSearch.getText().toString())
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Log.e("aaa",
-                                "(SearchActivity.java:107)" + response);
-                        Gson gson = new Gson();
-                        classBeanList.clear();
-                        lvHistory.setAdapter(classAdapter);
-                        if (response.contains("没有信息")) {
-                        } else {
-                            classBeanList.addAll(gson.fromJson(response, ClassBean.class).getData());
-                        }
-                        classAdapter.notifyDataSetChanged();
-                    }
-                });
-
-    }
-
-    private void setViewCourseData() {
-
-        OkHttpUtils.post()
-                .url(Internet.COURSESEARCH)
-                .addParams("course_name", etSearch.getText().toString())
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Log.e("aaa",
-                                "(SearchActivity.java:107)" + response);
-                        Gson gson = new Gson();
-                        courseBeanList.clear();
-                        lvHistory.setAdapter(courseAdapter);
-                        if (response.contains("没有信息")) {
-                        } else {
-                            courseBeanList.addAll(gson.fromJson(response, CourseBean.class).getData());
-                        }
-                        courseAdapter.notifyDataSetChanged();
-                    }
-                });
-    }
 
     class MySearchAdapter extends BaseAdapter {
+        int size = 0;
 
         @Override
         public int getCount() {
-            return mlist.size();
+            if (mlist!=null){
+                size=mlist.size();
+            }
+            return size;
         }
 
         @Override
@@ -186,7 +174,7 @@ public class SearchActivity extends BaseActivity {
             } else {
                 holder = (ViewHolder) view.getTag();
             }
-
+            holder.textView.setText(mlist.get(position));
             return view;
         }
 

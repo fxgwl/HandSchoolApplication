@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -24,6 +25,8 @@ public class NotificationAdapter extends BaseAdapter {
     private Context context;
     private List<NotificationBean> mList;
     private int size = 0;
+
+    public GetDiscountPagerListener listener;
 
 
     public NotificationAdapter(Context context, List<NotificationBean> mList) {
@@ -50,7 +53,7 @@ public class NotificationAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
         if (convertView == null) {
@@ -60,6 +63,32 @@ public class NotificationAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        final NotificationBean notificationBean = mList.get(position);
+        holder.tvTime.setText(notificationBean.getMessage_time());//通知时间
+        holder.tvTitle.setText(notificationBean.getInform_name());//通知标题
+        holder.tvContent.setText(notificationBean.getInform_content());//通知内容
+        String inform_type = notificationBean.getInform_type();
+        if ("1".equals(inform_type)){
+//            notificationBean.setGet(true);
+                holder.tvContent.setTextColor(Color.parseColor("#da2525"));
+                holder.tvContent.setEnabled(true);
+        }else if ("0".equals(inform_type)){
+            holder.tvContent.setTextColor(Color.parseColor("#e6e6e6"));
+            holder.tvContent.setEnabled(false);
+        }
+
+        final ViewHolder finalHolder = holder;
+        holder.tvContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.getDispager(position);
+                finalHolder.tvContent.setEnabled(false);
+                finalHolder.tvContent.setTextColor(Color.parseColor("#e6e6e6"));
+                notificationBean.setInform_type("0");
+            }
+        });
+
         return convertView;
     }
 
@@ -74,5 +103,13 @@ public class NotificationAdapter extends BaseAdapter {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface GetDiscountPagerListener {
+        void getDispager(int position);
+    }
+
+    public void setOnDiscountpagerListener(GetDiscountPagerListener listener) {
+        this.listener = listener;
     }
 }

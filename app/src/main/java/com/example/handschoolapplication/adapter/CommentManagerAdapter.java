@@ -4,8 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.bean.EvaluateManagerBean;
+import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.view.MyListView;
 
 import java.util.ArrayList;
@@ -20,9 +25,11 @@ import butterknife.ButterKnife;
 
 public class CommentManagerAdapter extends BaseAdapter {
     private Context context;
-    private List<String> mlist;
+    private List<EvaluateManagerBean> mlist;
+    private int size = 0;
+    private ReplyEvaluateListener listener;
 
-    public CommentManagerAdapter(Context context, List<String> mlist) {
+    public CommentManagerAdapter(Context context, List<EvaluateManagerBean> mlist) {
         this.context = context;
         this.mlist = mlist;
     }
@@ -30,7 +37,10 @@ public class CommentManagerAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 
-        return 2;
+        if (mlist != null) {
+            size = mlist.size();
+        }
+        return size;
     }
 
     @Override
@@ -44,7 +54,7 @@ public class CommentManagerAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
 
         ViewHolder holder = null;
 
@@ -55,18 +65,61 @@ public class CommentManagerAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        CmApplyAdapter cmApplyAdapter = new CmApplyAdapter(context, new ArrayList<String>());
+        EvaluateManagerBean evaluateManagerBean = mlist.get(position);
+        holder.tvCourseName.setText(evaluateManagerBean.getCourse_name());
+        Glide.with(context).load(InternetS.BASE_URL + evaluateManagerBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
+        holder.tvEavaName.setText("评价人：" + evaluateManagerBean.getSend_name());
+        holder.tvContent.setText(evaluateManagerBean.getContents());
+        holder.tvReplyEva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.toReplyEvaluate(position);
+            }
+        });
+        List<EvaluateManagerBean.ReplyInfoBean> replyInfo = evaluateManagerBean.getReplyInfo();
+        ArrayList<EvaluateManagerBean.ReplyInfoBean> replyInfoBeen = new ArrayList<>();
+        if (replyInfo != null) {
+            for (int i = 0; i < replyInfo.size(); i++) {
+                String reply_type = replyInfo.get(i).getReply_type();
+                if ("2".equals(reply_type)){
+                    replyInfo.remove(i);
+                }
+            }
+            replyInfoBeen.addAll(replyInfo);
+        }
+        CmApplyAdapter cmApplyAdapter = new CmApplyAdapter(context, replyInfo);
         holder.commentmanagerLv.setAdapter(cmApplyAdapter);
         return view;
     }
 
 
     static class ViewHolder {
+        @BindView(R.id.iv_course)
+        ImageView ivCourse;
+        @BindView(R.id.tv_course_name)
+        TextView tvCourseName;
+        @BindView(R.id.tv_eava_name)
+        TextView tvEavaName;
+        @BindView(R.id.tv_delete_eva)
+        TextView tvDeleteEva;
+        @BindView(R.id.tv_reply_eva)
+        TextView tvReplyEva;
         @BindView(R.id.commentmanager_lv)
         MyListView commentmanagerLv;
+        @BindView(R.id.tv_content)
+        TextView tvContent;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
+
+    public interface ReplyEvaluateListener{
+        void toReplyEvaluate(int position);
+    }
+    public void setOnReplyEvaluateListener(ReplyEvaluateListener listener){
+        this.listener=listener;
+    }
+
+
 }

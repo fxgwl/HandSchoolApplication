@@ -44,6 +44,7 @@ import com.example.handschoolapplication.bean.HomeAdBean;
 import com.example.handschoolapplication.bean.HomeClassTypeBean;
 import com.example.handschoolapplication.bean.TeachNewsBean;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.HorizontalActivityListView;
@@ -212,7 +213,30 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         initClassType();
         //初始化
         initOrgan("早教", classBeanList1, classAdapter1, lvChildName);
+
+        //判断签到  后台需要  前台没用
+        isSign();
         return view;
+    }
+
+    private void isSign() {
+
+        OkHttpUtils.post()
+                .url(InternetS.IS_SIGN)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                            "(HomeFragment.java:231)"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                            "(HomeFragment.java:237)"+response);
+                    }
+                });
     }
 
     private void initOrgan(final String type, final List<ClassBean.DataBean> classBeanList, final HPClassAdapter classAdapter, final ListView lv) {

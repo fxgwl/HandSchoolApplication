@@ -1,14 +1,18 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.bean.EvaluateManagerBean;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,17 +21,20 @@ import butterknife.ButterKnife;
 
 public class CmApplyAdapter extends BaseAdapter {
     private Context context;
-    private List<String> mlist;
+    private List<EvaluateManagerBean.ReplyInfoBean> mlist;
+    private int size = 0;
 
-    public CmApplyAdapter(Context context, List<String> mlist) {
+    public CmApplyAdapter(Context context, List<EvaluateManagerBean.ReplyInfoBean> mlist) {
         this.context = context;
         this.mlist = mlist;
     }
 
     @Override
     public int getCount() {
-
-        return 2;
+        if (mlist != null) {
+            size = mlist.size();
+        }
+        return size;
     }
 
     @Override
@@ -53,10 +60,26 @@ public class CmApplyAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
+        Log.e("aaa",
+                "(CmApplyAdapter.java:63)" + size);
+        EvaluateManagerBean.ReplyInfoBean replyInfoBean = mlist.get(position);
+        String reply_type = replyInfoBean.getReply_type();
+        if ("0".equals(reply_type)) {
+            holder.tvReplyType.setText("追加评价：");
+        } else if ("1".equals(reply_type)) {
+            holder.tvReplyType.setText("回复：");
+        }
+        holder.tvContent.setText(replyInfoBean.getReply_content());
         return view;
     }
 
+
     static class ViewHolder {
+        @BindView(R.id.tv_reply_type)
+        TextView tvReplyType;
+        @BindView(R.id.tv_content)
+        TextView tvContent;
+
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }

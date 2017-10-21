@@ -61,15 +61,15 @@ public class DealManagerActivity extends AppCompatActivity {
                 break;
             //等待买家付款
             case R.id.ll_dealmanager_daifukuang:
-                startActivity(new Intent(DealManagerActivity.this,DaifukuangActivity.class).putExtra("type","1"));
+                startActivity(new Intent(DealManagerActivity.this,DaifukuangActivity.class).putExtra("type","0"));
                 break;
             //等待学习确认
             case R.id.ll_dealmanager_daixuexiqueren:
-                startActivity(new Intent(DealManagerActivity.this,DaifukuangActivity.class).putExtra("type","2"));
+                startActivity(new Intent(DealManagerActivity.this,DaifukuangActivity.class).putExtra("type","1"));
                 break;
             //需要评价
             case R.id.ll_dealmanager_evaluate:
-                startActivity(new Intent(DealManagerActivity.this,DaifukuangActivity.class).putExtra("type","3"));
+                startActivity(new Intent(DealManagerActivity.this,DaifukuangActivity.class).putExtra("type","2"));
                 break;
             //退款管理
             case R.id.ll_dealmanager_refund:
@@ -77,7 +77,7 @@ public class DealManagerActivity extends AppCompatActivity {
                 break;
             //成功的订单
             case R.id.ll_dealmanager_successorder:
-                startActivity(new Intent(DealManagerActivity.this,DaifukuangActivity.class).putExtra("type","4"));
+                startActivity(new Intent(DealManagerActivity.this,DaifukuangActivity.class).putExtra("type","3"));
                 break;
             //关闭的订单
             case R.id.ll_dealmanager_closeorder:
@@ -85,7 +85,7 @@ public class DealManagerActivity extends AppCompatActivity {
                 break;
             //全部订单
             case R.id.ll_dealmanager_allorder:
-                startActivity(new Intent(DealManagerActivity.this,DaifukuangActivity.class).putExtra("type","6"));
+                startActivity(new Intent(DealManagerActivity.this,DaifukuangActivity.class).putExtra("type",""));
                 break;
         }
     }

@@ -28,6 +28,7 @@ import com.example.handschoolapplication.activity.SettingsActivity;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.SchoolInfoBean;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -90,7 +91,30 @@ public class MeFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
         user_id = (String) SPUtils.get(getActivity(), "userId", "");
         initView();
+
+        //判断签到  后台需要  前台没用
+        isSign();
         return view;
+    }
+
+    private void isSign() {
+
+        OkHttpUtils.post()
+                .url(InternetS.IS_SIGN)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(HomeFragment.java:231)"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(HomeFragment.java:237)"+response);
+                    }
+                });
     }
 
     //初始化界面

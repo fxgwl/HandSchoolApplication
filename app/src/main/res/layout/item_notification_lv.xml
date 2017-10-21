@@ -15,7 +15,7 @@
         android:layout_gravity="center_horizontal"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="95dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/ll_bg"
         android:layout_marginLeft="20dp"
@@ -37,9 +37,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:text="有些人选择用中国人民解放军军歌作为手机铃声，这种情况比较普遍。国歌法规定，不能在不适宜的场合演奏、使用、播放国歌，要保证国歌的尊严，维护国歌的尊严。维护国歌尊严是每个公民的义务。"
+            android:text="点击领取"
             android:ellipsize="end"
-            android:maxLines="3"/>
+            android:maxLines="1"
+            android:textColor="@color/red"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
     </LinearLayout>
 
 </LinearLayout>
