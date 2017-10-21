@@ -6,9 +6,9 @@ package com.example.handschoolapplication.utils;
 
 public class InternetS {
 
-    public static final String BASE_URL = "http://axehome.viphk.ngrok.org/PrivateSchool/";
+//    public static final String BASE_URL = "http://axehome.viphk.ngrok.org/PrivateSchool/";
 
-//    public static final String BASE_URL = "http://157.10.1.105/PrivateSchool/";
+    public static final String BASE_URL = "http://120.92.44.55/PrivateSchool/";
 
     //掌上私塾接口
     //77阅读
@@ -52,19 +52,19 @@ public class InternetS {
     //92热门推荐
     public static final String HOT_RECOMMEND = BASE_URL + "CourseInfo/listHotClass";
     //93判断签到
-    public static final String IS_SIGN = BASE_URL+"SignInfo/IsSign";
+    public static final String IS_SIGN = BASE_URL + "SignInfo/IsSign";
     //94学堂评价管理
-    public static final String CLASS_EVALUATE_MANAGER = BASE_URL+"InteractMessage/getBySchoolInfo";
+    public static final String CLASS_EVALUATE_MANAGER = BASE_URL + "InteractMessage/getBySchoolInfo";
     //95评价详情信息
-    public static final String EVALUATION_INFORMINAGER = BASE_URL+"InteractMessage/getBySchoolInfo";
+    public static final String EVALUATION_INFORMINAGER = BASE_URL + "InteractMessage/getBySchoolInfo";
     //96通知消息详情信息
-    public static final String NOTIFATION_NEWS_INFORMINAGER = BASE_URL+"InformMessage/getByUserInformMessage";
+    public static final String NOTIFATION_NEWS_INFORMINAGER = BASE_URL + "InformMessage/getByUserInformMessage";
     //97学堂订单详情信息
-    public static final String CLASS_ORDER_INFOR = BASE_URL+"OrderInfo/getSchoolOrder";
+    public static final String CLASS_ORDER_INFOR = BASE_URL + "OrderInfo/getSchoolOrder";
     //98热门地址信息
-    public static final String HOT_ADDRESS_INFOR = BASE_URL+"AddressInfo/listAddressInfo";
+    public static final String HOT_ADDRESS_INFOR = BASE_URL + "AddressInfo/listAddressInfo";
     //99用户评价管理
-    public static final String USER_EVALUATE_MANAGER = BASE_URL+"InteractMessage/getByUser";
-    //100用户优惠券信息
-    public static final String USER_DISPAPER_INFOR = BASE_URL+"UserCoupons/getUCoupons";
+    public static final String USER_EVALUATE_MANAGER = BASE_URL + "InteractMessage/getByUser";
+
+
 }

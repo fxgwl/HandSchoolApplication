@@ -43,7 +43,7 @@
                 android:hint="用户名/邮箱/手机号"
                 app:theme="@style/MyEditText"
                 android:textSize="16sp"
-                android:text="15122947309"/>
+                android:text="18330695171"/>
         </LinearLayout>
 
         <View

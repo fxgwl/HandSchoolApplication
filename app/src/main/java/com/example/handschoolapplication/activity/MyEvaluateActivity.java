@@ -13,6 +13,7 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.fragment.HasEvaFragment;
 import com.example.handschoolapplication.fragment.UnEvaFragment;
+import com.example.handschoolapplication.utils.SPUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -34,11 +35,12 @@ public class MyEvaluateActivity extends BaseActivity {
     private UnEvaFragment unEvaFragment;
     private HasEvaFragment hasEvaFragment;
     private Fragment currentFragment;
+    private String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        user_id = (String) SPUtils.get(this, "userId", "");
         initFirstFragment();
 
         tvTitle.setText("我的评价");

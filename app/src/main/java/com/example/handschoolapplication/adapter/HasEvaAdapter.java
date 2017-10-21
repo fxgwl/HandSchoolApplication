@@ -1,14 +1,17 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.HasEvaBean;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.util.List;
 
@@ -23,10 +26,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HasEvaAdapter extends BaseAdapter {
 
     private Context context;
-    private List<HasEvaBean> mList;
+    private List<HasEvaBean.DataBean> mList;
     private int size = 0;
 
-    public HasEvaAdapter(Context context, List<HasEvaBean> mList) {
+    public HasEvaAdapter(Context context, List<HasEvaBean.DataBean> mList) {
         this.context = context;
         this.mList = mList;
     }
@@ -42,12 +45,12 @@ public class HasEvaAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mList.size();
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -62,7 +65,22 @@ public class HasEvaAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-
+        HasEvaBean.DataBean dataBean = mList.get(position);
+        Glide.with(context)
+                .load(Internet.BASE_URL + dataBean.getSend_photo())
+                .centerCrop()
+                .into(holder.civUsericon);
+        holder.tvUsername.setText(dataBean.getSend_name());
+        holder.tvTime.setText(dataBean.getInteract_time());
+        holder.tvComment.setText(dataBean.getContents());
+        holder.tvUsername.setText(dataBean.getSend_name());
+        Glide.with(context)
+                .load(Internet.BASE_URL + dataBean.getCourse_photo())
+                .centerCrop()
+                .into(holder.ivCourse);
+        holder.tvCourse.setText(dataBean.getCourse_name());
+        holder.tvPrice.setText(TextUtils.isEmpty(dataBean.getCourse_money()) ? "¥" + 0.00 : "¥" + dataBean.getCourse_money());
+        holder.tvCommentNum.setText("  浏览20次     评价20次");
         return view;
     }
 
