@@ -1,10 +1,13 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
@@ -12,6 +15,7 @@ import com.example.handschoolapplication.adapter.PJDAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.PJDetailBean;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.MyListView;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -60,11 +64,16 @@ public class PJDetailActivity extends BaseActivity {
     ArrayList<PJDetailBean.DataBean.ReplyInfoBean> replyInfoBeens2 = new ArrayList<PJDetailBean.DataBean.ReplyInfoBean>();
     private PJDAdapter pjdAdapter;
     private PJDAdapter pjdAdapter2;
+    private String user_id;
+    private String user_type;
+    private String reply_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        user_id = (String) SPUtils.get(this, "userId", "");
+        user_type = (String) SPUtils.get(this, "user_type", "");
         interact_id = getIntent().getStringExtra("interact_id");
         tvTitle.setText("评价详情");
         pjdAdapter = new PJDAdapter(this, replyInfoBeens);
@@ -97,8 +106,9 @@ public class PJDetailActivity extends BaseActivity {
                                 "(PJDetailActivity.java:58)" + response);
                         Gson gson = new Gson();
                         try {
-                        } catch (Exception e) {
                             dataBean = gson.fromJson(response, PJDetailBean.class).getData();
+                        } catch (Exception e) {
+
                         }
                         Glide.with(PJDetailActivity.this)
                                 .load(Internet.BASE_URL + dataBean.getCourse_photo())
@@ -124,8 +134,62 @@ public class PJDetailActivity extends BaseActivity {
                 });
     }
 
-    @OnClick(R.id.rl_back)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.iv_back, R.id.tv_reply})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
+            case R.id.tv_reply:
+                //评价回复
+                String reply = etReplycontent.getText().toString();
+                if (TextUtils.isEmpty(reply)) {
+                    Toast.makeText(this, "评论不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+//                send_uid
+//                        from_uid
+//                order_id
+//                        reply_type
+//                interact_id
+//                        reply_content
+                String uid = dataBean.getUser_id();
+                String senduid = dataBean.getSend_uid();
+                if (uid.equals(user_id)) {
+                    reply_type = "1";
+                } else if (senduid.equals(user_id)) {
+                    reply_type = "0";
+                } else {
+                    reply_type = "2";
+                }
+                OkHttpUtils.post()
+                        .url(Internet.REPLAYCOMMENT)
+                        .addParams("send_uid", dataBean.getUser_id())
+                        .addParams("from_uid", user_id)
+                        .addParams("order_id", dataBean.getOrder_id())
+                        .addParams("reply_type", reply_type)
+                        .addParams("interact_id", interact_id)
+                        .addParams("reply_content", reply)
+                        .build()
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+
+                            }
+
+                            @Override
+                            public void onResponse(String response, int id) {
+                                Log.e("aaa",
+                                        "(PJDetailActivity.java:183)" + response);
+                                if (response.contains("成功")) {
+                                    Toast.makeText(PJDetailActivity.this, "回复成功", Toast.LENGTH_SHORT).show();
+                                    etReplycontent.setText("");
+                                }
+                            }
+                        });
+
+
+                break;
+        }
     }
 }
