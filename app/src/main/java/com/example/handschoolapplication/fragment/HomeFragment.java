@@ -228,13 +228,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                            "(HomeFragment.java:231)"+e.getMessage());
+                                "(HomeFragment.java:231)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                            "(HomeFragment.java:237)"+response);
+                                "(HomeFragment.java:237)" + response);
                     }
                 });
     }
@@ -355,7 +355,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                         ArrayList<TeachNewsBean.DataBean> teachNewsList =
                                 (ArrayList<TeachNewsBean.DataBean>) gson.fromJson(response, TeachNewsBean.class).getData();
                         for (int i = 0; i < teachNewsList.size(); i++) {
-                            if (i % 2 == 0 && i != teachNewsList.size()) {
+                            if (i % 2 == 0 && i != teachNewsList.size() - 1) {
                                 Marquee marquee = new Marquee();
                                 marquee.setFirstimgUrl(teachNewsList.get(i).getNews_type());
                                 marquee.setFirsttitle(teachNewsList.get(i).getNews_title());
@@ -644,13 +644,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                         });
                 break;
             case R.id.rl_style_art://文艺
-                startActivity(new Intent(getActivity(), ArtActivity.class).putExtra("types",typetwolist.get(0)));
+                startActivity(new Intent(getActivity(), ArtActivity.class).putExtra("types", typetwolist.get(0)));
                 break;
             case R.id.rl_learn_help://学习辅导
-                startActivity(new Intent(getActivity(), LearnHelpActivity.class).putExtra("types",typetwolist.get(1)));
+                startActivity(new Intent(getActivity(), LearnHelpActivity.class).putExtra("types", typetwolist.get(1)));
                 break;
             case R.id.rl_activity://活动
-                startActivity(new Intent(getActivity(), ActivityActivity.class).putExtra("types",typetwolist.get(2)));
+                startActivity(new Intent(getActivity(), ActivityActivity.class).putExtra("types", typetwolist.get(2)));
                 break;
             case R.id.rl_child_edu://早教
                 startActivity(new Intent(getActivity(), ChildEduActivity.class));
@@ -662,13 +662,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                 startActivity(new Intent(getActivity(), HomeEduActivity.class));
                 break;
             case R.id.tv_more_art:
-                startActivity(new Intent(getActivity(), ArtActivity.class).putExtra("types",typetwolist.get(0)));
+                startActivity(new Intent(getActivity(), ArtActivity.class).putExtra("types", typetwolist.get(0)));
                 break;
             case R.id.tv_more_learn:
-                startActivity(new Intent(getActivity(), LearnHelpActivity.class).putExtra("types",typetwolist.get(1)));
+                startActivity(new Intent(getActivity(), LearnHelpActivity.class).putExtra("types", typetwolist.get(1)));
                 break;
             case R.id.tv_more_activity:
-                startActivity(new Intent(getActivity(), ActivityActivity.class).putExtra("types",typetwolist.get(2)));
+                startActivity(new Intent(getActivity(), ActivityActivity.class).putExtra("types", typetwolist.get(2)));
                 break;
             case R.id.tv_more_child:
                 startActivity(new Intent(getActivity(), ChildEduActivity.class));

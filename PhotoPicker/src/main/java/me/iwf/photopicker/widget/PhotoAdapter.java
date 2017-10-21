@@ -29,6 +29,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
   private LayoutInflater inflater;
 
   private Context mContext;
+  private int requestcode;
 
 
   public void setAction(@MultiPickResultView.MultiPicAction int action) {
@@ -40,7 +41,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
 
 
-  public PhotoAdapter(Context mContext, ArrayList<String> photoPaths) {
+  public PhotoAdapter(Context mContext, ArrayList<String> photoPaths,int requestcode) {
+    this.requestcode=requestcode;
     this.photoPaths = photoPaths;
     this.mContext = mContext;
     inflater = LayoutInflater.from(mContext);
@@ -101,7 +103,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
             if (photoPaths != null && photoPaths.size() ==3){
               Toast.makeText(mContext,"已选了3张图片",Toast.LENGTH_SHORT).show();
             }else {
-              PhotoPickUtils.startPick((Activity) mContext,false,3,photoPaths);
+              PhotoPickUtils.startPick((Activity) mContext,false,3,photoPaths,requestcode);
             }
           }
         });

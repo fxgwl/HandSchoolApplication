@@ -11,59 +11,19 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="HasEvaFragment" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a4d976a5-4ce2-49fe-81e4-503958b6aee0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/animated_vector_drawable_23_4_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/animated_vector_drawable_23_4_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/animated_vector_drawable_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/animated_vector_drawable_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_23_4_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_23_4_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/butterknife_8_7_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/butterknife_8_7_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/circleimageview_2_1_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/circleimageview_2_1_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/constraint_layout_1_0_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/constraint_layout_1_0_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/constraint_layout_solver_1_0_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/constraint_layout_solver_1_0_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/convenientbanner_2_0_5.xml" afterPath="$PROJECT_DIR$/.idea/libraries/convenientbanner_2_0_5.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/design_23_4_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/design_23_4_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/design_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/design_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/espresso_core_2_2_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/espresso_core_2_2_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/espresso_idling_resource_2_2_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/espresso_idling_resource_2_2_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/exposed_instrumentation_api_publish_0_5.xml" afterPath="$PROJECT_DIR$/.idea/libraries/exposed_instrumentation_api_publish_0_5.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/glide_transformations_2_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/glide_transformations_2_0_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/httprequest_1_2_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/httprequest_1_2_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jd_address_1_1_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jd_address_1_1_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/okhttputils_2_6_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/okhttputils_2_6_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_23_4_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_23_4_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/rules_0_5.xml" afterPath="$PROJECT_DIR$/.idea/libraries/rules_0_5.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/runner_0_5.xml" afterPath="$PROJECT_DIR$/.idea/libraries/runner_0_5.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_23_4_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_annotations_23_4_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_annotations_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_compat_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_compat_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_core_ui_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_core_ui_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_core_utils_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_core_utils_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_fragment_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_fragment_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_media_compat_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_media_compat_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_23_4_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_23_4_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_vector_drawable_23_4_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_vector_drawable_23_4_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_vector_drawable_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_vector_drawable_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/transition_25_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/transition_25_3_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/zxing_library_2_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/zxing_library_2_2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" afterPath="$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MyEvaluateActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MyEvaluateActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HasEvaAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HasEvaAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/HasEvaBean.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/HasEvaBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HasEvaFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HasEvaFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnEvaFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnEvaFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UncanDisFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UncanDisFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnusedDisFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnusedDisFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/PhotoPickUtils.java" afterPath="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/PhotoPickUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/PhotoPicker.java" afterPath="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/PhotoPicker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/widget/MultiPickResultView.java" afterPath="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/widget/MultiPickResultView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/widget/PhotoAdapter.java" afterPath="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/widget/PhotoAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/AddDataActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/AddDataActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_data.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_data.xml" />
     </list>
     <ignored path="HandSchoolApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -100,238 +60,24 @@
       <file leaf-file-name="Internet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="142" column="41" selection-start-line="142" selection-start-column="31" selection-end-line="142" selection-end-column="41" />
+            <state relative-caret-position="184">
+              <caret line="23" column="38" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HasEvaFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HasEvaFragment.java">
+      <file leaf-file-name="AddDataActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/AddDataActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="80" column="56" selection-start-line="80" selection-start-column="56" selection-end-line="80" selection-end-column="56" />
+            <state relative-caret-position="375">
+              <caret line="207" column="29" selection-start-line="207" selection-start-column="29" selection-end-line="207" selection-end-column="29" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#4702#4703#0" expanded="true" />
+                <element signature="e#4803#4804#0" expanded="true" />
+                <element signature="e#4867#4868#0" expanded="true" />
+                <element signature="e#4969#4970#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HasEvaAdapter.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HasEvaAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="82" column="55" selection-start-line="82" selection-start-column="55" selection-end-line="82" selection-end-column="55" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="item_haseva_lv.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_haseva_lv.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="373">
-              <caret line="99" column="22" selection-start-line="99" selection-start-column="22" selection-end-line="99" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HasEvaBean.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/HasEvaBean.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1350">
-              <caret line="66" column="33" selection-start-line="66" selection-start-column="33" selection-end-line="66" selection-end-column="33" />
-              <folding>
-                <element signature="e#3844#3845#0" expanded="true" />
-                <element signature="e#3870#3871#0" expanded="true" />
-                <element signature="e#3908#3909#0" expanded="true" />
-                <element signature="e#3938#3939#0" expanded="true" />
-                <element signature="e#3968#3969#0" expanded="true" />
-                <element signature="e#3997#3998#0" expanded="true" />
-                <element signature="e#4038#4039#0" expanded="true" />
-                <element signature="e#4074#4075#0" expanded="true" />
-                <element signature="e#4113#4114#0" expanded="true" />
-                <element signature="e#4140#4141#0" expanded="true" />
-                <element signature="e#4188#4189#0" expanded="true" />
-                <element signature="e#4220#4221#0" expanded="true" />
-                <element signature="e#6599#6600#0" expanded="true" />
-                <element signature="e#6639#6640#0" expanded="true" />
-                <element signature="e#6693#6694#0" expanded="true" />
-                <element signature="e#6743#6744#0" expanded="true" />
-                <element signature="e#6785#6786#0" expanded="true" />
-                <element signature="e#6827#6828#0" expanded="true" />
-                <element signature="e#6885#6886#0" expanded="true" />
-                <element signature="e#6939#6940#0" expanded="true" />
-                <element signature="e#6978#6979#0" expanded="true" />
-                <element signature="e#7017#7018#0" expanded="true" />
-                <element signature="e#7069#7070#0" expanded="true" />
-                <element signature="e#7117#7118#0" expanded="true" />
-                <element signature="e#7157#7158#0" expanded="true" />
-                <element signature="e#7200#7201#0" expanded="true" />
-                <element signature="e#7257#7258#0" expanded="true" />
-                <element signature="e#7313#7314#0" expanded="true" />
-                <element signature="e#7353#7354#0" expanded="true" />
-                <element signature="e#7393#7394#0" expanded="true" />
-                <element signature="e#7447#7448#0" expanded="true" />
-                <element signature="e#7497#7498#0" expanded="true" />
-                <element signature="e#7540#7541#0" expanded="true" />
-                <element signature="e#7583#7584#0" expanded="true" />
-                <element signature="e#7643#7644#0" expanded="true" />
-                <element signature="e#7699#7700#0" expanded="true" />
-                <element signature="e#7741#7742#0" expanded="true" />
-                <element signature="e#7783#7784#0" expanded="true" />
-                <element signature="e#7841#7842#0" expanded="true" />
-                <element signature="e#7895#7896#0" expanded="true" />
-                <element signature="e#7936#7937#0" expanded="true" />
-                <element signature="e#7977#7978#0" expanded="true" />
-                <element signature="e#8033#8034#0" expanded="true" />
-                <element signature="e#8085#8086#0" expanded="true" />
-                <element signature="e#8128#8129#0" expanded="true" />
-                <element signature="e#8171#8172#0" expanded="true" />
-                <element signature="e#8231#8232#0" expanded="true" />
-                <element signature="e#8287#8288#0" expanded="true" />
-                <element signature="e#8329#8330#0" expanded="true" />
-                <element signature="e#8371#8372#0" expanded="true" />
-                <element signature="e#8429#8430#0" expanded="true" />
-                <element signature="e#8483#8484#0" expanded="true" />
-                <element signature="e#8527#8528#0" expanded="true" />
-                <element signature="e#8571#8572#0" expanded="true" />
-                <element signature="e#8633#8634#0" expanded="true" />
-                <element signature="e#8691#8692#0" expanded="true" />
-                <element signature="e#8730#8731#0" expanded="true" />
-                <element signature="e#8769#8770#0" expanded="true" />
-                <element signature="e#8821#8822#0" expanded="true" />
-                <element signature="e#8869#8870#0" expanded="true" />
-                <element signature="e#8912#8913#0" expanded="true" />
-                <element signature="e#8955#8956#0" expanded="true" />
-                <element signature="e#9015#9016#0" expanded="true" />
-                <element signature="e#9071#9072#0" expanded="true" />
-                <element signature="e#9111#9112#0" expanded="true" />
-                <element signature="e#9151#9152#0" expanded="true" />
-                <element signature="e#9205#9206#0" expanded="true" />
-                <element signature="e#9255#9256#0" expanded="true" />
-                <element signature="e#9296#9297#0" expanded="true" />
-                <element signature="e#9337#9338#0" expanded="true" />
-                <element signature="e#9393#9394#0" expanded="true" />
-                <element signature="e#9445#9446#0" expanded="true" />
-                <element signature="e#9484#9485#0" expanded="true" />
-                <element signature="e#9523#9524#0" expanded="true" />
-                <element signature="e#9575#9576#0" expanded="true" />
-                <element signature="e#9623#9624#0" expanded="true" />
-                <element signature="e#9661#9662#0" expanded="true" />
-                <element signature="e#9699#9700#0" expanded="true" />
-                <element signature="e#9749#9750#0" expanded="true" />
-                <element signature="e#9795#9796#0" expanded="true" />
-                <element signature="e#9848#9849#0" expanded="true" />
-                <element signature="e#9888#9889#0" expanded="true" />
-                <element signature="e#9955#9956#0" expanded="true" />
-                <element signature="e#10005#10006#0" expanded="true" />
-                <element signature="e#11296#11297#0" expanded="true" />
-                <element signature="e#11344#11345#0" expanded="true" />
-                <element signature="e#11402#11403#0" expanded="true" />
-                <element signature="e#11460#11461#0" expanded="true" />
-                <element signature="e#11504#11505#0" expanded="true" />
-                <element signature="e#11552#11553#0" expanded="true" />
-                <element signature="e#11610#11611#0" expanded="true" />
-                <element signature="e#11668#11669#0" expanded="true" />
-                <element signature="e#11713#11714#0" expanded="true" />
-                <element signature="e#11762#11763#0" expanded="true" />
-                <element signature="e#11822#11823#0" expanded="true" />
-                <element signature="e#11882#11883#0" expanded="true" />
-                <element signature="e#11925#11926#0" expanded="true" />
-                <element signature="e#11972#11973#0" expanded="true" />
-                <element signature="e#12028#12029#0" expanded="true" />
-                <element signature="e#12084#12085#0" expanded="true" />
-                <element signature="e#12130#12131#0" expanded="true" />
-                <element signature="e#12180#12181#0" expanded="true" />
-                <element signature="e#12242#12243#0" expanded="true" />
-                <element signature="e#12304#12305#0" expanded="true" />
-                <element signature="e#12347#12348#0" expanded="true" />
-                <element signature="e#12394#12395#0" expanded="true" />
-                <element signature="e#12450#12451#0" expanded="true" />
-                <element signature="e#12506#12507#0" expanded="true" />
-                <element signature="e#12554#12555#0" expanded="true" />
-                <element signature="e#12606#12607#0" expanded="true" />
-                <element signature="e#12672#12673#0" expanded="true" />
-                <element signature="e#12738#12739#0" expanded="true" />
-                <element signature="e#12781#12782#0" expanded="true" />
-                <element signature="e#12828#12829#0" expanded="true" />
-                <element signature="e#12884#12885#0" expanded="true" />
-                <element signature="e#12940#12941#0" expanded="true" />
-                <element signature="e#12986#12987#0" expanded="true" />
-                <element signature="e#13036#13037#0" expanded="true" />
-                <element signature="e#13098#13099#0" expanded="true" />
-                <element signature="e#13160#13161#0" expanded="true" />
-                <element signature="e#13205#13206#0" expanded="true" />
-                <element signature="e#13254#13255#0" expanded="true" />
-                <element signature="e#13314#13315#0" expanded="true" />
-                <element signature="e#13374#13375#0" expanded="true" />
-                <element signature="e#13419#13420#0" expanded="true" />
-                <element signature="e#13468#13469#0" expanded="true" />
-                <element signature="e#13528#13529#0" expanded="true" />
-                <element signature="e#13588#13589#0" expanded="true" />
-                <element signature="e#13632#13633#0" expanded="true" />
-                <element signature="e#13680#13681#0" expanded="true" />
-                <element signature="e#13738#13739#0" expanded="true" />
-                <element signature="e#13796#13797#0" expanded="true" />
-                <element signature="e#13841#13842#0" expanded="true" />
-                <element signature="e#13890#13891#0" expanded="true" />
-                <element signature="e#13950#13951#0" expanded="true" />
-                <element signature="e#14010#14011#0" expanded="true" />
-                <element signature="e#14053#14054#0" expanded="true" />
-                <element signature="e#14100#14101#0" expanded="true" />
-                <element signature="e#14156#14157#0" expanded="true" />
-                <element signature="e#14212#14213#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InternetS.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="10" column="43" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="62" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UnEvaFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnEvaFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-              <folding>
-                <element signature="e#3362#3363#0" expanded="true" />
-                <element signature="e#3412#3413#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UnEvaluateOrderFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnEvaluateOrderFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="56" column="11" selection-start-line="56" selection-start-column="11" selection-end-line="58" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrderAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/OrderAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1375">
-              <caret line="82" column="65" selection-start-line="82" selection-start-column="65" selection-end-line="82" selection-end-column="65" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -3327,13 +3073,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/OrderBean.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_order_lv.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/AllOrderAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/UnpayOrderAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/VertifyOrderAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/RefundAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_orderbean_lv.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/RefundFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnpayOrderFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_return_money.xml" />
@@ -3352,7 +3091,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MyInformationActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/MeFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/LearnPlanFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/UnevaluateOrderAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/OrderAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_publish_evaluate.xml" />
@@ -3374,10 +3112,18 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MyEvaluateActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnEvaFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/HasEvaBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HasEvaFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HasEvaAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_add_data.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java" />
+        <option value="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/PhotoPicker.java" />
+        <option value="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/widget/PhotoAdapter.java" />
+        <option value="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/widget/MultiPickResultView.java" />
+        <option value="$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/PhotoPickUtils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/MyUtiles.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/AddDataActivity.java" />
       </list>
     </option>
   </component>
@@ -3419,6 +3165,160 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="HandSchoolApplication" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="handschoolapplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="handschoolapplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -3883,7 +3783,14 @@
       <option name="project" value="LOCAL" />
       <updated>1508568099439</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="教育10.21号提交,优惠券和评价管理(已评价)">
+      <created>1508574364584</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1508574364584</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -3896,7 +3803,7 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2742475" sideWeight="0.510661" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2575251" sideWeight="0.48933902" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35117057" sideWeight="0.48933902" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28411514" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19063546" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -3906,6 +3813,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19296375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -3918,7 +3826,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -3977,7 +3884,8 @@
     <MESSAGE value="教育10.19号提交,订单信息" />
     <MESSAGE value="教育10.20号提交,评价" />
     <MESSAGE value="教育10.21号提交,评价回复" />
-    <option name="LAST_COMMIT_MESSAGE" value="教育10.21号提交,评价回复" />
+    <MESSAGE value="教育10.21号提交,优惠券和评价管理(已评价)" />
+    <option name="LAST_COMMIT_MESSAGE" value="教育10.21号提交,优惠券和评价管理(已评价)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3988,92 +3896,18 @@
           <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HasEvaAdapter.java</url>
+          <line>81</line>
+          <properties />
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="16" />
+      <option name="time" value="17" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="32" column="55" selection-start-line="32" selection-start-column="55" selection-end-line="32" selection-end-column="55" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://D:/Android/sdk/sources/android-25/android/view/View.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="888" column="28" selection-start-line="888" selection-start-column="28" selection-end-line="888" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="556" column="39" selection-start-line="556" selection-start-column="39" selection-end-line="556" selection-end-column="39" />
-          <folding>
-            <element signature="e#26654#26903#0" expanded="false" />
-            <element signature="e#26902#26903#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/LearnPlanFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1300">
-          <caret line="205" column="42" selection-start-line="205" selection-start-column="42" selection-end-line="205" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_publish_comment.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="8" column="49" selection-start-line="8" selection-start-column="49" selection-end-line="8" selection-end-column="49" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/PublishCommentActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_uneva_lv.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="103" column="36" selection-start-line="103" selection-start-column="29" selection-end-line="103" selection-end-column="36" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/UnevaluateOrderAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="72" column="92" selection-start-line="72" selection-start-column="18" selection-end-line="72" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_publish_evaluate.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2175">
-          <caret line="87" column="44" selection-start-line="87" selection-start-column="37" selection-end-line="87" selection-end-column="44" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/SearchActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
@@ -4154,8 +3988,8 @@
         <state relative-caret-position="223">
           <caret line="213" column="22" selection-start-line="213" selection-start-column="22" selection-end-line="213" selection-end-column="22" />
           <folding>
-            <element signature="e#10052#10053#0" expanded="true" />
-            <element signature="e#10090#10091#0" expanded="true" />
+            <element signature="e#10052#10053#0" expanded="false" />
+            <element signature="e#10090#10091#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -4293,7 +4127,7 @@
         <state relative-caret-position="82">
           <caret line="61" column="42" selection-start-line="61" selection-start-column="30" selection-end-line="61" selection-end-column="42" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -4322,8 +4156,8 @@
         <state relative-caret-position="185">
           <caret line="187" column="63" selection-start-line="187" selection-start-column="63" selection-end-line="187" selection-end-column="63" />
           <folding>
-            <element signature="e#5384#5385#0" expanded="true" />
-            <element signature="e#5427#5428#0" expanded="true" />
+            <element signature="e#5384#5385#0" expanded="false" />
+            <element signature="e#5427#5428#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -4425,8 +4259,8 @@
         <state relative-caret-position="250">
           <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding>
-            <element signature="e#3362#3363#0" expanded="true" />
-            <element signature="e#3412#3413#0" expanded="true" />
+            <element signature="e#3362#3363#0" expanded="false" />
+            <element signature="e#3412#3413#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -4439,159 +4273,151 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="142" column="41" selection-start-line="142" selection-start-column="31" selection-end-line="142" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/HasEvaBean.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1350">
           <caret line="66" column="33" selection-start-line="66" selection-start-column="33" selection-end-line="66" selection-end-column="33" />
           <folding>
-            <element signature="e#3844#3845#0" expanded="true" />
-            <element signature="e#3870#3871#0" expanded="true" />
-            <element signature="e#3908#3909#0" expanded="true" />
-            <element signature="e#3938#3939#0" expanded="true" />
-            <element signature="e#3968#3969#0" expanded="true" />
-            <element signature="e#3997#3998#0" expanded="true" />
-            <element signature="e#4038#4039#0" expanded="true" />
-            <element signature="e#4074#4075#0" expanded="true" />
-            <element signature="e#4113#4114#0" expanded="true" />
-            <element signature="e#4140#4141#0" expanded="true" />
-            <element signature="e#4188#4189#0" expanded="true" />
-            <element signature="e#4220#4221#0" expanded="true" />
-            <element signature="e#6599#6600#0" expanded="true" />
-            <element signature="e#6639#6640#0" expanded="true" />
-            <element signature="e#6693#6694#0" expanded="true" />
-            <element signature="e#6743#6744#0" expanded="true" />
-            <element signature="e#6785#6786#0" expanded="true" />
-            <element signature="e#6827#6828#0" expanded="true" />
-            <element signature="e#6885#6886#0" expanded="true" />
-            <element signature="e#6939#6940#0" expanded="true" />
-            <element signature="e#6978#6979#0" expanded="true" />
-            <element signature="e#7017#7018#0" expanded="true" />
-            <element signature="e#7069#7070#0" expanded="true" />
-            <element signature="e#7117#7118#0" expanded="true" />
-            <element signature="e#7157#7158#0" expanded="true" />
-            <element signature="e#7200#7201#0" expanded="true" />
-            <element signature="e#7257#7258#0" expanded="true" />
-            <element signature="e#7313#7314#0" expanded="true" />
-            <element signature="e#7353#7354#0" expanded="true" />
-            <element signature="e#7393#7394#0" expanded="true" />
-            <element signature="e#7447#7448#0" expanded="true" />
-            <element signature="e#7497#7498#0" expanded="true" />
-            <element signature="e#7540#7541#0" expanded="true" />
-            <element signature="e#7583#7584#0" expanded="true" />
-            <element signature="e#7643#7644#0" expanded="true" />
-            <element signature="e#7699#7700#0" expanded="true" />
-            <element signature="e#7741#7742#0" expanded="true" />
-            <element signature="e#7783#7784#0" expanded="true" />
-            <element signature="e#7841#7842#0" expanded="true" />
-            <element signature="e#7895#7896#0" expanded="true" />
-            <element signature="e#7936#7937#0" expanded="true" />
-            <element signature="e#7977#7978#0" expanded="true" />
-            <element signature="e#8033#8034#0" expanded="true" />
-            <element signature="e#8085#8086#0" expanded="true" />
-            <element signature="e#8128#8129#0" expanded="true" />
-            <element signature="e#8171#8172#0" expanded="true" />
-            <element signature="e#8231#8232#0" expanded="true" />
-            <element signature="e#8287#8288#0" expanded="true" />
-            <element signature="e#8329#8330#0" expanded="true" />
-            <element signature="e#8371#8372#0" expanded="true" />
-            <element signature="e#8429#8430#0" expanded="true" />
-            <element signature="e#8483#8484#0" expanded="true" />
-            <element signature="e#8527#8528#0" expanded="true" />
-            <element signature="e#8571#8572#0" expanded="true" />
-            <element signature="e#8633#8634#0" expanded="true" />
-            <element signature="e#8691#8692#0" expanded="true" />
-            <element signature="e#8730#8731#0" expanded="true" />
-            <element signature="e#8769#8770#0" expanded="true" />
-            <element signature="e#8821#8822#0" expanded="true" />
-            <element signature="e#8869#8870#0" expanded="true" />
-            <element signature="e#8912#8913#0" expanded="true" />
-            <element signature="e#8955#8956#0" expanded="true" />
-            <element signature="e#9015#9016#0" expanded="true" />
-            <element signature="e#9071#9072#0" expanded="true" />
-            <element signature="e#9111#9112#0" expanded="true" />
-            <element signature="e#9151#9152#0" expanded="true" />
-            <element signature="e#9205#9206#0" expanded="true" />
-            <element signature="e#9255#9256#0" expanded="true" />
-            <element signature="e#9296#9297#0" expanded="true" />
-            <element signature="e#9337#9338#0" expanded="true" />
-            <element signature="e#9393#9394#0" expanded="true" />
-            <element signature="e#9445#9446#0" expanded="true" />
-            <element signature="e#9484#9485#0" expanded="true" />
-            <element signature="e#9523#9524#0" expanded="true" />
-            <element signature="e#9575#9576#0" expanded="true" />
-            <element signature="e#9623#9624#0" expanded="true" />
-            <element signature="e#9661#9662#0" expanded="true" />
-            <element signature="e#9699#9700#0" expanded="true" />
-            <element signature="e#9749#9750#0" expanded="true" />
-            <element signature="e#9795#9796#0" expanded="true" />
-            <element signature="e#9848#9849#0" expanded="true" />
-            <element signature="e#9888#9889#0" expanded="true" />
-            <element signature="e#9955#9956#0" expanded="true" />
-            <element signature="e#10005#10006#0" expanded="true" />
-            <element signature="e#11296#11297#0" expanded="true" />
-            <element signature="e#11344#11345#0" expanded="true" />
-            <element signature="e#11402#11403#0" expanded="true" />
-            <element signature="e#11460#11461#0" expanded="true" />
-            <element signature="e#11504#11505#0" expanded="true" />
-            <element signature="e#11552#11553#0" expanded="true" />
-            <element signature="e#11610#11611#0" expanded="true" />
-            <element signature="e#11668#11669#0" expanded="true" />
-            <element signature="e#11713#11714#0" expanded="true" />
-            <element signature="e#11762#11763#0" expanded="true" />
-            <element signature="e#11822#11823#0" expanded="true" />
-            <element signature="e#11882#11883#0" expanded="true" />
-            <element signature="e#11925#11926#0" expanded="true" />
-            <element signature="e#11972#11973#0" expanded="true" />
-            <element signature="e#12028#12029#0" expanded="true" />
-            <element signature="e#12084#12085#0" expanded="true" />
-            <element signature="e#12130#12131#0" expanded="true" />
-            <element signature="e#12180#12181#0" expanded="true" />
-            <element signature="e#12242#12243#0" expanded="true" />
-            <element signature="e#12304#12305#0" expanded="true" />
-            <element signature="e#12347#12348#0" expanded="true" />
-            <element signature="e#12394#12395#0" expanded="true" />
-            <element signature="e#12450#12451#0" expanded="true" />
-            <element signature="e#12506#12507#0" expanded="true" />
-            <element signature="e#12554#12555#0" expanded="true" />
-            <element signature="e#12606#12607#0" expanded="true" />
-            <element signature="e#12672#12673#0" expanded="true" />
-            <element signature="e#12738#12739#0" expanded="true" />
-            <element signature="e#12781#12782#0" expanded="true" />
-            <element signature="e#12828#12829#0" expanded="true" />
-            <element signature="e#12884#12885#0" expanded="true" />
-            <element signature="e#12940#12941#0" expanded="true" />
-            <element signature="e#12986#12987#0" expanded="true" />
-            <element signature="e#13036#13037#0" expanded="true" />
-            <element signature="e#13098#13099#0" expanded="true" />
-            <element signature="e#13160#13161#0" expanded="true" />
-            <element signature="e#13205#13206#0" expanded="true" />
-            <element signature="e#13254#13255#0" expanded="true" />
-            <element signature="e#13314#13315#0" expanded="true" />
-            <element signature="e#13374#13375#0" expanded="true" />
-            <element signature="e#13419#13420#0" expanded="true" />
-            <element signature="e#13468#13469#0" expanded="true" />
-            <element signature="e#13528#13529#0" expanded="true" />
-            <element signature="e#13588#13589#0" expanded="true" />
-            <element signature="e#13632#13633#0" expanded="true" />
-            <element signature="e#13680#13681#0" expanded="true" />
-            <element signature="e#13738#13739#0" expanded="true" />
-            <element signature="e#13796#13797#0" expanded="true" />
-            <element signature="e#13841#13842#0" expanded="true" />
-            <element signature="e#13890#13891#0" expanded="true" />
-            <element signature="e#13950#13951#0" expanded="true" />
-            <element signature="e#14010#14011#0" expanded="true" />
-            <element signature="e#14053#14054#0" expanded="true" />
-            <element signature="e#14100#14101#0" expanded="true" />
-            <element signature="e#14156#14157#0" expanded="true" />
-            <element signature="e#14212#14213#0" expanded="true" />
+            <element signature="e#3844#3845#0" expanded="false" />
+            <element signature="e#3870#3871#0" expanded="false" />
+            <element signature="e#3908#3909#0" expanded="false" />
+            <element signature="e#3938#3939#0" expanded="false" />
+            <element signature="e#3968#3969#0" expanded="false" />
+            <element signature="e#3997#3998#0" expanded="false" />
+            <element signature="e#4038#4039#0" expanded="false" />
+            <element signature="e#4074#4075#0" expanded="false" />
+            <element signature="e#4113#4114#0" expanded="false" />
+            <element signature="e#4140#4141#0" expanded="false" />
+            <element signature="e#4188#4189#0" expanded="false" />
+            <element signature="e#4220#4221#0" expanded="false" />
+            <element signature="e#6599#6600#0" expanded="false" />
+            <element signature="e#6639#6640#0" expanded="false" />
+            <element signature="e#6693#6694#0" expanded="false" />
+            <element signature="e#6743#6744#0" expanded="false" />
+            <element signature="e#6785#6786#0" expanded="false" />
+            <element signature="e#6827#6828#0" expanded="false" />
+            <element signature="e#6885#6886#0" expanded="false" />
+            <element signature="e#6939#6940#0" expanded="false" />
+            <element signature="e#6978#6979#0" expanded="false" />
+            <element signature="e#7017#7018#0" expanded="false" />
+            <element signature="e#7069#7070#0" expanded="false" />
+            <element signature="e#7117#7118#0" expanded="false" />
+            <element signature="e#7157#7158#0" expanded="false" />
+            <element signature="e#7200#7201#0" expanded="false" />
+            <element signature="e#7257#7258#0" expanded="false" />
+            <element signature="e#7313#7314#0" expanded="false" />
+            <element signature="e#7353#7354#0" expanded="false" />
+            <element signature="e#7393#7394#0" expanded="false" />
+            <element signature="e#7447#7448#0" expanded="false" />
+            <element signature="e#7497#7498#0" expanded="false" />
+            <element signature="e#7540#7541#0" expanded="false" />
+            <element signature="e#7583#7584#0" expanded="false" />
+            <element signature="e#7643#7644#0" expanded="false" />
+            <element signature="e#7699#7700#0" expanded="false" />
+            <element signature="e#7741#7742#0" expanded="false" />
+            <element signature="e#7783#7784#0" expanded="false" />
+            <element signature="e#7841#7842#0" expanded="false" />
+            <element signature="e#7895#7896#0" expanded="false" />
+            <element signature="e#7936#7937#0" expanded="false" />
+            <element signature="e#7977#7978#0" expanded="false" />
+            <element signature="e#8033#8034#0" expanded="false" />
+            <element signature="e#8085#8086#0" expanded="false" />
+            <element signature="e#8128#8129#0" expanded="false" />
+            <element signature="e#8171#8172#0" expanded="false" />
+            <element signature="e#8231#8232#0" expanded="false" />
+            <element signature="e#8287#8288#0" expanded="false" />
+            <element signature="e#8329#8330#0" expanded="false" />
+            <element signature="e#8371#8372#0" expanded="false" />
+            <element signature="e#8429#8430#0" expanded="false" />
+            <element signature="e#8483#8484#0" expanded="false" />
+            <element signature="e#8527#8528#0" expanded="false" />
+            <element signature="e#8571#8572#0" expanded="false" />
+            <element signature="e#8633#8634#0" expanded="false" />
+            <element signature="e#8691#8692#0" expanded="false" />
+            <element signature="e#8730#8731#0" expanded="false" />
+            <element signature="e#8769#8770#0" expanded="false" />
+            <element signature="e#8821#8822#0" expanded="false" />
+            <element signature="e#8869#8870#0" expanded="false" />
+            <element signature="e#8912#8913#0" expanded="false" />
+            <element signature="e#8955#8956#0" expanded="false" />
+            <element signature="e#9015#9016#0" expanded="false" />
+            <element signature="e#9071#9072#0" expanded="false" />
+            <element signature="e#9111#9112#0" expanded="false" />
+            <element signature="e#9151#9152#0" expanded="false" />
+            <element signature="e#9205#9206#0" expanded="false" />
+            <element signature="e#9255#9256#0" expanded="false" />
+            <element signature="e#9296#9297#0" expanded="false" />
+            <element signature="e#9337#9338#0" expanded="false" />
+            <element signature="e#9393#9394#0" expanded="false" />
+            <element signature="e#9445#9446#0" expanded="false" />
+            <element signature="e#9484#9485#0" expanded="false" />
+            <element signature="e#9523#9524#0" expanded="false" />
+            <element signature="e#9575#9576#0" expanded="false" />
+            <element signature="e#9623#9624#0" expanded="false" />
+            <element signature="e#9661#9662#0" expanded="false" />
+            <element signature="e#9699#9700#0" expanded="false" />
+            <element signature="e#9749#9750#0" expanded="false" />
+            <element signature="e#9795#9796#0" expanded="false" />
+            <element signature="e#9848#9849#0" expanded="false" />
+            <element signature="e#9888#9889#0" expanded="false" />
+            <element signature="e#9955#9956#0" expanded="false" />
+            <element signature="e#10005#10006#0" expanded="false" />
+            <element signature="e#11296#11297#0" expanded="false" />
+            <element signature="e#11344#11345#0" expanded="false" />
+            <element signature="e#11402#11403#0" expanded="false" />
+            <element signature="e#11460#11461#0" expanded="false" />
+            <element signature="e#11504#11505#0" expanded="false" />
+            <element signature="e#11552#11553#0" expanded="false" />
+            <element signature="e#11610#11611#0" expanded="false" />
+            <element signature="e#11668#11669#0" expanded="false" />
+            <element signature="e#11713#11714#0" expanded="false" />
+            <element signature="e#11762#11763#0" expanded="false" />
+            <element signature="e#11822#11823#0" expanded="false" />
+            <element signature="e#11882#11883#0" expanded="false" />
+            <element signature="e#11925#11926#0" expanded="false" />
+            <element signature="e#11972#11973#0" expanded="false" />
+            <element signature="e#12028#12029#0" expanded="false" />
+            <element signature="e#12084#12085#0" expanded="false" />
+            <element signature="e#12130#12131#0" expanded="false" />
+            <element signature="e#12180#12181#0" expanded="false" />
+            <element signature="e#12242#12243#0" expanded="false" />
+            <element signature="e#12304#12305#0" expanded="false" />
+            <element signature="e#12347#12348#0" expanded="false" />
+            <element signature="e#12394#12395#0" expanded="false" />
+            <element signature="e#12450#12451#0" expanded="false" />
+            <element signature="e#12506#12507#0" expanded="false" />
+            <element signature="e#12554#12555#0" expanded="false" />
+            <element signature="e#12606#12607#0" expanded="false" />
+            <element signature="e#12672#12673#0" expanded="false" />
+            <element signature="e#12738#12739#0" expanded="false" />
+            <element signature="e#12781#12782#0" expanded="false" />
+            <element signature="e#12828#12829#0" expanded="false" />
+            <element signature="e#12884#12885#0" expanded="false" />
+            <element signature="e#12940#12941#0" expanded="false" />
+            <element signature="e#12986#12987#0" expanded="false" />
+            <element signature="e#13036#13037#0" expanded="false" />
+            <element signature="e#13098#13099#0" expanded="false" />
+            <element signature="e#13160#13161#0" expanded="false" />
+            <element signature="e#13205#13206#0" expanded="false" />
+            <element signature="e#13254#13255#0" expanded="false" />
+            <element signature="e#13314#13315#0" expanded="false" />
+            <element signature="e#13374#13375#0" expanded="false" />
+            <element signature="e#13419#13420#0" expanded="false" />
+            <element signature="e#13468#13469#0" expanded="false" />
+            <element signature="e#13528#13529#0" expanded="false" />
+            <element signature="e#13588#13589#0" expanded="false" />
+            <element signature="e#13632#13633#0" expanded="false" />
+            <element signature="e#13680#13681#0" expanded="false" />
+            <element signature="e#13738#13739#0" expanded="false" />
+            <element signature="e#13796#13797#0" expanded="false" />
+            <element signature="e#13841#13842#0" expanded="false" />
+            <element signature="e#13890#13891#0" expanded="false" />
+            <element signature="e#13950#13951#0" expanded="false" />
+            <element signature="e#14010#14011#0" expanded="false" />
+            <element signature="e#14053#14054#0" expanded="false" />
+            <element signature="e#14100#14101#0" expanded="false" />
+            <element signature="e#14156#14157#0" expanded="false" />
+            <element signature="e#14212#14213#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -4617,11 +4443,107 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="361" column="85" selection-start-line="361" selection-start-column="85" selection-end-line="361" selection-end-column="85" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_data.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="279" column="62" selection-start-line="279" selection-start-column="41" selection-end-line="279" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://D:/Android/sdk/sources/android-23/android/app/Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2108">
+          <caret line="3875" column="16" selection-start-line="3875" selection-start-column="16" selection-end-line="3875" selection-end-column="16" />
+          <folding>
+            <element signature="e#164931#164932#0" expanded="true" />
+            <element signature="e#164996#164997#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/PhotoPicker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="49" column="32" selection-start-line="49" selection-start-column="32" selection-end-line="49" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/widget/PhotoAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/PhotoPickUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PhotoPicker/src/main/java/me/iwf/photopicker/widget/MultiPickResultView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="114" column="34" selection-start-line="114" selection-start-column="34" selection-end-line="114" selection-end-column="34" />
+          <folding>
+            <element signature="e#1330#1331#0" expanded="true" />
+            <element signature="e#1366#1367#0" expanded="true" />
+            <element signature="e#4400#4401#0" expanded="true" />
+            <element signature="e#4437#4438#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/MyUtiles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="584">
+          <caret line="129" column="36" selection-start-line="129" selection-start-column="36" selection-end-line="129" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HasEvaAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="82" column="55" selection-start-line="82" selection-start-column="55" selection-end-line="82" selection-end-column="55" />
+        <state relative-caret-position="278">
+          <caret line="81" column="122" selection-start-line="81" selection-start-column="107" selection-end-line="81" selection-end-column="122" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="23" column="38" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/AddDataActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="207" column="29" selection-start-line="207" selection-start-column="29" selection-end-line="207" selection-end-column="29" />
+          <folding>
+            <element signature="e#4702#4703#0" expanded="true" />
+            <element signature="e#4803#4804#0" expanded="true" />
+            <element signature="e#4867#4868#0" expanded="true" />
+            <element signature="e#4969#4970#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -36,8 +36,6 @@ import me.iwf.photopicker.PhotoPickUtils;
 import me.iwf.photopicker.widget.MultiPickResultView;
 import okhttp3.Call;
 
-import static com.example.handschoolapplication.R.id.tv_type;
-
 public class AddDataActivity extends BaseActivity implements OnAddressSelectedListener, AddressSelector.OnDialogCloseListener {
 
     @BindView(R.id.recycler_zizhi)
@@ -50,6 +48,8 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
     EditText etTime;
     @BindView(R.id.et_person_id)
     EditText etPersonId;
+    @BindView(R.id.recycler_shenfenzheng)
+    MultiPickResultView recyclerShenfenzheng;
     private String type;
     private BottomDialog dialog;
     private TextView tvCity, tvAddress, tvType;
@@ -59,6 +59,7 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
     private String streetCode;
 
     private List<String> photoStr = new ArrayList<>();
+    private List<String> idencardStr = new ArrayList<>();
     private String userId;
     private String address;
     private String street;
@@ -66,7 +67,8 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        recyclerZizhi.init(this, MultiPickResultView.ACTION_SELECT, null);
+        recyclerZizhi.init(this, MultiPickResultView.ACTION_SELECT, null, 0);
+        recyclerShenfenzheng.init(this, MultiPickResultView.ACTION_SELECT, null, 1);
         type = getIntent().getStringExtra("type");
         tvTitle.setText("资料填写");
         tvCity = (TextView) findViewById(R.id.tv_city);
@@ -77,7 +79,6 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
         dialog.setOnAddressSelectedListener(this);
         dialog.setDialogDismisListener(this);
         userId = MyUtiles.getBeanByFastJson(this, "userId", String.class);
-
         Log.e("aaa",
                 "(AddDataActivity.java:72)" + "本地保存的Id为" + userId);
     }
@@ -87,21 +88,31 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        recyclerZizhi.onActivityResult(requestCode, resultCode, data);
-        ArrayList<String> photos = recyclerZizhi.getPhotos();
-
-        // switchPicture(mMultiPickResultView);
-        Log.d("aaa", "--photos--->" + photos);
+        if (requestCode == 0) {
+            recyclerZizhi.onActivityResult(requestCode, resultCode, data);
+        } else {
+            recyclerShenfenzheng.onActivityResult(requestCode, resultCode, data);
+        }
         PhotoPickUtils.onActivityResult(requestCode, resultCode, data, new PhotoPickUtils.PickHandler() {
             @Override
             public void onPickSuccess(ArrayList<String> photos) {//已经预先做了null或size为0的判断
                 Log.d("aaa", "--photos-ssss-->" + photos);
-
-                for (int i = 0; i < photos.size(); i++) {
-                    String s = MyUtiles.imageToBase64(photos.get(i));
-                    photoStr.add(s);
+                if (requestCode == 0) {
+                    Log.e("aaa",
+                            "(AddDataActivity.java:103)" + "===111====第一个选择" + photos.toString());
+                    for (int i = 0; i < photos.size(); i++) {
+                        String s = MyUtiles.imageToBase64(photos.get(i));
+                        photoStr.add(s);
+                    }
+                } else {
+                    Log.e("aaa",
+                            "(AddDataActivity.java:103)" + "===222====第二个选择" + photos.toString());
+                    for (int i = 0; i < photos.size(); i++) {
+                        String s = MyUtiles.imageToBase64(photos.get(i));
+                        idencardStr.add(s);
+                    }
                 }
             }
 
@@ -179,6 +190,17 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
             Toast.makeText(this, "请上传身份证图片及资质证明", Toast.LENGTH_SHORT).show();
             return;
         }
+//        user_id
+//                mechanism_name
+//        mechanism_city
+//                mechanism_ctime
+//        id_number
+//                mechanism_type
+//
+//        qualification_prove
+//                mid_photo
+//        sd_city
+//                sd_content
         HashMap<String, String> params = new HashMap<>();
         params.put("user_id", userId);//用户Id
         params.put("mechanism_name", name);//机构名称
@@ -194,7 +216,7 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
             }
 
             for (int i = 0; i < photoStr.size(); i++) {
-                json2.put("photo" + i, photoStr.get(i));
+                json2.put("photo" + i, idencardStr.get(i));
             }
         } catch (JSONException e) {
             e.printStackTrace();
