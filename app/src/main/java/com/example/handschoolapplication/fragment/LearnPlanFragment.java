@@ -283,6 +283,7 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
         calculate();
     }
 
+
     private void changeCount(String num, CarListBean.DataBean product) {
         OkHttpUtils.post()
                 .url(Internet.CHANGENUM)
@@ -363,11 +364,16 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
                 if (product.isChoosed()) {
                     totalCount++;
                     totalPrice += Integer.parseInt(product.getOrder_money()) * Integer.parseInt(product.getCourse_num());
-//                    totalPrice += 60 * Integer.parseInt(product.getCourse_num());
                 }
             }
         }
-//        tv_total_price.setText("￥" + totalPrice);
-//        tv_go_to_pay.setText("去支付(" + totalCount + ")");
+        tvHeji.setText("合计:  ¥" + totalPrice);
+        tvJiesuan.setText("结算(" + totalCount + ")");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initViewData();
     }
 }

@@ -8,17 +8,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.HumanServiceActivity;
 import com.example.handschoolapplication.activity.InteractionNewsActivity;
 import com.example.handschoolapplication.activity.LearnNewsActivity;
 import com.example.handschoolapplication.activity.NotificationNewsActivity;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.NewsBean;
 import com.example.handschoolapplication.bean.NewsListBean;
+import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
@@ -64,7 +68,7 @@ public class NewsFragment extends BaseFragment {
 
     private View view;
 
-    private List<NewsBean> newsBeanList;//个人版消息列表
+    private List<NewsBean.DataBean> newsBeanList = new ArrayList<>();//个人版消息列表
 
     private List<NewsListBean> newsList;//上面三个消息
     private MyAdapter myAdapter;
@@ -81,10 +85,9 @@ public class NewsFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
-        initViewData();
         unbinder = ButterKnife.bind(this, view);
         userId = (String) SPUtils.get(getActivity(), "userId", "");
-        getNews();
+
         return view;
     }
 
@@ -114,13 +117,13 @@ public class NewsFragment extends BaseFragment {
 
                             for (int i = 0; i < newsList.size(); i++) {
                                 String message_type = newsList.get(i).getMessage_type();
-                                if (message_type.equals("0")){//学习消息
+                                if (message_type.equals("0")) {//学习消息
                                     tvLearn.setText(newsList.get(i).getMessage_content());
                                     tvLearnTime.setText(newsList.get(i).getMessage_date());
-                                }else if (message_type.equals("1")){//通知消息
+                                } else if (message_type.equals("1")) {//通知消息
                                     tvNotification.setText(newsList.get(i).getMessage_content());
                                     tvNotificationTime.setText(newsList.get(i).getMessage_date());
-                                }else if (message_type.equals("2")){//互动消息
+                                } else if (message_type.equals("2")) {//互动消息
                                     tvInteract.setText(newsList.get(i).getMessage_content());
                                     tvInteractTime.setText(newsList.get(i).getMessage_date());
                                 }
@@ -134,13 +137,44 @@ public class NewsFragment extends BaseFragment {
     }
 
     private void initViewData() {
-        newsBeanList = new ArrayList<>();
-        newsBeanList.add(new NewsBean());
-        newsBeanList.add(new NewsBean());
-        newsBeanList.add(new NewsBean());
-        newsBeanList.add(new NewsBean());
         myAdapter = new MyAdapter();
         lvNews.setAdapter(myAdapter);
+        OkHttpUtils.post()
+                .url(Internet.PERSONDIALOG)
+                .addParams("user_id", userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(NewsFragment.java:151)" + response);
+                        newsBeanList.clear();
+                        Gson gson = new Gson();
+                        try {
+                            newsBeanList.addAll(gson.fromJson(response, NewsBean.class).getData());
+                            myAdapter.notifyDataSetChanged();
+                            lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Intent intent3 = new Intent(getActivity(), HumanServiceActivity.class);
+                                    intent3.putExtra("type", "0");
+                                    intent3.putExtra("course_id", newsBeanList.get(position).getCourse_id());
+                                    intent3.putExtra("schooluid", newsBeanList.get(position).getSend_id());
+                                    startActivity(intent3);
+                                }
+                            });
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+
     }
 
     @Override
@@ -179,12 +213,12 @@ public class NewsFragment extends BaseFragment {
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return newsBeanList.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -198,6 +232,13 @@ public class NewsFragment extends BaseFragment {
             } else {
                 holder = (ViewHolder) view.getTag();
             }
+            Glide.with(getActivity())
+                    .load(Internet.BASE_URL + newsBeanList.get(position).getSchool_photo())
+                    .centerCrop()
+                    .into(holder.profileImage);
+            holder.tvUsername.setText(newsBeanList.get(position).getSchool_name());
+            holder.tvTime.setText(newsBeanList.get(position).getConsult_time());
+            holder.tvNews.setText(newsBeanList.get(position).getConsult_content());
             return view;
         }
 
@@ -215,5 +256,12 @@ public class NewsFragment extends BaseFragment {
                 ButterKnife.bind(this, view);
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNews();
+        initViewData();
     }
 }

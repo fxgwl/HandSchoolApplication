@@ -41,7 +41,14 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        String user_id = (String) SPUtils.get(this, "userId", "");
+        String user_type = (String) SPUtils.get(this, "user_type", "");
+        if (!TextUtils.isEmpty(user_id)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("flag", user_type);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
@@ -99,7 +106,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
 //            Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
 //           return;
 //        }
-        if (TextUtils.isEmpty(pwd)||TextUtils.isEmpty(phone)){
+        if (TextUtils.isEmpty(pwd) || TextUtils.isEmpty(phone)) {
             Toast.makeText(this, "输入有误！", Toast.LENGTH_SHORT).show();
             return;
         }

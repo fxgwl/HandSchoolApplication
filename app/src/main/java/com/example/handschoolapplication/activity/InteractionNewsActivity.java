@@ -2,21 +2,27 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.InteractionNewsAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
-import com.example.handschoolapplication.bean.InteractionNewsBean;
+import com.example.handschoolapplication.bean.HasEvaBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class InteractionNewsActivity extends BaseActivity implements InteractionNewsAdapter.OnDetailClickListener {
 
@@ -24,28 +30,48 @@ public class InteractionNewsActivity extends BaseActivity implements Interaction
     TextView tvTitle;
     @BindView(R.id.lv_interaction_news)
     ListView lvInteractionNews;
-    private List<InteractionNewsBean> mList;
     private InteractionNewsAdapter mAdapter;
+    private List<HasEvaBean.DataBean> mList = new ArrayList<>();
+    private String user_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         tvTitle.setText("互动消息");
+        user_id = (String) SPUtils.get(this, "userId", "");
+        mAdapter = new InteractionNewsAdapter(this, mList, this);
+        lvInteractionNews.setAdapter(mAdapter);
         initData();
     }
 
     private void initData() {
+        OkHttpUtils.post()
+                .url(Internet.HASCOMMENT)
+                .addParams("user_id", user_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
 
-        mList = new ArrayList<>();
-        mList.add(new InteractionNewsBean());
-        mList.add(new InteractionNewsBean());
-        mList.add(new InteractionNewsBean());
-        mList.add(new InteractionNewsBean());
-        mList.add(new InteractionNewsBean());
+                    }
 
-        mAdapter = new InteractionNewsAdapter(this, mList, this);
-        lvInteractionNews.setAdapter(mAdapter);
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(HasEvaFragment.java:71)" + response);
+                        Gson gson = new Gson();
+                        mList.clear();
+                        try {
+                            mList.addAll(gson.fromJson(response, HasEvaBean.class).getData());
+                        } catch (Exception e) {
+
+                        }
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
+
+
     }
 
     @Override
@@ -66,7 +92,8 @@ public class InteractionNewsActivity extends BaseActivity implements Interaction
 
     @Override
     public void onDetailClick(int position) {
-        Toast.makeText(this, "查看评价详情", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this,PJDetailActivity.class));
+        Intent intent = new Intent(this, PJDetailActivity.class);
+        intent.putExtra("interact_id", mList.get(position).getInteract_id());
+        startActivity(intent);
     }
 }

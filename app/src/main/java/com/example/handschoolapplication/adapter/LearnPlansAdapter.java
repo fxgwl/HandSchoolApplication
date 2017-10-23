@@ -156,7 +156,7 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
 
             cholder.tv_editnum.setText(TextUtils.isEmpty(product.getCourse_num()) ? 0 + "" : product.getCourse_num());
             cholder.tv_product_desc.setText(product.getClass_name());
-            cholder.tv_price.setText("￥" + product.getClass_money() + "");
+            cholder.tv_price.setText("价格：¥" + product.getOrder_money() + "");
             cholder.tv_count.setText(TextUtils.isEmpty(product.getCourse_num()) ? 0 + "" : product.getCourse_num());
             cholder.cb_check.setChecked(product.isChoosed());
             cholder.cb_check.setOnClickListener(new View.OnClickListener() {

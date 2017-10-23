@@ -7,13 +7,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.bean.InteractionNewsBean;
+import com.example.handschoolapplication.bean.HasEvaBean;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Administrator on 2017/8/17.
@@ -22,12 +25,12 @@ import butterknife.ButterKnife;
 public class InteractionNewsAdapter extends BaseAdapter {
 
     private Context context;
-    private List<InteractionNewsBean> mList;
+    private List<HasEvaBean.DataBean> mList;
     private int size = 0;
     private OnDetailClickListener listener;
 
 
-    public InteractionNewsAdapter(Context context, List<InteractionNewsBean> mList, OnDetailClickListener listener) {
+    public InteractionNewsAdapter(Context context, List<HasEvaBean.DataBean> mList, OnDetailClickListener listener) {
         this.context = context;
         this.mList = mList;
         this.listener = listener;
@@ -44,12 +47,12 @@ public class InteractionNewsAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -64,6 +67,19 @@ public class InteractionNewsAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        HasEvaBean.DataBean dataBean = mList.get(position);
+        Glide.with(context)
+                .load(Internet.BASE_URL + dataBean.getSend_photo())
+                .centerCrop()
+                .into(holder.civHead);
+        holder.tvName.setText(dataBean.getSend_name());
+        Glide.with(context)
+                .load(Internet.BASE_URL + dataBean.getCourse_photo())
+                .centerCrop()
+                .into(holder.ivClass);
+        holder.tvClassname.setText(dataBean.getCourse_name());
+        holder.tvClassPrice.setText("价格：\t¥" + dataBean.getCourse_money());
+        holder.tvNum.setText("数量：x" + dataBean.getCourse_num());
 
         holder.tvDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +90,12 @@ public class InteractionNewsAdapter extends BaseAdapter {
         return view;
     }
 
+
     static class ViewHolder {
+        @BindView(R.id.civ_head)
+        CircleImageView civHead;
+        @BindView(R.id.tv_name)
+        TextView tvName;
         @BindView(R.id.iv_class)
         ImageView ivClass;
         @BindView(R.id.tv_classname)

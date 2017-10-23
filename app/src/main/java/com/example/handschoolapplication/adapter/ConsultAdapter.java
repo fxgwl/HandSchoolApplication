@@ -55,48 +55,76 @@ public class ConsultAdapter extends BaseAdapter {
     }
 
     @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return Integer.parseInt(mList.get(position).getConsult_type());
+    }
+
+    @Override
     public View getView(int position, View view, ViewGroup parent) {
 
         ViewHolder holder = null;
+        ViewHolder2 holder2 = null;
         ConsultBean.DataBean contact = mList.get(position);
         if (view == null) {
             if ("1".equals(contact.getConsult_type())) {
                 view = View.inflate(context, R.layout.item_contactservice, null);
+                holder = new ViewHolder(view);
+                view.setTag(holder);
             } else {
                 view = View.inflate(context, R.layout.item_contactservice2, null);
+                holder2 = new ViewHolder2(view);
+                view.setTag(holder2);
             }
-            holder = new ViewHolder(view);
-            view.setTag(holder);
+
         } else {
-            holder = (ViewHolder) view.getTag();
+            if ("1".equals(contact.getConsult_type())) {
+                holder = (ViewHolder) view.getTag();
+            } else {
+                holder2 = (ViewHolder2) view.getTag();
+            }
+
         }
         switch (contact.getConsult_type()) {
             case "0":
+                Glide.with(context)
+                        .load(Internet.BASE_URL + contact.getConsult_photo())
+                        .centerCrop()
+                        .error(R.drawable.touxiang)
+                        .into(holder2.civContactHead);
+                holder2.tvContactContent.setText(contact.getConsult_content());
+                break;
+            case "1":
                 Glide.with(context)
                         .load(Internet.BASE_URL + contact.getSchool_photo())
                         .centerCrop()
                         .error(R.drawable.touxiang)
                         .into(holder.civContactHead);
-                break;
-            case "1":
-                Glide.with(context)
-                        .load(Internet.BASE_URL + contact.getConsult_photo())
-                        .centerCrop()
-                        .error(R.drawable.touxiang)
-                        .into(holder.civContactHead);
+                holder.tvContactContent.setText(contact.getConsult_content());
                 break;
         }
-        holder.tvContactContent.setText(contact.getConsult_content());
+
         return view;
     }
 
-
+    static class ViewHolder2 {
+        @BindView(R.id.civ_contact_head)
+        CircleImageView civContactHead;
+        @BindView(R.id.tv_contact_content)
+        TextView tvContactContent;
+        ViewHolder2(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
     static class ViewHolder {
         @BindView(R.id.civ_contact_head)
         CircleImageView civContactHead;
         @BindView(R.id.tv_contact_content)
         TextView tvContactContent;
-
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
