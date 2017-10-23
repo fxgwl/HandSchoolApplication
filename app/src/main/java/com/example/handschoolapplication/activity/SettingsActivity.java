@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.ShenjiDialog;
 
 import butterknife.BindView;
@@ -61,7 +62,7 @@ public class SettingsActivity extends BaseActivity {
         return R.layout.activity_settings;
     }
 
-    @OnClick({R.id.ll_shenji, R.id.ll_help,R.id.rl_back, R.id.iv_menu, R.id.ll_change_info, R.id.ll_change_phone, R.id.ll_changepwd, R.id.ll_about, R.id.btn_unlogin})
+    @OnClick({R.id.ll_shenji, R.id.ll_help, R.id.rl_back, R.id.iv_menu, R.id.ll_change_info, R.id.ll_change_phone, R.id.ll_changepwd, R.id.ll_about, R.id.btn_unlogin})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
@@ -71,22 +72,24 @@ public class SettingsActivity extends BaseActivity {
                 break;
             case R.id.ll_change_info:
                 if (type.equals("per"))
-                startActivity(new Intent(this, MyInformationActivity.class));
+                    startActivity(new Intent(this, MyInformationActivity.class));
                 else startActivity(new Intent(this, SchoolInformationActivity.class));
                 break;
             //修改手机号
             case R.id.ll_change_phone:
-                startActivity(new Intent(SettingsActivity.this,ChangePhoneActivity.class));
+                startActivity(new Intent(SettingsActivity.this, ChangePhoneActivity.class));
                 break;
             //修改密码
             case R.id.ll_changepwd:
-                startActivity(new Intent(SettingsActivity.this,ModifyPwdActivity.class));
+                startActivity(new Intent(SettingsActivity.this, ModifyPwdActivity.class));
                 break;
             //关于我们
             case R.id.ll_about:
-                startActivity(new Intent(SettingsActivity.this,AboutUsActivity.class));
+                startActivity(new Intent(SettingsActivity.this, AboutUsActivity.class));
                 break;
             case R.id.btn_unlogin:
+                SPUtils.clear(this);
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
             //版本升级
             case R.id.ll_shenji:
@@ -95,7 +98,6 @@ public class SettingsActivity extends BaseActivity {
                 selfDialog.setYesOnclickListener("立即更新", new ShenjiDialog.onYesOnclickListener() {
                     @Override
                     public void onYesClick() {
-
 
 
                         selfDialog.dismiss();
@@ -114,10 +116,11 @@ public class SettingsActivity extends BaseActivity {
                 break;
             //帮助
             case R.id.ll_help:
-                startActivity(new Intent(SettingsActivity.this,HelpActivity.class));
+                startActivity(new Intent(SettingsActivity.this, HelpActivity.class));
                 break;
         }
     }
+
     /**
      * 添加弹出的dialog关闭的事件，主要是为了将背景透明度改回来
      *

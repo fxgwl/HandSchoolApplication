@@ -92,7 +92,6 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
         view = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
         user_id = (String) SPUtils.get(getActivity(), "userId", "");
-        initViewData();
         return view;
     }
 

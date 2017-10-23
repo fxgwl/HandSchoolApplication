@@ -7,10 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.view.CommonPopupWindow;
@@ -24,7 +23,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
  * Created by Administrator on 2017/7/20.
  */
 
-public abstract class BaseActivity extends AppCompatActivity{
+public abstract class BaseActivity extends AppCompatActivity {
 
 
     private Unbinder bind;
@@ -36,42 +35,47 @@ public abstract class BaseActivity extends AppCompatActivity{
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         setContentView(getContentViewId());
         bind = ButterKnife.bind(this);
-        Log.e(getClass().getSimpleName(), "--->onCreate: " );
+        Log.e(getClass().getSimpleName(), "--->onCreate: ");
+
     }
+
     public abstract int getContentViewId();
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.e(getClass().getSimpleName(), "--->onStart: " );
+        Log.e(getClass().getSimpleName(), "--->onStart: ");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.e(getClass().getSimpleName(), "--->onStop: " );
+        Log.e(getClass().getSimpleName(), "--->onStop: ");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e(getClass().getSimpleName(), "--->onRestart: " );
+        Log.e(getClass().getSimpleName(), "--->onRestart: ");
     }
+
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        Log.e(getClass().getSimpleName(), "--->onpause: " );
+        Log.e(getClass().getSimpleName(), "--->onpause: ");
     }
+
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(getClass().getSimpleName(), "--->onResume: " );
+        Log.e(getClass().getSimpleName(), "--->onResume: ");
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         bind.unbind();
-        Log.e(getClass().getSimpleName(), "--->onDestroy: " );
+        Log.e(getClass().getSimpleName(), "--->onDestroy: ");
     }
 
     @Override
@@ -80,31 +84,56 @@ public abstract class BaseActivity extends AppCompatActivity{
     }
 
 
-    public static void setMenu(Activity context){
-        View view = View.inflate(context, R.layout.menu_style,null);
+    public static void setMenu(Activity context) {
+        View view = View.inflate(context, R.layout.menu_style, null);
         MyPopupWindow myPopupWindow = new MyPopupWindow(context, view);
         myPopupWindow.setHeight(500);
-        myPopupWindow.showAtLocation(view,Gravity.BOTTOM, 0, 0);
+        myPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
     //向下弹出
-    public static void showMenuPop(final Context context, View view) {
-        if (menuWindow != null && menuWindow.isShowing()) return;
-        menuWindow = new CommonPopupWindow.Builder(context)
-                .setView(R.layout.menu_style)
-                .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                .setAnimationStyle(R.style.AnimDown)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId) {
-                        Toast.makeText(context, "sadsadasdasdsad", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setOutsideTouchable(true)
-                .create();
-        menuWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
-        menuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        menuWindow.showAsDropDown(view, 0, 50);
+    public void showMenuPop(final Context context, View view) {
+        View view2 = View.inflate(context, R.layout.menu, null);
+        RelativeLayout news = (RelativeLayout) view2.findViewById(R.id.ll_news);
+        RelativeLayout home = (RelativeLayout) view2.findViewById(R.id.ll_home);
+        RelativeLayout help = (RelativeLayout) view2.findViewById(R.id.ll_help);
+        RelativeLayout wode = (RelativeLayout) view2.findViewById(R.id.ll_wode);
+        final MyPopupWindow mppWinow = new MyPopupWindow(this, view2);
+        mppWinow.setWidth(300);
+        mppWinow.showAsDropDown(view, 0, 0);
+        mppWinow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+        news.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mppWinow.dismiss();
+
+            }
+        });
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mppWinow.dismiss();
+            }
+        });
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mppWinow.dismiss();
+            }
+        });
+        wode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mppWinow.dismiss();
+            }
+        });
     }
 
     public void showShare() {
@@ -130,9 +159,11 @@ public abstract class BaseActivity extends AppCompatActivity{
         oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("http://sharesdk.cn");
-
         // 启动分享GUI
         oks.show(this);
     }
 
+    public void show(View view) {
+        showMenuPop(this, view);
+    }
 }

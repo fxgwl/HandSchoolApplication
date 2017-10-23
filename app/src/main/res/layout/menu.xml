@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:alpha="0.7"
+        ></View>
+
+    <RelativeLayout
+        android:background="#ffffff"
+        android:id="@+id/ll_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/news"/>
+
+        <TextView
+            style="@style/text_menu"
+            android:text="消息"
+            />
+    </RelativeLayout>
+
+    <View
+        style="@style/line"
+        ></View>
+
+    <RelativeLayout
+        android:background="#ffffff"
+        android:id="@+id/ll_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/home"/>
+
+        <TextView
+            style="@style/text_menu"
+            android:text="首页"
+            />
+    </RelativeLayout>
+
+    <View
+        style="@style/line"
+        ></View>
+
+    <RelativeLayout
+        android:background="#ffffff"
+        android:id="@+id/ll_help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bangzhu"/>
+
+        <TextView
+            style="@style/text_menu"
+            android:text="帮助"
+            />
+    </RelativeLayout>
+
+    <View
+        style="@style/line"
+        ></View>
+
+    <RelativeLayout
+        android:background="#ffffff"
+        android:id="@+id/ll_wode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/wode"/>
+
+        <TextView
+            style="@style/text_menu"
+            android:text="我的"
+            />
+    </RelativeLayout>
+
+    <View
+        style="@style/line"
+        ></View>
+
+</LinearLayout>

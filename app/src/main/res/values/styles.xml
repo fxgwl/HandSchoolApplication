@@ -105,4 +105,17 @@
     <style name="cb_select" parent="Base.Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:button">@drawable/cb_bg</item>
     </style>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:drawableLeft="@drawable/xiaoxi"
+    android:gravity="center"
+    android:padding="10dp"
+    android:text="消息"
+
+    <style name="text_menu">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+    </style>
 </resources>

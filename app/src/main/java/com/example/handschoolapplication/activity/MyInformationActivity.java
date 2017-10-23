@@ -119,8 +119,8 @@ public class MyInformationActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-//                BaseActivity.setMenu(this);
-                BaseActivity.showMenuPop(this, view);
+                //弹出对话框
+                show(view);
                 break;
             case R.id.ll_icon:
                 showChoosePicDialog();
