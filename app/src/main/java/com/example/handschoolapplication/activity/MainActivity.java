@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.fragment.FindFragment;
@@ -68,6 +69,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        SDKInitializer.initialize(MainActivity.this);
         flag = getIntent().getStringExtra("flag");//0代表个人  1代表企业
         Log.e("aaa",
                 "(MainActivity.java:71)flag ==== " + flag);

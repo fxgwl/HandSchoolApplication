@@ -22,7 +22,11 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,7 +63,15 @@ public class UnusedDisFragment extends BaseFragment {
     private void initDataView() {
         mList = new ArrayList<>();
 
+        HashMap<String, String> params = new HashMap<>();
+        params.put("user_id", userId);
+        params.put("coupons_state", "");
+
+        Log.e("aaa",
+                "(UnusedDisFragment.java:68)" + "userID = = === " + userId);
         OkHttpUtils.post()
+                .url(InternetS.DISCOUNT_PAPER_LIST)
+                .params(params)
                 .url(Internet.DISCOUNTLIST)
                 .addParams("user_id", userId)
                 .addParams("coupons_state", "0")
