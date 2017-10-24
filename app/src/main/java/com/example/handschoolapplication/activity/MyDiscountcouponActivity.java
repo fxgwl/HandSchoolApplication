@@ -109,4 +109,6 @@ public class MyDiscountcouponActivity extends BaseActivity {
 
         currentFragment = fragment;
     }
+
+
 }

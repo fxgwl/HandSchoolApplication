@@ -69,8 +69,6 @@ public class CourseBean {
         }
 
         /**
-         * school_wei
-         * school_jing
          * age_range : 2-6岁
          * course_address : 1
          * course_capacity : 28
@@ -112,8 +110,6 @@ public class CourseBean {
         private String school_name;
         private String study_num;
         private String user_id;
-        private double school_wei;
-        private double school_jing;
 
         public String getAge_range() {
             return age_range;
@@ -266,23 +262,5 @@ public class CourseBean {
         public void setUser_id(String user_id) {
             this.user_id = user_id;
         }
-
-        public double getSchool_wei() {
-            return school_wei;
-        }
-
-        public void setSchool_wei(double school_wei) {
-            this.school_wei = school_wei;
-        }
-
-        public double getSchool_jing() {
-            return school_jing;
-        }
-
-        public void setSchool_jing(double school_jing) {
-            this.school_jing = school_jing;
-        }
     }
-
-
 }

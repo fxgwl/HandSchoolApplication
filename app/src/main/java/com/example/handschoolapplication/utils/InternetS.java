@@ -10,8 +10,6 @@ public class InternetS {
 
     public static final String BASE_URL = "http://120.92.44.55/PrivateSchool/";
 
-    public static final String BASE_URL = "http://120.92.44.55/PrivateSchool/";
-
     //掌上私塾接口
     //77阅读
     public static final String READING = BASE_URL + "MessageInfo/updateTeacherInfo";

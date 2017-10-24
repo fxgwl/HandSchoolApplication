@@ -20,21 +20,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.Poi;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.ActivityActivity;
 import com.example.handschoolapplication.activity.ArtActivity;
 import com.example.handschoolapplication.activity.ChildEduActivity;
-import com.example.handschoolapplication.activity.CurrentCityActivity;
 import com.example.handschoolapplication.activity.EducationActivity;
 import com.example.handschoolapplication.activity.HomeEduActivity;
+import com.example.handschoolapplication.activity.LearnHelpActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
 import com.example.handschoolapplication.activity.TrusteeshipActivity;
 import com.example.handschoolapplication.adapter.HPClassAdapter;
@@ -175,10 +171,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     private ArrayList<ArrayList<String>> typetwolist;
     private String user_id;
     private ArrayList<String> typeones;
-    public LocationClient mLocationClient = null;
-    public MyLocationListener myListener = new MyLocationListener();
-    private String city;
-    private double[] locations;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -197,49 +189,14 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                 case 1:
                     initOrgan("家教", classBeanList3, classAdapter3, lvHomelearnName);
                     break;
-                case 3:
-                    tvLocation.setText(city);
-                    break;
-                case 2:
-                    locations = (double[]) msg.obj;
-                    break;
             }
         }
     };
-
-
-    /**
-     * 定位
-     */
-    private void startLocate() {
-        mLocationClient = new LocationClient(getActivity().getApplicationContext());     //声明LocationClient类
-        mLocationClient.registerLocationListener(myListener);    //注册监听函数
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving
-        );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-//        int span = 1000;
-        option.setScanSpan(0);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
-        option.setOpenGps(true);//可选，默认false,设置是否使用gps
-        option.setLocationNotify(true);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
-        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
-        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
-        mLocationClient.setLocOption(option);
-        //开启定位
-        mLocationClient.start();
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
-
-        LocationClient locationClient = new LocationClient(getActivity().getApplicationContext());
-
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         marqueeView = (MarqueeView) view.findViewById(R.id.marqueeView);
         unbinder = ButterKnife.bind(this, view);
@@ -247,8 +204,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         type = new TextView[]{tvHometype1, tvHometype2, tvHometype3, tvHometype4, tvHometype5, tvHometype6};
         typelist = new TextView[]{tvHometypelist1, tvHometypelist2, tvHometypelist3, tvHometypelist4, tvHometypelist5, tvHometypelist6};
         LvCourseName = (ListView) view.findViewById(R.id.lv_course_name);
-
-        locationAt();
         initLvData();
         //教育资讯跑马灯
         initTeachNews();
@@ -264,12 +219,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         return view;
     }
 
-    //定位
-    private void locationAt() {
-        startLocate();
-    }
-
-    //判断签到  后台需要  前台没用
     private void isSign() {
 
         OkHttpUtils.post()
@@ -510,7 +459,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                                 MyUtiles.setListViewHeightBasedOnChildren(lvActivityName);
                             } else {
                                 courseBeanList3.addAll(gson.fromJson(response, CourseBean.class).getData());
-                                courseAdapter3.setLocation(locations);
                                 courseAdapter3.notifyDataSetChanged();
                                 MyUtiles.setListViewHeightBasedOnChildren(lvActivityName);
                             }
@@ -540,7 +488,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                                                     MyUtiles.setListViewHeightBasedOnChildren(lvLearnName);
                                                 } else {
                                                     courseBeanList2.addAll(gson.fromJson(response, CourseBean.class).getData());
-                                                    courseAdapter2.setLocation(locations);
                                                     courseAdapter2.notifyDataSetChanged();
                                                     MyUtiles.setListViewHeightBasedOnChildren(lvLearnName);
                                                 }
@@ -568,7 +515,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                                                                         MyUtiles.setListViewHeightBasedOnChildren(LvCourseName);
                                                                     } else {
                                                                         courseBeanList1.addAll(gson.fromJson(response, CourseBean.class).getData());
-                                                                        courseAdapter1.setLocation(locations);
                                                                         courseAdapter1.notifyDataSetChanged();
                                                                         MyUtiles.setListViewHeightBasedOnChildren(LvCourseName);
                                                                     }
@@ -601,7 +547,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     }
 
     //选择而小类之后列表
-    private void chooseClassTwoType(final String s, final List<CourseBean.DataBean> list, final HPCourseAdapter sAdapter, final ListView lv) {
+    private void chooseClassTwoType(String s, final List<CourseBean.DataBean> list, final HPCourseAdapter sAdapter, final ListView lv) {
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", s)
@@ -625,7 +571,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                             MyUtiles.setListViewHeightBasedOnChildren(lv);
                         } else {
                             list.addAll(gson.fromJson(response, CourseBean.class).getData());
-                            sAdapter.setLocation(locations);
                             sAdapter.notifyDataSetChanged();
                             MyUtiles.setListViewHeightBasedOnChildren(lv);
                         }
@@ -699,30 +644,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                         });
                 break;
             case R.id.rl_style_art://文艺
-                startActivity(new Intent(getActivity(), ArtActivity.class)
-                        .putExtra("flag", "art")
-                        .putExtra("types", typetwolist.get(0))
-                        .putExtra("city", city)
-                        .putExtra("latitude", locations[0])
-                        .putExtra("longitude", locations[1]));
+                startActivity(new Intent(getActivity(), ArtActivity.class).putExtra("types", typetwolist.get(0)));
                 break;
             case R.id.rl_learn_help://学习辅导
-                startActivity(new Intent(getActivity(), ArtActivity.class)
-                        .putExtra("flag", "help")
-                        .putExtra("types", typetwolist.get(1))
-                        .putExtra("city", city)
-                        .putExtra("latitude", locations[0])
-                        .putExtra("longitude", locations[1])
-                );
+                startActivity(new Intent(getActivity(), LearnHelpActivity.class).putExtra("types", typetwolist.get(1)));
                 break;
             case R.id.rl_activity://活动
-                startActivity(new Intent(getActivity(), ArtActivity.class)
-                        .putExtra("flag", "activity")
-                        .putExtra("types", typetwolist.get(2))
-                        .putExtra("city", city)
-                        .putExtra("latitude", locations[0])
-                        .putExtra("longitude", locations[1])
-                );
+                startActivity(new Intent(getActivity(), ActivityActivity.class).putExtra("types", typetwolist.get(2)));
                 break;
             case R.id.rl_child_edu://早教
                 startActivity(new Intent(getActivity(), ChildEduActivity.class));
@@ -734,28 +662,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                 startActivity(new Intent(getActivity(), HomeEduActivity.class));
                 break;
             case R.id.tv_more_art:
-                startActivity(new Intent(getActivity(), ArtActivity.class)
-                        .putExtra("flag", "art")
-                        .putExtra("types", typetwolist.get(0))
-                        .putExtra("city", city)
-                        .putExtra("latitude", locations[0])
-                        .putExtra("longitude", locations[1]));
+                startActivity(new Intent(getActivity(), ArtActivity.class).putExtra("types", typetwolist.get(0)));
                 break;
             case R.id.tv_more_learn:
-                startActivity(new Intent(getActivity(), ArtActivity.class)
-                        .putExtra("flag", "help")
-                        .putExtra("types", typetwolist.get(1))
-                        .putExtra("city", city)
-                        .putExtra("latitude", locations[0])
-                        .putExtra("longitude", locations[1]));
+                startActivity(new Intent(getActivity(), LearnHelpActivity.class).putExtra("types", typetwolist.get(1)));
                 break;
             case R.id.tv_more_activity:
-                startActivity(new Intent(getActivity(), ArtActivity.class)
-                        .putExtra("flag", "activity")
-                        .putExtra("types", typetwolist.get(2))
-                        .putExtra("city", city)
-                        .putExtra("latitude", locations[0])
-                        .putExtra("longitude", locations[1]));
+                startActivity(new Intent(getActivity(), ActivityActivity.class).putExtra("types", typetwolist.get(2)));
                 break;
             case R.id.tv_more_child:
                 startActivity(new Intent(getActivity(), ChildEduActivity.class));
@@ -768,9 +681,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
             case R.id.et_search:
                 startActivity(new Intent(getActivity(), SearchActivity.class));
-                break;
-            case R.id.ll_address:
-                startActivity(new Intent(getActivity(), CurrentCityActivity.class).putExtra("city", city));
                 break;
         }
     }
@@ -806,86 +716,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
             }
         }
 
-    }
-
-    private class MyLocationListener implements BDLocationListener {
-
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            StringBuffer sb = new StringBuffer(256);
-            sb.append("time : ");
-            sb.append(location.getTime());
-            sb.append("\nerror code : ");
-            sb.append(location.getLocType());
-            sb.append("\nlatitude : ");
-            sb.append(location.getLatitude());
-            sb.append("\nlontitude : ");
-            sb.append(location.getLongitude());
-            sb.append("\nradius : ");
-            sb.append(location.getRadius());
-            if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果
-                sb.append("\nspeed : ");
-                sb.append(location.getSpeed());// 单位：公里每小时
-                sb.append("\nsatellite : ");
-                sb.append(location.getSatelliteNumber());
-                sb.append("\nheight : ");
-                sb.append(location.getAltitude());// 单位：米
-                sb.append("\ndirection : ");
-                sb.append(location.getDirection());// 单位度
-                sb.append("\naddr : ");
-                sb.append(location.getAddrStr());
-                sb.append("\ndescribe : ");
-                sb.append("gps定位成功");
-
-            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
-                sb.append("\naddr : ");
-                sb.append(location.getAddrStr());
-                //运营商信息
-                sb.append("\noperationers : ");
-                sb.append(location.getOperators());
-                sb.append("\ndescribe : ");
-                sb.append("网络定位成功");
-            } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
-                sb.append("\ndescribe : ");
-                sb.append("离线定位成功，离线定位结果也是有效的");
-            } else if (location.getLocType() == BDLocation.TypeServerError) {
-                sb.append("\ndescribe : ");
-                sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到loc-bugs@baidu.com，会有人追查原因");
-            } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-                sb.append("\ndescribe : ");
-                sb.append("网络不同导致定位失败，请检查网络是否通畅");
-            } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-                sb.append("\ndescribe : ");
-                sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
-            }
-            sb.append("\nlocationdescribe : ");
-            sb.append(location.getLocationDescribe());// 位置语义化信息
-            List<Poi> list = location.getPoiList();// POI数据
-            if (list != null) {
-                sb.append("\npoilist size = : ");
-                sb.append(list.size());
-                for (Poi p : list) {
-                    sb.append("\npoi= : ");
-                    sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
-                }
-            }
-            Log.e("描述：", sb.toString());
-
-            city = location.getCity();
-            double[] locations = new double[2];
-            locations[0] = location.getLatitude();//纬度
-            locations[1] = location.getLongitude();//经度
-            Message message = new Message();
-            message.obj = locations;
-            message.what = 2;
-            mHandler.sendMessage(message);
-            mHandler.sendEmptyMessage(3);
-        }
-
-        @Override
-        public void onConnectHotSpotMessage(String s, int i) {
-
-        }
     }
 
 }

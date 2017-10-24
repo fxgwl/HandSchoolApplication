@@ -2,8 +2,6 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +14,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.Poi;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.DistanceUtil;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
@@ -28,7 +21,6 @@ import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.CourseSortBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.InternetS;
-import com.example.handschoolapplication.utils.RankListUtils;
 import com.example.handschoolapplication.view.CommonPopupWindow;
 import com.example.handschoolapplication.view.HorizontalListView;
 import com.google.gson.Gson;
@@ -68,27 +60,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
     private List<CourseSortBean> mlist;
     private MyAdapter myAdapter;
     private ArrayList types;//第一级下拉菜单的数据源
-//    public LocationClient mLocationClient = null;
-//    public MyLocationListener myListener = new MyLocationListener();
-    private String city;
-    private double[] locations;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    tvLocation.setText(city);
-                    break;
-                case 1:
-                    locations = (double[]) msg.obj;
-                    myAdapter.notifyDataSetChanged();
-                    break;
-            }
-
-        }
-    };
-    private String flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,55 +69,13 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         myAdapter = new MyAdapter();
         listView.setAdapter(myAdapter);
         ivMenu.setVisibility(View.VISIBLE);
-
+        tvTitle.setText("文体艺术");
         types = (ArrayList) getIntent().getSerializableExtra("types");
-        flag =  getIntent().getStringExtra("flag");
-        city =  getIntent().getStringExtra("city");
-        double latitude =  getIntent().getDoubleExtra("latitude",0);
-        double longitude =  getIntent().getDoubleExtra("longitude",0);
-        locations = new double[]{latitude,longitude};
-        switch (flag){
-            case "art":
-                tvTitle.setText("文体艺术");
-                break;
-            case "help":
-                tvTitle.setText("学习辅导");
-                break;
-            case "activity":
-                tvTitle.setText("活动拓展");
-                break;
-        }
-//        startLocate();
         //获取文体艺术的小类
-        initData(flag);
+        initData("文体艺术");
 
 
     }
-
-    /**
-     * 定位
-     */
-//    private void startLocate() {
-//        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-//        mLocationClient.registerLocationListener(myListener);    //注册监听函数
-//        LocationClientOption option = new LocationClientOption();
-//        option.setLocationMode(LocationClientOption.LocationMode.Battery_Saving
-//        );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-//        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-////        int span = 1000;
-//        option.setScanSpan(0);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-//        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
-//        option.setOpenGps(true);//可选，默认false,设置是否使用gps
-//        option.setLocationNotify(true);//可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
-//        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-//        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-//        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-//        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
-//        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
-//        mLocationClient.setLocOption(option);
-//        //开启定位
-//        mLocationClient.start();
-//    }
 
     private void initData(String sort) {
 
@@ -172,8 +101,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                             JSONArray data = jsonObject.getJSONArray("data");
                             mlist.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
-                            if (locations != null)
-                                RankListUtils.rankList(mlist, new LatLng(locations[0], locations[1]));
                             myAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -284,7 +211,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                             JSONArray data = jsonObject.getJSONArray("data");
                             mlist.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
-//                            myAdapter.setLocations(locations);
                             myAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -305,19 +231,18 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:233)" + e.getMessage());
+                            "(ArtActivity.java:233)"+e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:239)" + response);
+                            "(ArtActivity.java:239)"+response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
                             mlist.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
-//                            myAdapter.setLocations(locations);
                             myAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -352,7 +277,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                             JSONArray data = jsonObject.getJSONArray("data");
                             mlist.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
-//                            myAdapter.setLocations(locations);
                             myAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -386,7 +310,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                             JSONArray data = jsonObject.getJSONArray("data");
                             mlist.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
-//                            myAdapter.setLocations(locations);
                             myAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -421,8 +344,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                             JSONArray data = jsonObject.getJSONArray("data");
                             mlist.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
-
-//                            myAdapter.setLocations(locations);
                             myAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -430,7 +351,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     }
                 });
     }
-
     /**
      * 价格排序  由低到高
      */
@@ -458,122 +378,17 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                             ArrayList<CourseSortBean> list = new ArrayList<CourseSortBean>();
                             list.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
-                            if (list.size() > 0) {
-                                for (int i = 0; i < list.size(); i++) {
-                                    mlist.add(list.get((list.size() - 1) - i));
+                            if (list.size()>0){
+                                for (int i = 0; i <list.size() ; i++) {
+                                    mlist.add(list.get((list.size()-1)-i));
                                 }
                             }
-//                            myAdapter.setLocations(locations);
                             myAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
-    }
-
-    private void getDistenceDesc() {//由远到近
-        List<CourseSortBean> courseSortBeen = RankListUtils.rankList(mlist, new LatLng(locations[0], locations[1]));
-        for (int i = 0; i < courseSortBeen.size(); i++) {
-            double distance = courseSortBeen.get(i).getDistance();
-        }
-        mlist.clear();
-        mlist.addAll(courseSortBeen);
-        myAdapter.notifyDataSetChanged();
-    }
-
-    private void getDistenceAsc() {//由近到远
-        List<CourseSortBean> courseSortBeen = RankListUtils.rankListsss(mlist, new LatLng(locations[0], locations[1]));
-        mlist.clear();
-        mlist.addAll(courseSortBeen);
-        myAdapter.notifyDataSetChanged();
-    }
-
-
-    private class MyLocationListener implements BDLocationListener {
-
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            StringBuffer sb = new StringBuffer(256);
-            sb.append("time : ");
-            sb.append(location.getTime());
-            sb.append("\nerror code : ");
-            sb.append(location.getLocType());
-            sb.append("\nlatitude : ");
-            sb.append(location.getLatitude());
-            sb.append("\nlontitude : ");
-            sb.append(location.getLongitude());
-            sb.append("\nradius : ");
-            sb.append(location.getRadius());
-            if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果
-                sb.append("\nspeed : ");
-                sb.append(location.getSpeed());// 单位：公里每小时
-                sb.append("\nsatellite : ");
-                sb.append(location.getSatelliteNumber());
-                sb.append("\nheight : ");
-                sb.append(location.getAltitude());// 单位：米
-                sb.append("\ndirection : ");
-                sb.append(location.getDirection());// 单位度
-                sb.append("\naddr : ");
-                sb.append(location.getAddrStr());
-                sb.append("\ndescribe : ");
-                sb.append("gps定位成功");
-
-            } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
-                sb.append("\naddr : ");
-                sb.append(location.getAddrStr());
-                //运营商信息
-                sb.append("\noperationers : ");
-                sb.append(location.getOperators());
-                sb.append("\ndescribe : ");
-                sb.append("网络定位成功");
-            } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
-                sb.append("\ndescribe : ");
-                sb.append("离线定位成功，离线定位结果也是有效的");
-            } else if (location.getLocType() == BDLocation.TypeServerError) {
-                sb.append("\ndescribe : ");
-                sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到loc-bugs@baidu.com，会有人追查原因");
-            } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-                sb.append("\ndescribe : ");
-                sb.append("网络不同导致定位失败，请检查网络是否通畅");
-            } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-                sb.append("\ndescribe : ");
-                sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
-            }
-            sb.append("\nlocationdescribe : ");
-            sb.append(location.getLocationDescribe());// 位置语义化信息
-            List<Poi> list = location.getPoiList();// POI数据
-            if (list != null) {
-                sb.append("\npoilist size = : ");
-                sb.append(list.size());
-                for (Poi p : list) {
-                    sb.append("\npoi= : ");
-                    sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
-                }
-            }
-            Log.e("描述：", sb.toString());
-
-            city = location.getCity();
-            Message message = new Message();
-            message.obj = city;
-            message.what = 0;
-            mHandler.sendEmptyMessage(0);
-            double[] locations = new double[2];
-            locations[0] = location.getLatitude();//纬度
-            locations[1] = location.getLongitude();//经度
-            Log.e("aaa",
-                    "(MyLocationListener.java:524)" + "获取到的纬度是====" + location.getLatitude() + "     获取到的纬度是====" + location.getLongitude());
-            Message message1 = new Message();
-            message1.obj = locations;
-            message1.what = 1;
-            mHandler.sendMessage(message1);
-
-        }
-
-        @Override
-        public void onConnectHotSpotMessage(String s, int i) {
-
-        }
     }
 
 
@@ -608,12 +423,10 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
             case R.id.tv_near_rank:
                 synthesisRankPopupwindow.dismiss();
                 iv_bg.setVisibility(View.GONE);
-                getDistenceDesc();
                 break;
             case R.id.tv_far_rank:
                 synthesisRankPopupwindow.dismiss();
                 iv_bg.setVisibility(View.GONE);
-                getDistenceAsc();
                 break;
             case R.id.tv_course_rank:
                 synthesisRankPopupwindow.dismiss();
@@ -627,6 +440,8 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 break;
         }
     }
+
+
 
 
     class MyAdapter extends BaseAdapter {
@@ -666,23 +481,10 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
             holder.tvCourse.setText(courseSortBean.getCourse_name());
             holder.tvPrice.setText("¥" + courseSortBean.getPreferential_price());//价格是放的优惠价
             holder.popularity.setText("（" + courseSortBean.getPopularity_num() + "人已报名）");
-
-            double school_wei = Double.parseDouble(courseSortBean.getSchool_wei());
-            double school_jing = Double.parseDouble(courseSortBean.getSchool_jing());
-
-            if (locations != null) {
-                double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
-                Log.e("aaa",
-                        "(ArtActivity.java:635)" + "纬度是=====" + locations[0] + "     经度为======" + locations[1]);
-                Log.e("aaa",
-                        "(ArtActivity.java:637)" + "学堂返回的纬度是=====" + school_wei + "     学堂返回的经度为======" + school_jing);
-                holder.tvDistance.setText((int) distance + "m");
-            } else {
-                holder.tvDistance.setText("定位失败");
-            }
             return convertView;
-        }
 
+
+        }
 
         class ViewHolder {
             @BindView(R.id.iv_course)

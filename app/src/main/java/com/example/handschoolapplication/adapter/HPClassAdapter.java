@@ -29,7 +29,6 @@ public class HPClassAdapter extends BaseAdapter {
     private Context context;
     private List<ClassBean.DataBean> mList;
     private int size = 0;
-    private double locations[];
 
     public HPClassAdapter(Context context, List<ClassBean.DataBean> mList) {
         this.context = context;
@@ -81,17 +80,7 @@ public class HPClassAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-        if (locations!=null){
-            double latitude = locations[0];//纬度
-            double longitude = locations[1];//经度
-//            DistanceUtil.getDistance(new LatLng(latitude,longitude),);
-        }
-
         return view;
-    }
-
-    public void setLocations(double locations[]){
-        this.locations=locations;
     }
 
     static class ViewHolder {
