@@ -177,6 +177,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 iv_bg.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_defaultrank://默认排序
+                initData(flag);
                 break;
             case R.id.tv_allrank://综合排序
             case R.id.iv_allrank:
