@@ -44,7 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -61,7 +62,7 @@
                 android:layout_marginTop="5dp"
                 android:text="距离： 200m"
                 android:textColor="#666666"
-                android:textSize="14sp"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_price"
@@ -70,7 +71,7 @@
                 android:layout_marginTop="5dp"
                 android:text="价格： ¥200"
                 android:textColor="#666666"
-                android:textSize="14sp"/>
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -91,7 +92,7 @@
                 android:layout_marginRight="20dp"
                 android:text="(20人已报名)"
                 android:textColor="#666666"
-                android:textSize="14sp"/>
+                android:textSize="12sp"/>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -29,6 +30,7 @@ public class HPClassAdapter extends BaseAdapter {
     private Context context;
     private List<ClassBean.DataBean> mList;
     private int size = 0;
+    private double locations[];
 
     public HPClassAdapter(Context context, List<ClassBean.DataBean> mList) {
         this.context = context;
@@ -80,7 +82,58 @@ public class HPClassAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
+        String user_dengji = classBean.getUser_dengji();
+        if (TextUtils.isEmpty(user_dengji)){
+
+        }
+        switch (user_dengji){
+            case "1":
+                holder.star1.setImageResource(R.drawable.wujiaoxing);
+                holder.star2.setImageResource(R.drawable.wujiaoxinghuise);
+                holder.star3.setImageResource(R.drawable.wujiaoxinghuise);
+                holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
+                holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                break;
+            case "2":
+                holder.star1.setImageResource(R.drawable.wujiaoxing);
+                holder.star2.setImageResource(R.drawable.wujiaoxing);
+                holder.star3.setImageResource(R.drawable.wujiaoxinghuise);
+                holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
+                holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                break;
+            case "3":
+                holder.star1.setImageResource(R.drawable.wujiaoxing);
+                holder.star2.setImageResource(R.drawable.wujiaoxing);
+                holder.star3.setImageResource(R.drawable.wujiaoxing);
+                holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
+                holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                break;
+            case "4":
+                holder.star1.setImageResource(R.drawable.wujiaoxing);
+                holder.star2.setImageResource(R.drawable.wujiaoxing);
+                holder.star3.setImageResource(R.drawable.wujiaoxing);
+                holder.star4.setImageResource(R.drawable.wujiaoxing);
+                holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                break;
+            case "5":
+                holder.star1.setImageResource(R.drawable.wujiaoxing);
+                holder.star2.setImageResource(R.drawable.wujiaoxing);
+                holder.star3.setImageResource(R.drawable.wujiaoxing);
+                holder.star4.setImageResource(R.drawable.wujiaoxing);
+                holder.star5.setImageResource(R.drawable.wujiaoxing);
+                break;
+        }
+        if (locations != null) {
+            double latitude = locations[0];//纬度
+            double longitude = locations[1];//经度
+//            DistanceUtil.getDistance(new LatLng(latitude,longitude));
+        }
+
         return view;
+    }
+
+    public void setLocations(double locations[]) {
+        this.locations = locations;
     }
 
     static class ViewHolder {
@@ -94,6 +147,16 @@ public class HPClassAdapter extends BaseAdapter {
         TextView popularity;
         @BindView(R.id.rl_item)
         RelativeLayout rlItem;
+        @BindView(R.id.iv_star1)
+        ImageView star1;
+        @BindView(R.id.iv_star2)
+        ImageView star2;
+        @BindView(R.id.iv_star3)
+        ImageView star3;
+        @BindView(R.id.iv_star4)
+        ImageView star4;
+        @BindView(R.id.iv_star5)
+        ImageView star5;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

@@ -98,7 +98,6 @@ public class GradeActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             case R.id.ll_integral_more:
                 break;

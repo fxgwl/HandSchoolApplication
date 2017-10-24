@@ -40,7 +40,6 @@ public class CashWayActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             case R.id.ll_zhifubao:
                 ivZhifubao.setImageResource(R.drawable.hongquan);

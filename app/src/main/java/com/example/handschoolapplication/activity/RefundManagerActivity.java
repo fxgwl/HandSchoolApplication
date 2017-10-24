@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.RefundManagerLvAdapter;
-import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.ClassDealManagerBean;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-public class RefundManagerActivity extends BaseActivity {
+public class RefundManagerActivity extends AppCompatActivity {
 
     @BindView(R.id.rl_back)
     RelativeLayout rlBack;
@@ -77,6 +77,7 @@ public class RefundManagerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        setContentView(R.layout.activity_refund_manager);
         ButterKnife.bind(this);
         school_id = (String) SPUtils.get(this, "school_id", "");
         tvTitle.setText("退款管理");
@@ -88,11 +89,6 @@ public class RefundManagerActivity extends BaseActivity {
         lvRefundmanager.setAdapter(mAdapter);
 
         initData();
-    }
-
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_refund_manager;
     }
 
     private void initData() {
@@ -119,7 +115,7 @@ public class RefundManagerActivity extends BaseActivity {
                             mList.addAll((Collection<? extends ClassDealManagerBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassDealManagerBean>>() {
                             }.getType()));
                             for (int i = 0; i < mList.size(); i++) {
-                                switch (mList.get(i).getOrder_state()) {
+                                switch (mList.get(i).getOrder_state()){
                                     case "4":
                                         allRefunList.add(mList.get(i));
                                         refuningList.add(mList.get(i));
@@ -146,7 +142,6 @@ public class RefundManagerActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             case R.id.ll_refundmanager_all:
                 tvRefundmanagerAll.setTextColor(getResources().getColor(R.color.blue));

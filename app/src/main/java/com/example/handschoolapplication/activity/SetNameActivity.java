@@ -38,7 +38,6 @@ public class SetNameActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             case R.id.tv_save:
                 String name = etName.getText().toString().trim();

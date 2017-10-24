@@ -42,7 +42,6 @@ public class SelectSexActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             case R.id.tv_save:
                 setResult(11, new Intent().putExtra("sex",sex));

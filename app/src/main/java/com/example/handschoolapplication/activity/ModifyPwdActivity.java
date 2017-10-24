@@ -53,7 +53,6 @@ public class ModifyPwdActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             //发送验证码
             case R.id.tv_modifypwd_sendcode:

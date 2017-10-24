@@ -136,7 +136,6 @@ public class MyAccountActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             case R.id.tv_cash://提现
                 startActivity(new Intent(MyAccountActivity.this, CashActivity.class));

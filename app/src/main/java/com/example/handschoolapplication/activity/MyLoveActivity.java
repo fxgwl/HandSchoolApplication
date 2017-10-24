@@ -75,7 +75,6 @@ public class MyLoveActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             case R.id.ll_love_course:
                 vLineClass.setBackgroundColor(Color.parseColor("#ffffff"));
