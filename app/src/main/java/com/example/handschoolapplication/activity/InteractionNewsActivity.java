@@ -86,6 +86,7 @@ public class InteractionNewsActivity extends BaseActivity implements Interaction
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
         }
     }

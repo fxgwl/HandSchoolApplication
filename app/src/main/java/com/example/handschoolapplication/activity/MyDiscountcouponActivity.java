@@ -72,6 +72,7 @@ public class MyDiscountcouponActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.ll_unused:
                 tvUnused.setTextColor(Color.parseColor("#27acf6"));

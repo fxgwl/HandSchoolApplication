@@ -59,6 +59,7 @@ public class FeedBackActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.tv_feedback_submit:
                 //意见反馈

@@ -2,7 +2,6 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.DiscountBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-public class MyDiscountActivity extends AppCompatActivity {
+public class MyDiscountActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -45,7 +45,6 @@ public class MyDiscountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_discount);
         ButterKnife.bind(this);
         Intent intent = getIntent();
         tvTitle.setText("优惠券");
@@ -55,6 +54,11 @@ public class MyDiscountActivity extends AppCompatActivity {
         initView();
 
 
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_my_discount;
     }
 
     private void initView() {
@@ -104,6 +108,7 @@ public class MyDiscountActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
         }
     }

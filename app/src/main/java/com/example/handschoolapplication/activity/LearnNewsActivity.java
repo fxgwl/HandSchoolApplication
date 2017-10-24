@@ -93,6 +93,7 @@ public class LearnNewsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
         }
     }

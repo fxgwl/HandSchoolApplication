@@ -56,6 +56,7 @@ public class ForgetPwdToActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.btn_ok:
                 forgetPwd();

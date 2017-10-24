@@ -152,6 +152,7 @@ public class HumanServiceActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.tv_contact_send:
                 content = tvContactContent.getText().toString();

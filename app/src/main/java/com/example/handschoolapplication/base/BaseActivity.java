@@ -2,6 +2,7 @@ package com.example.handschoolapplication.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,8 +13,14 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.HelpActivity;
+import com.example.handschoolapplication.activity.MainActivity;
+import com.example.handschoolapplication.activity.SettingsActivity;
+import com.example.handschoolapplication.bean.MenuBean;
 import com.example.handschoolapplication.view.CommonPopupWindow;
 import com.example.handschoolapplication.view.MyPopupWindow;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -113,25 +120,31 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mppWinow.dismiss();
-
+                startActivity(new Intent(BaseActivity.this, MainActivity.class));
+                EventBus.getDefault().post(new MenuBean(2));
             }
         });
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mppWinow.dismiss();
+                startActivity(new Intent(BaseActivity.this, MainActivity.class));
+                EventBus.getDefault().post(new MenuBean(1));
             }
         });
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mppWinow.dismiss();
+                startActivity(new Intent(BaseActivity.this, HelpActivity.class));
             }
         });
         wode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mppWinow.dismiss();
+                startActivity(new Intent(BaseActivity.this, MainActivity.class));
+                EventBus.getDefault().post(new MenuBean(3));
             }
         });
     }
