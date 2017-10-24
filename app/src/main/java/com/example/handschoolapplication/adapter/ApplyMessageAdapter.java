@@ -89,12 +89,12 @@ public class ApplyMessageAdapter extends BaseAdapter {
                 endListener.onEnd(position);
             }
         });
-        holder.tvHadEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                haveEndListener.hadEnd(position);
-            }
-        });
+//        holder.tvHadEnd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                haveEndListener.hadEnd(position);
+//            }
+//        });
         ApplyMessage applyMessage = mList.get(position);
         String course_state = applyMessage.getCourse_state();
 
@@ -144,8 +144,8 @@ public class ApplyMessageAdapter extends BaseAdapter {
         Glide.with(context).load(Internet.BASE_URL + applyMessage.getCourse_photo()).centerCrop().into(holder.ivCourse);//课程图片
         holder.tvCourseName.setText(applyMessage.getCourse_name());//课程名称
         holder.tvNum1.setText(applyMessage.getEnrol_num());//已报名人数
-        holder.tvNum2.setText(applyMessage.getCourse_capacity());//班级容量
-        holder.tvTearcher.setText(applyMessage.getCourse_teacher());//主讲人
+        holder.tvNum2.setText("/"+applyMessage.getCourse_capacity());//班级容量
+        holder.tvTearcher.setText(""+applyMessage.getCourse_teacher());//主讲人
         return view;
     }
 
