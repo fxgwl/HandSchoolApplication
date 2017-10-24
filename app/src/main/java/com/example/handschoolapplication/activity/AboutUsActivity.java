@@ -14,7 +14,7 @@ import butterknife.OnClick;
 
 public class AboutUsActivity extends BaseActivity {
 
-    //这是昝宏伟新版的教育项目111
+    //这是昝宏伟新版的教育项目11122323232
 
     @BindView(R.id.rl_back)
     RelativeLayout rlBack;
