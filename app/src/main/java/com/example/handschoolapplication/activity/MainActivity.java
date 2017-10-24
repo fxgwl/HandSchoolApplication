@@ -249,7 +249,11 @@ public class MainActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void hello(MenuBean event) {
         /* Do something */
-        mhandler.sendEmptyMessageDelayed(event.getNum(), 50);
+        if (event.getNum() == 8) {
+            finish();
+        } else {
+            mhandler.sendEmptyMessageDelayed(event.getNum(), 50);
+        }
     }
 
     ;
@@ -259,4 +263,5 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
 }

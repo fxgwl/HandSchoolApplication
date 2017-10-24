@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.MenuBean;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.ShenjiDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -90,6 +93,7 @@ public class SettingsActivity extends BaseActivity {
                 break;
             case R.id.btn_unlogin:
                 SPUtils.clear(this);
+                EventBus.getDefault().post(new MenuBean(8));
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
             //版本升级
