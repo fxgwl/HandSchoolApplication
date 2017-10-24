@@ -72,7 +72,6 @@ public class LearnNewsActivity extends BaseActivity {
                             mList.addAll((Collection<? extends LearnNewsBean>) new Gson().fromJson(data.toString(),new TypeToken<ArrayList<LearnNewsBean>>(){}.getType()));
                             mAdapter = new LearnNewsAdapter(LearnNewsActivity.this, mList);
                             lvLearnNews.setAdapter(mAdapter);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

@@ -11,13 +11,15 @@
         android:layout_width="78dp"
         android:layout_height="78dp"
         android:src="@drawable/kecheng"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"/>
     <LinearLayout
+        android:id="@+id/ll1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/iv_course"
-        android:layout_alignBottom="@+id/iv_course"
+        android:layout_centerVertical="true"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_course"
@@ -66,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/iv_course">
+        android:layout_alignBottom="@+id/ll1">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.ConsultNewsBean;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.util.List;
 
@@ -60,6 +62,11 @@ public class ConsultNewsAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        ConsultNewsBean consultNewsBean = mList.get(position);
+        Glide.with(context).load(Internet.BASE_URL+consultNewsBean.getConsult_photo()).centerCrop().into(holder.civUsericon);
+        holder.tvClassName.setText(consultNewsBean.getConsult_name());
+        holder.tvNewsContent.setText(consultNewsBean.getConsult_content());
+        holder.tvTime.setText(consultNewsBean.getConsult_time());
         return view;
     }
 

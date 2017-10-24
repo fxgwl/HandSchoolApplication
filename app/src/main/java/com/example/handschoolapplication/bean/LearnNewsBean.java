@@ -8,20 +8,20 @@ public class LearnNewsBean {
 
 
     /**
-     * message_content : 456
-     * message_state : 0
-     * message_time : 2017
-     * message_title : 123
-     * school_id : 954
-     * school_name : 1aa
-     * smessage_id : 1
-     * user_id : 205c2f34bc064712bf2e0157c142b6dd
+     * message_content : 亲，您报名的学堂开课了，注意不要迟到哦！
+     * message_time : 2017-10-21 17:12:38
+     * message_title : 嘿嘿
+     * message_type : images/head.jpg
+     * school_id : 1505805630235
+     * school_name : 我的小学堂b
+     * smessage_id : 18
+     * user_id : 772d42a5a0014faa8706f7cd3f6e8828
      */
 
     private String message_content;
-    private String message_state;
     private String message_time;
     private String message_title;
+    private String message_type;
     private String school_id;
     private String school_name;
     private int smessage_id;
@@ -33,14 +33,6 @@ public class LearnNewsBean {
 
     public void setMessage_content(String message_content) {
         this.message_content = message_content;
-    }
-
-    public String getMessage_state() {
-        return message_state;
-    }
-
-    public void setMessage_state(String message_state) {
-        this.message_state = message_state;
     }
 
     public String getMessage_time() {
@@ -57,6 +49,14 @@ public class LearnNewsBean {
 
     public void setMessage_title(String message_title) {
         this.message_title = message_title;
+    }
+
+    public String getMessage_type() {
+        return message_type;
+    }
+
+    public void setMessage_type(String message_type) {
+        this.message_type = message_type;
     }
 
     public String getSchool_id() {

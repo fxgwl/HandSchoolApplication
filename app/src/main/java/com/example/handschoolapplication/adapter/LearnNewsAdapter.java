@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.LearnNewsBean;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.util.List;
 
@@ -61,12 +63,10 @@ public class LearnNewsAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         LearnNewsBean learnNewsBean = mList.get(position);
-//        Glide.with(context).load(Internet.BASE_URL+learnNewsBean)//学堂头像
+        Glide.with(context).load(Internet.BASE_URL+learnNewsBean.getMessage_type()).centerCrop().into(holder.civUsericon);//学堂头像
         holder.tvClassName.setText(learnNewsBean.getSchool_name());//学堂昵称
         holder.tvTime.setText(learnNewsBean.getMessage_time());//通知时间
         holder.tvNewsContent.setText(learnNewsBean.getMessage_content());//通知内容
-
-
         return view;
     }
 

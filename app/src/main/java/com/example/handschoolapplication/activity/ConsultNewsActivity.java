@@ -1,7 +1,10 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -9,14 +12,26 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ConsultNewsAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.ConsultNewsBean;
+import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
-public class ConsultNewsActivity extends BaseActivity {
+public class ConsultNewsActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -25,27 +40,51 @@ public class ConsultNewsActivity extends BaseActivity {
 
     private ConsultNewsAdapter mAdapter;
     private List<ConsultNewsBean> mList;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         tvTitle.setText("咨询消息");
-
+        userId = (String) SPUtils.get(this, "userId", "");
+        mList = new ArrayList<>();
+        mAdapter = new ConsultNewsAdapter(ConsultNewsActivity.this, mList);
+        lvConsultNews.setAdapter(mAdapter);
         initData();
+
+        lvConsultNews.setOnItemClickListener(this);
     }
 
     private void initData() {
-        mList = new ArrayList<>();
+        mList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.CONSULT_NEWS)
+                .addParams("send_id", userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ConsultNewsActivity.java:54)" + e.getMessage());
+                    }
 
-        mList.add(new ConsultNewsBean());
-        mList.add(new ConsultNewsBean());
-        mList.add(new ConsultNewsBean());
-        mList.add(new ConsultNewsBean());
-        mList.add(new ConsultNewsBean());
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ConsultNewsActivity.java:61)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mList.addAll((Collection<? extends ConsultNewsBean>) new Gson().fromJson(data.toString(),new TypeToken<ArrayList<ConsultNewsBean>>(){}.getType()));
+                            mAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
-        mAdapter = new ConsultNewsAdapter(this, mList);
-        lvConsultNews.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -59,8 +98,22 @@ public class ConsultNewsActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ConsultNewsBean consultNewsBean = mList.get(position);
+        String course_id = consultNewsBean.getCourse_id();
+        String schooluid = consultNewsBean.getUser_id();
+
+        Intent intent = new Intent(this,HumanServiceActivity.class);
+        intent.putExtra("type", "0");
+        intent.putExtra("course_id", course_id);
+        intent.putExtra("schooluid", schooluid);
+        startActivity(intent);
     }
 }

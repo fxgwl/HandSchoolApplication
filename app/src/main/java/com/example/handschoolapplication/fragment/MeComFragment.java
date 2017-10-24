@@ -21,6 +21,7 @@ import com.example.handschoolapplication.activity.MyAccountActivity;
 import com.example.handschoolapplication.activity.SchoolInformationActivity;
 import com.example.handschoolapplication.activity.SettingsActivity;
 import com.example.handschoolapplication.base.BaseFragment;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -74,6 +75,7 @@ public class MeComFragment extends BaseFragment {
     LinearLayout llCode;
     private View view;
     private int REQUEST_CODE;
+    private String school_id;
 
 
     public MeComFragment() {
@@ -87,6 +89,7 @@ public class MeComFragment extends BaseFragment {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
+        school_id = (String) SPUtils.get(getActivity(), "school_id", "");
         return view;
     }
 
@@ -116,7 +119,7 @@ public class MeComFragment extends BaseFragment {
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.ll_my_class://我的学堂
-                startActivity(new Intent(getActivity(), ClassActivity.class));
+                startActivity(new Intent(getActivity(), ClassActivity.class).putExtra("school_id",school_id));
                 break;
             case R.id.ll_my_account://我的账户
                 startActivity(new Intent(getActivity(), MyAccountActivity.class));

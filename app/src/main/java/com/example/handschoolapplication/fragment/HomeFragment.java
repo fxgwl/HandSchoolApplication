@@ -198,6 +198,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                     initOrgan("家教", classBeanList3, classAdapter3, lvHomelearnName);
                     break;
                 case 3:
+                    if (!TextUtils.isEmpty(city))
                     tvLocation.setText(city);
                     break;
                 case 2:

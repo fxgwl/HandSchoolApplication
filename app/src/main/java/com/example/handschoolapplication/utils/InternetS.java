@@ -24,6 +24,8 @@ public class InternetS {
 
     //78学习消息
     public static final String LEARNNEWS = BASE_URL + "StudyMessage/listbyUser";
+    //56联系客服--学堂的对话列表
+    public static final String CONSULT_NEWS = BASE_URL+"ConsultMessage/getforSchool";
     //79报名信息
     public static final String APPLYINFOR = BASE_URL + "CourseInfo/listCourseState";
     //80开课
