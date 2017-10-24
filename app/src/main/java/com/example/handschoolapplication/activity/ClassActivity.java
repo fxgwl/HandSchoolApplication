@@ -134,6 +134,7 @@ public class ClassActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.ll_love:
                 //收藏

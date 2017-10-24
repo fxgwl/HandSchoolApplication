@@ -73,6 +73,7 @@ public class ApplyDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.ll_all_sele://是否全选
                 break;

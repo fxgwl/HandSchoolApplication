@@ -85,6 +85,7 @@ public class QuestionAnswerActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
         }
     }

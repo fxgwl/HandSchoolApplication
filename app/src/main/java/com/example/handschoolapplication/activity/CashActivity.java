@@ -45,6 +45,7 @@ public class CashActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.ll_cash_way:
                 startActivityForResult(new Intent(CashActivity.this,CashWayActivity.class),1);

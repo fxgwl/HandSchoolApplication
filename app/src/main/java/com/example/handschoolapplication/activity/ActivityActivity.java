@@ -69,10 +69,10 @@ public class ActivityActivity extends BaseActivity implements CommonPopupWindow.
         myAdapter = new MyAdapter();
         listView.setAdapter(myAdapter);
         ivMenu.setVisibility(View.VISIBLE);
-        tvTitle.setText("活动拓展");
+        tvTitle.setText("文体艺术");
         types = (ArrayList) getIntent().getSerializableExtra("types");
         //获取文体艺术的小类
-        initData("活动拓展");
+        initData("文体艺术");
 
 
     }
@@ -122,6 +122,7 @@ public class ActivityActivity extends BaseActivity implements CommonPopupWindow.
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.et_search:
             case R.id.iv_search://搜索
@@ -230,13 +231,13 @@ public class ActivityActivity extends BaseActivity implements CommonPopupWindow.
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:233)"+e.getMessage());
+                                "(ArtActivity.java:233)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:239)"+response);
+                                "(ArtActivity.java:239)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
@@ -350,6 +351,7 @@ public class ActivityActivity extends BaseActivity implements CommonPopupWindow.
                     }
                 });
     }
+
     /**
      * 价格排序  由低到高
      */
@@ -377,9 +379,9 @@ public class ActivityActivity extends BaseActivity implements CommonPopupWindow.
                             ArrayList<CourseSortBean> list = new ArrayList<CourseSortBean>();
                             list.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
-                            if (list.size()>0){
-                                for (int i = 0; i <list.size() ; i++) {
-                                    mlist.add(list.get((list.size()-1)-i));
+                            if (list.size() > 0) {
+                                for (int i = 0; i < list.size(); i++) {
+                                    mlist.add(list.get((list.size() - 1) - i));
                                 }
                             }
                             myAdapter.notifyDataSetChanged();
@@ -439,8 +441,6 @@ public class ActivityActivity extends BaseActivity implements CommonPopupWindow.
                 break;
         }
     }
-
-
 
 
     class MyAdapter extends BaseAdapter {

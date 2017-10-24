@@ -69,6 +69,7 @@ public class TrusteeshipActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.et_search:
             case R.id.iv_search://搜索

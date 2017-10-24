@@ -281,6 +281,7 @@ public class SchoolInformationActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             //学堂logo
             case R.id.ll_schoolinfo_logo:

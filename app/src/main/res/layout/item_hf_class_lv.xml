@@ -57,30 +57,25 @@
             android:textColor="#666666"
             android:textSize="14sp"/>
             <ImageView
-                android:id="@+id/iv_star1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"/>
+                android:src="@drawable/wujiaoxing"/>
             <ImageView
-                android:id="@+id/iv_star2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"/>
+                android:src="@drawable/wujiaoxing"/>
             <ImageView
-                android:id="@+id/iv_star3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"/>
+                android:src="@drawable/wujiaoxing"/>
             <ImageView
-                android:id="@+id/iv_star4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"/>
+                android:src="@drawable/wujiaoxing"/>
             <ImageView
-                android:id="@+id/iv_star5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"/>
+                android:src="@drawable/wujiaoxing"/>
         </LinearLayout>
         <TextView
             android:id="@+id/tv_distance"

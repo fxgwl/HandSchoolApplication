@@ -179,22 +179,4 @@ public class MyUtiles {
         }
         return result;
     }
-
-    public static Double Distance(double lat1, double lng1,double lat2, double lng2) {
-
-
-        Double R=6370996.81;  //地球的半径
-
-        /*
-         * 获取两点间x,y轴之间的距离
-         */
-        Double x = (lng2 - lng1)*Math.PI*R*Math.cos(((lat1+lat2)/2)*Math.PI/180)/180;
-        Double y = (lat2 - lat1)*Math.PI*R/180;
-
-
-        Double distance = Math.hypot(x, y);   //得到两点之间的直线距离
-
-        return   distance;
-
-    }
 }

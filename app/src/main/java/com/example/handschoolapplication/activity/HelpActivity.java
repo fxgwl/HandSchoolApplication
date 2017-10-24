@@ -110,6 +110,7 @@ public class HelpActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.iv_search:
                 //筛选问题列表

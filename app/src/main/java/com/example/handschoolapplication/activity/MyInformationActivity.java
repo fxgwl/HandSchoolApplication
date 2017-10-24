@@ -119,6 +119,7 @@ public class MyInformationActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 //弹出对话框
                 show(view);
                 break;
