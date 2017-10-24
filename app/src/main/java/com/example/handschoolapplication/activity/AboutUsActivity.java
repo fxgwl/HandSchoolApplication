@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class AboutUsActivity extends BaseActivity {
-
+    //zhshjiwo tianjiade
     //这是昝宏伟新版的教育项目11122323232
 
     @BindView(R.id.rl_back)
