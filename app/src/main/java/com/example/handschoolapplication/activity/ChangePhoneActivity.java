@@ -67,7 +67,6 @@ public class ChangePhoneActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             //获取验证码
             case R.id.tv_changephone_obtaincode:

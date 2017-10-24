@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.CourseHomePagerActivity;
@@ -32,6 +34,7 @@ public class HPCourseAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context;
     private int size = 0;
+    private double[] locations;
 
     public HPCourseAdapter(List<CourseBean.DataBean> courseBeanList, Context context) {
         this.courseBeanList = courseBeanList;
@@ -41,7 +44,7 @@ public class HPCourseAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (courseBeanList!=null){
+        if (courseBeanList != null) {
             size = courseBeanList.size();
         }
         return size;
@@ -76,7 +79,22 @@ public class HPCourseAdapter extends BaseAdapter {
                 .into(holder.ivCourse);
         holder.tvCourse.setText(courseBeanList.get(position).getCourse_name());
         holder.tvPrice.setText("价格： ¥" + courseBeanList.get(position).getPreferential_price());
-        holder.popularity.setText("(" + courseBeanList.get(position).getCourse_name() + "人已报名)");
+        holder.popularity.setText("(" + courseBeanList.get(position).getPopularity_num() + "人已报名)");
+        if (locations != null) {
+
+            double latitude1 = locations[0];
+            double longitude1 = locations[1];
+            double school_wei = courseBeanList.get(position).getSchool_wei();
+            double school_jing = courseBeanList.get(position).getSchool_jing();
+
+            double distance = DistanceUtil.getDistance(new LatLng(latitude1, longitude1), new LatLng(school_wei, school_jing));
+//            Double distance = MyUtiles.Distance(latitude1, longitude1, school_wei, school_jing);
+            holder.tvDistance.setText(((int)distance) + "m");
+            Log.e("aaa",
+                    "(HPCourseAdapter.java:92)距离计算=====" + ((int) distance) + "m");
+
+        }else Log.e("aaa",
+                "(HPCourseAdapter.java:84)"+"locations == null");
 
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +108,10 @@ public class HPCourseAdapter extends BaseAdapter {
         });
 
         return convertView;
+    }
+
+    public void setLocation(double[] locations) {
+        this.locations = locations;
     }
 
     static class ViewHolder {

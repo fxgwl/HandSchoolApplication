@@ -60,7 +60,6 @@ public class ConsultNewsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
         }
     }

@@ -67,7 +67,6 @@ public class IncomeRecordActivity extends BaseActivity implements AdapterView.On
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
         }
     }

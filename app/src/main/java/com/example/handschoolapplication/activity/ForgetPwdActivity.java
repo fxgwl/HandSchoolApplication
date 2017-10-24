@@ -62,7 +62,6 @@ public class ForgetPwdActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             case R.id.tv_get_code:
                 countDownTimerUtils.start();

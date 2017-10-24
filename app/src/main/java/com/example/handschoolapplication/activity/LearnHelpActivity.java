@@ -69,10 +69,10 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
         myAdapter = new MyAdapter();
         listView.setAdapter(myAdapter);
         ivMenu.setVisibility(View.VISIBLE);
-        tvTitle.setText("文体艺术");
+        tvTitle.setText("学习辅导");
         types = (ArrayList) getIntent().getSerializableExtra("types");
         //获取文体艺术的小类
-        initData("文体艺术");
+        initData("学习辅导");
 
 
     }
@@ -122,7 +122,6 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             case R.id.et_search:
             case R.id.iv_search://搜索
@@ -390,6 +389,8 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
                     }
                 });
     }
+
+
 
 
     @Override

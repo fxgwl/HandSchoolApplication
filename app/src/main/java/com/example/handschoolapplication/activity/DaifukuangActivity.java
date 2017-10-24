@@ -2,6 +2,7 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.DaifukuangLvAdapter;
-import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.ClassDealManagerBean;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-public class DaifukuangActivity extends BaseActivity {
+public class DaifukuangActivity extends AppCompatActivity {
 
     @BindView(R.id.rl_back)
     RelativeLayout rlBack;
@@ -57,6 +57,7 @@ public class DaifukuangActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        setContentView(R.layout.activity_daifukuang);
         school_id = (String) SPUtils.get(this, "school_id", "");
         ButterKnife.bind(this);
         String type = getIntent().getStringExtra("type");
@@ -64,26 +65,26 @@ public class DaifukuangActivity extends BaseActivity {
         switch (type) {
             case "0":
                 tvTitle.setText("等待买家付款");
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "等待买家付款");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"等待买家付款");
                 break;
             case "1":
                 tvTitle.setText("等待学习确认");
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "等待学习确认");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"等待学习确认");
                 break;
             case "2":
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "等待买家评价");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"等待买家评价");
                 tvTitle.setText("等待买家评价");
                 break;
             case "3":
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "成功的订单");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"成功的订单");
                 tvTitle.setText("成功的订单");
                 break;
             case "5":
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "取消的订单");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"取消的订单");
                 tvTitle.setText("关闭的订单");
                 break;
             case "":
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"");
                 tvTitle.setText("全部订单");
                 break;
         }
@@ -100,11 +101,6 @@ public class DaifukuangActivity extends BaseActivity {
         lvDaifukuang.setAdapter(mAdapter);
 
         getData(type);
-    }
-
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_daifukuang;
     }
 
     private void getData(String type) {
@@ -150,7 +146,6 @@ public class DaifukuangActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
 
         }

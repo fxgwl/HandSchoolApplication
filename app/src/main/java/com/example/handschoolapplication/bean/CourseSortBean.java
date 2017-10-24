@@ -6,6 +6,10 @@ package com.example.handschoolapplication.bean;
 
 public class CourseSortBean {
 
+    public CourseSortBean(double distance) {
+        this.distance = distance;
+    }
+
     /**
      * age_range : 20-30岁
      * course_address : 北京顺义区旺泉街道34254
@@ -30,6 +34,7 @@ public class CourseSortBean {
      * study_num : 1507903053261
      * user_id : ba28cc5ec0c449098285583a5f1efc4d
      * hot_time : 2017-09-20 14:15:50
+     *
      */
 
     private String age_range;
@@ -55,6 +60,7 @@ public class CourseSortBean {
     private String study_num;
     private String user_id;
     private String hot_time;
+    private double distance;
 
     public String getAge_range() {
         return age_range;
@@ -238,5 +244,43 @@ public class CourseSortBean {
 
     public void setHot_time(String hot_time) {
         this.hot_time = hot_time;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    @Override
+    public String toString() {
+        return "CourseSortBean{" +
+                "age_range='" + age_range + '\'' +
+                ", course_address='" + course_address + '\'' +
+                ", course_capacity='" + course_capacity + '\'' +
+                ", course_id='" + course_id + '\'' +
+                ", course_info='" + course_info + '\'' +
+                ", course_money='" + course_money + '\'' +
+                ", course_name='" + course_name + '\'' +
+                ", course_photo='" + course_photo + '\'' +
+                ", course_state='" + course_state + '\'' +
+                ", course_teacher='" + course_teacher + '\'' +
+                ", course_time='" + course_time + '\'' +
+                ", course_type='" + course_type + '\'' +
+                ", enrol_num='" + enrol_num + '\'' +
+                ", original_price='" + original_price + '\'' +
+                ", popularity_num='" + popularity_num + '\'' +
+                ", preferential_price='" + preferential_price + '\'' +
+                ", school_id='" + school_id + '\'' +
+                ", school_jing='" + school_jing + '\'' +
+                ", school_name='" + school_name + '\'' +
+                ", school_wei='" + school_wei + '\'' +
+                ", study_num='" + study_num + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", hot_time='" + hot_time + '\'' +
+                ", distance=" + distance +
+                '}';
     }
 }

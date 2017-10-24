@@ -11,11 +11,13 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="217" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a4d976a5-4ce2-49fe-81e4-503958b6aee0" name="Default" comment="">
+<<<<<<< Updated upstream
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/assets/province.json" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/CityBean.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/HotCity.java" afterPath="" />
@@ -63,30 +65,20 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" afterPath="$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ActivityActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ActivityActivity.java" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+>>>>>>> Stashed changes
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ArtActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ArtActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/CurrentCityActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/CurrentCityActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/LearnHelpActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/LearnHelpActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MyDiscountcouponActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MyDiscountcouponActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/TestActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/TestActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/FindCourseAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/FindCourseAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HPClassAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HPClassAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HPCourseAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HPCourseAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/CourseBean.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/CourseBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/CourseSortBean.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/CourseSortBean.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/FindFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/FindFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnusedDisFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnusedDisFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/MyUtiles.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/MyUtiles.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_art.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_art.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_current_city.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_current_city.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_find.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_find.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_hf_class_lv.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_hf_class_lv.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_hf_course_lv.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_hf_course_lv.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
     </list>
     <ignored path="HandSchoolApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -120,16 +112,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< Updated upstream
       <file leaf-file-name="AboutUsActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/AboutUsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="100">
               <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+=======
+      <file leaf-file-name="ArtActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ArtActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="683">
+              <caret line="566" column="13" selection-start-line="548" selection-start-column="12" selection-end-line="566" selection-end-column="13" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="BaseActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/base/BaseActivity.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -137,17 +138,52 @@
               <caret line="102" column="54" selection-start-line="102" selection-start-column="54" selection-end-line="102" selection-end-column="54" />
               <folding>
                 <element signature="imports" expanded="true" />
+=======
+      <file leaf-file-name="FindFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/FindFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="433">
+              <caret line="231" column="19" selection-start-line="231" selection-start-column="12" selection-end-line="231" selection-end-column="19" />
+              <folding>
+                <element signature="e#4942#4943#0" expanded="true" />
+                <element signature="e#4987#4988#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="FindCourseAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/FindCourseAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="879">
+              <caret line="83" column="24" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="24" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1178#1179#0" expanded="true" />
+                <element signature="e#1220#1221#0" expanded="true" />
+>>>>>>> Stashed changes
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="menu.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/menu.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="200">
               <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
               <folding />
+=======
+      <file leaf-file-name="HomeFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="501">
+              <caret line="320" column="54" selection-start-line="320" selection-start-column="54" selection-end-line="320" selection-end-column="54" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+>>>>>>> Stashed changes
             </state>
           </provider>
           <provider editor-type-id="android-designer2">
@@ -155,61 +191,118 @@
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="InternetS.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-980">
               <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
+=======
+      <file leaf-file-name="HPClassAdapter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HPClassAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="463">
+              <caret line="102" column="22" selection-start-line="102" selection-start-column="22" selection-end-line="102" selection-end-column="22" />
+              <folding>
+                <element signature="e#5004#5005#0" expanded="true" />
+              </folding>
+>>>>>>> Stashed changes
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="Internet.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3100">
               <caret line="124" column="64" selection-start-line="124" selection-start-column="64" selection-end-line="124" selection-end-column="64" />
+=======
+      <file leaf-file-name="item_hf_class_lv.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_hf_class_lv.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="709">
+              <caret line="82" column="54" selection-start-line="82" selection-start-column="54" selection-end-line="82" selection-end-column="54" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="InteractionNewsActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/InteractionNewsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
               <caret line="34" column="27" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
+=======
+      <file leaf-file-name="item_hf_course_lv.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_hf_course_lv.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="675">
+              <caret line="64" column="36" selection-start-line="64" selection-start-column="36" selection-end-line="64" selection-end-column="36" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="UncanDisFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UncanDisFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="176">
               <caret line="59" column="34" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
+=======
+      <file leaf-file-name="Internet.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2478">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="UnusedDisFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnusedDisFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1280">
               <caret line="67" column="29" selection-start-line="67" selection-start-column="29" selection-end-line="67" selection-end-column="29" />
+=======
+      <file leaf-file-name="InternetS.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="259">
+              <caret line="39" column="37" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file leaf-file-name="HasEvaFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HasEvaFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="950">
               <caret line="60" column="37" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="37" />
+=======
+      <file leaf-file-name="ActivityActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ActivityActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="367">
+              <caret line="207" column="24" selection-start-line="207" selection-start-column="24" selection-end-line="215" selection-end-column="25" />
+>>>>>>> Stashed changes
               <folding />
             </state>
           </provider>
@@ -3206,10 +3299,26 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< Updated upstream
+=======
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/MeFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/LearnPlanFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/UnevaluateOrderAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/OrderAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_publish_evaluate.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnEvaluateOrderFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/PublishEvaluateActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/PingJiaAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/PJDetailBean.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_pjdetail.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/PJDetailActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/pjd_item1.xml" />
+>>>>>>> Stashed changes
         <option value="$PROJECT_DIR$/app/src/main/res/layout/pjd_item2.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/pjd_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/PJDetailActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
+<<<<<<< Updated upstream
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UncanDisFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MyEvaluateActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnEvaFragment.java" />
@@ -3257,6 +3366,39 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnusedDisFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java" />
+=======
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MyDiscountcouponActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_current_city.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_find.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/CourseBean.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/MyUtiles.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_art.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/CourseSortBean.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/TestActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/RankListUtils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ActivityActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/LearnHelpActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/ChineseToEnglish.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/CityBean.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/CompareSort.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/item.xml" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/CurrentCityActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnusedDisFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ArtActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_hf_course_lv.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/FindCourseAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/FindFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HPCourseAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_hf_class_lv.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HPClassAdapter.java" />
+>>>>>>> Stashed changes
       </list>
     </option>
   </component>
@@ -3291,10 +3433,26 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< Updated upstream
+=======
+      <pane id="Scratches" />
+      <pane id="Scope" />
+>>>>>>> Stashed changes
       <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HandSchoolApplication" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="AndroidView">
         <subPane />
       </pane>
+<<<<<<< Updated upstream
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -3307,6 +3465,8 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
+=======
+>>>>>>> Stashed changes
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3315,8 +3475,13 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="android.project.structure.last.selected" value="PhotoPicker" />
     <property name="android.project.structure.proportion" value="0.15" />
+<<<<<<< Updated upstream
     <property name="device.picker.selection" value="127.0.0.1:26944" />
     <property name="last_opened_file_path" value="H:/MyApp/luckship12" />
+=======
+    <property name="device.picker.selection" value="7&amp;9be4409&amp;0&amp;0001" />
+    <property name="last_opened_file_path" value="E:/download/BaiduMapsApiASDemo" />
+>>>>>>> Stashed changes
     <property name="ExportApk.ApkPath" value="G:\HandSchoolApplication\app" />
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.BuildType" value="release" />
@@ -3324,11 +3489,19 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+<<<<<<< Updated upstream
       <recent name="G:\HandSchoolApplication\app\src\main\res\drawable-xxhdpi" />
       <recent name="G:\HandSchoolApplication\app\src\main\res\drawable-xhdpi" />
       <recent name="G:\HandSchoolApplication\app\src\main\res\layout" />
       <recent name="G:\HandSchoolApplication\app\src\main\res\values" />
       <recent name="G:\HandSchoolApplication\app\src\main\res\anim" />
+=======
+      <recent name="D:\ASworkSpace\HandSchoolApplication\app\src\main\java\com\example\handschoolapplication\utils" />
+      <recent name="D:\ASworkSpace\HandSchoolApplication\app\src\main\res\drawable" />
+      <recent name="D:\ASworkSpace\HandSchoolApplication\app\src\main\res\layout" />
+      <recent name="D:\ASworkSpace\HandSchoolApplication\app\src\main\assets" />
+      <recent name="G:\HandSchoolApplication\app\src\main\res\drawable-xxhdpi" />
+>>>>>>> Stashed changes
     </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.example.handschoolapplication.bean" />
@@ -3787,6 +3960,7 @@
       <option name="project" value="LOCAL" />
       <updated>1508568099439</updated>
     </task>
+<<<<<<< Updated upstream
     <task id="LOCAL-00014" summary="教育10.21号提交,优惠券和评价管理(已评价)">
       <created>1508574364584</created>
       <option name="number" value="00014" />
@@ -3823,6 +3997,16 @@
       <updated>1508814885533</updated>
     </task>
     <option name="localTasksCounter" value="19" />
+=======
+    <task id="LOCAL-00013" summary="掌上私塾10.23  距离计算">
+      <created>1508755462940</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1508755462940</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+>>>>>>> Stashed changes
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -3834,8 +4018,13 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+<<<<<<< Updated upstream
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2742475" sideWeight="0.510661" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32441473" sideWeight="0.48933902" order="7" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4225195" sideWeight="0.5127932" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.64214045" sideWeight="0.48720682" order="7" side_tool="false" content_ui="tabs" />
+>>>>>>> Stashed changes
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28411514" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19063546" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -3914,6 +4103,7 @@
     <MESSAGE value="教育10.17号提交,课程客服" />
     <MESSAGE value="教育10.19号提交,购物车" />
     <MESSAGE value="教育10.19号提交,订单信息" />
+<<<<<<< Updated upstream
     <MESSAGE value="教育10.20号提交,评价" />
     <MESSAGE value="教育10.21号提交,评价回复" />
     <MESSAGE value="教育10.21号提交,优惠券和评价管理(已评价)" />
@@ -3921,6 +4111,11 @@
     <MESSAGE value="教育10.21号提交,消息页面完善" />
     <MESSAGE value="教育10.24号提交,menu点击跳转" />
     <option name="LAST_COMMIT_MESSAGE" value="教育10.24号提交,menu点击跳转" />
+=======
+    <MESSAGE value="掌上私塾10.20  接口文档90-97" />
+    <MESSAGE value="掌上私塾10.23  距离计算" />
+    <option name="LAST_COMMIT_MESSAGE" value="掌上私塾10.23  距离计算" />
+>>>>>>> Stashed changes
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3943,6 +4138,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/BaseInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -3978,6 +4174,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/bean/HasEvaBean.java">
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml">
+>>>>>>> Stashed changes
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="575">
           <caret line="62" column="45" selection-start-line="62" selection-start-column="45" selection-end-line="62" selection-end-column="45" />
@@ -4001,8 +4200,18 @@
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
+<<<<<<< Updated upstream
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml">
+=======
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-61">
+          <caret line="48" column="41" selection-start-line="48" selection-start-column="41" selection-end-line="48" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MyDiscountcouponActivity.java">
+>>>>>>> Stashed changes
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="250">
           <caret line="10" column="33" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
@@ -4014,6 +4223,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/MeFragment.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="3925">
           <caret line="199" column="60" selection-start-line="199" selection-start-column="60" selection-end-line="199" selection-end-column="60" />
           <folding />
@@ -4024,10 +4234,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="110" column="58" selection-start-line="110" selection-start-column="58" selection-end-line="110" selection-end-column="58" />
+=======
+        <state relative-caret-position="410">
+          <caret line="32" column="48" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="48" />
+>>>>>>> Stashed changes
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_interaction_news.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="275">
@@ -4046,6 +4261,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/title_bar_blue.xml">
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MainActivity.java">
+>>>>>>> Stashed changes
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1225">
           <caret line="49" column="9" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
@@ -4054,6 +4272,15 @@
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
+<<<<<<< Updated upstream
+=======
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2486">
+          <caret line="113" column="30" selection-start-line="113" selection-start-column="30" selection-end-line="113" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+>>>>>>> Stashed changes
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_information.xml">
       <provider selected="true" editor-type-id="text-editor">
@@ -4061,11 +4288,16 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
+<<<<<<< Updated upstream
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/MyInformationActivity.java">
+=======
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Utils.java">
+>>>>>>> Stashed changes
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2150">
           <caret line="122" column="18" selection-start-line="122" selection-start-column="18" selection-end-line="122" selection-end-column="18" />
@@ -4107,6 +4339,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://D:/Android/sdk/sources/android-25/android/os/Looper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -4130,6 +4363,9 @@
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/8.7.0/8894732befe6ee76ed0637c5c687e8432dfd2d1e/butterknife-8.7.0-sources.jar!/butterknife/internal/DebouncingOnClickListener.java">
+=======
+    <entry file="jar://$PROJECT_DIR$/app/libs/BaiduLBS_Android.jar!/com/baidu/location/BDLocationListener.class">
+>>>>>>> Stashed changes
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="475">
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
@@ -4138,11 +4374,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build/generated/source/apt/debug/com/example/handschoolapplication/activity/MainActivity_ViewBinding.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="1450">
           <caret line="92" column="36" selection-start-line="92" selection-start-column="36" selection-end-line="92" selection-end-column="36" />
           <folding>
             <element signature="e#4196#4197#0" expanded="false" />
           </folding>
+=======
+        <state relative-caret-position="-2530">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
@@ -4154,6 +4396,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
@@ -4173,13 +4416,28 @@
             <element signature="e#3574#3575#0" expanded="true" />
             <element signature="e#3619#3620#0" expanded="true" />
           </folding>
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/TestActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="104">
           <caret line="27" column="28" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+=======
+        <state relative-caret-position="-3101">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="e#175#176#0" expanded="false" />
+            <element signature="e#215#216#0" expanded="false" />
+          </folding>
+>>>>>>> Stashed changes
         </state>
       </provider>
       <provider editor-type-id="android-designer2">
@@ -4199,8 +4457,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="223">
           <caret line="68" column="30" selection-start-line="68" selection-start-column="30" selection-end-line="68" selection-end-column="30" />
+=======
+        <state relative-caret-position="868">
+          <caret line="194" column="36" selection-start-line="194" selection-start-column="26" selection-end-line="194" selection-end-column="36" />
+>>>>>>> Stashed changes
           <folding />
         </state>
       </provider>
@@ -4220,6 +4483,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ActivityActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2175">
@@ -4265,6 +4529,13 @@
             <element signature="e#1325#1326#0" expanded="true" />
             <element signature="e#1378#1379#0" expanded="true" />
           </folding>
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/LearnHelpActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-44">
+          <caret line="392" column="4" selection-start-line="392" selection-start-column="4" selection-end-line="392" selection-end-column="4" />
+          <folding />
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
@@ -4273,6 +4544,7 @@
         <state relative-caret-position="775">
           <caret line="31" column="81" selection-start-line="31" selection-start-column="81" selection-end-line="31" selection-end-column="81" />
           <folding>
+<<<<<<< Updated upstream
             <element signature="imports" expanded="true" />
             <element signature="e#1329#1330#0" expanded="true" />
             <element signature="e#1383#1384#0" expanded="true" />
@@ -4288,6 +4560,9 @@
             <element signature="imports" expanded="true" />
             <element signature="e#3202#3203#0" expanded="true" />
             <element signature="e#3257#3258#0" expanded="true" />
+=======
+            <element signature="imports" expanded="false" />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -4328,10 +4603,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/base/BaseActivity.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="264">
           <caret line="102" column="54" selection-start-line="102" selection-start-column="54" selection-end-line="102" selection-end-column="54" />
           <folding>
             <element signature="imports" expanded="true" />
+=======
+        <state relative-caret-position="308">
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+          <folding>
+            <element signature="e#198#199#0" expanded="false" />
+            <element signature="e#225#226#0" expanded="false" />
+            <element signature="e#265#266#0" expanded="false" />
+            <element signature="e#297#298#0" expanded="false" />
+            <element signature="e#359#360#0" expanded="false" />
+            <element signature="e#403#404#0" expanded="false" />
+            <element signature="e#439#440#0" expanded="false" />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -4381,9 +4669,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnusedDisFragment.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="-1280">
           <caret line="67" column="29" selection-start-line="67" selection-start-column="29" selection-end-line="67" selection-end-column="29" />
           <folding />
+=======
+        <state relative-caret-position="264">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
@@ -4397,9 +4693,162 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/InteractionNewsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="300">
           <caret line="34" column="27" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
+=======
+        <state relative-caret-position="-284">
+          <caret line="43" column="27" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="27" />
+>>>>>>> Stashed changes
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/InteractionNewsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/UnusedDisFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="70" column="29" selection-start-line="70" selection-start-column="29" selection-end-line="70" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HasEvaFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="60" column="29" selection-start-line="60" selection-start-column="29" selection-end-line="60" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2435">
+          <caret line="72" column="18" selection-start-line="72" selection-start-column="10" selection-end-line="72" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="45" column="8" selection-start-line="45" selection-start-column="8" selection-end-line="50" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_hf_course_lv.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="64" column="36" selection-start-line="64" selection-start-column="36" selection-end-line="64" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/Internet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2478">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/utils/InternetS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="39" column="37" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ActivityActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="207" column="24" selection-start-line="207" selection-start-column="24" selection-end-line="215" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/activity/ArtActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="683">
+          <caret line="566" column="13" selection-start-line="548" selection-start-column="12" selection-end-line="566" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/FindCourseAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="879">
+          <caret line="83" column="24" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1178#1179#0" expanded="true" />
+            <element signature="e#1220#1221#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/FindFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="231" column="19" selection-start-line="231" selection-start-column="12" selection-end-line="231" selection-end-column="19" />
+          <folding>
+            <element signature="e#4942#4943#0" expanded="true" />
+            <element signature="e#4987#4988#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HPCourseAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="81" column="88" selection-start-line="81" selection-start-column="88" selection-end-line="81" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/fragment/HomeFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="501">
+          <caret line="320" column="54" selection-start-line="320" selection-start-column="54" selection-end-line="320" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_hf_class_lv.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="709">
+          <caret line="82" column="54" selection-start-line="82" selection-start-column="54" selection-end-line="82" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/handschoolapplication/adapter/HPClassAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="102" column="22" selection-start-line="102" selection-start-column="22" selection-end-line="102" selection-end-column="22" />
+          <folding>
+            <element signature="e#5004#5005#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

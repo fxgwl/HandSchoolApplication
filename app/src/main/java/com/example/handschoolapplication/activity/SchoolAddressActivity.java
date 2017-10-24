@@ -93,7 +93,6 @@ public class SchoolAddressActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 break;
             case R.id.tv_save:
                 break;
