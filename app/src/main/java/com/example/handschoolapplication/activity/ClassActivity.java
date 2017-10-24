@@ -133,7 +133,7 @@ public class ClassActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
                 break;
             case R.id.ll_love:
                 //收藏

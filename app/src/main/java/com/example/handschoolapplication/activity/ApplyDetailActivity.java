@@ -72,7 +72,7 @@ public class ApplyDetailActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
                 break;
             case R.id.ll_all_sele://是否全选
                 break;

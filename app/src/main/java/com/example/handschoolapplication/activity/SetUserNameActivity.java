@@ -45,7 +45,7 @@ public class SetUserNameActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
                 break;
             case R.id.tv_save:
                 final String username = etUsername.getText().toString().trim();

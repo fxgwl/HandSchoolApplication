@@ -2,7 +2,6 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -11,12 +10,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DealManagerActivity extends AppCompatActivity {
+public class DealManagerActivity extends BaseActivity {
 
     @BindView(R.id.rl_back)
     RelativeLayout rlBack;
@@ -45,10 +45,14 @@ public class DealManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        setContentView(R.layout.activity_deal_manager);
         ButterKnife.bind(this);
         tvTitle.setText("交易管理");
 
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_deal_manager;
     }
 
     @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_dealmanager_daifukuang, R.id.ll_dealmanager_daixuexiqueren, R.id.ll_dealmanager_evaluate, R.id.ll_dealmanager_refund, R.id.ll_dealmanager_successorder, R.id.ll_dealmanager_closeorder, R.id.ll_dealmanager_allorder})
@@ -57,7 +61,7 @@ public class DealManagerActivity extends AppCompatActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
                 break;
             //等待买家付款
             case R.id.ll_dealmanager_daifukuang:

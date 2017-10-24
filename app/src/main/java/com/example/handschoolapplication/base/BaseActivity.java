@@ -2,18 +2,24 @@ package com.example.handschoolapplication.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.HelpActivity;
+import com.example.handschoolapplication.activity.MainActivity;
+import com.example.handschoolapplication.bean.MenuBean;
 import com.example.handschoolapplication.view.CommonPopupWindow;
 import com.example.handschoolapplication.view.MyPopupWindow;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -94,12 +100,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     //向下弹出
     public void showMenuPop(final Context context, View view) {
         View view2 = View.inflate(context, R.layout.menu, null);
-        RelativeLayout news = (RelativeLayout) view2.findViewById(R.id.ll_news);
-        RelativeLayout home = (RelativeLayout) view2.findViewById(R.id.ll_home);
-        RelativeLayout help = (RelativeLayout) view2.findViewById(R.id.ll_help);
-        RelativeLayout wode = (RelativeLayout) view2.findViewById(R.id.ll_wode);
+        LinearLayout news = (LinearLayout) view2.findViewById(R.id.ll_news);
+        LinearLayout home = (LinearLayout) view2.findViewById(R.id.ll_home);
+        LinearLayout help = (LinearLayout) view2.findViewById(R.id.ll_help);
+        LinearLayout wode = (LinearLayout) view2.findViewById(R.id.ll_wode);
         final MyPopupWindow mppWinow = new MyPopupWindow(this, view2);
-        mppWinow.setWidth(300);
+        mppWinow.setWidth(350);
         mppWinow.showAsDropDown(view, 0, 0);
         mppWinow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -113,25 +119,31 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mppWinow.dismiss();
-
+                startActivity(new Intent(BaseActivity.this, MainActivity.class));
+                EventBus.getDefault().post(new MenuBean(2));
             }
         });
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mppWinow.dismiss();
+                startActivity(new Intent(BaseActivity.this, MainActivity.class));
+                EventBus.getDefault().post(new MenuBean(1));
             }
         });
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mppWinow.dismiss();
+                startActivity(new Intent(BaseActivity.this, HelpActivity.class));
             }
         });
         wode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mppWinow.dismiss();
+                startActivity(new Intent(BaseActivity.this, MainActivity.class));
+                EventBus.getDefault().post(new MenuBean(3));
             }
         });
     }

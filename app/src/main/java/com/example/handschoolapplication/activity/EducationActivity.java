@@ -63,7 +63,7 @@ public class EducationActivity extends BaseActivity implements AdapterView.OnIte
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
                 break;
         }
     }

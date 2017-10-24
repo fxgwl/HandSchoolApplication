@@ -4,6 +4,7 @@ package com.example.handschoolapplication.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,26 @@ import com.example.handschoolapplication.activity.ConsultNewsActivity;
 import com.example.handschoolapplication.activity.InteractionNewsActivity;
 import com.example.handschoolapplication.activity.NotificationNewsActivity;
 import com.example.handschoolapplication.base.BaseFragment;
+import com.example.handschoolapplication.bean.NewsListBean;
+import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.Call;
 
 
 /**
@@ -41,8 +57,9 @@ public class NewsComFragment extends BaseFragment {
 //    @BindView(R.id.lv_news)
 //    ListView lvNews;
     Unbinder unbinder;
-
+    private List<NewsListBean> newsList;//上面三个消息
     private View view;
+    private String userId;
 
 //    private List<NewsBean> newsBeanList;
 //    private MyAdapter myAdapter;
@@ -58,19 +75,57 @@ public class NewsComFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
+        userId = (String) SPUtils.get(getActivity(), "userId", "");
         initViewData();
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
     private void initViewData() {
-//        newsBeanList = new ArrayList<>();
-//        newsBeanList.add(new NewsBean());
-//        newsBeanList.add(new NewsBean());
-//        newsBeanList.add(new NewsBean());
-//        newsBeanList.add(new NewsBean());
-//        myAdapter = new MyAdapter();
-//        lvNews.setAdapter(myAdapter);
+//        private void getNews() {
+        newsList = new ArrayList<>();
+        OkHttpUtils.post()
+                .url(InternetS.NEWSLIST)
+                .addParams("user_id", userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(NewsFragment.java:90)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(NewsFragment.java:97)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String data = jsonObject.getString("data");
+                            Gson gson = new Gson();
+                            newsList.addAll((Collection<? extends NewsListBean>) gson.fromJson(data.toString(), new TypeToken<ArrayList<NewsListBean>>() {
+                            }.getType()));
+
+                            for (int i = 0; i < newsList.size(); i++) {
+                                String message_type = newsList.get(i).getMessage_type();
+                                if (message_type.equals("3")) {//学习消息
+                                    tvLearn.setText(newsList.get(i).getMessage_content());
+                                    tvLearnTime.setText(newsList.get(i).getMessage_date());
+                                } else if (message_type.equals("1")) {//通知消息
+                                    tvNotification.setText(newsList.get(i).getMessage_content());
+                                    tvNotificationTime.setText(newsList.get(i).getMessage_date());
+                                } else if (message_type.equals("2")) {//互动消息
+                                    tvInteract.setText(newsList.get(i).getMessage_content());
+                                    tvInteractTime.setText(newsList.get(i).getMessage_date());
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
     }
 
     @Override

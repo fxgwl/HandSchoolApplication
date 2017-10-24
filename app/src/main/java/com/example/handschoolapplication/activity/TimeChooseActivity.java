@@ -82,7 +82,7 @@ public class TimeChooseActivity extends BaseActivity implements AdapterView.OnIt
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
                 break;
             case R.id.tv_Mon:
                 tvMon.setBackgroundColor(Color.parseColor("#e6e6e6"));

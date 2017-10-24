@@ -735,7 +735,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
             case R.id.tv_more_art:
                 startActivity(new Intent(getActivity(), ArtActivity.class)
-                        .putExtra("flag", "art")
+                        .putExtra("flag", "文体艺术")
                         .putExtra("types", typetwolist.get(0))
                         .putExtra("city", city)
                         .putExtra("latitude", locations[0])
@@ -743,7 +743,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
             case R.id.tv_more_learn:
                 startActivity(new Intent(getActivity(), ArtActivity.class)
-                        .putExtra("flag", "help")
+                        .putExtra("flag", "学习辅导")
                         .putExtra("types", typetwolist.get(1))
                         .putExtra("city", city)
                         .putExtra("latitude", locations[0])
@@ -751,7 +751,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
             case R.id.tv_more_activity:
                 startActivity(new Intent(getActivity(), ArtActivity.class)
-                        .putExtra("flag", "activity")
+                        .putExtra("flag", "活动拓展")
                         .putExtra("types", typetwolist.get(2))
                         .putExtra("city", city)
                         .putExtra("latitude", locations[0])

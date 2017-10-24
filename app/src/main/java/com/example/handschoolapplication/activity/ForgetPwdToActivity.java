@@ -55,7 +55,7 @@ public class ForgetPwdToActivity extends BaseActivity {
                 startActivity(new Intent(this, ForgetPwdActivity.class));
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
                 break;
             case R.id.btn_ok:
                 forgetPwd();

@@ -10,7 +10,7 @@
         android:alpha="0.7"
         ></View>
 
-    <RelativeLayout
+    <LinearLayout
         android:background="#ffffff"
         android:id="@+id/ll_news"
         android:layout_width="match_parent"
@@ -20,20 +20,20 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/news"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/news" />
 
         <TextView
             style="@style/text_menu"
             android:text="消息"
             />
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         style="@style/line"
         ></View>
 
-    <RelativeLayout
+    <LinearLayout
         android:background="#ffffff"
         android:id="@+id/ll_home"
         android:layout_width="match_parent"
@@ -43,20 +43,21 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/home"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/home"
+            />
 
         <TextView
             style="@style/text_menu"
             android:text="首页"
             />
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         style="@style/line"
         ></View>
 
-    <RelativeLayout
+    <LinearLayout
         android:background="#ffffff"
         android:id="@+id/ll_help"
         android:layout_width="match_parent"
@@ -66,20 +67,21 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/bangzhu"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/bangzhu"
+            />
 
         <TextView
             style="@style/text_menu"
             android:text="帮助"
             />
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         style="@style/line"
         ></View>
 
-    <RelativeLayout
+    <LinearLayout
         android:background="#ffffff"
         android:id="@+id/ll_wode"
         android:layout_width="match_parent"
@@ -89,14 +91,13 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/wode"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/wode" />
 
         <TextView
             style="@style/text_menu"
-            android:text="我的"
-            />
-    </RelativeLayout>
+            android:text="我的" />
+    </LinearLayout>
 
     <View
         style="@style/line"

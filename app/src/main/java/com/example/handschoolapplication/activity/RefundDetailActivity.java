@@ -1,7 +1,6 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -10,13 +9,14 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.RefundDetailLvAdapter;
+import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.view.MyListView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RefundDetailActivity extends AppCompatActivity {
+public class RefundDetailActivity extends BaseActivity {
 
     @BindView(R.id.rl_back)
     RelativeLayout rlBack;
@@ -31,11 +31,15 @@ public class RefundDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        setContentView(R.layout.activity_refund_detail);
         ButterKnife.bind(this);
         tvTitle.setText("退款详情");
         mAdapter=new RefundDetailLvAdapter(RefundDetailActivity.this);
         mlvRefunddetail.setAdapter(mAdapter);
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_refund_detail;
     }
 
     @OnClick({R.id.rl_back, R.id.iv_menu})
@@ -44,7 +48,7 @@ public class RefundDetailActivity extends AppCompatActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
                 break;
         }
     }

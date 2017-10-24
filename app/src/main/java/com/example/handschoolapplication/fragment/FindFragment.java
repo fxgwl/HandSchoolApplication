@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
 import com.example.handschoolapplication.adapter.FindCourseAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
@@ -51,7 +53,7 @@ import okhttp3.Call;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FindFragment extends BaseFragment {
+public class FindFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
     @BindView(R.id.tv_location)
     TextView tvLocation;
@@ -128,6 +130,7 @@ public class FindFragment extends BaseFragment {
         mLocClient.start();
         initMap();
         initLvData();
+        lvFfCourse.setOnItemClickListener(this);
         return view;
     }
 
@@ -179,6 +182,15 @@ public class FindFragment extends BaseFragment {
     @OnClick({R.id.iv_search, R.id.tv_search})
     public void onViewClicked() {
         startActivity(new Intent(getActivity(), SearchActivity.class));
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getActivity(), CourseHomePagerActivity.class);
+        intent.putExtra("school_id", findCourseList.get(position).getSchool_id());
+        intent.putExtra("course_id", findCourseList.get(position).getCourse_id());
+        intent.putExtra("schooluid", findCourseList.get(position).getUser_id());
+        startActivity(intent);
     }
 
     /**

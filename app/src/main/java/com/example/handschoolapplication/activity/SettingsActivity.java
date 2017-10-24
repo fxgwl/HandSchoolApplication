@@ -68,7 +68,8 @@ public class SettingsActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
+                show(view);
                 break;
             case R.id.ll_change_info:
                 if (type.equals("per"))

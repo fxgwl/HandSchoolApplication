@@ -100,6 +100,7 @@ public class AddAddressActivity extends BaseActivity implements OnAddressSelecte
                 finish();
                 break;
             case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.ll_area:
                 dialog.show();

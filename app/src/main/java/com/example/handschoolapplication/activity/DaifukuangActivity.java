@@ -2,7 +2,6 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.DaifukuangLvAdapter;
+import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.ClassDealManagerBean;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-public class DaifukuangActivity extends AppCompatActivity {
+public class DaifukuangActivity extends BaseActivity {
 
     @BindView(R.id.rl_back)
     RelativeLayout rlBack;
@@ -57,7 +57,6 @@ public class DaifukuangActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        setContentView(R.layout.activity_daifukuang);
         school_id = (String) SPUtils.get(this, "school_id", "");
         ButterKnife.bind(this);
         String type = getIntent().getStringExtra("type");
@@ -103,6 +102,11 @@ public class DaifukuangActivity extends AppCompatActivity {
         getData(type);
     }
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_daifukuang;
+    }
+
     private void getData(String type) {
         mList.clear();
         HashMap<String, String> params = new HashMap<>();
@@ -145,7 +149,7 @@ public class DaifukuangActivity extends AppCompatActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
                 break;
 
         }

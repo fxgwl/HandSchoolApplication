@@ -121,7 +121,7 @@ public class ActivityActivity extends BaseActivity implements CommonPopupWindow.
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:
+            case R.id.iv_menu:                 show(view);
                 break;
             case R.id.et_search:
             case R.id.iv_search://搜索
