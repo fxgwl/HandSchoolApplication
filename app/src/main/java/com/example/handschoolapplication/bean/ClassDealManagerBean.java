@@ -1,10 +1,12 @@
 package com.example.handschoolapplication.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/10/20.
  */
 
-public class ClassDealManagerBean {
+public class ClassDealManagerBean implements Serializable{
 
     /**
      * class_money : 333

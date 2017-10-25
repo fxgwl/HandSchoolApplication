@@ -54,7 +54,7 @@ public class NewsComFragment extends BaseFragment {
     TextView tvInteractTime;
     @BindView(R.id.tv_interact)
     TextView tvInteract;
-//    @BindView(R.id.lv_news)
+    //    @BindView(R.id.lv_news)
 //    ListView lvNews;
     Unbinder unbinder;
     private List<NewsListBean> newsList;//上面三个消息
@@ -103,22 +103,26 @@ public class NewsComFragment extends BaseFragment {
                             JSONObject jsonObject = new JSONObject(response);
                             String data = jsonObject.getString("data");
                             Gson gson = new Gson();
-                            newsList.addAll((Collection<? extends NewsListBean>) gson.fromJson(data.toString(), new TypeToken<ArrayList<NewsListBean>>() {
-                            }.getType()));
+                            if (response.contains("没有信息")) {
+                            } else {
+                                newsList.addAll((Collection<? extends NewsListBean>) gson.fromJson(data.toString(), new TypeToken<ArrayList<NewsListBean>>() {
+                                }.getType()));
 
-                            for (int i = 0; i < newsList.size(); i++) {
-                                String message_type = newsList.get(i).getMessage_type();
-                                if (message_type.equals("3")) {//学习消息
-                                    tvLearn.setText(newsList.get(i).getMessage_content());
-                                    tvLearnTime.setText(newsList.get(i).getMessage_date());
-                                } else if (message_type.equals("1")) {//通知消息
-                                    tvNotification.setText(newsList.get(i).getMessage_content());
-                                    tvNotificationTime.setText(newsList.get(i).getMessage_date());
-                                } else if (message_type.equals("2")) {//互动消息
-                                    tvInteract.setText(newsList.get(i).getMessage_content());
-                                    tvInteractTime.setText(newsList.get(i).getMessage_date());
+                                for (int i = 0; i < newsList.size(); i++) {
+                                    String message_type = newsList.get(i).getMessage_type();
+                                    if (message_type.equals("3")) {//学习消息
+                                        tvLearn.setText(newsList.get(i).getMessage_content());
+                                        tvLearnTime.setText(newsList.get(i).getMessage_date());
+                                    } else if (message_type.equals("1")) {//通知消息
+                                        tvNotification.setText(newsList.get(i).getMessage_content());
+                                        tvNotificationTime.setText(newsList.get(i).getMessage_date());
+                                    } else if (message_type.equals("2")) {//互动消息
+                                        tvInteract.setText(newsList.get(i).getMessage_content());
+                                        tvInteractTime.setText(newsList.get(i).getMessage_date());
+                                    }
                                 }
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -150,7 +154,7 @@ public class NewsComFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), NotificationNewsActivity.class));
                 break;
             case R.id.ll_interaction_news:
-                startActivity(new Intent(getActivity(),InteractionNewsActivity.class));
+                startActivity(new Intent(getActivity(), InteractionNewsActivity.class));
                 break;
         }
     }

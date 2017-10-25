@@ -117,7 +117,7 @@ public class Internet {
     //购物车--改变数量
     public static final String CHANGENUM = BASE_URL + "OrderInfo/updateOrderInfo";
     //订单详情
-    public static final String ORDERINFO = BASE_URL + "OrderInfo/getOrderInfo";
+    public static final String ORDER_INFO = BASE_URL + "OrderInfo/getOrderInfo";
     //订单中心==全部
     public static final String ALLORDER = BASE_URL + "OrderInfo/getMyall";
 

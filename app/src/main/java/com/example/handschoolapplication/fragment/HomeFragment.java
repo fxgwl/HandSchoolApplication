@@ -42,6 +42,7 @@ import com.example.handschoolapplication.adapter.HPCourseAdapter;
 import com.example.handschoolapplication.adapter.HorizontalActivityListViewAdapter;
 import com.example.handschoolapplication.adapter.HorizontalLearnListViewAdapter;
 import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
+import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.ClassBean;
 import com.example.handschoolapplication.bean.CourseBean;
 import com.example.handschoolapplication.bean.HomeAdBean;
@@ -76,7 +77,7 @@ import okhttp3.Call;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class HomeFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
 
     @BindView(R.id.tv_location)
@@ -198,7 +199,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
                     initOrgan("家教", classBeanList3, classAdapter3, lvHomelearnName);
                     break;
                 case 3:
-                    if (!TextUtils.isEmpty(city))
+                    if (null!=city)
                     tvLocation.setText(city);
                     break;
                 case 2:
@@ -237,10 +238,7 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_home, null);
-
-        LocationClient locationClient = new LocationClient(getActivity().getApplicationContext());
-
+        view = super.onCreateView(inflater,container,savedInstanceState);
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         marqueeView = (MarqueeView) view.findViewById(R.id.marqueeView);
         unbinder = ButterKnife.bind(this, view);
@@ -263,6 +261,11 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
         //判断签到  后台需要  前台没用
         isSign();
         return view;
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.fragment_home;
     }
 
     //定位
@@ -653,11 +656,6 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     }
 
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     @OnClick({R.id.iv_search, R.id.ll_sign_in, R.id.rl_style_art, R.id.rl_learn_help, R.id.rl_activity,
             R.id.rl_child_edu, R.id.rl_trusteeship, R.id.rl_family_edu,

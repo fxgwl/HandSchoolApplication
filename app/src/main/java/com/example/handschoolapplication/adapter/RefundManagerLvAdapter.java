@@ -78,8 +78,9 @@ public class RefundManagerLvAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ClassDealManagerBean classDealManagerBean = mList.get(position);
-        holder.mTvOrderId.setText(classDealManagerBean.getOrder_id());
+        final ClassDealManagerBean classDealManagerBean = mList.get(position);
+        final String order_id = classDealManagerBean.getOrder_id();
+        holder.mTvOrderId.setText(order_id);
         holder.mTvNickName.setText(classDealManagerBean.getUserInfo().getUser_name());
         holder.mTvClassName.setText(classDealManagerBean.getClass_name());
         holder.mTvClassprice.setText("价格：¥"+classDealManagerBean.getOrder_money());
@@ -95,7 +96,7 @@ public class RefundManagerLvAdapter extends BaseAdapter {
         holder.btnDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, RefundDetailActivity.class));
+                mContext.startActivity(new Intent(mContext, RefundDetailActivity.class).putExtra("order_id",order_id));
             }
         });
 
