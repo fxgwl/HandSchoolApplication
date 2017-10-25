@@ -74,6 +74,7 @@ public class MeFragment extends BaseFragment {
     private View view;
     private int REQUEST_CODE;
     private String user_id;
+    private SchoolInfoBean.DataBean dataBean;
 
 
     public MeFragment() {
@@ -104,13 +105,13 @@ public class MeFragment extends BaseFragment {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(HomeFragment.java:231)"+e.getMessage());
+                                "(HomeFragment.java:231)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(HomeFragment.java:237)"+response);
+                                "(HomeFragment.java:237)" + response);
                     }
                 });
     }
@@ -133,7 +134,7 @@ public class MeFragment extends BaseFragment {
                                 "(MeFragment.java:107)" + response);
                         Gson gson = new Gson();
                         try {
-                            SchoolInfoBean.DataBean dataBean = gson.fromJson(response, SchoolInfoBean.class).getData();
+                            dataBean = gson.fromJson(response, SchoolInfoBean.class).getData();
                             Glide.with(getActivity())
                                     .load(Internet.BASE_URL + dataBean.getHead_photo())
                                     .centerCrop()
@@ -142,6 +143,25 @@ public class MeFragment extends BaseFragment {
                             tvPercent.setText(dataBean.getData_integrity() + "%");
                             tvDays.setText(dataBean.getSigned_num());
                             tvGoldNum.setText(dataBean.getUser_gold());
+                            switch (dataBean.getUser_dengji()) {
+                                case "0":
+                                    break;
+                                case "1":
+                                    ivJewel1.setVisibility(View.VISIBLE);
+                                    break;
+                                case "2":
+                                    ivJewel2.setVisibility(View.VISIBLE);
+                                    break;
+                                case "3":
+                                    ivJewel3.setVisibility(View.VISIBLE);
+                                    break;
+                                case "4":
+                                    ivJewel4.setVisibility(View.VISIBLE);
+                                    break;
+                                case "5":
+                                    ivJewel5.setVisibility(View.VISIBLE);
+                                    break;
+                            }
                         } catch (Exception e) {
                         }
                     }
@@ -195,7 +215,9 @@ public class MeFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), MyDiscountcouponActivity.class));
                 break;
             case R.id.iv_settings:
-                startActivity(new Intent(getActivity(), SettingsActivity.class).putExtra("type", "per"));
+                startActivity(new Intent(getActivity(), SettingsActivity.class).putExtra("type", "per")
+                        .putExtra("icon", dataBean.getHead_photo())
+                        .putExtra("name", dataBean.getUser_name()));
                 break;
             case R.id.ll_dengji:
                 startActivity(new Intent(getActivity(), GradeActivity.class));

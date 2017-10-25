@@ -149,30 +149,35 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:visibility="invisible"
                         android:id="@+id/iv_img1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/wujiaoxing" />
 
                     <ImageView
+                        android:visibility="invisible"
                         android:id="@+id/iv_img2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/wujiaoxing" />
 
                     <ImageView
+                        android:visibility="invisible"
                         android:id="@+id/iv_img3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/wujiaoxing" />
 
                     <ImageView
+                        android:visibility="invisible"
                         android:id="@+id/iv_img4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/wujiaoxing" />
 
                     <ImageView
+                        android:visibility="invisible"
                         android:id="@+id/iv_img5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

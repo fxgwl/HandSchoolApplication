@@ -90,6 +90,15 @@ public class SchoolInfoBean {
         private String user_renqi;
         private String user_state;
         private String user_type;
+        private String user_name;
+
+        public String getUser_name() {
+            return user_name;
+        }
+
+        public void setUser_name(String user_name) {
+            this.user_name = user_name;
+        }
 
         public String getData_integrity() {
             return data_integrity;

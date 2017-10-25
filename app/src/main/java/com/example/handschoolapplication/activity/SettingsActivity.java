@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.MenuBean;
+import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.ShenjiDialog;
 
@@ -39,6 +41,8 @@ public class SettingsActivity extends BaseActivity {
     private TextView tvType;
     private String type;
     private ShenjiDialog selfDialog;
+    private String icon;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,13 @@ public class SettingsActivity extends BaseActivity {
         tvTitle.setText("设置");
         ivMenu.setVisibility(View.VISIBLE);
         type = getIntent().getStringExtra("type");
+        icon = getIntent().getStringExtra("icon");
+        name = getIntent().getStringExtra("name");
+        Glide.with(this)
+                .load(Internet.BASE_URL + icon)
+                .centerCrop()
+                .into(ivIcon);
+        tvUsername.setText(name);
         switch (type) {
             case "com":
                 tvType.setText("学堂资料");
@@ -71,7 +82,8 @@ public class SettingsActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 show(view);
                 break;
             case R.id.ll_change_info:
