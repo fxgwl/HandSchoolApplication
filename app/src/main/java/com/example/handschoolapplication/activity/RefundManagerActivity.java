@@ -84,7 +84,7 @@ public class RefundManagerActivity extends BaseActivity {
         allRefunList = new ArrayList<>();
         refuningList = new ArrayList<>();
         hadRefunList = new ArrayList<>();
-        mAdapter = new RefundManagerLvAdapter(RefundManagerActivity.this, mList);
+        mAdapter = new RefundManagerLvAdapter(RefundManagerActivity.this, refuningList);
         lvRefundmanager.setAdapter(mAdapter);
 
         initData();
@@ -99,8 +99,11 @@ public class RefundManagerActivity extends BaseActivity {
         mList.clear();
         HashMap<String, String> params = new HashMap<>();
         params.put("school_id", school_id);
+        Log.e("aaa",
+            "(RefundManagerActivity.java:103)params === "+params);
         OkHttpUtils.post()
                 .url(InternetS.CLASS_ORDER_INFOR)
+                .params(params)
                 .build()
                 .execute(new StringCallback() {
                     @Override
