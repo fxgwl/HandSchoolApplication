@@ -19,6 +19,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -26,6 +27,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.BaiduMapActivity;
 import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
 import com.example.handschoolapplication.adapter.FindCourseAdapter;
@@ -85,19 +87,19 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             switch (msg.what) {
                 case 0:
                     Log.e("aaa",
-                        "(FindFragment.java:86)"+"dsahjdhsadhasdasdj");
+                            "(FindFragment.java:86)" + "dsahjdhsadhasdasdj");
                     double[] locations = (double[]) msg.obj;
                     Log.e("aaa",
-                        "(FindFragment.java:89)"+locations);
+                            "(FindFragment.java:89)" + locations);
                     findCourseAdapter.setLocations(locations);
                     findCourseAdapter.notifyDataSetChanged();
                     break;
                 case 1:
                     String address = (String) msg.obj;
-                    tvCurrentLocation.setText(address+"");
+                    tvCurrentLocation.setText(address + "");
                     break;
                 case 2:
-                    tvLocation.setText((String)msg.obj);
+                    tvLocation.setText((String) msg.obj);
                     break;
             }
         }
@@ -131,8 +133,27 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         initMap();
         initLvData();
         lvFfCourse.setOnItemClickListener(this);
+        map.setOnMapClickListener(listener);
         return view;
     }
+
+    BaiduMap.OnMapClickListener listener = new BaiduMap.OnMapClickListener() {
+        /**
+         * 地图单击事件回调函数
+         * @param point 点击的地理坐标
+         */
+        public void onMapClick(LatLng point) {
+            startActivity(new Intent(getActivity(), BaiduMapActivity.class));
+        }
+
+        /**
+         * 地图内 Poi 单击事件回调函数
+         * @param poi 点击的 poi 信息
+         */
+        public boolean onMapPoiClick(MapPoi poi) {
+            return false;
+        }
+    };
 
     private void initMap() {
 
@@ -158,13 +179,13 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                            "(FindFragment.java:136)"+e.getMessage());
+                                "(FindFragment.java:136)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                            "(FindFragment.java:142)"+response);
+                                "(FindFragment.java:142)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
@@ -179,6 +200,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 });
 
     }
+
     @OnClick({R.id.iv_search, R.id.tv_search})
     public void onViewClicked() {
         startActivity(new Intent(getActivity(), SearchActivity.class));
@@ -237,7 +259,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
 
-            double[] locations = new double[]{latitude,longitude};
+            double[] locations = new double[]{latitude, longitude};
 
             Message message = new Message();
             message.what = 0;
@@ -252,10 +274,6 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
 
         @Override
         public void onConnectHotSpotMessage(String s, int i) {
-
-        }
-
-        public void onReceivePoi(BDLocation poiLocation) {
 
         }
     }

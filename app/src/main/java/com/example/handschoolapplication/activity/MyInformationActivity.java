@@ -112,7 +112,8 @@ public class MyInformationActivity extends BaseActivity {
         return R.layout.activity_my_information;
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_icon, R.id.ll_username, R.id.ll_name, R.id.ll_sex, R.id.ll_idcode, R.id.ll_myaddress, R.id.btn_save})
+    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_icon, R.id.ll_username, R.id.ll_name, R.id.ll_sex, R.id.ll_idcode,
+            R.id.ll_myaddress, R.id.btn_save,R.id.ll_change_phone})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
@@ -124,6 +125,10 @@ public class MyInformationActivity extends BaseActivity {
                 break;
             case R.id.ll_icon:
                 showChoosePicDialog();
+                break;
+            //修改手机号
+            case R.id.ll_change_phone:
+                startActivity(new Intent(MyInformationActivity.this, ChangePhoneActivity.class));
                 break;
             case R.id.ll_username:
                 if ("会员名称".equals(tvUsername.getText().toString())) {

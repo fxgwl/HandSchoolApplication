@@ -43,7 +43,38 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#e6e6e6"/>
+    <LinearLayout
+        android:id="@+id/ll_change_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="修改手机号"
+            android:textColor="@color/t333333"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/xiayiye" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e6e6e6"/>
     <LinearLayout
         android:id="@+id/ll_schoolinfo_schoolname"
         android:layout_width="match_parent"
@@ -218,6 +249,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
+
 
     <Button
         android:id="@+id/btn_schoolinfo_save"

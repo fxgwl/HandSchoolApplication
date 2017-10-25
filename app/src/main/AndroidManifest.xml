@@ -64,7 +64,8 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.RegisterToActivity" />
-        <activity android:name=".activity.LoginActivity"
+        <activity
+            android:name=".activity.LoginActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -221,9 +222,10 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".activity.ReturnMoneyActivity"></activity>
-        <activity android:name=".activity.MyDiscountActivity"></activity>
-        <activity android:name=".activity.SearchResultActivity"></activity>
+        <activity android:name=".activity.ReturnMoneyActivity" />
+        <activity android:name=".activity.MyDiscountActivity" />
+        <activity android:name=".activity.SearchResultActivity" />
+        <activity android:name=".activity.BaiduMapActivity"></activity>
     </application>
 
 </manifest>

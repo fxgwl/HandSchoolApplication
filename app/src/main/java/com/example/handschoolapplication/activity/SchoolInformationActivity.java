@@ -274,13 +274,16 @@ public class SchoolInformationActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_schoolinfo_logo, R.id.ll_schoolinfo_schoolclass, R.id.ll_schoolinfo_shenfenrenzheng, R.id.ll_schoolinfo_qualification, R.id.ll_schoolinfo_schooladdress, R.id.btn_schoolinfo_save})
+    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_schoolinfo_logo, R.id.ll_schoolinfo_schoolclass,
+            R.id.ll_schoolinfo_shenfenrenzheng, R.id.ll_schoolinfo_qualification,
+            R.id.ll_schoolinfo_schooladdress, R.id.btn_schoolinfo_save,R.id.ll_change_phone})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             //学堂logo
             case R.id.ll_schoolinfo_logo:
@@ -303,6 +306,9 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             //保存
             case R.id.btn_schoolinfo_save:
+                break;
+            case R.id.ll_change_phone:
+                startActivity(new Intent(SchoolInformationActivity.this, ChangePhoneActivity.class));
                 break;
         }
     }
