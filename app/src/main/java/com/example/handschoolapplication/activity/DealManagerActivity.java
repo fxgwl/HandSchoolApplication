@@ -61,7 +61,8 @@ public class DealManagerActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             //等待买家付款
             case R.id.ll_dealmanager_daifukuang:

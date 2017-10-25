@@ -1,33 +1,34 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            tools:context="com.example.handschoolapplication.fragment.HomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    tools:context="com.example.handschoolapplication.fragment.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/ll_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/bluepoint"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bluepoint" />
 
                 <TextView
                     android:id="@+id/tv_location"
@@ -36,11 +37,17 @@
                     android:layout_gravity="center_vertical"
                     android:text="位置"
                     android:textColor="@color/textcolor"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp"
+                    android:layout_marginLeft="5dp"/>
             </LinearLayout>
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
             <LinearLayout
-                android:layout_width="208dp"
+                android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/shape_home_etsearch_bg"
@@ -56,7 +63,7 @@
                     android:hint="搜索您想学的课程或课堂"
                     android:paddingLeft="20dp"
                     android:textSize="12sp"
-                    app:theme="@style/MyEditText"/>
+                    app:theme="@style/MyEditText" />
 
                 <ImageView
                     android:id="@+id/iv_search"
@@ -64,22 +71,28 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/search"/>
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/search" />
             </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
 
             <LinearLayout
                 android:id="@+id/ll_sign_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/glodecoin"/>
+                    android:src="@drawable/glodecoin" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -89,7 +102,7 @@
                     android:layout_marginRight="20dp"
                     android:text="签到"
                     android:textColor="@color/textcolor"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -107,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="+1"
-                    android:textColor="#fec601"/>
+                    android:textColor="#fec601" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -117,17 +130,16 @@
                     android:layout_marginRight="15dp"
                     android:text="已签到"
                     android:textColor="@color/textcolor"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <com.bigkoo.convenientbanner.ConvenientBanner
             android:id="@+id/convenientBanner"
             android:layout_width="match_parent"
             android:layout_height="154dp"
             android:layout_marginTop="10dp"
-            app:canLoop="true"/>
+            app:canLoop="true" />
 
         <LinearLayout
             android:id="@+id/ll_learn"
@@ -152,7 +164,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/wenyi"/>
+                        android:src="@drawable/wenyi" />
 
                     <TextView
                         android:id="@+id/tv_hometype1"
@@ -161,7 +173,7 @@
                         android:layout_below="@+id/iv_style_art"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="文体艺术"/>
+                        android:text="文体艺术" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -175,7 +187,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/xuexi"/>
+                        android:src="@drawable/xuexi" />
 
                     <TextView
                         android:id="@+id/tv_hometype2"
@@ -184,7 +196,7 @@
                         android:layout_below="@+id/iv_learn_help"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="学习辅导"/>
+                        android:text="学习辅导" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -198,7 +210,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/huodong"/>
+                        android:src="@drawable/huodong" />
 
                     <TextView
                         android:id="@+id/tv_hometype3"
@@ -207,7 +219,7 @@
                         android:layout_below="@+id/iv_activity"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="活动拓展"/>
+                        android:text="活动拓展" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -228,7 +240,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/zaojiao"/>
+                        android:src="@drawable/zaojiao" />
 
                     <TextView
                         android:id="@+id/tv_hometype4"
@@ -237,7 +249,7 @@
                         android:layout_below="@+id/iv_child_edu"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="早教"/>
+                        android:text="早教" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -251,7 +263,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/xuexi"/>
+                        android:src="@drawable/xuexi" />
 
                     <TextView
                         android:id="@+id/tv_hometype5"
@@ -260,7 +272,7 @@
                         android:layout_below="@+id/iv_trusteeship"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="托管"/>
+                        android:text="托管" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -274,7 +286,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/huodong"/>
+                        android:src="@drawable/huodong" />
 
                     <TextView
                         android:id="@+id/tv_hometype6"
@@ -283,7 +295,7 @@
                         android:layout_below="@+id/iv_family_edu"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="家教"/>
+                        android:text="家教" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
@@ -299,7 +311,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/jiaoyuzixun"/>
+                android:src="@drawable/jiaoyuzixun" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -319,7 +331,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="#f2f2f3"/>
+            android:background="#f2f2f3" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -331,7 +343,7 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/wenyi"/>
+                android:src="@drawable/wenyi" />
             />
 
             <TextView
@@ -343,19 +355,19 @@
                 android:text="文体艺术"
                 android:textColor="@color/textcolor"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_more_art"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:text="更多>>"/>
+                android:text="更多>>" />
         </LinearLayout>
 
         <LinearLayout
@@ -368,31 +380,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/left"/>
+                android:src="@drawable/left" />
 
             <com.example.handschoolapplication.view.HorizontalListView
                 android:id="@+id/hl_art"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/right"/>
+                android:src="@drawable/right" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/lv_course_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="#f2f2f3"/>
+            android:background="#f2f2f3" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -404,7 +417,7 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/wenyi"/>
+                android:src="@drawable/wenyi" />
             />
 
             <TextView
@@ -416,19 +429,19 @@
                 android:text="学习辅导"
                 android:textColor="@color/textcolor"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_more_learn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:text="更多>>"/>
+                android:text="更多>>" />
         </LinearLayout>
 
         <LinearLayout
@@ -440,31 +453,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/left"/>
+                android:src="@drawable/left" />
 
             <com.example.handschoolapplication.view.HorizontalLearnListView
                 android:id="@+id/hl_learn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/right"/>
+                android:src="@drawable/right" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/lv_learn_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="#f2f2f3"/>
+            android:background="#f2f2f3" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -476,7 +490,7 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/wenyi"/>
+                android:src="@drawable/wenyi" />
             />
 
             <TextView
@@ -488,19 +502,19 @@
                 android:text="活动拓展"
                 android:textColor="@color/textcolor"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_more_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:text="更多>>"/>
+                android:text="更多>>" />
         </LinearLayout>
 
         <LinearLayout
@@ -512,31 +526,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/left"/>
+                android:src="@drawable/left" />
 
             <com.example.handschoolapplication.view.HorizontalActivityListView
                 android:id="@+id/hl_activity"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/right"/>
+                android:src="@drawable/right" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/lv_activity_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="#f2f2f3"/>
+            android:background="#f2f2f3" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -548,7 +563,7 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/wenyi"/>
+                android:src="@drawable/wenyi" />
             />
 
             <TextView
@@ -560,30 +575,31 @@
                 android:text="早教"
                 android:textColor="@color/textcolor"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_more_child"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:text="更多>>"/>
+                android:text="更多>>" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/lv_child_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="#f2f2f3"/>
+            android:background="#f2f2f3" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -595,7 +611,7 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/wenyi"/>
+                android:src="@drawable/wenyi" />
             />
 
             <TextView
@@ -607,30 +623,31 @@
                 android:text="托管"
                 android:textColor="@color/textcolor"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_more_trusteeship"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:text="更多>>"/>
+                android:text="更多>>" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/lv_trusteeship_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="#f2f2f3"/>
+            android:background="#f2f2f3" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -642,7 +659,7 @@
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/wenyi"/>
+                android:src="@drawable/wenyi" />
             />
 
             <TextView
@@ -654,24 +671,25 @@
                 android:text="家教"
                 android:textColor="@color/textcolor"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_more_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:text="更多>>"/>
+                android:text="更多>>" />
         </LinearLayout>
 
         <ListView
             android:id="@+id/lv_homelearn_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"/>
     </LinearLayout>
 </ScrollView>

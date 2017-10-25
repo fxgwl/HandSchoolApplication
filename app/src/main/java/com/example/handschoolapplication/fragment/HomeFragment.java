@@ -68,7 +68,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
@@ -80,8 +79,8 @@ import okhttp3.Call;
 public class HomeFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
 
-    @BindView(R.id.tv_location)
-    TextView tvLocation;
+//    @BindView(R.id.tv_location)
+//    TextView tvLocation;
     @BindView(R.id.et_search)
     TextView etSearch;
     @BindView(R.id.iv_style_art)
@@ -156,6 +155,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     HorizontalListViewAdapter mAdapter;
     HorizontalLearnListViewAdapter mLearnAdapter;
     HorizontalActivityListViewAdapter mActivityAdapter;
+    private TextView tvLocation;
     private ListView LvCourseName;
     private HPCourseAdapter courseAdapter1;
     private HPCourseAdapter courseAdapter2;
@@ -199,8 +199,9 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                     initOrgan("家教", classBeanList3, classAdapter3, lvHomelearnName);
                     break;
                 case 3:
-                    if (null!=city)
-                    tvLocation.setText(city);
+                        if (null!=tvLocation){
+                            tvLocation.setText(city);
+                        }
                     break;
                 case 2:
                     locations = (double[]) msg.obj;
@@ -241,12 +242,11 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         view = super.onCreateView(inflater,container,savedInstanceState);
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         marqueeView = (MarqueeView) view.findViewById(R.id.marqueeView);
-        unbinder = ButterKnife.bind(this, view);
         user_id = (String) SPUtils.get(getActivity(), "userId", "");
         type = new TextView[]{tvHometype1, tvHometype2, tvHometype3, tvHometype4, tvHometype5, tvHometype6};
         typelist = new TextView[]{tvHometypelist1, tvHometypelist2, tvHometypelist3, tvHometypelist4, tvHometypelist5, tvHometypelist6};
         LvCourseName = (ListView) view.findViewById(R.id.lv_course_name);
-
+        tvLocation = (TextView) view.findViewById(R.id.tv_location);
         locationAt();
         initLvData();
         //教育资讯跑马灯

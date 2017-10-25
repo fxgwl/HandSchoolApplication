@@ -64,30 +64,31 @@ public class DaifukuangActivity extends BaseActivity {
         switch (type) {
             case "0":
                 tvTitle.setText("等待买家付款");
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"等待买家付款");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "等待买家付款");
                 break;
             case "1":
                 tvTitle.setText("等待学习确认");
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"等待学习确认");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "等待学习确认");
                 break;
             case "2":
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"等待买家评价");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "等待买家评价");
                 tvTitle.setText("等待买家评价");
                 break;
             case "3":
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"成功的订单");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "成功的订单");
                 tvTitle.setText("成功的订单");
                 break;
             case "5":
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"取消的订单");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "取消的订单");
                 tvTitle.setText("关闭的订单");
                 break;
             case "":
-                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList,"");
+                mAdapter = new DaifukuangLvAdapter(DaifukuangActivity.this, mList, "");
                 tvTitle.setText("全部订单");
                 break;
         }
 
+        lvDaifukuang.setAdapter(mAdapter);
 
         lvDaifukuang.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -95,9 +96,6 @@ public class DaifukuangActivity extends BaseActivity {
                 startActivity(new Intent(DaifukuangActivity.this, OrderDetailActivity.class));
             }
         });
-
-
-        lvDaifukuang.setAdapter(mAdapter);
 
         getData(type);
     }
@@ -115,6 +113,8 @@ public class DaifukuangActivity extends BaseActivity {
             params.put("order_state", type);
         }
 
+        Log.e("aaa",
+                "(DaifukuangActivity.java:119)" + "params ==== " + params);
         OkHttpUtils.post()
                 .url(InternetS.CLASS_ORDER_INFOR)
                 .params(params)
@@ -149,9 +149,9 @@ public class DaifukuangActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
-
         }
     }
 

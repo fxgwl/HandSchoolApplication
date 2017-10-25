@@ -28,10 +28,10 @@ public class DaifukuangLvAdapter extends BaseAdapter {
     private int size = 0;
     private String type;
 
-    public DaifukuangLvAdapter(Context mContext, List<ClassDealManagerBean> mList,String type) {
+    public DaifukuangLvAdapter(Context mContext, List<ClassDealManagerBean> mList, String type) {
         this.mContext = mContext;
         this.mList = mList;
-        this.type=type;
+        this.type = type;
     }
 
     @Override
@@ -72,19 +72,20 @@ public class DaifukuangLvAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         ClassDealManagerBean classDealManagerBean = mList.get(position);
-
+        if (null != classDealManagerBean.getUserInfo()) {
+            Glide.with(mContext).load(Internet.BASE_URL + classDealManagerBean.getUserInfo().getHead_photo()).centerCrop().into(holder.civHeadImage);
+            holder.mTvNickName.setText(classDealManagerBean.getUserInfo().getUser_name());
+        }
         holder.mTvOrderId.setText(classDealManagerBean.getOrder_id());//订单编号
-        Glide.with(mContext).load(Internet.BASE_URL+classDealManagerBean.getUserInfo().getHead_photo()).centerCrop().into(holder.civHeadImage);
-        holder.mTvNickName.setText(classDealManagerBean.getUserInfo().getUser_name());
-        Glide.with(mContext).load(Internet.BASE_URL+classDealManagerBean.getSchool_logo()).centerCrop().into(holder.ivClasslogo);
+        Glide.with(mContext).load(Internet.BASE_URL + classDealManagerBean.getSchool_logo()).centerCrop().into(holder.ivClasslogo);
         holder.mTvClassName.setText(classDealManagerBean.getClass_name());
-        holder.mTvClassprice.setText("价格： ¥"+classDealManagerBean.getOrder_money());
+        holder.mTvClassprice.setText("价格： ¥" + classDealManagerBean.getOrder_money());
         double unitPrice = Double.parseDouble(classDealManagerBean.getOrder_money());
-        holder.mTvNum.setText("数量：x"+classDealManagerBean.getCourse_num());
+        holder.mTvNum.setText("数量：x" + classDealManagerBean.getCourse_num());
         double num = Double.parseDouble(classDealManagerBean.getCourse_num());
-        double totalPrice = unitPrice*num;
-        holder.mTvTotalprice.setText("总价："+new DecimalFormat("0.00").format(totalPrice)+"元");
-        switch (classDealManagerBean.getOrder_state()){
+        double totalPrice = unitPrice * num;
+        holder.mTvTotalprice.setText("总价：" + new DecimalFormat("0.00").format(totalPrice) + "元");
+        switch (classDealManagerBean.getOrder_state()) {
             case "0"://0待付款
                 holder.mTvContemt.setText("等待买家付款");
                 break;

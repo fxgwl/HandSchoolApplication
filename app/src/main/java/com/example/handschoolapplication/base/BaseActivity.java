@@ -148,6 +148,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
     public void showShare() {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权

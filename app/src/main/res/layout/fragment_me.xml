@@ -92,11 +92,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/zuanshi"/>
-            <ImageView
-                android:id="@+id/iv_jewel6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/zuanshi"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -196,6 +191,11 @@
                 android:text="学习中"
                 android:layout_marginTop="10dp"/>
         </LinearLayout>
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="20dp"
+            android:background="@color/grgray"
+            android:layout_gravity="center_vertical"/>
         <LinearLayout
             android:id="@+id/ll_unpay"
             android:layout_width="0dp"

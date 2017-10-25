@@ -63,8 +63,6 @@ public class MeFragment extends BaseFragment {
     ImageView ivJewel4;
     @BindView(R.id.iv_jewel5)
     ImageView ivJewel5;
-    @BindView(R.id.iv_jewel6)
-    ImageView ivJewel6;
     @BindView(R.id.tv_days)
     TextView tvDays;
     @BindView(R.id.tv_gold_num)
