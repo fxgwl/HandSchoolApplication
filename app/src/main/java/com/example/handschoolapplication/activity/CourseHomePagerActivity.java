@@ -97,7 +97,7 @@ public class CourseHomePagerActivity extends BaseActivity {
     private String user_id;
     private String school_id;
     private String schooluid;
-    private String class_money;
+    private String class_money = "";
     private String school_name;
     private String course_name;
     private String course_time;
@@ -240,7 +240,8 @@ public class CourseHomePagerActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.course_share_ll:
 
@@ -256,9 +257,9 @@ public class CourseHomePagerActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.course_allpingjia_btn:
-                startActivity(new Intent(CourseHomePagerActivity.this,CourseDetailActivity.class)
-                        .putExtra("from","chp")
-                        .putExtra("courseId",course_id));
+                startActivity(new Intent(CourseHomePagerActivity.this, CourseDetailActivity.class)
+                        .putExtra("from", "chp")
+                        .putExtra("courseId", course_id));
                 break;
             case R.id.course_kefu:
                 Intent intent3 = new Intent(this, HumanServiceActivity.class);
@@ -305,10 +306,10 @@ public class CourseHomePagerActivity extends BaseActivity {
                 break;
             case R.id.course_learnplan:
                 //添加到购物车
-                if (TextUtils.isEmpty(class_money)) {
-                    Toast.makeText(this, "请选择课时费用", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (TextUtils.isEmpty(class_money)) {
+//                    Toast.makeText(this, "请选择课时费用", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 OkHttpUtils.post()
                         .url(Internet.SINGUP)
                         .addParams("user_id", user_id)
@@ -339,10 +340,10 @@ public class CourseHomePagerActivity extends BaseActivity {
 
                 break;
             case R.id.course_apply:
-                if (TextUtils.isEmpty(class_money)) {
-                    Toast.makeText(this, "请选择课时费用", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (TextUtils.isEmpty(class_money)) {
+//                    Toast.makeText(this, "请选择课时费用", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 Intent intent1 = new Intent(this, NowApplyActivity.class);
                 intent1.putExtra("school_id", school_id);
                 intent1.putExtra("school_name", school_name);
