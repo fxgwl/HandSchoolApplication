@@ -21,6 +21,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -37,18 +38,33 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     EditText etPhoneNum;
     @BindView(R.id.et_password)
     EditText etPassword;
+    ArrayList<String> mlist = new ArrayList<>();
+    private View v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String user_id = (String) SPUtils.get(this, "userId", "");
         String user_type = (String) SPUtils.get(this, "user_type", "");
+        //登录历史
+        v = View.inflate(LoginActivity.this, R.layout.login_history, null);
         if (!TextUtils.isEmpty(user_id)) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("flag", user_type);
             startActivity(intent);
             finish();
         }
+        etPhoneNum.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    String[] a = (SPUtils.get(LoginActivity.this, "loginaccount", "1") + "").split("\\|");
+                    for (int i = 0; i < a.length; i++) {
+                        mlist.add(a[i]);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -100,7 +116,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     }
 
 
-    private void login(String phone, String pwd) {
+    private void login(final String phone, String pwd) {
 
 //        if (!MyUtiles.isPhone(phone)) {
 //            Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
@@ -130,11 +146,18 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(LoginActivity.java:100)" + response);
+
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            JSONObject data = jsonObject.getJSONObject("data");
                             String msg = jsonObject.getString("msg");
                             Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            String loginaccount = SPUtils.get(LoginActivity.this, "loginaccount", "没有") + "";
+                            if (loginaccount.contains(phone)) {
+
+                            } else {
+                                SPUtils.put(LoginActivity.this, "loginaccount", SPUtils.get(LoginActivity.this, "loginaccount", "") + phone + "|");
+                            }
+                            JSONObject data = jsonObject.getJSONObject("data");
                             if (data.getString("user_type").equals("0")) {
                                 UserBean userBean = new Gson().fromJson(data.toString(), UserBean.class);
                                 SPUtils.put(LoginActivity.this, "userId", userBean.getUser_id());

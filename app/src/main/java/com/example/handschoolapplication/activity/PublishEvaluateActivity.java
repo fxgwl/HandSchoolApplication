@@ -45,8 +45,8 @@ public class PublishEvaluateActivity extends BaseActivity {
     CheckBox cbIdni;
     private String user_id;
     private String order_id;
-    private String classscore;
-    private String schoolscore;
+    private String classscore = "5.0";
+    private String schoolscore = "5.0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
