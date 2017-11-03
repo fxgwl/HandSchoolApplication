@@ -38,8 +38,7 @@ public class ClassActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+
     @BindView(R.id.iv_icon)
     ImageView ivIcon;
     @BindView(R.id.iv_grade)
@@ -155,10 +154,10 @@ public class ClassActivity extends BaseActivity {
 
                                 if (response.contains("取消收藏成功")) {
                                     Toast.makeText(ClassActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
-                                    ivLove.setImageResource(R.drawable.wujiaoxinghuise);
+                                    ivLove.setImageResource(R.drawable.shoucang);
                                 } else {
                                     Toast.makeText(ClassActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
-                                    ivLove.setImageResource(R.drawable.wujiaoxing);
+                                    ivLove.setImageResource(R.drawable.yishoucang);
                                 }
                             }
                         });

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,7 +43,7 @@ public class DaifukuangActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+    RelativeLayout ivMenu;
     @BindView(R.id.tv_edit)
     TextView tvEdit;
     @BindView(R.id.lv_daifukuang)
@@ -93,7 +92,8 @@ public class DaifukuangActivity extends BaseActivity {
         lvDaifukuang.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(DaifukuangActivity.this, OrderDetailActivity.class));
+                String order_id = mList.get(position).getOrder_id();
+                startActivity(new Intent(DaifukuangActivity.this, OrderDetailActivity.class).putExtra("order_id",order_id));
             }
         });
 

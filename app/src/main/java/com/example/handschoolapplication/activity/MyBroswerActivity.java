@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,8 +28,7 @@ public class MyBroswerActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+
     @BindView(R.id.lv_mybroswer)
     ListView lvMybroswer;
     ArrayList<MyBroswerBean.DataBean> mlist = new ArrayList<>();

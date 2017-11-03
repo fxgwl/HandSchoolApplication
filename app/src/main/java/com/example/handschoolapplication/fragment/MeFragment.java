@@ -25,6 +25,7 @@ import com.example.handschoolapplication.activity.MyInformationActivity;
 import com.example.handschoolapplication.activity.MyLoveActivity;
 import com.example.handschoolapplication.activity.MyOrderActivity;
 import com.example.handschoolapplication.activity.SettingsActivity;
+import com.example.handschoolapplication.activity.SignActivity;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.SchoolInfoBean;
 import com.example.handschoolapplication.utils.Internet;
@@ -150,15 +151,25 @@ public class MeFragment extends BaseFragment {
                                     ivJewel1.setVisibility(View.VISIBLE);
                                     break;
                                 case "2":
+                                    ivJewel1.setVisibility(View.VISIBLE);
                                     ivJewel2.setVisibility(View.VISIBLE);
                                     break;
                                 case "3":
+                                    ivJewel1.setVisibility(View.VISIBLE);
+                                    ivJewel2.setVisibility(View.VISIBLE);
                                     ivJewel3.setVisibility(View.VISIBLE);
                                     break;
                                 case "4":
+                                    ivJewel1.setVisibility(View.VISIBLE);
+                                    ivJewel2.setVisibility(View.VISIBLE);
+                                    ivJewel3.setVisibility(View.VISIBLE);
                                     ivJewel4.setVisibility(View.VISIBLE);
                                     break;
                                 case "5":
+                                    ivJewel1.setVisibility(View.VISIBLE);
+                                    ivJewel2.setVisibility(View.VISIBLE);
+                                    ivJewel3.setVisibility(View.VISIBLE);
+                                    ivJewel4.setVisibility(View.VISIBLE);
                                     ivJewel5.setVisibility(View.VISIBLE);
                                     break;
                             }
@@ -176,7 +187,7 @@ public class MeFragment extends BaseFragment {
 
     @OnClick({R.id.iv_edit, R.id.ll_course_all, R.id.ll_islearning, R.id.ll_unpay, R.id.ll_isevaluate,
             R.id.tv_more, R.id.iv_more, R.id.ll_scan, R.id.ll_evaluate, R.id.ll_broswer, R.id.ll_love,
-            R.id.ll_discountcoupon, R.id.iv_settings, R.id.ll_dengji, R.id.civ_usericon})
+            R.id.ll_discountcoupon, R.id.iv_settings, R.id.ll_dengji, R.id.civ_usericon,R.id.rl_sign})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_edit://编辑
@@ -184,6 +195,9 @@ public class MeFragment extends BaseFragment {
                 break;
             case R.id.ll_course_all://全部课程
                 startActivity(new Intent(getActivity(), AllCourseActivity.class));
+                break;
+            case R.id.rl_sign:
+                startActivity(new Intent(getActivity(), SignActivity.class));
                 break;
             case R.id.ll_islearning://学习中
                 startActivity(new Intent(getActivity(), LearningActivity.class));

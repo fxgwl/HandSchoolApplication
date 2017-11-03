@@ -76,6 +76,11 @@
         <item name="android:windowExitAnimation">@anim/fade_in_down</item>
     </style>
 
+    <style name="AnimationMenu">
+        <item name="android:windowEnterAnimation">@anim/menu_anim_in</item>
+        <item name="android:windowExitAnimation">@anim/menu_anim_out</item>
+    </style>
+
     <!--cc -->
     <style name="nowapplytv1">
         <item name="android:layout_height">wrap_content</item>

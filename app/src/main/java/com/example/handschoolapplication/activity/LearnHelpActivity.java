@@ -45,8 +45,6 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
     @BindView(R.id.tv_location)
     TextView tvLocation;
     @BindView(R.id.tv_sort)
@@ -68,7 +66,7 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
         mlist = new ArrayList<>();
         myAdapter = new MyAdapter();
         listView.setAdapter(myAdapter);
-        ivMenu.setVisibility(View.VISIBLE);
+
         tvTitle.setText("学习辅导");
         types = (ArrayList) getIntent().getSerializableExtra("types");
         //获取文体艺术的小类

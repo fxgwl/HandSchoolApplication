@@ -29,16 +29,15 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="您所选择的学堂"/>
+                        android:text="您所选择的学堂" />
 
                     <TextView
                         android:id="@+id/tv_schoolname"
                         style="@style/nowapplytv2"
-                        android:text="名家讲坛"/>
+                        android:text="名家讲坛" />
                 </LinearLayout>
 
-                <View
-                    style="@style/line"></View>
+                <View style="@style/line"></View>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -46,16 +45,15 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="您所选择的课程"/>
+                        android:text="您所选择的课程" />
 
                     <TextView
                         android:id="@+id/tv_coursename"
                         style="@style/nowapplytv2"
-                        android:text="名家讲坛"/>
+                        android:text="名家讲坛" />
                 </LinearLayout>
 
-                <View
-                    style="@style/line"></View>
+                <View style="@style/line"></View>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -63,7 +61,7 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="上课时间"/>
+                        android:text="上课时间" />
 
                     <TextView
                         android:id="@+id/tv_coursetime"
@@ -72,12 +70,10 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:text="周一  10:30-12:30/15:30-16:30\n周二  10:30-12:30"
-                        />
+                        android:text="周一  10:30-12:30/15:30-16:30\n周二  10:30-12:30" />
                 </RelativeLayout>
 
-                <View
-                    style="@style/line"></View>
+                <View style="@style/line"></View>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -85,16 +81,15 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="班级容量"/>
+                        android:text="班级容量" />
 
                     <TextView
                         android:id="@+id/tv_personnum"
                         style="@style/nowapplytv2"
-                        android:text="12【已报名】 /20人【总人数】"/>
+                        android:text="12【已报名】 /20人【总人数】" />
                 </LinearLayout>
 
-                <View
-                    style="@style/line"></View>
+                <View style="@style/line"></View>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -102,16 +97,15 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="招生对象"/>
+                        android:text="招生对象" />
 
                     <TextView
                         android:id="@+id/tv_age"
                         style="@style/nowapplytv2"
-                        android:text="0-3岁"/>
+                        android:text="0-3岁" />
                 </LinearLayout>
 
-                <View
-                    style="@style/line"></View>
+                <View style="@style/line"></View>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -119,16 +113,15 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="专家讲师"/>
+                        android:text="专家讲师" />
 
                     <TextView
                         android:id="@+id/tv_teacher"
                         style="@style/nowapplytv2"
-                        android:text="易中天"/>
+                        android:text="易中天" />
                 </LinearLayout>
 
-                <View
-                    style="@style/line"></View>
+                <View style="@style/line"></View>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -136,12 +129,12 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="课时费用"/>
+                        android:text="课时费用" />
 
                     <TextView
                         android:id="@+id/tv_costtime"
                         style="@style/nowapplytv2"
-                        android:text="800元/10节课"/>
+                        android:text="800元/10节课" />
                 </LinearLayout>
 
                 <View
@@ -154,7 +147,7 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="学习课时数量"/>
+                        android:text="学习课时数量" />
 
                     <TextView
                         android:id="@+id/tv_coursenum"
@@ -164,7 +157,7 @@
                         android:gravity="center_vertical|right"
                         android:text="20节"
                         android:textColor="#000"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <TextView
@@ -174,7 +167,7 @@
                     android:layout_marginRight="15dp"
                     android:gravity="center_vertical|right"
                     android:text="共N节课       小计: ¥000.00"
-                    android:textColor="#000"/>
+                    android:textColor="#000" />
 
                 <View
                     style="@style/line"
@@ -186,16 +179,33 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="优惠折扣抵"/>
+                        android:text="优惠折扣抵" />
+                    <TextView
+                        android:id="@+id/tv_user_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="不使用优惠券"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="30dp"
+                        android:textColor="#F4640D"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/tv_discount"
                         style="@style/nowapplytv2"
-                        android:text="-¥0.00"/>
+                        android:layout_weight="1"
+                        android:text="-¥0.00" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/xiayiye"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="20dp"/>
                 </LinearLayout>
 
-                <View
-                    style="@style/line"></View>
+                <View style="@style/line"></View>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -204,19 +214,19 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="金币抵扣"/>
+                        android:text="金币抵扣" />
 
                     <ImageView
                         android:id="@+id/iv_golddiscount"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="40dp"
-                        android:src="@drawable/baiquan"/>
+                        android:src="@drawable/baiquan" />
 
                     <TextView
                         android:id="@+id/tv_moneydi"
                         style="@style/nowapplytv2"
-                        android:text="0金币            -¥0.00"/>
+                        android:text="0金币            -¥0.00" />
                 </LinearLayout>
 
                 <View
@@ -232,8 +242,7 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
-            <View
-                style="@style/line"></View>
+            <View style="@style/line"></View>
 
             <LinearLayout
 
@@ -247,7 +256,7 @@
                     android:layout_weight="1"
                     android:gravity="right|center_vertical"
                     android:padding="14dp"
-                    android:text="合计:"/>
+                    android:text="合计:" />
 
                 <TextView
                     android:id="@+id/tv_allmoney"
@@ -257,7 +266,7 @@
                     android:gravity="center"
                     android:padding="14dp"
                     android:text="¥0000.00"
-                    android:textColor="#ff00"/>
+                    android:textColor="#ff00" />
 
                 <TextView
                     android:id="@+id/tv_nowapply_config"
@@ -268,7 +277,7 @@
                     android:gravity="center"
                     android:padding="14dp"
                     android:text="确认报名"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

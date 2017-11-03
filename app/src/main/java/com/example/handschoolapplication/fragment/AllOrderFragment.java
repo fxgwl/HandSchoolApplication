@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.handschoolapplication.R;
@@ -78,13 +77,6 @@ public class AllOrderFragment extends BaseFragment {
                         }
                         OrderAdapter orderAdapter = new OrderAdapter(getActivity(), mOrderList);
                         lvAllOrder.setAdapter(orderAdapter);
-                        lvAllOrder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Log.e("aaa",
-                                        "(AllOrderFragment.java:85)" + 22);
-                            }
-                        });
                     }
                 });
     }

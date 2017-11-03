@@ -29,26 +29,25 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/iv_head"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="10dp"
-                        android:src="@mipmap/ic_launcher"/>
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="10dp" />
 
                     <TextView
                         android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="名字"
-                        android:textColor="#000"/>
+                        android:textColor="#000" />
 
                     <ImageView
                         android:id="@+id/iv_dengji"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_margin="10dp"
-                        android:src="@mipmap/ic_launcher"/>
+                        android:src="@mipmap/ic_launcher" />
 
                     <TextView
                         android:id="@+id/tv_time"
@@ -56,7 +55,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
                         android:gravity="right"
-                        android:text="2017-07-05"/>
+                        android:text="2017-07-05" />
                 </LinearLayout>
 
                 <TextView
@@ -65,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="好评!\n好评!\n好评!\n"
-                    android:textColor="#000"/>
+                    android:textColor="#000" />
 
                 <!--<TextView-->
                 <!--android:layout_width="match_parent"-->
@@ -85,7 +84,7 @@
                 <com.example.handschoolapplication.view.MyListView
                     android:id="@+id/pjd_mlvhuifu"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <!--<TextView-->
                 <!--android:layout_width="wrap_content"-->
@@ -113,7 +112,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_margin="10dp"
-                        android:src="@mipmap/ic_launcher"/>
+                        />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -127,7 +126,7 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="课程名称"
-                            android:textColor="#000"/>
+                            android:textColor="#000" />
 
                         <TextView
                             android:id="@+id/iv_classmoney"
@@ -135,7 +134,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="价格: ¥200"/>
+                            android:text="价格: ¥200" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -144,7 +143,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="159条评论"/>
+                    android:text="159条评论" />
 
                 <View
                     android:layout_width="match_parent"
@@ -177,7 +176,7 @@
                 android:background="#D9D9D9"
                 android:hint="说点什么吧"
                 android:padding="10dp"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_reply"
@@ -187,7 +186,8 @@
                 android:layout_weight="4"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="回复"/>
+                android:textSize="12sp"
+                android:text="回复" />
 
         </LinearLayout>
     </RelativeLayout>

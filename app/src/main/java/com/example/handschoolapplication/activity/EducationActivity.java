@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,8 +32,6 @@ public class EducationActivity extends BaseActivity implements AdapterView.OnIte
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
     @BindView(R.id.lv_education)
     ListView lvEducation;
 
@@ -45,7 +42,6 @@ public class EducationActivity extends BaseActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tvTitle.setText("教育资讯");
-        ivMenu.setVisibility(View.VISIBLE);
         educationAdapter = new EducationAdapter(mList, this);
         lvEducation.setAdapter(educationAdapter);
         lvEducation.setOnItemClickListener(this);

@@ -2,7 +2,6 @@ package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,8 +21,6 @@ public class AboutUsActivity extends BaseActivity {
     RelativeLayout rlBack;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +44,8 @@ public class AboutUsActivity extends BaseActivity {
                 break;
         }
     }
-//asdfasdsdaf
+
+    //asdfasdsdaf
     @Override
     public void onBackPressed() {
         super.onBackPressed();

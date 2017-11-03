@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ public class ReturnMoneyActivity extends AppCompatActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+    RelativeLayout ivMenu;
     @BindView(R.id.tv_edit)
     TextView tvEdit;
     @BindView(R.id.tv_ordernum)

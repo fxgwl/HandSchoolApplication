@@ -68,9 +68,12 @@ public class ClassTeacherFragment extends BaseFragment {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ClassTeacherFragment.java:68)" + response);
-                        mList.clear();
-                        Gson gson = new Gson();
-                        mList.addAll(gson.fromJson(response, Teacher.class).getData());
+
+                        if (response.contains("没有信息")){}else {
+                            mList.clear();
+                            Gson gson = new Gson();
+                            mList.addAll(gson.fromJson(response, Teacher.class).getData());
+                        }
                         mAdapter.notifyDataSetChanged();
                     }
                 });

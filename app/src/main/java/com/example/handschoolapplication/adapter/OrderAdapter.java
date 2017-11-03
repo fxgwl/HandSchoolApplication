@@ -8,10 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.ClassActivity;
+import com.example.handschoolapplication.activity.OrderDetailActivity;
 import com.example.handschoolapplication.activity.PublishEvaluateActivity;
 import com.example.handschoolapplication.activity.ReturnMoneyActivity;
 import com.example.handschoolapplication.bean.OrderBean;
@@ -151,15 +154,14 @@ public class OrderAdapter extends BaseAdapter {
         }
         holder.tvMake.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, PublishEvaluateActivity.class);
-                intent.putExtra("order_id", dataBean.getOrder_id());
+            public void onClick(View v) {//去评价
+                Intent intent = new Intent(context, PublishEvaluateActivity.class).putExtra("dataBean", dataBean);
                 context.startActivity(intent);
             }
         });
         holder.tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//取消订单
                 OkHttpUtils.post()
                         .url(Internet.CLOSEORDER)
                         .addParams("order_id", dataBean.getOrder_id())
@@ -185,7 +187,7 @@ public class OrderAdapter extends BaseAdapter {
         });
         holder.tvRefund.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//退款
                 Intent intent = new Intent(context, ReturnMoneyActivity.class);
                 intent.putExtra("ordernum", dataBean.getOrder_id());
                 intent.putExtra("courseid", dataBean.getCourse_id());
@@ -197,6 +199,24 @@ public class OrderAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
+        holder.llClassInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转到学堂主页
+                Intent intent2 = new Intent(context, ClassActivity.class);
+                intent2.putExtra("school_id", dataBean.getSchool_id());
+                context.startActivity(intent2);
+            }
+        });
+
+        holder.rlCourseInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, OrderDetailActivity.class).putExtra("order_id",dataBean.getOrder_id()));
+            }
+        });
+
+
         return view;
     }
 
@@ -243,6 +263,10 @@ public class OrderAdapter extends BaseAdapter {
         TextView tvRefund2;
         @BindView(R.id.ll_tuikuan)
         LinearLayout llTuikuan;
+        @BindView(R.id.ll_class_info)
+        LinearLayout llClassInfo;
+        @BindView(R.id.rl_course_info)
+        RelativeLayout rlCourseInfo;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

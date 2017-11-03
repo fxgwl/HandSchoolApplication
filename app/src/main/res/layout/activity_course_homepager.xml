@@ -10,14 +10,15 @@
 
     <include layout="@layout/title_bar_blue"></include>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -33,7 +34,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -43,14 +44,16 @@
                         android:layout_marginLeft="20dp"
                         android:layout_weight="1"
                         android:maxLines="2"
-                        android:text="课程课程课程课程课程课程课程课程课程课程课程名称"
-                        android:textColor="#000"/>
+                        android:text=""
+                        android:textColor="#000"
+                        android:layout_gravity="center_vertical"/>
 
                     <LinearLayout
                         android:id="@+id/course_share_ll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical">
 
                         <ImageView
                             android:layout_width="20dp"
@@ -135,6 +138,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="x/n"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="3"/>
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人气："
+                        />
+                    <TextView
+                        android:id="@+id/tv_popularity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="4"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -263,7 +285,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="15dp"
                     android:gravity="center_vertical"
-                    android:text="评价(5678)"
+                    android:text="评价(0)"
                     android:textColor="#000"/>
 
                 <View
@@ -296,11 +318,11 @@
         </ScrollView>
 
         <LinearLayout
+            android:id="@+id/ll_bottem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -319,8 +341,7 @@
                     android:drawablePadding="8dp"
                     android:drawableTop="@drawable/custom_service"
                     android:gravity="center"
-                    android:padding="4dp"
-                    android:text="客服"/>
+                    android:text="客服" />
 
                 <View
                     android:layout_width="1dp"
@@ -336,7 +357,6 @@
                     android:drawablePadding="8dp"
                     android:drawableTop="@drawable/xuetang"
                     android:gravity="center"
-                    android:padding="4dp"
                     android:text="学堂"/>
 
                 <View
@@ -351,9 +371,8 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
-                    android:drawableTop="@drawable/wujiaoxinghuise"
+                    android:drawableTop="@drawable/shoucang"
                     android:gravity="center"
-                    android:padding="4dp"
                     android:text="收藏"/>
 
                 <View
@@ -384,5 +403,5 @@
                     android:textColor="#ffffff"/>
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

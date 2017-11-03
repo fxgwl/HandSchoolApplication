@@ -20,7 +20,7 @@ public class ModifyPwdActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+    RelativeLayout ivMenu;
     @BindView(R.id.et_modifypwd_phone)
     EditText etModifypwdPhone;
     @BindView(R.id.et_modifypwd_code)

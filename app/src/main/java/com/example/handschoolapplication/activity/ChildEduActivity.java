@@ -47,8 +47,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+
     @BindView(R.id.tv_location)
     TextView tvLocation;
     @BindView(R.id.tv_sort)
@@ -66,7 +65,6 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listView = (ListView) findViewById(R.id.lv_course);
-        ivMenu.setVisibility(View.VISIBLE);
         mlist = new ArrayList<>();
         myAdapter = new MyAdapter();
         listView.setAdapter(myAdapter);

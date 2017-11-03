@@ -24,8 +24,6 @@ public class HomeEduActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
     @BindView(R.id.tv_location)
     TextView tvLocation;
     @BindView(R.id.tv_sort)
@@ -39,7 +37,6 @@ public class HomeEduActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listView = (ListView) findViewById(R.id.lv_course);
-        ivMenu.setVisibility(View.VISIBLE);
         tvTitle.setText("家教");
         initData();
 

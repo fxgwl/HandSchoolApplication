@@ -48,8 +48,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
     @BindView(R.id.tv_location)
     TextView tvLocation;
     @BindView(R.id.tv_sort)
@@ -76,7 +74,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         mlist = new ArrayList<>();
         myAdapter = new MyAdapter();
         listView.setAdapter(myAdapter);
-        ivMenu.setVisibility(View.VISIBLE);
 
         types = (ArrayList) getIntent().getSerializableExtra("types");
         flag =  getIntent().getStringExtra("flag");

@@ -54,8 +54,6 @@ public class CourseHomePagerActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
     @BindView(R.id.tv_edit)
     TextView tvEdit;
     @BindView(R.id.course_name)
@@ -86,6 +84,10 @@ public class CourseHomePagerActivity extends BaseActivity {
     MyListView courseMlvPingjia;
     @BindView(R.id.course_save)
     TextView courseSave;
+    @BindView(R.id.tv_popularity)
+    TextView tvPopulatrity;
+    @BindView(R.id.ll_bottem)
+    LinearLayout llBottem;
     private ConvenientBanner convenientBanner;
     private List<String> listImg = new ArrayList<>();
 
@@ -107,6 +109,8 @@ public class CourseHomePagerActivity extends BaseActivity {
     private String course_teacher;
     private String original_price;
     private String preferential_price;
+    private boolean isLogin;
+    private String user_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +118,14 @@ public class CourseHomePagerActivity extends BaseActivity {
         ButterKnife.bind(this);
         convenientBanner = (ConvenientBanner) findViewById(R.id.convenientBanner);
         tvTitle.setText("课程主页");
+        isLogin = (boolean) SPUtils.get(this, "isLogin", false);
+        user_type = (String) SPUtils.get(this, "user_type", "1");
+
+        if (!isLogin||"1".equals(user_type)){
+            llBottem.setVisibility(View.GONE);
+        }else {
+            llBottem.setVisibility(View.VISIBLE);
+        }
         course_id = getIntent().getStringExtra("course_id");
         school_id = getIntent().getStringExtra("school_id");
         schooluid = getIntent().getStringExtra("schooluid");
@@ -192,6 +204,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                         courseDuixiang.setText(courseDetail.getAge_range());
                         courseTeacher.setText(courseDetail.getCourse_teacher());
                         courseAddress.setText(courseDetail.getCourse_address());
+                        tvPopulatrity.setText(courseDetail.getPopularity_num());
                         String photos = courseDetail.getCourse_photo();
                         if (!TextUtils.isEmpty(photos)) {
                             if (photos.contains(",")) {
@@ -266,6 +279,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                 intent3.putExtra("type", "0");
                 intent3.putExtra("course_id", course_id);
                 intent3.putExtra("schooluid", schooluid);
+                intent3.putExtra("name", school_name);
                 startActivity(intent3);
                 break;
             case R.id.course_xuetang:
@@ -294,22 +308,22 @@ public class CourseHomePagerActivity extends BaseActivity {
 
                                 if (response.contains("取消收藏成功")) {
                                     Toast.makeText(CourseHomePagerActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
-                                    Drawable top = getResources().getDrawable(R.drawable.wujiaoxinghuise);
+                                    Drawable top = getResources().getDrawable(R.drawable.shoucang);
                                     courseSave.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
                                 } else {
                                     Toast.makeText(CourseHomePagerActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
-                                    Drawable top = getResources().getDrawable(R.drawable.wujiaoxing);
+                                    Drawable top = getResources().getDrawable(R.drawable.yishoucang);
                                     courseSave.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
                                 }
                             }
                         });
                 break;
             case R.id.course_learnplan:
-                //添加到购物车
-//                if (TextUtils.isEmpty(class_money)) {
-//                    Toast.makeText(this, "请选择课时费用", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+//                添加到购物车
+                if (TextUtils.isEmpty(class_money)) {
+                    Toast.makeText(this, "请选择课时费用", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 OkHttpUtils.post()
                         .url(Internet.SINGUP)
                         .addParams("user_id", user_id)
@@ -340,10 +354,10 @@ public class CourseHomePagerActivity extends BaseActivity {
 
                 break;
             case R.id.course_apply:
-//                if (TextUtils.isEmpty(class_money)) {
-//                    Toast.makeText(this, "请选择课时费用", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+                if (TextUtils.isEmpty(class_money)) {
+                    Toast.makeText(this, "请选择课时费用", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent1 = new Intent(this, NowApplyActivity.class);
                 intent1.putExtra("school_id", school_id);
                 intent1.putExtra("school_name", school_name);
@@ -444,26 +458,31 @@ public class CourseHomePagerActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(CourseHomePagerActivity.java:264)课程时间" + response);
-                        Gson gson = new Gson();
-                        CourseTimeBean courseTime = gson.fromJson(response, CourseTimeBean.class);
-                        mList = new ArrayList<>();
-                        for (int i = 0; i < courseTime.getData().size(); i++) {
-                            ArrayList<TimeHourBean> hourList = new ArrayList<>();
-                            TimeBean timebean = new TimeBean();
-                            timebean.setName(courseTime.getData().get(i).getCtime_week());
-                            for (int m = 0; m < courseTime.getData().get(i).getCtime_times().split(",").length; m++) {
-                                TimeHourBean thb = new TimeHourBean();
-                                thb.setTime(courseTime.getData().get(i).getCtime_times().split(",")[m]);
-                                thb.setChecked(false);
-                                hourList.add(thb);
+                        if (response.contains("没有信息")){
+                            Toast.makeText(CourseHomePagerActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Gson gson = new Gson();
+                            CourseTimeBean courseTime = gson.fromJson(response, CourseTimeBean.class);
+                            mList = new ArrayList<>();
+                            for (int i = 0; i < courseTime.getData().size(); i++) {
+                                ArrayList<TimeHourBean> hourList = new ArrayList<>();
+                                TimeBean timebean = new TimeBean();
+                                timebean.setName(courseTime.getData().get(i).getCtime_week());
+                                for (int m = 0; m < courseTime.getData().get(i).getCtime_times().split(",").length; m++) {
+                                    TimeHourBean thb = new TimeHourBean();
+                                    thb.setTime(courseTime.getData().get(i).getCtime_times().split(",")[m]);
+                                    thb.setChecked(false);
+                                    hourList.add(thb);
+                                }
+                                timebean.setMlist(hourList);
+                                mList.add(timebean);
                             }
-                            timebean.setMlist(hourList);
-                            mList.add(timebean);
+                            Log.e("aaa",
+                                    "(CourseHomePagerActivity.java:283)" + mList.toString());
+
                         }
-                        Log.e("aaa",
-                                "(CourseHomePagerActivity.java:283)" + mList.toString());
                         View v = View.inflate(CourseHomePagerActivity.this, R.layout.class_time, null);
-                        ImageView classtime_back = (ImageView) v.findViewById(R.id.classtime_back);
+                        ImageView classtime_back = (ImageView) v.findViewById(R.id.classtime_back);//关闭
                         ListView mylistview = (ListView) v.findViewById(R.id.mylistview);
                         TextView classtime_config = (TextView) v.findViewById(R.id.classtime_config);
                         final MyPopupWindow courTimePoP = new MyPopupWindow(CourseHomePagerActivity.this, v);
@@ -491,6 +510,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                                 getWindow().setAttributes(lp);
                             }
                         });
+
                     }
                 });
 

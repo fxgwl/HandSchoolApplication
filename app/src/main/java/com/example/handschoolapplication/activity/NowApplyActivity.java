@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
@@ -60,6 +61,8 @@ public class NowApplyActivity extends BaseActivity {
     TextView tvNowapplyConfig;
     @BindView(R.id.iv_golddiscount)
     ImageView ivGolddiscount;
+    @BindView(R.id.tv_user_discount)
+    TextView tvUserDiscount;//取消使用优惠券
     private Intent intent;
     private String school_name;
     private String course_name;
@@ -73,10 +76,12 @@ public class NowApplyActivity extends BaseActivity {
     private String class_money;
     private String course_id;
     private String school_id;
-    private String m;
+    private String m;//课程费用
+    private double money;
     private String user_id;
     int tag = 1;
-    private int g;
+    private double g;
+    private double discount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +110,7 @@ public class NowApplyActivity extends BaseActivity {
         tvCosttime.setText(class_money);
         String s = class_money.split("/")[1].split("节")[0];
         m = class_money.split("元")[0];
+        money = Double.parseDouble(m);//转换的钱数
         tvCoursenum.setText(s + "课");
         tvCoursemoney.setText("共" + s + "节课       小计: ¥" + m);
         tvAllmoney.setText("¥" + m);
@@ -117,14 +123,15 @@ public class NowApplyActivity extends BaseActivity {
         return R.layout.activity_now_apply;
     }
 
-    @OnClick({R.id.rl_back, R.id.tv_nowapply_config, R.id.tv_discount, R.id.iv_golddiscount})
+    @OnClick({R.id.rl_back, R.id.tv_nowapply_config, R.id.tv_discount, R.id.iv_golddiscount, R.id.tv_user_discount})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
             case R.id.tv_nowapply_config:
-                initPayPop();
+                String allMoney = tvAllmoney.getText().toString().trim().split("¥")[1];
+                initPayPop(allMoney);
                 break;
             case R.id.tv_discount:
                 Intent intent1 = new Intent(this, MyDiscountActivity.class);
@@ -132,15 +139,24 @@ public class NowApplyActivity extends BaseActivity {
                 intent1.putExtra("money", m);
                 startActivityForResult(intent1, 1);
                 break;
+            case R.id.tv_user_discount://不使用优惠券
+                money+=discount;
+                tvAllmoney.setText("¥" + (money));
+                discount = 0;
+                tvDiscount.setText("¥" + "0.00");
+                tvUserDiscount.setVisibility(View.GONE);
+                break;
             case R.id.iv_golddiscount:
                 if (tag == 1) {
                     ivGolddiscount.setImageResource(R.drawable.hongquan);
                     tag = 0;
-                    tvAllmoney.setText("¥" + (Integer.parseInt(tvAllmoney.getText().toString().split("¥")[1]) - g));
+                    money = money - g;
+                    tvAllmoney.setText("¥" + money);
                 } else {
                     ivGolddiscount.setImageResource(R.drawable.baiquan);
                     tag = 1;
-                    tvAllmoney.setText("¥" + (Integer.parseInt(tvAllmoney.getText().toString().split("¥")[1]) + g));
+                    money = money + g;
+                    tvAllmoney.setText("¥" + money);
                 }
                 break;
         }
@@ -165,23 +181,31 @@ public class NowApplyActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(NowApplyActivity.java:148)" + response);
-                        Gson gson = new Gson();
-                        try {
-                            dataBean = gson.fromJson(response, SchoolInfoBean.class).getData();
-                            g = Integer.parseInt(dataBean.getUser_gold());
-                        } catch (Exception e) {
+                        if (response.contains("没有信息")) {
+                            ivGolddiscount.setVisibility(View.INVISIBLE);
+                            tvMoneydi.setText("没有金币可以抵扣");
+                        } else {
+                            Gson gson = new Gson();
+                            try {
+                                dataBean = gson.fromJson(response, SchoolInfoBean.class).getData();
+                                g = Double.parseDouble(dataBean.getUser_gold());
+                            } catch (Exception e) {
 
+                            }
+                            tvMoneydi.setText(dataBean.getUser_gold() + "金币            -¥" + dataBean.getUser_gold());
                         }
-                        tvMoneydi.setText(dataBean.getUser_gold() + "金币            -¥" + dataBean.getUser_gold());
+
                     }
                 });
     }
 
     //初始化支付
-    private void initPayPop() {
+    private void initPayPop(String allMoney) {
         View view = View.inflate(NowApplyActivity.this, R.layout.nowapply_pay_pop, null);
         TextView close = (TextView) view.findViewById(R.id.pop_close);
         TextView pop_pay_config = (TextView) view.findViewById(R.id.pop_pay_config);
+        TextView tvMoney = (TextView) view.findViewById(R.id.tv_money);
+        tvMoney.setText(allMoney + "元");
         LinearLayout pop_pay_ali = (LinearLayout) view.findViewById(R.id.pop_pay_ali);
         LinearLayout pop_pay_weixin = (LinearLayout) view.findViewById(R.id.pop_pay_weixin);
         final ImageView pop_state_ali = (ImageView) view.findViewById(R.id.pop_state_ali);
@@ -228,8 +252,16 @@ public class NowApplyActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String discount = data.getStringExtra("discount");
-        tvDiscount.setText("-¥" + discount);
-        tvAllmoney.setText("¥" + (Integer.parseInt(m) - Integer.parseInt(discount)));
+        if (requestCode == 1 && resultCode == 11) {
+            if (discount != 0) {
+                Toast.makeText(this, "discount === " + discount, Toast.LENGTH_SHORT).show();
+                money += discount;
+            }
+            discount = data.getDoubleExtra("discount", 0);
+            tvDiscount.setText("-¥" + discount);
+            money = money - discount;
+            tvAllmoney.setText("¥" + (money));
+            tvUserDiscount.setVisibility(View.VISIBLE);
+        }
     }
 }

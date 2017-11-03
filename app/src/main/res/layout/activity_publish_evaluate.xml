@@ -98,15 +98,15 @@
                     android:layout_weight="1"
                     android:text="匿名评价"
                     android:textColor="@color/t666666"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
+                    android:layout_marginLeft="20dp"
                     android:text="您写的评价会以匿名形式展现"
                     android:textColor="#b3b3b3"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <TextView
@@ -121,13 +121,15 @@
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_class_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:src="@drawable/hongquan" />
 
                 <TextView
+                    android:id="@+id/tv_class_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

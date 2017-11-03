@@ -9,6 +9,6 @@
         android:id="@+id/lv_classtype_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="#CCCCCC"
+        android:divider="#e6e6e6"
         android:dividerHeight="1dp"></ListView>
 </LinearLayout>

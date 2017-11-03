@@ -27,7 +27,7 @@ public class QuestionAnswerActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+    RelativeLayout ivMenu;
     @BindView(R.id.tv_questionanswer_question)
     TextView tvQuestionanswerQuestion;
     @BindView(R.id.tv_questionanswer_answer)

@@ -23,7 +23,7 @@ public class DealManagerActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+    RelativeLayout ivMenu;
     @BindView(R.id.tv_edit)
     TextView tvEdit;
     @BindView(R.id.ll_dealmanager_daifukuang)

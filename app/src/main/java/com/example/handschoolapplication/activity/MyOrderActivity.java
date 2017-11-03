@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,7 +29,7 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
 
     private RelativeLayout rlBack;
     private TextView tvTitle;
-    private ImageView ivMenu;
+    private RelativeLayout ivMenu;
 
     private Fragment currentFragment;
     private AllOrderFragment allOrderFragment;
@@ -71,7 +70,7 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
 
         tvTitle = (TextView) findViewById(R.id.tv_title);
         rlBack = (RelativeLayout) findViewById(R.id.rl_back);
-        ivMenu = (ImageView) findViewById(R.id.iv_menu);
+        ivMenu = (RelativeLayout) findViewById(R.id.iv_menu);
 
         llAllOrder.setOnClickListener(this);
         llUnpayOrder.setOnClickListener(this);

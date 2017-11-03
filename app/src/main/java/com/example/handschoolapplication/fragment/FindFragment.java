@@ -285,8 +285,11 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         mLocClient.unRegisterLocationListener(myListener);
         mLocClient.stop();
         // 关闭定位图层
-        map.setMyLocationEnabled(false);
-        mapView.onDestroy();
-        mapView = null;
+        if (mapView!=null){
+            mapView.onDestroy();
+            map.setMyLocationEnabled(false);
+            mapView = null;
+        }
+
     }
 }

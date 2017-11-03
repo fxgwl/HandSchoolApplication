@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId "com.example.handschoolapplication"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -65,13 +65,18 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':PhotoPicker')
+    compile project(':pullToRefrece')
     compile files('libs/BaiduLBS_Android.jar')
     //    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
     //轮播图
+
     //圆形带背景的图片
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     //    compile 'com.google.zxing:core:3.2.1'
+
     //    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
+
     //地址选择器
     compile files('src/main/libs/MobCommons-2017.0914.1125.jar')
     compile files('src/main/libs/MobTools-2017.0914.1125.jar')
@@ -90,6 +95,8 @@ dependencies {
     compile files('src/main/libs/ShareSDK-Wechat-Favorite-3.1.0.jar')
     compile files('src/main/libs/ShareSDK-Wechat-Moments-3.1.0.jar')
     compile 'com.smarttop:jd-address:1.1.0'
+
+
     compile 'com.smarttop:jd-address:1.1.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -104,6 +111,7 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.37'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.blankj:utilcode:1.1.5'
+    compile 'com.teprinciple:updateapputils:1.2'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 }

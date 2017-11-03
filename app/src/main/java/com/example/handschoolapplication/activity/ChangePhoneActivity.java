@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,8 +31,6 @@ public class ChangePhoneActivity extends BaseActivity {
     RelativeLayout rlBack;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
     @BindView(R.id.et_changephone_pwd)
     EditText etChangephonePwd;
     @BindView(R.id.et_changephone_newphone)

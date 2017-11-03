@@ -10,12 +10,12 @@ import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.ConsultBean;
 import com.example.handschoolapplication.utils.Internet;
-import com.example.handschoolapplication.view.CircleImageView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -72,20 +72,21 @@ public class ConsultAdapter extends BaseAdapter {
         ConsultBean.DataBean contact = mList.get(position);
         if (view == null) {
             if ("1".equals(contact.getConsult_type())) {
-                view = View.inflate(context, R.layout.item_contactservice, null);
-                holder = new ViewHolder(view);
-                view.setTag(holder);
-            } else {
                 view = View.inflate(context, R.layout.item_contactservice2, null);
                 holder2 = new ViewHolder2(view);
                 view.setTag(holder2);
+            } else {
+
+                view = View.inflate(context, R.layout.item_contactservice, null);
+                holder = new ViewHolder(view);
+                view.setTag(holder);
             }
 
         } else {
             if ("1".equals(contact.getConsult_type())) {
-                holder = (ViewHolder) view.getTag();
-            } else {
                 holder2 = (ViewHolder2) view.getTag();
+            } else {
+                holder = (ViewHolder) view.getTag();
             }
 
         }
@@ -95,36 +96,45 @@ public class ConsultAdapter extends BaseAdapter {
                         .load(Internet.BASE_URL + contact.getConsult_photo())
                         .centerCrop()
                         .error(R.drawable.touxiang)
-                        .into(holder2.civContactHead);
-                holder2.tvContactContent.setText(contact.getConsult_content());
+                        .into(holder.civContactHead);
+                holder.tvContactContent.setText(contact.getConsult_content());
+                holder.tvChatTime.setText(contact.getConsult_time());
                 break;
             case "1":
                 Glide.with(context)
                         .load(Internet.BASE_URL + contact.getSchool_photo())
                         .centerCrop()
                         .error(R.drawable.touxiang)
-                        .into(holder.civContactHead);
-                holder.tvContactContent.setText(contact.getConsult_content());
+                        .into(holder2.civContactHead);
+                holder2.tvContactContent.setText(contact.getConsult_content());
+                holder2.tvChatTime.setText(contact.getConsult_time());
                 break;
         }
 
         return view;
     }
 
-    static class ViewHolder2 {
+    class ViewHolder2 {
         @BindView(R.id.civ_contact_head)
         CircleImageView civContactHead;
         @BindView(R.id.tv_contact_content)
         TextView tvContactContent;
+        @BindView(R.id.tv_chat_time)
+        TextView tvChatTime;
+
         ViewHolder2(View view) {
             ButterKnife.bind(this, view);
         }
     }
-    static class ViewHolder {
+
+    class ViewHolder {
         @BindView(R.id.civ_contact_head)
         CircleImageView civContactHead;
         @BindView(R.id.tv_contact_content)
         TextView tvContactContent;
+        @BindView(R.id.tv_chat_time)
+        TextView tvChatTime;
+
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }

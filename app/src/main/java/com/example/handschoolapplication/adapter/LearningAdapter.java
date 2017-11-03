@@ -62,6 +62,20 @@ public class LearningAdapter extends BaseAdapter {
             holder= (ViewHolder) convertView.getTag();
         }
 
+        LearningCourseBean learningCourseBean = mList.get(position);
+        holder.tvLearnState.setText("学习中");//学习状态
+        holder.tvTime.setText(learningCourseBean.getOrdre_time());//时间
+        holder.tvClassName.setText(learningCourseBean.getSchool_name());//学堂名称
+        holder.tvCourseName.setText(learningCourseBean.getCourseInfo().getCourse_name());//课程名称
+//        holder.tvLearnTime.setText(learningCourseBean.get);
+        holder.tvTeacher.setText(learningCourseBean.getCourseInfo().getCourse_teacher());//讲师
+        holder.tvAddress.setText(learningCourseBean.getCourseInfo().getCourse_address());//地址
+        if (null!=learningCourseBean.getCourseInfo().getCourse_money()){
+            String string = learningCourseBean.getCourseInfo().getCourse_money();
+            String course_hour = string.split("/")[1].split("节")[0];
+            holder.tvClassHour.setText("共"+course_hour+"学时");//学时
+        }
+        holder.tvLearnCode.setText(learningCourseBean.getCourseInfo().getStudy_num());
         holder.llLearn.setVisibility(View.VISIBLE);
         return convertView;
     }

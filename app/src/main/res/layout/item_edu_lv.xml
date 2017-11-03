@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:paddingTop="20dp">
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
         <TextView
             android:id="@+id/tv_title"
@@ -43,12 +43,14 @@
             android:textColor="#b3b3b3"
             />
     </RelativeLayout>
+
     <ImageView
         android:id="@+id/iv_imag"
         android:layout_width="110dp"
         android:layout_height="76dp"
+        android:scaleType="fitXY"
         android:src="@drawable/beijing"
-        android:scaleType="fitXY"/>
+        android:layout_marginRight="10dp"/>
 
 
 </LinearLayout>

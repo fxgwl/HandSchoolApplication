@@ -14,21 +14,25 @@ import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.MenuBean;
+import com.example.handschoolapplication.bean.SchoolInfoBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.ShenjiDialog;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class SettingsActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+
     @BindView(R.id.iv_icon)
     ImageView ivIcon;
     @BindView(R.id.tv_username)
@@ -43,6 +47,8 @@ public class SettingsActivity extends BaseActivity {
     private ShenjiDialog selfDialog;
     private String icon;
     private String name;
+    private String user_id;
+    private SchoolInfoBean.DataBean dataBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +56,7 @@ public class SettingsActivity extends BaseActivity {
 
         tvType = (TextView) findViewById(R.id.tv_type);
         tvTitle.setText("设置");
-        ivMenu.setVisibility(View.VISIBLE);
+        user_id = (String) SPUtils.get(this, "userId", "");
         type = getIntent().getStringExtra("type");
         icon = getIntent().getStringExtra("icon");
         name = getIntent().getStringExtra("name");
@@ -69,6 +75,35 @@ public class SettingsActivity extends BaseActivity {
         }
 
 
+        getUserInfo();
+    }
+
+    private void getUserInfo() {
+
+        OkHttpUtils.post()
+                .url(Internet.USERINFO)
+                .addParams("user_id", user_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        try {
+                            dataBean = new Gson().fromJson(response, SchoolInfoBean.class).getData();
+                            Glide.with(SettingsActivity.this)
+                                    .load(Internet.BASE_URL + dataBean.getHead_photo())
+                                    .centerCrop()
+                                    .error(R.drawable.touxiang)
+                                    .into(ivIcon);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     @Override
@@ -83,7 +118,6 @@ public class SettingsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_menu:
-                show(view);
                 show(view);
                 break;
             case R.id.ll_change_info:
@@ -107,6 +141,7 @@ public class SettingsActivity extends BaseActivity {
                 SPUtils.clear(this);
                 EventBus.getDefault().post(new MenuBean(8));
                 startActivity(new Intent(this, LoginActivity.class));
+                finish();
                 break;
             //版本升级
             case R.id.ll_shenji:
@@ -163,5 +198,4 @@ public class SettingsActivity extends BaseActivity {
         lp.alpha = bgAlpha; //0.0-1.0
         getWindow().setAttributes(lp);
     }
-
 }

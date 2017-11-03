@@ -150,15 +150,25 @@ public class MeComFragment extends BaseFragment {
                                     ivImg1.setVisibility(View.VISIBLE);
                                     break;
                                 case "2":
+                                    ivImg1.setVisibility(View.VISIBLE);
                                     ivImg2.setVisibility(View.VISIBLE);
                                     break;
                                 case "3":
+                                    ivImg1.setVisibility(View.VISIBLE);
+                                    ivImg2.setVisibility(View.VISIBLE);
                                     ivImg3.setVisibility(View.VISIBLE);
                                     break;
                                 case "4":
+                                    ivImg1.setVisibility(View.VISIBLE);
+                                    ivImg2.setVisibility(View.VISIBLE);
+                                    ivImg3.setVisibility(View.VISIBLE);
                                     ivImg4.setVisibility(View.VISIBLE);
                                     break;
                                 case "5":
+                                    ivImg1.setVisibility(View.VISIBLE);
+                                    ivImg2.setVisibility(View.VISIBLE);
+                                    ivImg3.setVisibility(View.VISIBLE);
+                                    ivImg4.setVisibility(View.VISIBLE);
                                     ivImg5.setVisibility(View.VISIBLE);
                                     break;
                             }

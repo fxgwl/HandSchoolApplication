@@ -12,8 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.OrderBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -23,6 +25,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 
 public class PublishEvaluateActivity extends BaseActivity {
@@ -43,17 +46,24 @@ public class PublishEvaluateActivity extends BaseActivity {
     EditText etClasscomment;
     @BindView(R.id.cb_idni)
     CheckBox cbIdni;
+    @BindView(R.id.tv_class_name)
+    TextView tvClassName;
+    @BindView(R.id.civ_class_icon)
+    CircleImageView civClassIcon;
     private String user_id;
     private String order_id;
     private String classscore = "5.0";
     private String schoolscore = "5.0";
+    private OrderBean.DataBean dataBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         user_id = (String) SPUtils.get(this, "userId", "");
-        order_id = getIntent().getStringExtra("order_id");
+        dataBean = (OrderBean.DataBean) getIntent().getSerializableExtra("dataBean");
+        order_id = dataBean.getOrder_id();
+        initView();
         ratbClassflee.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -73,6 +83,14 @@ public class PublishEvaluateActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private void initView() {
+        tvClassName.setText(dataBean.getSchool_name());
+        Glide.with(this)
+                .load(Internet.BASE_URL+dataBean.getClass_photo())
+                .centerCrop()
+                .into(civClassIcon);
     }
 
     @Override

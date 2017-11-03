@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
@@ -23,8 +22,7 @@ public class MyLoveActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+
     @BindView(R.id.tv_edit)
     TextView tvEdit;
     @BindView(R.id.tv_love_course)
@@ -49,7 +47,6 @@ public class MyLoveActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         user_id = (String) SPUtils.get(this, "userId", "");
         tvTitle.setText("我的收藏");
-        ivMenu.setVisibility(View.VISIBLE);
         tvEdit.setVisibility(View.VISIBLE);
         initFragment();
     }

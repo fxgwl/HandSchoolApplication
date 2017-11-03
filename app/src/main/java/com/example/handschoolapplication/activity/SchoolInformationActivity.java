@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
@@ -28,6 +29,7 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,7 +51,7 @@ public class SchoolInformationActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+    RelativeLayout ivMenu;
     @BindView(R.id.tv_edit)
     TextView tvEdit;
     @BindView(R.id.iv_schoolinfo_usericon)
@@ -306,6 +308,10 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             //保存
             case R.id.btn_schoolinfo_save:
+                //假的保存
+                Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post("save");
+                finish();
                 break;
             case R.id.ll_change_phone:
                 startActivity(new Intent(SchoolInformationActivity.this, ChangePhoneActivity.class));

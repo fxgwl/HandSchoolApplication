@@ -79,7 +79,8 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="删除"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_reply_eva"

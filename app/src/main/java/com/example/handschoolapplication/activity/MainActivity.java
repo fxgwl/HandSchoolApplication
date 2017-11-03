@@ -1,12 +1,18 @@
 package com.example.handschoolapplication.activity;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,6 +31,7 @@ import com.example.handschoolapplication.fragment.MeComFragment;
 import com.example.handschoolapplication.fragment.MeFragment;
 import com.example.handschoolapplication.fragment.NewsComFragment;
 import com.example.handschoolapplication.fragment.NewsFragment;
+import com.example.handschoolapplication.utils.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -78,6 +85,7 @@ public class MainActivity extends BaseActivity {
     private Fragment currentFragment;
     private MeComFragment meComFragment;
     private String flag = "";
+    private boolean isLogin = false;
     Handler mhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -96,18 +104,38 @@ public class MainActivity extends BaseActivity {
         }
     };
 
+    private static final int REQUEST_CALL_PHONE = 400;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         flag = getIntent().getStringExtra("flag");//0代表个人  1代表企业
+        if (null == flag) flag = "0";
         Log.e("aaa",
                 "(MainActivity.java:71)flag ==== " + flag);
-        if (flag.equals("1")) {
+        if ("1".equals(flag)) {
             llPlan.setVisibility(View.GONE);
         }
+        isLogin = (boolean) SPUtils.get(this, "isLogin", false);
         initTab();
+    }
+
+    private void requestPermission() {
+        //判断Android版本是否大于23
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.CALL_PHONE,Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CALL_PHONE);
+                return;
+            } else {
+                //已有权限
+            }
+        } else {
+            //API 版本在23以下
+        }
     }
 
     @Override
@@ -202,12 +230,17 @@ public class MainActivity extends BaseActivity {
                 ivPlan.setImageResource(R.drawable.plan);
                 tvMe.setTextColor(Color.parseColor("#333333"));
                 ivMe.setImageResource(R.drawable.me);
-                if (flag.equals("1")) {
-                    if (newsComFragment == null) newsComFragment = new NewsComFragment();
-                    addOrShowFragment(getSupportFragmentManager(), newsComFragment);
-                } else {
-                    if (newsFragment == null) newsFragment = new NewsFragment();
-                    addOrShowFragment(getSupportFragmentManager(), newsFragment);
+                if (isLogin){
+                    if (flag.equals("1")) {
+                        if (newsComFragment == null) newsComFragment = new NewsComFragment();
+                        addOrShowFragment(getSupportFragmentManager(), newsComFragment);
+                    } else {
+                        if (newsFragment == null) newsFragment = new NewsFragment();
+                        addOrShowFragment(getSupportFragmentManager(), newsFragment);
+                    }
+                }else {
+                    startActivity(new Intent(this,LoginActivity.class));
+                    finish();
                 }
                 break;
             case R.id.ll_plan:
@@ -221,8 +254,13 @@ public class MainActivity extends BaseActivity {
                 ivPlan.setImageResource(R.drawable.plans);
                 tvMe.setTextColor(Color.parseColor("#333333"));
                 ivMe.setImageResource(R.drawable.me);
-                if (planFragment == null) planFragment = new LearnPlanFragment();
-                addOrShowFragment(getSupportFragmentManager(), planFragment);
+                if (isLogin){
+                    if (planFragment == null) planFragment = new LearnPlanFragment();
+                    addOrShowFragment(getSupportFragmentManager(), planFragment);
+                }else {
+                    startActivity(new Intent(this,LoginActivity.class));
+                    finish();
+                }
                 break;
             case R.id.ll_me:
                 tvHome.setTextColor(Color.parseColor("#333333"));
@@ -235,12 +273,17 @@ public class MainActivity extends BaseActivity {
                 ivPlan.setImageResource(R.drawable.plan);
                 tvMe.setTextColor(Color.parseColor("#27acf6"));
                 ivMe.setImageResource(R.drawable.mes);
-                if (flag.equals("1")) {
-                    if (meComFragment == null) meComFragment = new MeComFragment();
-                    addOrShowFragment(getSupportFragmentManager(), meComFragment);
-                } else {
-                    if (meFragment == null) meFragment = new MeFragment();
-                    addOrShowFragment(getSupportFragmentManager(), meFragment);
+                if (isLogin){
+                    if (flag.equals("1")) {
+                        if (meComFragment == null) meComFragment = new MeComFragment();
+                        addOrShowFragment(getSupportFragmentManager(), meComFragment);
+                    } else {
+                        if (meFragment == null) meFragment = new MeFragment();
+                        addOrShowFragment(getSupportFragmentManager(), meFragment);
+                    }
+                }else {
+                    startActivity(new Intent(this,LoginActivity.class));
+                    finish();
                 }
                 break;
         }

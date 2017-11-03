@@ -10,12 +10,12 @@ import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.ContactServiceBean;
 import com.example.handschoolapplication.utils.Internet;
-import com.example.handschoolapplication.view.CircleImageView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -76,6 +76,7 @@ public class ContactServiceAdapter extends BaseAdapter {
                 .error(R.drawable.touxiang)
                 .into(holder.civContactHead);
         holder.tvContactContent.setText(contact.getMessage_content());
+        holder.tvChatTime.setText(contact.getMessage_time());
         return view;
     }
 
@@ -85,6 +86,8 @@ public class ContactServiceAdapter extends BaseAdapter {
         CircleImageView civContactHead;
         @BindView(R.id.tv_contact_content)
         TextView tvContactContent;
+        @BindView(R.id.tv_chat_time)
+        TextView tvChatTime;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

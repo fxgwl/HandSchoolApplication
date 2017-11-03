@@ -1,19 +1,19 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.activity.RefundDetailActivity;
+import com.example.handschoolapplication.bean.OrderInfoBean;
+import com.example.handschoolapplication.utils.Internet;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.List;
 
 /**
  * Created by axehome on 2017/8/24.
@@ -21,14 +21,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class OrderDetailLvAdapter extends BaseAdapter {
     private Context mContext;
+    private List<OrderInfoBean> mList;
+    private int size = 0;
 
-    public OrderDetailLvAdapter(Context mContext) {
+    public OrderDetailLvAdapter(Context mContext, List<OrderInfoBean> mList) {
         this.mContext = mContext;
+        this.mList = mList;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        if (mList != null) {
+            size = mList.size();
+        }
+        return size;
     }
 
     @Override
@@ -46,25 +52,32 @@ public class OrderDetailLvAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_lv_orderdetail, null);
-            holder=new ViewHolder();
+            holder = new ViewHolder();
 
-            holder.mTvClassName=((TextView) convertView.findViewById(R.id.tv_itemorderdetail_classname));
-            holder.mTvClassprice=((TextView) convertView.findViewById(R.id.tv_itemorderdetail_classprice));
-            holder.mTvNum=((TextView) convertView.findViewById(R.id.tv_itemorderdetail_num));
-            holder.ivClasslogo=((ImageView) convertView.findViewById(R.id.iv_itemorderdetail_classlogo));
+            holder.mTvClassName = ((TextView) convertView.findViewById(R.id.tv_itemorderdetail_classname));
+            holder.mTvClassprice = ((TextView) convertView.findViewById(R.id.tv_itemorderdetail_classprice));
+            holder.mTvNum = ((TextView) convertView.findViewById(R.id.tv_itemorderdetail_num));
+            holder.ivClasslogo = ((ImageView) convertView.findViewById(R.id.iv_itemorderdetail_classlogo));
             convertView.setTag(holder);
-        }else{
-            holder= (ViewHolder) convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
+        OrderInfoBean orderInfoBean = mList.get(position);
+        Glide.with(mContext)
+                .load(Internet.BASE_URL + orderInfoBean.getClass_photo())
+                .centerCrop()
+                .into(holder.ivClasslogo);
+        holder.mTvClassName.setText(orderInfoBean.getClass_name());
+        holder.mTvClassprice.setText(orderInfoBean.getOrder_money());
+        holder.mTvNum.setText("数量：" + orderInfoBean.getCourse_num());
 
         return convertView;
     }
 
 
-
     class ViewHolder {
-        TextView mTvClassName,mTvClassprice,mTvNum;
-       ImageView ivClasslogo;
+        TextView mTvClassName, mTvClassprice, mTvNum;
+        ImageView ivClasslogo;
 
 
     }

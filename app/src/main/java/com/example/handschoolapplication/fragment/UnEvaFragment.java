@@ -39,7 +39,7 @@ public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.Evalu
     ListView lvAllOrder;
     Unbinder unbinder;
     private View view;
-    private List<OrderBean.DataBean> mlis = new ArrayList<>();
+    private List<OrderBean.DataBean> mlist = new ArrayList<>();
 
     private OrderAdapter mAdapter;
     private String user_id;
@@ -77,12 +77,12 @@ public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.Evalu
                         Log.e("aaa",
                                 "(UnEvaFragment.java:73)" + response);
                         Gson gson = new Gson();
-                        mlis.clear();
+                        mlist.clear();
                         try {
-                            mlis.addAll(gson.fromJson(response, OrderBean.class).getData());
+                            mlist.addAll(gson.fromJson(response, OrderBean.class).getData());
                         } catch (Exception e) {
                         }
-                        OrderAdapter orderAdapter = new OrderAdapter(getActivity(), mlis);
+                        OrderAdapter orderAdapter = new OrderAdapter(getActivity(), mlist);
                         lvAllOrder.setAdapter(orderAdapter);
                         lvAllOrder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -102,6 +102,7 @@ public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.Evalu
     //去评价
     @Override
     public void onEvaluate(int position) {
-        startActivity(new Intent(getActivity(), PublishEvaluateActivity.class));
+        OrderBean.DataBean dataBean = mlist.get(position);
+        startActivity(new Intent(getActivity(), PublishEvaluateActivity.class).putExtra("dataBean",dataBean));
     }
 }

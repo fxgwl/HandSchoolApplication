@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,8 +30,7 @@ public class MyDiscountActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+
     @BindView(R.id.tv_edit)
     TextView tvEdit;
     @BindView(R.id.lv)
@@ -91,9 +89,10 @@ public class MyDiscountActivity extends BaseActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent mIntent = new Intent();
-                                mIntent.putExtra("discount", mlist.get(position).getDiscount_amount());
+                                String discount_amount = mlist.get(position).getDiscount_amount();
+                                mIntent.putExtra("discount", Double.parseDouble(discount_amount));
                                 // 设置结果，并进行传送
-                                setResult(0, mIntent);
+                                setResult(11, mIntent);
                                 finish();
                             }
                         });
@@ -101,13 +100,14 @@ public class MyDiscountActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_menu})
+    @OnClick({R.id.rl_back, R.id.iv_menu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_back:
+            case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
         }
     }

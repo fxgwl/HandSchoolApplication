@@ -104,6 +104,9 @@ public class PJDetailActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(PJDetailActivity.java:58)" + response);
+
+                        Log.e("aaa",
+                                "(PJDetailActivity.java:109)" + interact_id);
                         Gson gson = new Gson();
                         try {
                             dataBean = gson.fromJson(response, PJDetailBean.class).getData();
@@ -114,30 +117,37 @@ public class PJDetailActivity extends BaseActivity {
                                 .load(Internet.BASE_URL + dataBean.getCourse_photo())
                                 .centerCrop()
                                 .error(R.drawable.kecheng)
+                                .into(ivClasshead);
+                        Glide.with(PJDetailActivity.this)
+                                .load(Internet.BASE_URL + dataBean.getSend_photo())
+                                .centerCrop()
                                 .into(ivHead);
-                        tvName.setText(dataBean.getCourse_name());
+                        tvName.setText(dataBean.getSend_name());
                         tvTime.setText(dataBean.getInteract_time());
                         tvPjcontent.setText(dataBean.getContents());
+                        ivClassname.setText(dataBean.getCourse_name());
+                        ivClassmoney.setText("价格：¥"+dataBean.getCourse_money());
                         replyInfoBeens.clear();
                         replyInfoBeens2.clear();
-                        for (int i = 0; i < dataBean.getReplyInfo().size(); i++) {
-                            if (!"2".equals(dataBean.getReplyInfo().get(i).getReply_type())) {
-                                replyInfoBeens.add(dataBean.getReplyInfo().get(i));
-                            } else {
-                                replyInfoBeens2.add(dataBean.getReplyInfo().get(i));
+                        if (null != dataBean.getReplyInfo()) {
+                            for (int i = 0; i < dataBean.getReplyInfo().size(); i++) {
+                                if (!"2".equals(dataBean.getReplyInfo().get(i).getReply_type())) {
+                                    replyInfoBeens.add(dataBean.getReplyInfo().get(i));
+                                } else {
+                                    replyInfoBeens2.add(dataBean.getReplyInfo().get(i));
+                                }
                             }
+                            pjdAdapter.notifyDataSetChanged();
+                            pjdAdapter2.notifyDataSetChanged();
                         }
-                        pjdAdapter.notifyDataSetChanged();
-                        pjdAdapter2.notifyDataSetChanged();
-
                     }
                 });
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_reply})
+    @OnClick({R.id.rl_back, R.id.tv_reply})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_back:
+            case R.id.rl_back:
                 finish();
                 break;
             case R.id.tv_reply:

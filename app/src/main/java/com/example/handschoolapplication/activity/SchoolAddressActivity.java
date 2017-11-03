@@ -32,7 +32,7 @@ public class SchoolAddressActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+    RelativeLayout ivMenu;
     @BindView(R.id.tv_save)
     TextView tvSave;
     @BindView(R.id.lv_schooladdress)

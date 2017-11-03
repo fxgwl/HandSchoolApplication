@@ -1,6 +1,8 @@
 package com.example.handschoolapplication.fragment;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import com.example.handschoolapplication.activity.ChildEduActivity;
 import com.example.handschoolapplication.activity.CurrentCityActivity;
 import com.example.handschoolapplication.activity.EducationActivity;
 import com.example.handschoolapplication.activity.HomeEduActivity;
+import com.example.handschoolapplication.activity.LoginActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
 import com.example.handschoolapplication.activity.TrusteeshipActivity;
 import com.example.handschoolapplication.adapter.HPClassAdapter;
@@ -151,6 +154,8 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     TextView tvHometypelist5;
     @BindView(R.id.tv_hometypelist6)
     TextView tvHometypelist6;
+    @BindView(R.id.iv_sign)
+    ImageView ivSign;
     private View view;
     HorizontalListViewAdapter mAdapter;
     HorizontalLearnListViewAdapter mLearnAdapter;
@@ -180,6 +185,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     public MyLocationListener myListener = new MyLocationListener();
     private String city;
     private double[] locations;
+    private boolean isLogin;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -243,6 +249,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         marqueeView = (MarqueeView) view.findViewById(R.id.marqueeView);
         user_id = (String) SPUtils.get(getActivity(), "userId", "");
+        isLogin = (boolean) SPUtils.get(getActivity(), "isLogin", false);
         type = new TextView[]{tvHometype1, tvHometype2, tvHometype3, tvHometype4, tvHometype5, tvHometype6};
         typelist = new TextView[]{tvHometypelist1, tvHometypelist2, tvHometypelist3, tvHometypelist4, tvHometypelist5, tvHometypelist6};
         LvCourseName = (ListView) view.findViewById(R.id.lv_course_name);
@@ -261,6 +268,13 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         //判断签到  后台需要  前台没用
         isSign();
         return view;
+    }
+
+    private void signAnimator() {
+
+        Animator animator = AnimatorInflater.loadAnimator(getActivity(), R.anim.anim_sign);
+        animator.setTarget(ivSign);
+        animator.start();
     }
 
     @Override
@@ -309,22 +323,27 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(HomeFragment.java:217)" + type + "===" + response);
-                        switch (type) {
-                            case "早教":
-                                mHandler.sendEmptyMessage(0);
-                                break;
-                            case "托管":
-                                mHandler.sendEmptyMessage(1);
-                                break;
-                        }
-                        classBeanList.clear();
-                        Gson gson = new Gson();
-                        if (TextUtils.isEmpty(response)) {
-                            classAdapter.notifyDataSetChanged();
-                        } else {
-                            classBeanList.addAll(gson.fromJson(response, ClassBean.class).getData());
-                            classAdapter.notifyDataSetChanged();
-                            MyUtiles.setListViewHeightBasedOnChildren(lv, getActivity());
+
+                        if (response.contains("没有信息")){
+                        }else {
+                            switch (type) {
+                                case "早教":
+                                    mHandler.sendEmptyMessage(0);
+                                    break;
+                                case "托管":
+                                    mHandler.sendEmptyMessage(1);
+                                    break;
+                            }
+                            classBeanList.clear();
+                            Gson gson = new Gson();
+                            if (TextUtils.isEmpty(response)) {
+                                classAdapter.notifyDataSetChanged();
+                            } else {
+                                classBeanList.addAll(gson.fromJson(response, ClassBean.class).getData());
+                                classAdapter.notifyDataSetChanged();
+                                MyUtiles.setListViewHeightBasedOnChildren(lv, getActivity());
+                            }
+
                         }
 
                     }
@@ -352,17 +371,22 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                         for (int i = 0; i < homeClassType.getData().size(); i++) {
                             typeones.add(homeClassType.getData().get(i).getType_one_name());
                             ArrayList<String> typetwos = new ArrayList<String>();
-                            for (int m = 0; m < homeClassType.getData().get(i).getTypeTwoInfo().size(); m++) {
-                                typetwos.add(homeClassType.getData().get(i).getTypeTwoInfo().get(m).getType_two_name());
+                            if (null!=homeClassType.getData().get(i).getTypeTwoInfo()){
+                                for (int m = 0; m < homeClassType.getData().get(i).getTypeTwoInfo().size(); m++) {
+                                    typetwos.add(homeClassType.getData().get(i).getTypeTwoInfo().get(m).getType_two_name());
+                                }
                             }
                             type[i].setText(typeones.get(i));
                             typelist[i].setText(typeones.get(i));
                             typetwolist.add(typetwos);
                         }
+
                         //初始化第二个列表
                         initHLArtData(typetwolist.get(0));
                         initHLLearnData(typetwolist.get(1));
-                        initHLActivityData(typetwolist.get(2));
+                        if (typetwolist.size()>2){
+                            initHLActivityData(typetwolist.get(2));
+                        }
                     }
                 });
     }
@@ -439,22 +463,16 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         classAdapter3 = new HPClassAdapter(getActivity(), classBeanList3);
 
         LvCourseName.setAdapter(courseAdapter1);
-        MyUtiles.setListViewHeightBasedOnChildren(LvCourseName);
 
         lvLearnName.setAdapter(courseAdapter2);
-        MyUtiles.setListViewHeightBasedOnChildren(lvLearnName, getActivity());
 
         lvActivityName.setAdapter(courseAdapter3);
-        MyUtiles.setListViewHeightBasedOnChildren(lvActivityName, getActivity());
 
         lvChildName.setAdapter(classAdapter1);
-        MyUtiles.setListViewHeightBasedOnChildren(lvChildName, getActivity());
 
         lvTrusteeshipName.setAdapter(classAdapter2);
-        MyUtiles.setListViewHeightBasedOnChildren(lvTrusteeshipName, getActivity());
 
         lvHomelearnName.setAdapter(classAdapter3);
-        MyUtiles.setListViewHeightBasedOnChildren(lvHomelearnName, getActivity());
 
     }
 
@@ -668,34 +686,40 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                 break;
             case R.id.ll_sign_in://签到
 //                城市根据定位重新调整
-                OkHttpUtils.post()
-                        .url(Internet.SIGN)
-                        .addParams("user_id", user_id)
-                        .addParams("sign_city", "天津市")
-                        .build()
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onError(Call call, Exception e, int id) {
+                if (isLogin){
+                    OkHttpUtils.post()
+                            .url(Internet.SIGN)
+                            .addParams("user_id", user_id)
+                            .addParams("sign_city", city)
+                            .build()
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onError(Call call, Exception e, int id) {
 
-                            }
-
-                            @Override
-                            public void onResponse(String response, int id) {
-                                Log.e("aaa",
-                                        "(HomeFragment.java:603)" + response);
-                                try {
-                                    JSONObject json = new JSONObject(response);
-                                    String msg = json.getString("msg");
-                                    if (msg.contains("成功")) {
-                                        llSignIn.setVisibility(View.GONE);
-                                        llSignIns.setVisibility(View.VISIBLE);
-                                    }
-                                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-                            }
-                        });
+
+                                @Override
+                                public void onResponse(String response, int id) {
+                                    Log.e("aaa",
+                                            "(HomeFragment.java:603)" + response);
+                                    try {
+                                        JSONObject json = new JSONObject(response);
+                                        String msg = json.getString("msg");
+                                        if (msg.contains("成功")) {
+                                            llSignIn.setVisibility(View.GONE);
+                                            llSignIns.setVisibility(View.VISIBLE);
+                                        }
+                                        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                }else {
+                    startActivity(new Intent(getActivity(),LoginActivity.class));
+                    getActivity().finish();
+                }
+
                 break;
             case R.id.rl_style_art://文艺
                 startActivity(new Intent(getActivity(), ArtActivity.class)

@@ -1,57 +1,95 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.AllCourseAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
-import com.example.handschoolapplication.bean.LearnStateBean;
+import com.example.handschoolapplication.bean.LearningCourseBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class AllCourseActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
     @BindView(R.id.lv_all_course)
     ListView lvAllCourse;
 
-    private List<LearnStateBean> mList = new ArrayList<>();
+    private List<LearningCourseBean> mList = new ArrayList<>();
     private AllCourseAdapter mAdapter;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userId = (String) SPUtils.get(this, "userId", "");
         initView();
         initData();
     }
 
     private void initView() {
         tvTitle.setText("全部课程");
+        mAdapter = new AllCourseAdapter(mList, this);
+        lvAllCourse.setAdapter(mAdapter);
     }
 
     private void initData() {
-        mList.add(new LearnStateBean());
-        mList.add(new LearnStateBean());
-        mList.add(new LearnStateBean());
-        mList.add(new LearnStateBean());
-        mList.add(new LearnStateBean());
-        mList.add(new LearnStateBean());
+        mList.clear();
+        OkHttpUtils.post()
+                .url(Internet.ALLORDER)
+                .addParams("user_id", userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(LearningActivity.java:61)" + e.getMessage());
+                    }
 
-        mAdapter = new AllCourseAdapter(mList, this);
-        lvAllCourse.setAdapter(mAdapter);
-
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(LearningActivity.java:68)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            ArrayList<LearningCourseBean> learningCourseBeen = new ArrayList<>();
+                            learningCourseBeen.addAll((Collection<? extends LearningCourseBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<LearningCourseBean>>() {
+                            }.getType()));
+                            for (int i = 0; i < learningCourseBeen.size(); i++) {
+                                if ("2".equals(learningCourseBeen.get(i).getOrder_state())) {
+                                    mList.add(learningCourseBeen.get(i));
+                                }else if ("1".equals(learningCourseBeen.get(i).getOrder_state())){
+                                    mList.add(learningCourseBeen.get(i));
+                                }
+                            }
+                            mAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     @Override
@@ -65,7 +103,8 @@ public class AllCourseActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
         }
     }

@@ -6,9 +6,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.bean.LearnStateBean;
+import com.example.handschoolapplication.bean.LearningCourseBean;
 
 import java.util.List;
 
@@ -21,12 +22,12 @@ import butterknife.ButterKnife;
 
 public class AllCourseAdapter extends BaseAdapter {
 
-    private List<LearnStateBean> mList;
+    private List<LearningCourseBean> mList;
     private Context context;
     private int size = 0;
 
 
-    public AllCourseAdapter(List<LearnStateBean> mList, Context context) {
+    public AllCourseAdapter(List<LearningCourseBean> mList, Context context) {
         this.mList = mList;
         this.context = context;
     }
@@ -55,19 +56,45 @@ public class AllCourseAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        ViewHolder holder=null;
+        ViewHolder holder = null;
         if (view == null) {
             view = View.inflate(context, R.layout.item_learn_state_lv, null);
-            holder=new ViewHolder(view);
+            holder = new ViewHolder(view);
             view.setTag(holder);
-        }else {
-            holder= (ViewHolder) view.getTag();
+        } else {
+            holder = (ViewHolder) view.getTag();
         }
+        LearningCourseBean learningCourseBean = mList.get(position);
+        if ("2".equals(learningCourseBean.getOrder_state())) {
+            holder.llLearn.setVisibility(View.GONE);
+            holder.tvLearnState.setText("学习中");//学习状态
+            holder.llSign.setVisibility(View.GONE);
 
-        if (position==3){
+        } else if ("1".equals(learningCourseBean.getOrder_state())) {
             holder.llLearn.setVisibility(View.VISIBLE);
+            holder.tvLearnState.setText("即将学习");
+            holder.tvTolearn.setText("即将学习");
+            holder.llSign.setVisibility(View.VISIBLE);
         }
+        holder.tvTime.setText(learningCourseBean.getOrdre_time());//时间
+        holder.tvClassName.setText(learningCourseBean.getSchool_name());//学堂名称
+        holder.tvCourseName.setText(learningCourseBean.getCourseInfo().getCourse_name());//课程名称
+//        holder.tvLearnTime.setText(learningCourseBean.get);
+        holder.tvTeacher.setText(learningCourseBean.getCourseInfo().getCourse_teacher());//讲师
+        holder.tvAddress.setText(learningCourseBean.getCourseInfo().getCourse_address());//地址
+        if (null != learningCourseBean.getCourseInfo().getCourse_money()) {
+            String string = learningCourseBean.getCourseInfo().getCourse_money();
+            String course_hour = string.split("/")[1].split("节")[0];
+            holder.tvClassHour.setText("共" + course_hour + "学时");//学时
+        }
+        holder.tvLearnCode.setText(learningCourseBean.getCourseInfo().getStudy_num());
 
+        holder.llSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "签到成功", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
@@ -96,6 +123,8 @@ public class AllCourseAdapter extends BaseAdapter {
         TextView tvLearnCode;
         @BindView(R.id.ll_learn_code)
         LinearLayout llLearnCode;
+        @BindView(R.id.ll_sign)
+        LinearLayout llSign;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

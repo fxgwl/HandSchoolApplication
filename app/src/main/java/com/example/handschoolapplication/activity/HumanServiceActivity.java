@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,7 +40,7 @@ public class HumanServiceActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+    RelativeLayout ivMenu;
     @BindView(R.id.lv_humanservice)
     ListView lvHumanservice;
     @BindView(R.id.tv_contact_content)
@@ -61,7 +60,9 @@ public class HumanServiceActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        tvTitle.setText("人工客服");
+        if (null != getIntent().getStringExtra("name"))
+            tvTitle.setText(getIntent().getStringExtra("name"));
+        else tvTitle.setText("人工客服");
         type = getIntent().getStringExtra("type");
         course_id = getIntent().getStringExtra("course_id");
         schooluid = getIntent().getStringExtra("schooluid");
@@ -151,7 +152,8 @@ public class HumanServiceActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.tv_contact_send:
                 content = tvContactContent.getText().toString();
@@ -172,6 +174,7 @@ public class HumanServiceActivity extends BaseActivity {
 
 
     private void sendToPerson() {
+        Toast.makeText(this, "sdahsbdhjasdsbhj", Toast.LENGTH_SHORT).show();
         OkHttpUtils.post()
                 .url(Internet.HOMECONTACT)
                 .addParams("user_id", user_id)
@@ -183,7 +186,8 @@ public class HumanServiceActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa",
+                                "(HumanServiceActivity.java:188)" + e.getMessage());
                     }
 
                     @Override

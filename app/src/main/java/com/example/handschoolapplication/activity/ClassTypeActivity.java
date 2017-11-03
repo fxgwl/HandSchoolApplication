@@ -14,14 +14,22 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ClassTypeAdapter;
 import com.example.handschoolapplication.adapter.ClassTypeAddAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.HomeClassTypeBean;
+import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.view.MyListView;
 import com.example.handschoolapplication.view.MyPopupWindow;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class ClassTypeActivity extends BaseActivity {
 
@@ -29,12 +37,22 @@ public class ClassTypeActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.classtype_lv)
     MyListView classtypeLv;
+    //第一个类别的数据源
+    private List<String> typeOneList = new ArrayList<>();
+    //第二个类别的数据源
+    private ArrayList<String> typeTwoList = new ArrayList<>();
+    private List<ArrayList<String>> typeTowLists = new ArrayList<>();
+    //第三个类别的数据源
+    private ArrayList<String> typeThreeList = new ArrayList<>();
+    private List<ArrayList<String>> typeThreeLists = new ArrayList<>();
+    private ClassTypeAddAdapter addAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initView();
+        addClassType();
     }
 
     @Override
@@ -63,12 +81,14 @@ public class ClassTypeActivity extends BaseActivity {
                 MyPopupWindow myPopupWindow = new MyPopupWindow(this, view1);
                 myPopupWindow.setHeight(500);
                 myPopupWindow.showAtLocation(tvTitle, Gravity.BOTTOM, 0, 0);
-                ClassTypeAddAdapter addAdapter = new ClassTypeAddAdapter(this, new ArrayList<String>());
+                addAdapter = new ClassTypeAddAdapter(this,typeOneList);
                 lv.setAdapter(addAdapter);
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        startActivity(new Intent(ClassTypeActivity.this, ClassTypeAddDetailActivity.class));
+                        startActivity(new Intent(ClassTypeActivity.this, ClassTypeAddDetailActivity.class)
+                                .putExtra("typeTwo", typeTowLists.get(position))
+                                .putExtra("type",typeOneList.get(position)));
                     }
                 });
                 myPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -81,5 +101,53 @@ public class ClassTypeActivity extends BaseActivity {
                 });
                 break;
         }
+    }
+
+    private void addClassType() {
+        OkHttpUtils.post()
+                .url(Internet.CLASSTYPE)
+                .params(new HashMap<String, String>())
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+
+                        if (response.contains("没有信息")){}else {
+                            try {
+                                typeOneList.clear();
+                                typeTwoList.clear();
+                                typeThreeList.clear();
+                                typeTowLists.clear();
+                                typeThreeLists.clear();
+                                Gson gson = new Gson();
+                                HomeClassTypeBean homeClassType = gson.fromJson(response, HomeClassTypeBean.class);
+                                for (int i = 0; i < homeClassType.getData().size(); i++) {
+                                    typeOneList.add(homeClassType.getData().get(i).getType_one_name());
+                                    if (null != homeClassType.getData().get(i).getTypeTwoInfo()){
+                                        for (int j = 0; j < homeClassType.getData().get(i).getTypeTwoInfo().size(); j++) {
+                                            typeTwoList.add(homeClassType.getData().get(i).getTypeTwoInfo().get(j).getType_two_name());
+                                            if (null!=homeClassType.getData().get(i).getTypeTwoInfo().get(j).getTypeThreeInfo()){
+                                                for (int k = 0; k < homeClassType.getData().get(i).getTypeTwoInfo().get(j).getTypeThreeInfo().size(); k++) {
+                                                    typeThreeList.add(homeClassType.getData().get(i).getTypeTwoInfo().get(j).getTypeThreeInfo().get(k).getType_three_name());
+                                                }
+                                                typeThreeLists.add(typeThreeList);
+                                            }
+                                        }
+                                        typeTowLists.add(typeTwoList);
+                                    }
+                                }
+                                addAdapter.notifyDataSetChanged();
+                                
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
     }
 }

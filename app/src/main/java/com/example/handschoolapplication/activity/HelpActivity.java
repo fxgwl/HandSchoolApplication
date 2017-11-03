@@ -36,7 +36,7 @@ public class HelpActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+    RelativeLayout ivMenu;
     @BindView(R.id.lv_help)
     ListView lvHelp;
     @BindView(R.id.et_question)

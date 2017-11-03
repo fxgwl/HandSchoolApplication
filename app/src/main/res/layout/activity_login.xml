@@ -40,14 +40,26 @@
 
             <EditText
                 android:id="@+id/et_phone_num"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:background="@null"
                 android:hint="用户名/邮箱/手机号"
                 app:theme="@style/MyEditText"
                 android:textSize="16sp"
-                android:text="18330695171"/>
+                android:text=""/>
+            <RelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:id="@+id/iv_history_user">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/xiangxia"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+
         </LinearLayout>
 
         <View
@@ -82,7 +94,7 @@
                 android:textSize="16sp"
                 android:inputType="textPassword"
                 app:theme="@style/MyEditText"
-                android:text="0"/>
+                android:text=""/>
         </LinearLayout>
 
         <View

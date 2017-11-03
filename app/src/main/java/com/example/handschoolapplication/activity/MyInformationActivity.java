@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,8 +41,7 @@ public class MyInformationActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_menu)
-    ImageView ivMenu;
+
     @BindView(R.id.iv_usericon)
     ImageView ivUsericon;
     @BindView(R.id.tv_username)
@@ -69,7 +69,7 @@ public class MyInformationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         userId = (String) SPUtils.get(MyInformationActivity.this, "userId", "");
         tvTitle.setText("个人资料");
-        ivMenu.setVisibility(View.VISIBLE);
+
         initView();
     }
 
@@ -119,7 +119,7 @@ public class MyInformationActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
                 //弹出对话框
                 show(view);
                 break;
@@ -188,6 +188,7 @@ public class MyInformationActivity extends BaseActivity {
                         try {
                             JSONObject json = new JSONObject(response);
                             if (response.contains("成功")) {
+                                EventBus.getDefault().post("save");
                                 finish();
                             }
                             Toast.makeText(MyInformationActivity.this, json.getString("msg"), Toast.LENGTH_SHORT).show();
