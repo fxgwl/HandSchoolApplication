@@ -21,6 +21,15 @@ public class HorizontalListViewAdapter extends BaseAdapter {
         this.mData = mData;
         this.mContext = mContext;
     }
+    public HorizontalListViewAdapter(Context mContext) {
+        this.mContext = mContext;
+    }
+
+
+    public void setList(List<String> mData){
+        this.mData = mData;
+        notifyDataSetChanged();
+    }
 
 
 

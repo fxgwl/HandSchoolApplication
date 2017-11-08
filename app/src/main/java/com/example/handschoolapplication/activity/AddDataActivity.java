@@ -1,7 +1,12 @@
 package com.example.handschoolapplication.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -63,10 +68,12 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
     private String userId;
     private String address;
     private String street;
+    private int REQUEST_CALL_PHONE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestPermission();
         recyclerZizhi.init(this, MultiPickResultView.ACTION_SELECT, null, 0);
         recyclerShenfenzheng.init(this, MultiPickResultView.ACTION_SELECT, null, 1);
         type = getIntent().getStringExtra("type");
@@ -144,6 +151,22 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
             tvType.setText(type);
         }
 
+    }
+
+    private void requestPermission() {
+        //判断Android版本是否大于23
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.CALL_PHONE,Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CALL_PHONE);
+                return;
+            } else {
+                //已有权限
+            }
+        } else {
+            //API 版本在23以下
+        }
     }
 
     @OnClick({R.id.rl_back, R.id.iv_address, R.id.iv_category, R.id.iv_right, R.id.btn_commit, R.id.ll_address, R.id.ll_class_address, R.id.ll_category})

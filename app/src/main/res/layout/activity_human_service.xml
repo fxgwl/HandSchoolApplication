@@ -18,6 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/include_humanservice"
         android:layout_marginBottom="60dp"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
         android:divider="@null">
 
     </ListView>

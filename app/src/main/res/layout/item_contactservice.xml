@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:padding="10dp"
-              android:orientation="horizontal">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_contact_head"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/touxiang"/>
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:src="@drawable/touxiang" />
+
+    <TextView
+        android:id="@+id/tv_chat_time"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_chat_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textSize="12sp"/>
-        <TextView
-            android:id="@+id/tv_contact_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/background_contact"
-            android:padding="10dp"/>
-    </LinearLayout>
+        android:layout_centerHorizontal="true"
+        android:textSize="12sp" />
 
-
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_contact_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/background_contact"
+        android:padding="10dp"
+        android:layout_toRightOf="@+id/civ_contact_head"
+        android:layout_below="@+id/tv_chat_time"/>
+</RelativeLayout>

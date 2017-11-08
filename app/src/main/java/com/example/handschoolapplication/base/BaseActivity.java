@@ -17,13 +17,20 @@ import com.example.handschoolapplication.activity.HelpActivity;
 import com.example.handschoolapplication.activity.MainActivity;
 import com.example.handschoolapplication.bean.MenuBean;
 import com.example.handschoolapplication.view.CommonPopupWindow;
-import com.example.handschoolapplication.view.MyPopupWindow;
+import com.example.handschoolapplication.view.MenuPopupWindow;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.sharesdk.alipay.friends.Alipay;
+import cn.sharesdk.alipay.moments.AlipayMoments;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.renren.Renren;
+import cn.sharesdk.system.text.ShortMessage;
+import cn.sharesdk.tencent.qzone.QZone;
+import cn.sharesdk.tencent.weibo.TencentWeibo;
+import cn.sharesdk.wechat.favorite.WechatFavorite;
 
 /**
  * Created by Administrator on 2017/7/20.
@@ -92,7 +99,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public static void setMenu(Activity context) {
         View view = View.inflate(context, R.layout.menu_style, null);
-        MyPopupWindow myPopupWindow = new MyPopupWindow(context, view);
+        MenuPopupWindow myPopupWindow = new MenuPopupWindow(context, view);
         myPopupWindow.setHeight(500);
         myPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
@@ -104,9 +111,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         LinearLayout home = (LinearLayout) view2.findViewById(R.id.ll_home);
         LinearLayout help = (LinearLayout) view2.findViewById(R.id.ll_help);
         LinearLayout wode = (LinearLayout) view2.findViewById(R.id.ll_wode);
-        final MyPopupWindow mppWinow = new MyPopupWindow(this, view2);
+        final MenuPopupWindow mppWinow = new MenuPopupWindow(this, view2);
         mppWinow.setWidth(350);
-        mppWinow.showAsDropDown(view, 0, 0);
+        mppWinow.showAsDropDown(view);
         mppWinow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -153,21 +160,28 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        super.onSaveInstanceState(outState, outPersistentState);
     }
 
-    public void showShare() {
+    public void showShare(String title,String text,String imageUrl,String url) {
         OnekeyShare oks = new OnekeyShare();
+        oks.addHiddenPlatform(WechatFavorite.NAME);
+        oks.addHiddenPlatform(TencentWeibo.NAME);
+        oks.addHiddenPlatform(QZone.NAME);
+        oks.addHiddenPlatform(Renren.NAME);
+        oks.addHiddenPlatform(Alipay.NAME);
+        oks.addHiddenPlatform(AlipayMoments.NAME);
+        oks.addHiddenPlatform(ShortMessage.NAME);
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
 
         // 分享时Notification的图标和文字  2.5.9以后的版本不     调用此方法
         //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle("我是标题");
+        oks.setTitle(title);
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl("http://sharesdk.cn");
         // text是分享文本，所有平台都需要这个字段
-        oks.setText("我是分享文本");
+        oks.setText(text);
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+        oks.setImagePath("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl("http://sharesdk.cn");
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
@@ -178,6 +192,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         oks.setSiteUrl("http://sharesdk.cn");
         // 启动分享GUI
         oks.show(this);
+
+
     }
 
     public void show(View view) {

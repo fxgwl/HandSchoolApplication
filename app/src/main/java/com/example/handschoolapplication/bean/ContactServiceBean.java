@@ -8,8 +8,9 @@ import java.util.List;
 
 public class ContactServiceBean {
 
+
     /**
-     * data : [{"artificial_id":24,"message_content":"阿凡达发放","message_photo":"bicths/ba28cc5ec0c449098285583a5f1efc4d/1507603975481.jpg","message_time":"2017-10-11 10:14:02","message_type":"用户","user_id":"ba28cc5ec0c449098285583a5f1efc4d","user_phone":"2"}]
+     * data : [{"consult_content":"女性向","consult_id":142,"consult_name":"菲菲","consult_photo":"bicths/772d42a5a0014faa8706f7cd3f6e8828/1510036670890.jpg","consult_state":"0","consult_time":"2017-11-04 17:18:45","consult_type":"0","consult_userstate":"0","course_id":"1505888221351","school_name":"我的小学堂b","school_photo":"bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1509764639902.jpg","send_id":"4c975ad7eeb646f7b0e06cabc8290ddd","user_id":"772d42a5a0014faa8706f7cd3f6e8828"},{"consult_content":"在哪都觉得","consult_id":143,"consult_name":"菲菲","consult_photo":"bicths/772d42a5a0014faa8706f7cd3f6e8828/1510036670890.jpg","consult_state":"0","consult_time":"2017-11-04 17:19:35","consult_type":"0","consult_userstate":"0","course_id":"1505888221351","school_name":"我的小学堂b","school_photo":"bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1509764639902.jpg","send_id":"4c975ad7eeb646f7b0e06cabc8290ddd","user_id":"772d42a5a0014faa8706f7cd3f6e8828"},{"consult_content":"想你附近的","consult_id":144,"consult_name":"菲菲","consult_photo":"bicths/772d42a5a0014faa8706f7cd3f6e8828/1510036670890.jpg","consult_state":"0","consult_time":"2017-11-04 17:19:43","consult_type":"0","consult_userstate":"0","course_id":"1505888221351","school_name":"我的小学堂b","school_photo":"bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1509764639902.jpg","send_id":"4c975ad7eeb646f7b0e06cabc8290ddd","user_id":"772d42a5a0014faa8706f7cd3f6e8828"}]
      * msg : 成功
      * result : 0
      */
@@ -44,61 +45,129 @@ public class ContactServiceBean {
 
     public static class DataBean {
         /**
-         * artificial_id : 24
-         * message_content : 阿凡达发放
-         * message_photo : bicths/ba28cc5ec0c449098285583a5f1efc4d/1507603975481.jpg
-         * message_time : 2017-10-11 10:14:02
-         * message_type : 用户
-         * user_id : ba28cc5ec0c449098285583a5f1efc4d
-         * user_phone : 2
+         * consult_content : 女性向
+         * consult_id : 142
+         * consult_name : 菲菲
+         * consult_photo : bicths/772d42a5a0014faa8706f7cd3f6e8828/1510036670890.jpg
+         * consult_state : 0
+         * consult_time : 2017-11-04 17:18:45
+         * consult_type : 0
+         * consult_userstate : 0
+         * course_id : 1505888221351
+         * school_name : 我的小学堂b
+         * school_photo : bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1509764639902.jpg
+         * send_id : 4c975ad7eeb646f7b0e06cabc8290ddd
+         * user_id : 772d42a5a0014faa8706f7cd3f6e8828
          */
 
-        private int artificial_id;
-        private String message_content;
-        private String message_photo;
-        private String message_time;
-        private String message_type;
+        private String consult_content;
+        private int consult_id;
+        private String consult_name;
+        private String consult_photo;
+        private String consult_state;
+        private String consult_time;
+        private String consult_type;
+        private String consult_userstate;
+        private String course_id;
+        private String school_name;
+        private String school_photo;
+        private String send_id;
         private String user_id;
-        private String user_phone;
 
-        public int getArtificial_id() {
-            return artificial_id;
+        public String getConsult_content() {
+            return consult_content;
         }
 
-        public void setArtificial_id(int artificial_id) {
-            this.artificial_id = artificial_id;
+        public void setConsult_content(String consult_content) {
+            this.consult_content = consult_content;
         }
 
-        public String getMessage_content() {
-            return message_content;
+        public int getConsult_id() {
+            return consult_id;
         }
 
-        public void setMessage_content(String message_content) {
-            this.message_content = message_content;
+        public void setConsult_id(int consult_id) {
+            this.consult_id = consult_id;
         }
 
-        public String getMessage_photo() {
-            return message_photo;
+        public String getConsult_name() {
+            return consult_name;
         }
 
-        public void setMessage_photo(String message_photo) {
-            this.message_photo = message_photo;
+        public void setConsult_name(String consult_name) {
+            this.consult_name = consult_name;
         }
 
-        public String getMessage_time() {
-            return message_time;
+        public String getConsult_photo() {
+            return consult_photo;
         }
 
-        public void setMessage_time(String message_time) {
-            this.message_time = message_time;
+        public void setConsult_photo(String consult_photo) {
+            this.consult_photo = consult_photo;
         }
 
-        public String getMessage_type() {
-            return message_type;
+        public String getConsult_state() {
+            return consult_state;
         }
 
-        public void setMessage_type(String message_type) {
-            this.message_type = message_type;
+        public void setConsult_state(String consult_state) {
+            this.consult_state = consult_state;
+        }
+
+        public String getConsult_time() {
+            return consult_time;
+        }
+
+        public void setConsult_time(String consult_time) {
+            this.consult_time = consult_time;
+        }
+
+        public String getConsult_type() {
+            return consult_type;
+        }
+
+        public void setConsult_type(String consult_type) {
+            this.consult_type = consult_type;
+        }
+
+        public String getConsult_userstate() {
+            return consult_userstate;
+        }
+
+        public void setConsult_userstate(String consult_userstate) {
+            this.consult_userstate = consult_userstate;
+        }
+
+        public String getCourse_id() {
+            return course_id;
+        }
+
+        public void setCourse_id(String course_id) {
+            this.course_id = course_id;
+        }
+
+        public String getSchool_name() {
+            return school_name;
+        }
+
+        public void setSchool_name(String school_name) {
+            this.school_name = school_name;
+        }
+
+        public String getSchool_photo() {
+            return school_photo;
+        }
+
+        public void setSchool_photo(String school_photo) {
+            this.school_photo = school_photo;
+        }
+
+        public String getSend_id() {
+            return send_id;
+        }
+
+        public void setSend_id(String send_id) {
+            this.send_id = send_id;
         }
 
         public String getUser_id() {
@@ -107,14 +176,6 @@ public class ContactServiceBean {
 
         public void setUser_id(String user_id) {
             this.user_id = user_id;
-        }
-
-        public String getUser_phone() {
-            return user_phone;
-        }
-
-        public void setUser_phone(String user_phone) {
-            this.user_phone = user_phone;
         }
     }
 }

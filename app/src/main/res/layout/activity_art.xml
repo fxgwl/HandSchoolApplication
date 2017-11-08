@@ -2,11 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.handschoolapplication.activity.ArtActivity">
-<include layout="@layout/title_bar_blue"/>
+
+    <include layout="@layout/title_bar_blue" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,10 +41,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:background="@drawable/shape_home_etsearch_bg"
-            android:orientation="horizontal"
+            android:layout_marginRight="20dp"
             android:layout_toRightOf="@+id/ll_location"
-            android:layout_marginRight="20dp">
+            android:background="@drawable/shape_home_etsearch_bg"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/et_search"
@@ -49,8 +52,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
-                android:hint="搜索您想学的课程或课堂"
                 android:gravity="center_vertical"
+                android:hint="搜索您想学的课程或课堂"
                 android:paddingLeft="20dp"
                 android:textSize="12sp"
                 app:theme="@style/MyEditText" />
@@ -65,64 +68,104 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:src="@drawable/beijing"
-        android:scaleType="fitXY"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:clickable="true" />
+
+        <CheckBox
+            android:id="@+id/rb_search_type"
+            android:layout_width="60dp"
+            android:layout_height="26dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/selector_type"
+            android:button="@null"
+            android:checked="true"
+            android:padding="8dp" />
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/tv_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="类别"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="类别" />
+
         <ImageView
             android:id="@+id/iv_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/xiangxiasanjiao"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/xiangxiasanjiao" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/tv_defaultrank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="默认排序"
-            android:layout_marginLeft="82dp"/>
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="默认排序" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
         <TextView
             android:id="@+id/tv_allrank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="综合排序"
-            android:layout_marginLeft="70dp"/>
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="综合排序" />
+
         <ImageView
             android:id="@+id/iv_allrank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/xiangxiasanjiao"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/xiangxiasanjiao" />
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ListView
             android:id="@+id/lv_course"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
+
         <ImageView
             android:id="@+id/iv_img_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#000"
             android:alpha="0.5"
-            android:visibility="gone"/>
+            android:background="#000"
+            android:visibility="gone" />
     </RelativeLayout>
 </LinearLayout>

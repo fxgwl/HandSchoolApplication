@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -39,6 +40,8 @@ import butterknife.OnClick;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 import okhttp3.Call;
@@ -52,13 +55,14 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     List<String> mlist = new ArrayList<>();
     private CommonPopupWindow historyUserPopupwindow;
     private ListDataSave dataSave;
+    OnekeyShare oks = new OnekeyShare();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String user_id = (String) SPUtils.get(this, "userId", "");
         String user_type = (String) SPUtils.get(this, "user_type", "");
-        dataSave = new ListDataSave(this,"login");
+        dataSave = new ListDataSave(this, "login");
 //        //登录历史
 //        if (!TextUtils.isEmpty(user_id)) {
 //            Intent intent = new Intent(this, MainActivity.class);
@@ -74,6 +78,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                 }
             }
         });
+
     }
 
     @Override
@@ -88,6 +93,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
             case R.id.rl_back:
                 break;
             case R.id.iv_history_user:
+
                 showHistoryUser(view);
                 break;
             case R.id.btn_login:
@@ -97,9 +103,9 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                 break;
             case R.id.iv_wechat_login:
                 wechatLogin();
-//                showShare();
                 break;
             case R.id.iv_weibo_login:
+                sinaLogin();
                 break;
             case R.id.iv_qq_login:
                 qqLogin();
@@ -127,15 +133,27 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
 //        wechat.showUser(null);//授权并获取用户信息
         wechat.authorize();
     }
+
     private void qqLogin() {
         Platform qq = ShareSDK.getPlatform(QQ.NAME);
         qq.SSOSetting(false);  //设置false表示使用SSO授权方式
         if (!qq.isClientValid()) {
-            Toast.makeText(LoginActivity.this, "微信未安装,请先安装微信", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "QQ未安装,请先安装微信", Toast.LENGTH_LONG).show();
         }
         qq.setPlatformActionListener(this); // 设置分享事件回调
 //        wechat.showUser(null);//授权并获取用户信息
         qq.authorize();
+    }
+
+    private void sinaLogin() {
+        Platform sina = ShareSDK.getPlatform(SinaWeibo.NAME);
+        sina.SSOSetting(false);  //设置false表示使用SSO授权方式
+        if (!sina.isClientValid()) {
+            Toast.makeText(LoginActivity.this, "QQ未安装,请先安装微信", Toast.LENGTH_LONG).show();
+        }
+        sina.setPlatformActionListener(this); // 设置分享事件回调
+//        wechat.showUser(null);//授权并获取用户信息
+        sina.authorize();
     }
 
 
@@ -178,14 +196,14 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                             List<String> history = dataSave.getDataList("history");
                             boolean flag = false;
                             for (int i = 0; i < history.size(); i++) {
-                                if (history.get(i).equals(phone)){
+                                if (history.get(i).equals(phone)) {
                                     flag = true;
                                     break;
                                 }
                             }
-                            if (!flag){
+                            if (!flag) {
                                 history.add(phone);
-                                dataSave.setDataList("history",history);
+                                dataSave.setDataList("history", history);
                             }
                             JSONObject data = jsonObject.getJSONObject("data");
                             if (data.getString("user_type").equals("0")) {
@@ -194,7 +212,8 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                                 SPUtils.put(LoginActivity.this, "user_type", userBean.getUser_type());
                                 SPUtils.put(LoginActivity.this, "user_phone", userBean.getUser_phone());
                                 SPUtils.put(LoginActivity.this, "isLogin", true);
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("flag", "0"));
+                                SPUtils.put(LoginActivity.this, "flag", "0");
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                             }
                             if (data.getString("user_type").equals("1")) {
@@ -204,7 +223,8 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                                 SPUtils.put(LoginActivity.this, "user_type", schoolBean.getUser_type());
                                 SPUtils.put(LoginActivity.this, "user_phone", schoolBean.getUser_phone());
                                 SPUtils.put(LoginActivity.this, "isLogin", true);
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("flag", "1"));
+                                SPUtils.put(LoginActivity.this, "flag", "1");
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                             }
                         } catch (JSONException e) {
@@ -230,12 +250,62 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     }
 
 
-
     //微信登录的回调
     @Override
     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        String name = platform.getName();
+        String userIcon = platform.getDb().getUserIcon();
+        String userName = platform.getDb().getUserName();
+        String userId = platform.getDb().getUserId();
+
+        toLogin(name, userIcon, userName, userId);
 
     }
+
+    private void toLogin(String name, String userIcon, String userName, String userId) {
+
+        String url = "";
+        String user_id = "";
+        switch (name) {
+            case "Wechat":
+                url = Internet.WECHAT_LOGIN;
+                user_id = "weixin_id";
+                break;
+            case "QQ":
+                url = Internet.QQ_LOGIN;
+                user_id = "qq_id";
+                break;
+            case "":
+                url = Internet.SINA_WEIBO_LOGIN;
+                user_id = "weibo_id";
+                break;
+        }
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put(user_id, userId);
+        params.put("user_name", userName);
+        params.put("urlStr", userIcon);
+
+        OkHttpUtils.post()
+                .url(url)
+                .params(params)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(LoginActivity.java:295)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(LoginActivity.java:301)" + response);
+                    }
+                });
+
+    }
+
 
     @Override
     public void onError(Platform platform, int i, Throwable throwable) {
@@ -269,7 +339,6 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     }
 
 
-
     class MyAdapter extends BaseAdapter {
         int size = 0;
 
@@ -292,23 +361,34 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = View.inflate(LoginActivity.this, R.layout.item_history_user_lv, null);
                 holder.tvUserPhone = (TextView) convertView.findViewById(R.id.tv_user_phone);
+                holder.ivDelete = (ImageView) convertView.findViewById(R.id.iv_delete);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.tvUserPhone.setText(mlist.get(position));
+            holder.ivDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mlist.remove(position);
+                    dataSave.setDataList("history", mlist);
+                    notifyDataSetChanged();
+                }
+            });
             return convertView;
         }
 
         class ViewHolder {
             TextView tvUserPhone;
+            ImageView ivDelete;
         }
+
     }
 
     @Override
@@ -316,4 +396,6 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         super.onBackPressed();
         finish();
     }
+
+
 }

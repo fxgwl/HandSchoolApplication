@@ -121,9 +121,9 @@ public class CourseHomePagerActivity extends BaseActivity {
         isLogin = (boolean) SPUtils.get(this, "isLogin", false);
         user_type = (String) SPUtils.get(this, "user_type", "1");
 
-        if (!isLogin||"1".equals(user_type)){
+        if (!isLogin || "1".equals(user_type)) {
             llBottem.setVisibility(View.GONE);
-        }else {
+        } else {
             llBottem.setVisibility(View.VISIBLE);
         }
         course_id = getIntent().getStringExtra("course_id");
@@ -257,7 +257,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                 show(view);
                 break;
             case R.id.course_share_ll:
-
+                showShare("我是标题", "我是分享文本", "", "");
                 break;
             case R.id.course_classtime:
                 initClassTime();
@@ -458,9 +458,9 @@ public class CourseHomePagerActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(CourseHomePagerActivity.java:264)课程时间" + response);
-                        if (response.contains("没有信息")){
+                        if (response.contains("没有信息")) {
                             Toast.makeText(CourseHomePagerActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             Gson gson = new Gson();
                             CourseTimeBean courseTime = gson.fromJson(response, CourseTimeBean.class);
                             mList = new ArrayList<>();

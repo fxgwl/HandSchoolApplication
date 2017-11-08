@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.bean.ConsultBean;
+import com.example.handschoolapplication.bean.ContactServiceBean;
 import com.example.handschoolapplication.utils.Internet;
 
 import java.util.ArrayList;
@@ -23,12 +23,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class ConsultAdapter extends BaseAdapter {
-    private ArrayList<ConsultBean.DataBean> mList;
+    private ArrayList<ContactServiceBean.DataBean> mList;
     private Context context;
     private int size = 0;
 
 
-    public ConsultAdapter(ArrayList<ConsultBean.DataBean> mList, Context context) {
+    public ConsultAdapter(ArrayList<ContactServiceBean.DataBean> mList, Context context) {
         this.mList = mList;
         this.context = context;
     }
@@ -69,9 +69,9 @@ public class ConsultAdapter extends BaseAdapter {
 
         ViewHolder holder = null;
         ViewHolder2 holder2 = null;
-        ConsultBean.DataBean contact = mList.get(position);
+        ContactServiceBean.DataBean dataBean = mList.get(position);
         if (view == null) {
-            if ("1".equals(contact.getConsult_type())) {
+            if ("0".equals(dataBean.getConsult_type())) {
                 view = View.inflate(context, R.layout.item_contactservice2, null);
                 holder2 = new ViewHolder2(view);
                 view.setTag(holder2);
@@ -83,31 +83,31 @@ public class ConsultAdapter extends BaseAdapter {
             }
 
         } else {
-            if ("1".equals(contact.getConsult_type())) {
+            if ("0".equals(dataBean.getConsult_type())) {
                 holder2 = (ViewHolder2) view.getTag();
             } else {
                 holder = (ViewHolder) view.getTag();
             }
 
         }
-        switch (contact.getConsult_type()) {
-            case "0":
+        switch (dataBean.getConsult_type()) {
+            case "1":
                 Glide.with(context)
-                        .load(Internet.BASE_URL + contact.getConsult_photo())
+                        .load(Internet.BASE_URL + dataBean.getSchool_photo())
                         .centerCrop()
                         .error(R.drawable.touxiang)
                         .into(holder.civContactHead);
-                holder.tvContactContent.setText(contact.getConsult_content());
-                holder.tvChatTime.setText(contact.getConsult_time());
+                holder.tvContactContent.setText(dataBean.getConsult_content());
+                holder.tvChatTime.setText(dataBean.getConsult_time());
                 break;
-            case "1":
+            case "0":
                 Glide.with(context)
-                        .load(Internet.BASE_URL + contact.getSchool_photo())
+                        .load(Internet.BASE_URL + dataBean.getConsult_photo())
                         .centerCrop()
                         .error(R.drawable.touxiang)
                         .into(holder2.civContactHead);
-                holder2.tvContactContent.setText(contact.getConsult_content());
-                holder2.tvChatTime.setText(contact.getConsult_time());
+                holder2.tvContactContent.setText(dataBean.getConsult_content());
+                holder2.tvChatTime.setText(dataBean.getConsult_time());
                 break;
         }
 

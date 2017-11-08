@@ -30,7 +30,7 @@ public class RefundDetailLvAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (mList!=null){
+        if (mList != null) {
             size = mList.size();
         }
         return size;
@@ -51,34 +51,34 @@ public class RefundDetailLvAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_lv_refunddetail, null);
-            holder=new ViewHolder();
-            holder.mTvClassId=((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_classid));
-            holder.mTvClassName=((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_classname));
-            holder.mTvClassprice=((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_classprice));
-            holder.mTvNum=((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_num));
-            holder.mTvRefundPrice=((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_refundprice));
-            holder.ivClasslogo=((ImageView) convertView.findViewById(R.id.iv_itemrefunddetail_classlogo));
+            holder = new ViewHolder();
+            holder.mTvClassId = ((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_classid));
+            holder.mTvClassName = ((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_classname));
+            holder.mTvClassprice = ((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_classprice));
+            holder.mTvNum = ((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_num));
+            holder.mTvRefundPrice = ((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_refundprice));
+            holder.ivClasslogo = ((ImageView) convertView.findViewById(R.id.iv_itemrefunddetail_classlogo));
             convertView.setTag(holder);
-        }else{
-            holder= (ViewHolder) convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
         OrderInfoBean orderInfoBean = mList.get(position);
         double money = Double.parseDouble(orderInfoBean.getOrder_money());
         double num = Double.parseDouble(orderInfoBean.getCourse_num());
-        double totalMon = money*num;
+        double totalMon = money * num;
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         String format = decimalFormat.format(totalMon);
         holder.mTvClassId.setText(orderInfoBean.getCourse_id());
         holder.mTvClassName.setText(orderInfoBean.getClass_name());
-        holder.mTvClassprice.setText("价格：¥"+orderInfoBean.getOrder_money());
-        holder.mTvNum.setText("数量：x"+orderInfoBean.getCourse_num());
-        holder.mTvRefundPrice.setText("退款金额："+format+"元");
+        holder.mTvClassprice.setText("价格：¥" + orderInfoBean.getOrder_money());
+        holder.mTvNum.setText("数量：x" + orderInfoBean.getCourse_num());
+        holder.mTvRefundPrice.setText(format + "元");
         return convertView;
     }
 
     class ViewHolder {
-        TextView mTvClassId,mTvClassName,mTvClassprice,mTvNum,mTvRefundPrice;
-       ImageView ivClasslogo;
+        TextView mTvClassId, mTvClassName, mTvClassprice, mTvNum, mTvRefundPrice;
+        ImageView ivClasslogo;
 
 
     }

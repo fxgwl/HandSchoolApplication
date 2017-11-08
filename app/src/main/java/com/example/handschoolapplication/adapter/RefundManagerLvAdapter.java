@@ -85,7 +85,7 @@ public class RefundManagerLvAdapter extends BaseAdapter {
         holder.mTvClassName.setText(classDealManagerBean.getClass_name());
         holder.mTvClassprice.setText("价格：¥"+classDealManagerBean.getOrder_money());
         holder.mTvNum.setText("数量：x"+classDealManagerBean.getCourse_num());
-        if ("4".equals(classDealManagerBean.getOrder_type())){
+        if ("4".equals(classDealManagerBean.getOrder_state())){
             holder.mTvContemt.setText("退款中");
         }else {
             holder.mTvContemt.setText("已退款");

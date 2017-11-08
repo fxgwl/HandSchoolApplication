@@ -6,64 +6,70 @@ package com.example.handschoolapplication.bean;
 
 public class ClassSortBean {
 
-
     /**
      * data_integrity : 100
-     * head_photo : bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1506565555092.jpg
-     * mechanism_address : 1505459605958
-     * mechanism_name : 我的小学堂b
-     * mechanism_type : 早教
-     * member_name :
-     * mid_photo : bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1505459605990.jpg,bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1505459605993.jpg
-     * qualification_prove : bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1505459605961.jpg,bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1505459605967.jpg,bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1505459605971.jpg,bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1505459605977.jpg,bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1505459605983.jpg
-     * school_id : 1505805630235
-     * signed_num : 1
-     * user_code : 000000
-     * user_create_time : 2017-09-15 15:07:22
-     * user_dengji : 0
-     * user_gold : 10
-     * user_id : 4c975ad7eeb646f7b0e06cabc8290ddd
-     * user_integral : 10
-     * user_password : 0
-     * user_phone : 15122947309
-     * user_renqi : 9
-     * user_state : 0
-     * user_type : 1
+     * head_photo : images/head.jpg
      * id_number : 3
+     * mechanism_address : 1507602671716
      * mechanism_city : 北京顺义区旺泉街道
      * mechanism_ctime : 2
-     * user_name : 自行车
-     * user_area : 天津市
-     * user_sex : 男
+     * mechanism_name : 1
+     * mechanism_type : 文体艺术/早教/托管
+     * mid_photo : bicths/816939bd23dc4296a4d1f3cd731b3143/1507602671749.jpg
+     * pingjia : 0
+     * qualification_prove : bicths/816939bd23dc4296a4d1f3cd731b3143/1507602671739.jpg
+     * school_id : 1507602671757
+     * signed_num : 0
+     * user_area : 38.515723
+     * user_code : 000000
+     * user_create_time : 2017-10-10 10:30:47
+     * user_dengji : 0
+     * user_gold : 0
+     * user_id : 816939bd23dc4296a4d1f3cd731b3143
+     * user_integral : 0
+     * user_name : 115.763785
+     * user_password : 1
+     * user_phone : 27
+     * user_renqi : 2
+     * user_state : 0
+     * user_type : 1
      */
 
     private String data_integrity;
     private String head_photo;
+    private String id_number;
     private String mechanism_address;
+    private String mechanism_city;
+    private String mechanism_ctime;
     private String mechanism_name;
     private String mechanism_type;
-    private String member_name;
     private String mid_photo;
+    private String pingjia;
     private String qualification_prove;
     private String school_id;
     private String signed_num;
+    private String user_area;
     private String user_code;
     private String user_create_time;
     private String user_dengji;
     private String user_gold;
     private String user_id;
     private String user_integral;
+    private String user_name;
     private String user_password;
     private String user_phone;
     private String user_renqi;
     private String user_state;
     private String user_type;
-    private String id_number;
-    private String mechanism_city;
-    private String mechanism_ctime;
-    private String user_name;
-    private String user_area;
-    private String user_sex;
+    private double distance;
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
 
     public String getData_integrity() {
         return data_integrity;
@@ -81,12 +87,36 @@ public class ClassSortBean {
         this.head_photo = head_photo;
     }
 
+    public String getId_number() {
+        return id_number;
+    }
+
+    public void setId_number(String id_number) {
+        this.id_number = id_number;
+    }
+
     public String getMechanism_address() {
         return mechanism_address;
     }
 
     public void setMechanism_address(String mechanism_address) {
         this.mechanism_address = mechanism_address;
+    }
+
+    public String getMechanism_city() {
+        return mechanism_city;
+    }
+
+    public void setMechanism_city(String mechanism_city) {
+        this.mechanism_city = mechanism_city;
+    }
+
+    public String getMechanism_ctime() {
+        return mechanism_ctime;
+    }
+
+    public void setMechanism_ctime(String mechanism_ctime) {
+        this.mechanism_ctime = mechanism_ctime;
     }
 
     public String getMechanism_name() {
@@ -105,20 +135,20 @@ public class ClassSortBean {
         this.mechanism_type = mechanism_type;
     }
 
-    public String getMember_name() {
-        return member_name;
-    }
-
-    public void setMember_name(String member_name) {
-        this.member_name = member_name;
-    }
-
     public String getMid_photo() {
         return mid_photo;
     }
 
     public void setMid_photo(String mid_photo) {
         this.mid_photo = mid_photo;
+    }
+
+    public String getPingjia() {
+        return pingjia;
+    }
+
+    public void setPingjia(String pingjia) {
+        this.pingjia = pingjia;
     }
 
     public String getQualification_prove() {
@@ -143,6 +173,14 @@ public class ClassSortBean {
 
     public void setSigned_num(String signed_num) {
         this.signed_num = signed_num;
+    }
+
+    public String getUser_area() {
+        return user_area;
+    }
+
+    public void setUser_area(String user_area) {
+        this.user_area = user_area;
     }
 
     public String getUser_code() {
@@ -193,6 +231,14 @@ public class ClassSortBean {
         this.user_integral = user_integral;
     }
 
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
     public String getUser_password() {
         return user_password;
     }
@@ -231,53 +277,5 @@ public class ClassSortBean {
 
     public void setUser_type(String user_type) {
         this.user_type = user_type;
-    }
-
-    public String getId_number() {
-        return id_number;
-    }
-
-    public void setId_number(String id_number) {
-        this.id_number = id_number;
-    }
-
-    public String getMechanism_city() {
-        return mechanism_city;
-    }
-
-    public void setMechanism_city(String mechanism_city) {
-        this.mechanism_city = mechanism_city;
-    }
-
-    public String getMechanism_ctime() {
-        return mechanism_ctime;
-    }
-
-    public void setMechanism_ctime(String mechanism_ctime) {
-        this.mechanism_ctime = mechanism_ctime;
-    }
-
-    public String getUser_name() {
-        return user_name;
-    }
-
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
-
-    public String getUser_area() {
-        return user_area;
-    }
-
-    public void setUser_area(String user_area) {
-        this.user_area = user_area;
-    }
-
-    public String getUser_sex() {
-        return user_sex;
-    }
-
-    public void setUser_sex(String user_sex) {
-        this.user_sex = user_sex;
     }
 }

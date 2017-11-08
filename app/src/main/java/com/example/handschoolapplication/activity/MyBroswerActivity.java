@@ -43,7 +43,12 @@ public class MyBroswerActivity extends BaseActivity {
         user_id = (String) SPUtils.get(this, "userId", "");
         initData();
 
-
+        broswerAdapter.setOnShareListener(new BroswerAdapter.ShareListener() {
+            @Override
+            public void setOnShare(int postion) {
+                showShare("我是标题","我是分享文本","","");
+            }
+        });
     }
 
     private void initData() {

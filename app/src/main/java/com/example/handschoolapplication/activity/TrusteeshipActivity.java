@@ -87,10 +87,14 @@ public class TrusteeshipActivity extends BaseActivity {
     }
 
     class MyAdapter extends BaseAdapter {
+        private int size = 0;
 
         @Override
         public int getCount() {
-            return mlist.size();
+            if (mlist!=null){
+                size = mlist.size();
+            }
+            return size;
         }
 
         @Override

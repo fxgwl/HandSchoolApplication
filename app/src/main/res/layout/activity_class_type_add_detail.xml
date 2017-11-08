@@ -11,6 +11,7 @@
     <include layout="@layout/title_bar_blue_erji"></include>
 
     <TextView
+        android:id="@+id/tv_type_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="10dp"

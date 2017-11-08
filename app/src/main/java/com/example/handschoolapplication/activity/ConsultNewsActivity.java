@@ -108,12 +108,14 @@ public class ConsultNewsActivity extends BaseActivity implements AdapterView.OnI
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ConsultNewsBean consultNewsBean = mList.get(position);
         String course_id = consultNewsBean.getCourse_id();
-        String schooluid = consultNewsBean.getUser_id();
+        String user_id = consultNewsBean.getUser_id();
+        String consult_name = consultNewsBean.getConsult_name();
 
         Intent intent = new Intent(this,HumanServiceActivity.class);
-        intent.putExtra("type", "0");
+        intent.putExtra("type", "1");
         intent.putExtra("course_id", course_id);
-        intent.putExtra("schooluid", schooluid);
+        intent.putExtra("send_id",user_id);
+        intent.putExtra("name",consult_name);
         startActivity(intent);
     }
 }

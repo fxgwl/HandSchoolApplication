@@ -27,6 +27,11 @@ public class Internet {
     //忘记密码
     public static final String FORGOTPWD = BASE_URL + "UserInfo/forgetpwd";
 
+    //----------------三方登录----------------------
+    public static final String WECHAT_LOGIN = BASE_URL+"UserInfo/weixin";
+    public static final String SINA_WEIBO_LOGIN = BASE_URL+"UserInfo/weibo";
+    public static final String QQ_LOGIN = BASE_URL+"UserInfo/qq";
+
 
     //========
     //更换头像
@@ -143,6 +148,13 @@ public class Internet {
     public static final String HASCOMMENT = BASE_URL + "InteractMessage/getByUser";
     //个人对话列表
     public static final String PERSONDIALOG = BASE_URL + "ConsultMessage/getforMe";
+
+
+    //--------------------昝宏伟---------------------->
+    //根据一级类型名称查二级类型
+    public static final String GET_SECOND = BASE_URL+"TypeTwoInfo/listTypeOne";
+    //根据二级类型名称查三级类型
+    public static final String GET_THIRD = BASE_URL+"TypeThreeInfo/listTypeOne";
 
 
 }

@@ -1,8 +1,6 @@
 package com.example.handschoolapplication.fragment;
 
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -74,6 +74,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
+
+import static com.example.handschoolapplication.R.id.iv_sign;
 
 
 /**
@@ -154,7 +156,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     TextView tvHometypelist5;
     @BindView(R.id.tv_hometypelist6)
     TextView tvHometypelist6;
-    @BindView(R.id.iv_sign)
+    @BindView(iv_sign)
     ImageView ivSign;
     private View view;
     HorizontalListViewAdapter mAdapter;
@@ -186,6 +188,12 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     private String city;
     private double[] locations;
     private boolean isLogin;
+
+    private ScaleAnimation sato0 = new ScaleAnimation(1,0,1,1,
+            Animation.RELATIVE_TO_PARENT,0.5f,Animation.RELATIVE_TO_PARENT,0.5f);
+
+    private ScaleAnimation sato1 = new ScaleAnimation(0,1,1,1,
+            Animation.RELATIVE_TO_PARENT,0.5f,Animation.RELATIVE_TO_PARENT,0.5f);
 
     public HomeFragment() {
         // Required empty public constructor
@@ -267,16 +275,25 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
 
         //判断签到  后台需要  前台没用
         isSign();
+        sato0.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                llSignIn.setVisibility(View.GONE);
+                llSignIns.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         return view;
     }
-
-    private void signAnimator() {
-
-        Animator animator = AnimatorInflater.loadAnimator(getActivity(), R.anim.anim_sign);
-        animator.setTarget(ivSign);
-        animator.start();
-    }
-
     @Override
     public int getContentViewId() {
         return R.layout.fragment_home;
@@ -686,6 +703,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                 break;
             case R.id.ll_sign_in://签到
 //                城市根据定位重新调整
+                ivSign.startAnimation(sato0);
                 if (isLogin){
                     OkHttpUtils.post()
                             .url(Internet.SIGN)
@@ -706,8 +724,8 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                         JSONObject json = new JSONObject(response);
                                         String msg = json.getString("msg");
                                         if (msg.contains("成功")) {
-                                            llSignIn.setVisibility(View.GONE);
-                                            llSignIns.setVisibility(View.VISIBLE);
+//                                            llSignIn.setVisibility(View.GONE);
+//                                            llSignIns.setVisibility(View.VISIBLE);
                                         }
                                         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                     } catch (JSONException e) {
@@ -797,6 +815,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                 break;
         }
     }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

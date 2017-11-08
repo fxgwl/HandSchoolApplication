@@ -11,8 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -30,8 +33,10 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.BaiduMapActivity;
 import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
+import com.example.handschoolapplication.adapter.FindClassAdapter;
 import com.example.handschoolapplication.adapter.FindCourseAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
+import com.example.handschoolapplication.bean.ClassSortBean;
 import com.example.handschoolapplication.bean.CourseSortBean;
 import com.example.handschoolapplication.utils.InternetS;
 import com.google.gson.Gson;
@@ -65,10 +70,14 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
     ListView lvFfCourse;
     @BindView(R.id.map_view)
     MapView mapView;
+    @BindView(R.id.rb_search_type)
+    CheckBox rbSearchType;
     private View view;
 
     private List<CourseSortBean> findCourseList;
+    private List<ClassSortBean> findClassList;
     private FindCourseAdapter findCourseAdapter;
+    private FindClassAdapter findClassAdapter;
     private BaiduMap map;
     // 定位相关
     LocationClient mLocClient;
@@ -104,6 +113,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             }
         }
     };
+    private boolean isCourse;
 
     public FindFragment() {
         // Required empty public constructor
@@ -117,8 +127,9 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         view = super.onCreateView(inflater, container, savedInstanceState);
         map = mapView.getMap();
         findCourseList = new ArrayList<>();
+        findClassList = new ArrayList<>();
         findCourseAdapter = new FindCourseAdapter(findCourseList, getActivity());
-        lvFfCourse.setAdapter(findCourseAdapter);
+        findClassAdapter = new FindClassAdapter(getActivity(),findClassList);
         map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         map.setMyLocationEnabled(true);
         mLocClient = new LocationClient(getActivity());
@@ -134,6 +145,20 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         initLvData();
         lvFfCourse.setOnItemClickListener(this);
         map.setOnMapClickListener(listener);
+
+
+        rbSearchType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    isCourse = true;
+                    initLvData();
+                } else {
+                    isCourse = false;
+                    initLvClassData();
+                }
+            }
+        });
         return view;
     }
 
@@ -174,6 +199,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         findCourseList.clear();
         OkHttpUtils.post()
                 .url(InternetS.COURSE_RANK)
+                .addParams("course_type", "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -186,14 +212,55 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(FindFragment.java:142)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-                            findCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (response.contains("没有信息")) {
+                            Toast.makeText(getActivity(), "没有信息", Toast.LENGTH_SHORT).show();
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+                                lvFfCourse.setAdapter(findCourseAdapter);
+                                findCourseAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                });
+
+    }
+    private void initLvClassData() {
+        findClassList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.ORGANIZATION_RANK)
+                .addParams("mechanism_type", "")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(FindFragment.java:136)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(FindFragment.java:142)" + response);
+                        if (response.contains("没有信息")) {
+                            Toast.makeText(getActivity(), "没有信息", Toast.LENGTH_SHORT).show();
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                findClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                                }.getType()));
+                                lvFfCourse.setAdapter(findClassAdapter);
+                                findClassAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                     }
@@ -259,6 +326,9 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             double latitude = location.getLatitude();
             double longitude = location.getLongitude();
 
+            Log.e("aaa",
+                    "(MyLocationListenner.java:269)" + latitude + "    " + "经度" + longitude);
+
             double[] locations = new double[]{latitude, longitude};
 
             Message message = new Message();
@@ -267,8 +337,8 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             mHandler.sendMessage(message);
 
             Message message1 = new Message();
-            message.what = 2;
-            message.obj = location.getCity();
+            message1.what = 2;
+            message1.obj = location.getCity();
             mHandler.sendMessage(message1);
         }
 
@@ -285,7 +355,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         mLocClient.unRegisterLocationListener(myListener);
         mLocClient.stop();
         // 关闭定位图层
-        if (mapView!=null){
+        if (mapView != null) {
             mapView.onDestroy();
             map.setMyLocationEnabled(false);
             mapView = null;

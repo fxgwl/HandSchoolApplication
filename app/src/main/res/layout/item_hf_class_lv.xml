@@ -59,27 +59,32 @@
                 android:id="@+id/iv_star1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"/>
+                android:src="@drawable/wujiaoxinghuise"
+                android:layout_gravity="center_vertical"/>
             <ImageView
                 android:id="@+id/iv_star2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"/>
+                android:src="@drawable/wujiaoxinghuise"
+                android:layout_gravity="center_vertical"/>
             <ImageView
                 android:id="@+id/iv_star3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"/>
+                android:src="@drawable/wujiaoxinghuise"
+                android:layout_gravity="center_vertical"/>
             <ImageView
                 android:id="@+id/iv_star4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"/>
+                android:src="@drawable/wujiaoxinghuise"
+                android:layout_gravity="center_vertical"/>
             <ImageView
                 android:id="@+id/iv_star5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"/>
+                android:src="@drawable/wujiaoxinghuise"
+                android:layout_gravity="center_vertical"/>
         </LinearLayout>
         <TextView
             android:id="@+id/tv_distance"
@@ -98,7 +103,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="人气："/>
+            android:text="人气："
+            android:textSize="14sp"/>
         <TextView
             android:id="@+id/popularity"
             android:layout_width="wrap_content"

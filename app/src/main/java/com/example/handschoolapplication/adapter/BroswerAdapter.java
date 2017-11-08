@@ -1,7 +1,6 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.bean.MyBroswerBean;
 import com.example.handschoolapplication.utils.Internet;
 
@@ -29,6 +27,8 @@ public class BroswerAdapter extends BaseAdapter {
     private Context context;
     private List<MyBroswerBean.DataBean> mList;
     private LayoutInflater inflater;
+
+    private ShareListener listener;
 
     public BroswerAdapter(Context context, List<MyBroswerBean.DataBean> mList) {
         this.context = context;
@@ -53,7 +53,7 @@ public class BroswerAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
 
@@ -74,6 +74,12 @@ public class BroswerAdapter extends BaseAdapter {
         holder.tvCourse.setText(dataBean.getCourse_name());
         holder.tvPrice.setText("价格： ¥" + dataBean.getCourse_money());
 
+        holder.ivShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setOnShare(position);
+            }
+        });
         return convertView;
     }
 
@@ -92,5 +98,13 @@ public class BroswerAdapter extends BaseAdapter {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface ShareListener {
+        void setOnShare(int postion);
+    }
+
+    public void setOnShareListener(ShareListener listener) {
+        this.listener = listener;
     }
 }

@@ -8,6 +8,14 @@ public class TimeHourBean {
     private boolean isChecked;
     private String time;
 
+    public TimeHourBean() {
+    }
+
+    public TimeHourBean(boolean isChecked, String time) {
+        this.isChecked = isChecked;
+        this.time = time;
+    }
+
     public String getTime() {
         return time;
     }

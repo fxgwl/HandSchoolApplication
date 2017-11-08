@@ -167,7 +167,7 @@ public class NewsFragment extends BaseFragment {
                                     Intent intent3 = new Intent(getActivity(), HumanServiceActivity.class);
                                     intent3.putExtra("type", "0");
                                     intent3.putExtra("course_id", newsBeanList.get(position).getCourse_id());
-                                    intent3.putExtra("schooluid", newsBeanList.get(position).getSend_id());
+                                    intent3.putExtra("send_id", newsBeanList.get(position).getSend_id());
                                     intent3.putExtra("name",newsBeanList.get(position).getSchool_name());
                                     startActivity(intent3);
                                 }

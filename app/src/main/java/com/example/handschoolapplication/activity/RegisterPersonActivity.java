@@ -175,6 +175,8 @@ public class RegisterPersonActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             int result = jsonObject.getInt("result");
+                            String msg = jsonObject.getString("msg");
+                            Toast.makeText(RegisterPersonActivity.this, msg, Toast.LENGTH_SHORT).show();
                             if (result == 0) {
                                 JSONObject data = jsonObject.getJSONObject("data");
                                 String user_id = data.getString("user_id");

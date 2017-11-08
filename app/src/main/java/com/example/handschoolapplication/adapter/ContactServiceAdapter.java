@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -31,6 +32,9 @@ public class ContactServiceAdapter extends BaseAdapter {
     public ContactServiceAdapter(ArrayList<ContactServiceBean.DataBean> mList, Context context) {
         this.mList = mList;
         this.context = context;
+
+        Log.e("aaa",
+            "(ContactServiceAdapter.java:37)集合的长度"+mList.size());
     }
 
     @Override
@@ -60,7 +64,10 @@ public class ContactServiceAdapter extends BaseAdapter {
         ViewHolder holder = null;
         ContactServiceBean.DataBean contact = mList.get(position);
         if (view == null) {
-            if ("用户".equals(contact.getMessage_type())) {
+            String type = contact.getConsult_type();
+            Log.e("aaa",
+                "(ContactServiceAdapter.java:65)--------->"+type+"position----->"+position);
+            if ("1".equals(contact.getConsult_type())) {
                 view = View.inflate(context, R.layout.item_contactservice, null);
             } else {
                 view = View.inflate(context, R.layout.item_contactservice2, null);
@@ -71,12 +78,12 @@ public class ContactServiceAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         Glide.with(context)
-                .load(Internet.BASE_URL + contact.getMessage_photo())
+                .load(Internet.BASE_URL + contact.getConsult_photo())
                 .centerCrop()
                 .error(R.drawable.touxiang)
                 .into(holder.civContactHead);
-        holder.tvContactContent.setText(contact.getMessage_content());
-        holder.tvChatTime.setText(contact.getMessage_time());
+        holder.tvContactContent.setText(contact.getConsult_content());
+        holder.tvChatTime.setText(contact.getConsult_time());
         return view;
     }
 

@@ -12,7 +12,6 @@ import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.view.HorizontalListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,7 +26,12 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
     HorizontalListView ctadHlArt;
     @BindView(R.id.gv_art_detail)
     GridView gvArtDetail;
+    @BindView(R.id.tv_type_one)
+    TextView tvTypeOne;
     private List<String> typeTwo;
+    private String typeOne;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
         if (null!=getIntent().getSerializableExtra("typeTwo"))
         typeTwo = (List<String>) getIntent().getSerializableExtra("typeTwo");
+        typeOne = getIntent().getStringExtra("type");
         initView();
     }
 
@@ -45,9 +50,9 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
 
     private void initView() {
         tvTitle.setText("添加学堂类别");
-        ArrayList<String> list = new ArrayList<>();
-        final HorizontalListViewAdapter hlvAdapter = new HorizontalListViewAdapter(this, list);
-        final HorizontalListViewAdapter hlvAdapter2 = new HorizontalListViewAdapter(this, list);
+        tvTypeOne.setText(typeOne);
+        final HorizontalListViewAdapter hlvAdapter = new HorizontalListViewAdapter(this, typeTwo);
+        final HorizontalListViewAdapter hlvAdapter2 = new HorizontalListViewAdapter(this, typeTwo);
         ctadHlArt.setAdapter(hlvAdapter);
         gvArtDetail.setAdapter(hlvAdapter2);
         ctadHlArt.setOnItemClickListener(new AdapterView.OnItemClickListener() {

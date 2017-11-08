@@ -297,10 +297,11 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             //身份认证
             case R.id.ll_schoolinfo_shenfenrenzheng:
-//                startActivity(new Intent(this, IdentityCardActivity.class));
+                startActivity(new Intent(this, IdentityCardActivity.class));
                 break;
             //资质认证
             case R.id.ll_schoolinfo_qualification:
+                startActivity(new Intent(this,QualificationActivity.class));
                 break;
             //学堂地址
             case R.id.ll_schoolinfo_schooladdress:

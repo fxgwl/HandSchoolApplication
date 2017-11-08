@@ -114,7 +114,7 @@
 
             <View
                 android:layout_width="0.5dp"
-                android:layout_height="20dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:background="#fff" />
 
@@ -122,24 +122,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
-                <!--<TextView-->
-                <!--android:id="@+id/tv_gold_num"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="8888金币"-->
-                <!--android:textSize="14sp"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:textColor="#fff"-->
-                <!--android:layout_marginTop="10dp"/>-->
-                <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="我的金币"-->
-                <!--android:textSize="14sp"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_below="@id/tv_gold_num"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:textColor="#fff"/>-->
                 <LinearLayout
                     android:id="@+id/ll_evaluate_grade"
                     android:layout_width="wrap_content"

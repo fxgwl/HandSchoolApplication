@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ConsultAdapter;
-import com.example.handschoolapplication.adapter.ContactServiceAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.ConsultBean;
 import com.example.handschoolapplication.bean.ContactServiceBean;
@@ -48,13 +47,14 @@ public class HumanServiceActivity extends BaseActivity {
     private String user_id;
     ArrayList<ContactServiceBean.DataBean> contactList = new ArrayList<>();
     ArrayList<ConsultBean.DataBean> consultList = new ArrayList<ConsultBean.DataBean>();
-    private ContactServiceAdapter contactAdapter;
+//    private ContactServiceAdapter contactAdapter;
     private String type;
     private String content;
     private String user_type;
     private String course_id;
     private String schooluid;
     private ConsultAdapter consultAdapter;
+    private String send_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,26 +65,31 @@ public class HumanServiceActivity extends BaseActivity {
         else tvTitle.setText("人工客服");
         type = getIntent().getStringExtra("type");
         course_id = getIntent().getStringExtra("course_id");
-        schooluid = getIntent().getStringExtra("schooluid");
-        user_id = (String) SPUtils.get(this, "userId", "");
+        send_id = getIntent().getStringExtra("send_id");
+
         user_type = (String) SPUtils.get(this, "user_type", "");
-        contactAdapter = new ContactServiceAdapter(contactList, HumanServiceActivity.this);
-        consultAdapter = new ConsultAdapter(consultList, this);
-        if (type.equals("1")) {
-            //跟系统客服对话
+//        contactAdapter = new ContactServiceAdapter(contactList, HumanServiceActivity.this);
+        consultAdapter = new ConsultAdapter(contactList, this);
+        if (type.equals("0")) {//个人跟学堂对话
+            user_id = (String) SPUtils.get(this, "userId", "");
             initView();
-        } else {
-            //跟个人对话
+        } else if (type.equals("1")){
+            //学堂跟个人对话
+            user_id = (String) SPUtils.get(this, "school_id", "");
             initView2();
         }
     }
 
     //
+
     private void initView2() {
+
+        Log.e("aaa",
+            "(HumanServiceActivity.java:90)user_id=="+user_id+"  send_id=="+send_id+ "   course_id=="+course_id);
         OkHttpUtils.post()
                 .url(Internet.CONTACTLIST)
-                .addParams("user_id", user_id)
-                .addParams("send_id", schooluid)
+                .addParams("user_id", send_id)
+                .addParams("send_id", user_id)
                 .addParams("course_id", course_id)
                 .build()
                 .execute(new StringCallback() {
@@ -96,15 +101,15 @@ public class HumanServiceActivity extends BaseActivity {
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(HumanServiceActivity.java:67initView2)" + response);
+                                "(HumanServiceActivity.java:67)" + response);
                         lvHumanservice.setAdapter(consultAdapter);
                         if (response.contains("没有信息")) {
-                            consultList.clear();
+                            contactList.clear();
                             consultAdapter.notifyDataSetChanged();
                         } else {
                             Gson gson = new Gson();
-                            consultList.clear();
-                            consultList.addAll(gson.fromJson(response, ConsultBean.class).getData());
+                            contactList.clear();
+                            contactList.addAll(gson.fromJson(response, ContactServiceBean.class).getData());
                             consultAdapter.notifyDataSetChanged();
                         }
                     }
@@ -114,8 +119,10 @@ public class HumanServiceActivity extends BaseActivity {
     //刷新列表
     private void initView() {
         OkHttpUtils.post()
-                .url(Internet.SERVICELIST)
+                .url(Internet.CONTACTLIST)
                 .addParams("user_id", user_id)
+                .addParams("send_id", send_id)
+                .addParams("course_id", course_id)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -127,15 +134,15 @@ public class HumanServiceActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(HumanServiceActivity.java:67)" + response);
-                        lvHumanservice.setAdapter(contactAdapter);
+                        lvHumanservice.setAdapter(consultAdapter);
                         if (response.contains("没有信息")) {
                             contactList.clear();
-                            contactAdapter.notifyDataSetChanged();
+                            consultAdapter.notifyDataSetChanged();
                         } else {
                             Gson gson = new Gson();
                             contactList.clear();
                             contactList.addAll(gson.fromJson(response, ContactServiceBean.class).getData());
-                            contactAdapter.notifyDataSetChanged();
+                            consultAdapter.notifyDataSetChanged();
                         }
                     }
                 });
@@ -162,8 +169,9 @@ public class HumanServiceActivity extends BaseActivity {
                     return;
                 }
                 if (type.equals("1")) {
-                    //给人工客服发消息
-                    sendToRobot();
+                    //给学堂发消息
+//                    sendToRobot();
+                    sendToPerson();
                 } else {
                     //给人发消息
                     sendToPerson();
@@ -174,12 +182,11 @@ public class HumanServiceActivity extends BaseActivity {
 
 
     private void sendToPerson() {
-        Toast.makeText(this, "sdahsbdhjasdsbhj", Toast.LENGTH_SHORT).show();
         OkHttpUtils.post()
                 .url(Internet.HOMECONTACT)
                 .addParams("user_id", user_id)
-                .addParams("send_id", schooluid)
-                .addParams("consult_type", user_type)
+                .addParams("send_id", send_id)
+                .addParams("consult_type", type)
                 .addParams("consult_content", content)
                 .addParams("course_id", course_id)
                 .build()
@@ -199,7 +206,7 @@ public class HumanServiceActivity extends BaseActivity {
                             Toast.makeText(HumanServiceActivity.this, json.getString("msg"), Toast.LENGTH_SHORT).show();
                             if (response.contains("成功")) {
                                 tvContactContent.setText("");
-                                initView2();
+                                initView();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

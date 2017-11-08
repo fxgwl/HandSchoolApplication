@@ -94,7 +94,8 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="7inDRRtmZMlPOFCYMvinAXz5mcMhnwal" />
 
-        <activity android:name=".activity.IdentityCardActivity" />
+        <activity android:name=".activity.IdentityCardActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".activity.ArtActivity" />
         <activity android:name=".activity.AllCourseActivity" />
         <activity android:name=".activity.SearchActivity" />
@@ -234,8 +235,11 @@
         <activity android:name=".activity.ReturnMoneyActivity" />
         <activity android:name=".activity.MyDiscountActivity" />
         <activity android:name=".activity.SearchResultActivity" />
-        <activity android:name=".activity.BaiduMapActivity" />
-        <activity android:name=".activity.SignActivity"></activity>
+        <activity android:name=".activity.BaiduMapActivity"
+            android:hardwareAccelerated="false"/>
+        <activity android:name=".activity.SignActivity"/>
+        <activity android:name=".activity.QualificationActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
     </application>
 
 </manifest>

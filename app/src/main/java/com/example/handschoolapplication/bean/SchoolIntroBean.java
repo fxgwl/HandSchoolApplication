@@ -115,6 +115,11 @@ public class SchoolIntroBean {
             private String school_name;
             private String school_renqi;
             private String school_time;
+            private String school_environment;
+            private String school_jing;
+            private String school_wei;
+            private String school_num;
+            private String school_profile;
 
             public String getSchool_name() {
                 return school_name;
@@ -138,6 +143,46 @@ public class SchoolIntroBean {
 
             public void setSchool_time(String school_time) {
                 this.school_time = school_time;
+            }
+
+            public String getSchool_environment() {
+                return school_environment;
+            }
+
+            public void setSchool_environment(String school_environment) {
+                this.school_environment = school_environment;
+            }
+
+            public String getSchool_jing() {
+                return school_jing;
+            }
+
+            public void setSchool_jing(String school_jing) {
+                this.school_jing = school_jing;
+            }
+
+            public String getSchool_wei() {
+                return school_wei;
+            }
+
+            public void setSchool_wei(String school_wei) {
+                this.school_wei = school_wei;
+            }
+
+            public String getSchool_num() {
+                return school_num;
+            }
+
+            public void setSchool_num(String school_num) {
+                this.school_num = school_num;
+            }
+
+            public String getSchool_profile() {
+                return school_profile;
+            }
+
+            public void setSchool_profile(String school_profile) {
+                this.school_profile = school_profile;
             }
         }
     }

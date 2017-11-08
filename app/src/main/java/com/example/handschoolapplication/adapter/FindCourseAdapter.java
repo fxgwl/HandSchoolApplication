@@ -1,7 +1,6 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,10 +82,6 @@ public class FindCourseAdapter extends BaseAdapter {
 
         if (locations != null) {
             double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
-            Log.e("aaa",
-                    "(ArtActivity.java:635)" + "纬度是=====" + locations[0] + "     经度为======" + locations[1]);
-            Log.e("aaa",
-                    "(ArtActivity.java:637)" + "学堂返回的纬度是=====" + school_wei + "     学堂返回的经度为======" + school_jing);
             holder.tvDistance.setText((int) distance + "m");
         } else {
             holder.tvDistance.setText("定位失败");

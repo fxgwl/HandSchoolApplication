@@ -15,11 +15,12 @@
         android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="身份证号 :"
-            android:textColor="@color/blue"/>
+            android:textColor="@color/blue" />
 
         <EditText
             android:id="@+id/identity_et"
@@ -33,29 +34,23 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="15dp"
+            android:paddingLeft="15dp"
             android:text="身份证"
-            android:textColor="@color/blue"/>
-
-        <ImageView
-            android:id="@+id/identity_iv1"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="15dp"
-            android:src="@mipmap/ic_launcher"/>
-
-        <ImageView
-            android:id="@+id/identity_iv2"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="15dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:textColor="@color/blue"
+            android:layout_gravity="center_vertical"/>
+        <me.iwf.photopicker.widget.MultiPickResultView
+            android:id="@+id/recycler_shenfenzheng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            />
     </LinearLayout>
 
     <RelativeLayout

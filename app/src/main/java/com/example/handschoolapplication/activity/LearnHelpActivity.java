@@ -167,8 +167,8 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
                 TextView tvDownRank = (TextView) view.findViewById(R.id.tv_down_rank);//价格低到高
                 TextView tvNearRank = (TextView) view.findViewById(R.id.tv_near_rank);//距离近到远
                 TextView tvFarRank = (TextView) view.findViewById(R.id.tv_far_rank);//距离远到近
-                TextView tvCourseRank = (TextView) view.findViewById(R.id.tv_course_rank);//课程排序
-                TextView tvOrganizationRank = (TextView) view.findViewById(R.id.tv_organization_rank);//机构排序
+//                TextView tvCourseRank = (TextView) view.findViewById(R.id.tv_course_rank);//课程排序
+//                TextView tvOrganizationRank = (TextView) view.findViewById(R.id.tv_organization_rank);//机构排序
 
                 tvGradeRAnk.setOnClickListener(this);
                 tvStarRAnk.setOnClickListener(this);
@@ -177,8 +177,8 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
                 tvDownRank.setOnClickListener(this);
                 tvNearRank.setOnClickListener(this);
                 tvFarRank.setOnClickListener(this);
-                tvCourseRank.setOnClickListener(this);
-                tvOrganizationRank.setOnClickListener(this);
+//                tvCourseRank.setOnClickListener(this);
+//                tvOrganizationRank.setOnClickListener(this);
                 break;
         }
 
@@ -256,7 +256,7 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
     private void getStarOrGradeRank() {
         mlist.clear();
         OkHttpUtils.post()
-                .url(InternetS.GRADE_RANK)
+                .url(InternetS.COURSE_GRADE_RANK)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -427,16 +427,16 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
                 synthesisRankPopupwindow.dismiss();
                 iv_bg.setVisibility(View.GONE);
                 break;
-            case R.id.tv_course_rank:
-                synthesisRankPopupwindow.dismiss();
-                iv_bg.setVisibility(View.GONE);
-                getCourseRank();
-                break;
-            case R.id.tv_organization_rank:
-                synthesisRankPopupwindow.dismiss();
-                iv_bg.setVisibility(View.GONE);
-                getOrganizationRank();
-                break;
+//            case R.id.tv_course_rank:
+//                synthesisRankPopupwindow.dismiss();
+//                iv_bg.setVisibility(View.GONE);
+//                getCourseRank();
+//                break;
+//            case R.id.tv_organization_rank:
+//                synthesisRankPopupwindow.dismiss();
+//                iv_bg.setVisibility(View.GONE);
+//                getOrganizationRank();
+//                break;
         }
     }
 

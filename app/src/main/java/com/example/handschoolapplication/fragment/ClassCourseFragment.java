@@ -1,15 +1,18 @@
 package com.example.handschoolapplication.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.adapter.ClassCourseAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.ClassCourse;
@@ -31,7 +34,7 @@ import okhttp3.Call;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ClassCourseFragment extends BaseFragment {
+public class ClassCourseFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
     private View view;
 
@@ -57,6 +60,7 @@ public class ClassCourseFragment extends BaseFragment {
         mAdapter = new ClassCourseAdapter(getActivity(), mList);
         lvClassCourse.setAdapter(mAdapter);
         initViewData();
+        lvClassCourse.setOnItemClickListener(this);
         return view;
     }
 
@@ -128,5 +132,19 @@ public class ClassCourseFragment extends BaseFragment {
                         mAdapter.notifyDataSetChanged();
                     }
                 });
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ClassCourse.DataBean dataBean = mList.get(position);
+        String school_id = dataBean.getSchool_id();
+        String course_id = dataBean.getCourse_id();
+        String schooluid = dataBean.getUser_id();
+
+        Intent intent = new Intent(getActivity(), CourseHomePagerActivity.class);
+        intent.putExtra("school_id",school_id);
+        intent.putExtra("course_id",course_id);
+        intent.putExtra("schooluid",schooluid);
+        getActivity().startActivity(intent);
     }
 }

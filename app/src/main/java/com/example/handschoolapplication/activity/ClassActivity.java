@@ -102,16 +102,22 @@ public class ClassActivity extends BaseActivity {
                                 .error(R.drawable.zhangshangsishu)
                                 .into(ivIcon);
                         tvSchoolname.setText(school.getData().getSchoolData().getSchool_name());
-
                     }
                 });
     }
 
     private void initFragments() {
+        Bundle bundle = new Bundle();
+        bundle.putString("school_id",school_id);
         classInfoFragment = new ClassInfoFragment();
         classConditionFragment = new ClassConditionFragment();
         classTeacherFragment = new ClassTeacherFragment();
         classCourseFragment = new ClassCourseFragment();
+
+        classInfoFragment.setArguments(bundle);
+        classConditionFragment.setArguments(bundle);
+        classTeacherFragment.setArguments(bundle);
+        classCourseFragment.setArguments(bundle);
         fragments = new Fragment[]{
                 classInfoFragment, classConditionFragment, classTeacherFragment, classCourseFragment
         };
@@ -163,6 +169,7 @@ public class ClassActivity extends BaseActivity {
                         });
                 break;
             case R.id.ll_share:
+                showShare("我是标题","我的分享文本","","");
                 break;
             case R.id.ll_info:
                 tvBgInfoLine.setBackgroundResource(R.color.blue);

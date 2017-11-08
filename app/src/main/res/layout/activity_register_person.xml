@@ -111,7 +111,8 @@
             android:hint="输入密码"
             android:paddingLeft="10dp"
             android:textColorHint="#333333"
-            app:theme="@style/MyEditText" />
+            app:theme="@style/MyEditText"
+            android:inputType="textPassword"/>
 
         <View
             android:id="@+id/view3"
@@ -129,7 +130,8 @@
             android:hint="再次输入密码"
             android:paddingLeft="10dp"
             android:textColorHint="#333333"
-            app:theme="@style/MyEditText" />
+            app:theme="@style/MyEditText"
+            android:inputType="textPassword"/>
     </RelativeLayout>
 
     <Button

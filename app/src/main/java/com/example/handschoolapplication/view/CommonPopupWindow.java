@@ -2,6 +2,7 @@ package com.example.handschoolapplication.view;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.example.handschoolapplication.utils.PopupController;
@@ -13,6 +14,7 @@ import com.example.handschoolapplication.utils.Utils;
 
 public class CommonPopupWindow extends PopupWindow {
     final PopupController controller;
+    private ImageView imageView;
 
     @Override
     public int getWidth() {
@@ -30,6 +32,10 @@ public class CommonPopupWindow extends PopupWindow {
 
     private CommonPopupWindow(Context context) {
         controller = new PopupController(context, this);
+    }
+    private CommonPopupWindow(Context context, ImageView imageView) {
+        controller = new PopupController(context, this);
+        this.imageView = imageView;
     }
 
     @Override

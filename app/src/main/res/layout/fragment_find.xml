@@ -71,12 +71,28 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/map_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:clickable="true"/>
+        android:layout_height="wrap_content">
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:clickable="true"/>
+        <CheckBox
+            android:id="@+id/rb_search_type"
+            android:layout_width="60dp"
+            android:layout_height="26dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/selector_type"
+            android:button="@null"
+            android:checked="true"
+            android:padding="8dp" />
+
+    </RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
