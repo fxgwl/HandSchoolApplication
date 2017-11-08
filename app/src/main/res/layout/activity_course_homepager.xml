@@ -317,62 +317,79 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:background="#f2f2f2"/>
+                    android:background="#f2f2f2"
+                    android:layout_marginTop="10dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingLeft="20dp">
+                    android:paddingLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
                     <ImageView
+                        android:id="@+id/iv_class_photo"
                         android:layout_width="50dp"
                         android:layout_height="50dp" />
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:layout_gravity="center_vertical">
+                        android:orientation="vertical"
+                        android:layout_marginLeft="5dp">
+
                         <TextView
                             android:id="@+id/tv_class_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""/>
+                            android:text=""
+                            android:textSize="15sp"
+                            android:textColor="@color/t333333"/>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp">
+
                             <ImageView
                                 android:id="@+id/iv_grade_1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/wujiaoxinghuise"/>
+                                android:src="@drawable/wujiaoxinghuise" />
+
                             <ImageView
                                 android:id="@+id/iv_grade_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/wujiaoxinghuise"/>
+                                android:src="@drawable/wujiaoxinghuise" />
+
                             <ImageView
                                 android:id="@+id/iv_grade_3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/wujiaoxinghuise"/>
+                                android:src="@drawable/wujiaoxinghuise" />
+
                             <ImageView
                                 android:id="@+id/iv_grade_4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/wujiaoxinghuise"/>
+                                android:src="@drawable/wujiaoxinghuise" />
+
                             <ImageView
                                 android:id="@+id/iv_grade_5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/wujiaoxinghuise"/>
+                                android:src="@drawable/wujiaoxinghuise" />
                         </LinearLayout>
                     </LinearLayout>
+
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="40dp"
+                        android:layout_height="39dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/grgray"/>
+                        android:background="#f9f9f9"
+                        android:layout_marginRight="5dp"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -380,6 +397,7 @@
                         android:padding="5dp"
                         android:layout_gravity="center_vertical">
                         <TextView
+                            android:id="@+id/tv_all_course_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
@@ -388,22 +406,27 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:text="全部课程"
                             android:textSize="11sp"
                             android:textColor="@color/t999999"/>
                     </LinearLayout>
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="40dp"
+                        android:layout_height="39dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/grgray"/>
+                        android:background="#f9f9f9"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="5dp"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="5dp"
-                        android:layout_gravity="center_vertical">
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp">
                         <TextView
+                            android:id="@+id/tv_love_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
@@ -412,6 +435,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:text="收藏人数"
                             android:textSize="11sp"
                             android:textColor="@color/t999999"/>
@@ -444,7 +468,8 @@
                     android:drawablePadding="8dp"
                     android:drawableTop="@drawable/custom_service"
                     android:gravity="center"
-                    android:text="客服" />
+                    android:text="客服"
+                    android:paddingTop="5dp"/>
 
                 <View
                     android:layout_width="1dp"
@@ -460,7 +485,8 @@
                     android:drawablePadding="8dp"
                     android:drawableTop="@drawable/xuetang"
                     android:gravity="center"
-                    android:text="学堂"/>
+                    android:text="学堂"
+                    android:paddingTop="5dp"/>
 
                 <View
                     android:layout_width="1dp"
@@ -476,7 +502,8 @@
                     android:drawablePadding="8dp"
                     android:drawableTop="@drawable/shoucang"
                     android:gravity="center"
-                    android:text="收藏"/>
+                    android:text="收藏"
+                    android:paddingTop="5dp"/>
 
                 <View
                     android:layout_width="1dp"

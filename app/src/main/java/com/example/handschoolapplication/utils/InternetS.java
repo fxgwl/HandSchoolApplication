@@ -1,5 +1,7 @@
 package com.example.handschoolapplication.utils;
 
+import static com.example.handschoolapplication.utils.Internet.BASE_URL;
+
 /**
  * Created by Administrator on 2017/10/16.
  */
@@ -8,8 +10,6 @@ public class InternetS {
 
 //    public static final String BASE_URL = "http://axehome.viphk.ngrok.org/PrivateSchool/";
 
-
-    public static final String BASE_URL = "http://120.92.44.55/PrivateSchool/";
 
     //掌上私塾接口
     //77阅读
@@ -25,7 +25,7 @@ public class InternetS {
     //78学习消息
     public static final String LEARNNEWS = BASE_URL + "StudyMessage/listbyUser";
     //56联系客服--学堂的对话列表
-    public static final String CONSULT_NEWS = BASE_URL+"ConsultMessage/getforSchool";
+    public static final String CONSULT_NEWS = BASE_URL + "ConsultMessage/getforSchool";
     //79报名信息
     public static final String APPLYINFOR = BASE_URL + "CourseInfo/listCourseState";
     //80开课
@@ -72,6 +72,20 @@ public class InternetS {
     public static final String HOT_ADDRESS_INFOR = BASE_URL + "AddressInfo/listAddressInfo";
     //99用户评价管理
     public static final String USER_EVALUATE_MANAGER = BASE_URL + "InteractMessage/getByUser";
-
-
+    //101扫码确认订单
+    public static final String SCAN_ORDER = BASE_URL + "OrderInfo/getYesOrder";
+    //102安装包：
+    public static final String APK = BASE_URL + "ApkVersion/getApkVersion";
+    //103课程主页  学堂信息
+    public static final String CPH_CLASS_INFO = BASE_URL + "UserInfo/sclass";
+    //104 签到记录  首页的
+    public static final String SIGN_LIST_HP = BASE_URL + "SignInfo/signhistory";
+    //105 签到  订单中的：
+    public static final String SIGN_LIST_ORDER = BASE_URL + "OrderInfo/classsign";
+    //106 签到详情  订单中的：
+    public static final String SIGN_DETAIL_ORDER = BASE_URL + "ClassSign/listsign";
+    //107 发消息  单发：
+    public static final String SEND_MESSAGE_PERSONAL = BASE_URL + "ClassSign/single";
+    //108 发消息  全选：
+    public static final String SEND_MESSAGE_ALL = BASE_URL + "ClassSign/mass";
 }

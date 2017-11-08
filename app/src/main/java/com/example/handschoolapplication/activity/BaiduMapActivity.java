@@ -14,12 +14,12 @@ import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
@@ -35,7 +35,7 @@ public class BaiduMapActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    private MapView mapView;
+    private TextureMapView mapView;
     private BaiduMap map;
     private double mCurrentLat = 0.0;
     private double mCurrentLon = 0.0;
@@ -50,9 +50,8 @@ public class BaiduMapActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         tvTitle.setText("地址显示");
-        mapView = (MapView) findViewById(R.id.map_view);
+        mapView = (TextureMapView) findViewById(R.id.map_view);
         map = mapView.getMap();
         map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         map.setMyLocationEnabled(true);
@@ -67,17 +66,16 @@ public class BaiduMapActivity extends BaseActivity {
         mLocClient.start();
         initMap();
 
-        List<Info> mlist= new ArrayList<>();
-        mlist.add(new Info(117.221021,39.101508));
-        mlist.add(new Info(117.246893,39.10106));
-        mlist.add(new Info(117.229645,39.143606));
-        mlist.add(new Info(117.173303,39.1950748));
+        List<Info> mlist = new ArrayList<>();
+        mlist.add(new Info(39.101508, 117.221021));
+        mlist.add(new Info(39.10106, 117.246893));
+        mlist.add(new Info(39.143606, 117.229645));
+        mlist.add(new Info(39.1950748, 117.173303));
 
         addInfosOverlay(mlist);
 
 //        map.getUiSettings().setScrollGesturesEnabled(true);
     }
-
 
 
     @Override
@@ -170,22 +168,25 @@ public class BaiduMapActivity extends BaseActivity {
         map.setMapStatus(u);
 
 
-        map.setOnMapClickListener(new BaiduMap.OnMapClickListener()
-        {
+        map.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
 
             @Override
-            public boolean onMapPoiClick(MapPoi arg0)
-            {
+            public boolean onMapPoiClick(MapPoi arg0) {
                 return false;
             }
 
             @Override
-            public void onMapClick(LatLng arg0)
-            {
+            public void onMapClick(LatLng arg0) {
 //                mMarkerInfoLy.setVisibility(View.GONE);
 //                map.hideInfoWindow();
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
     }
 }

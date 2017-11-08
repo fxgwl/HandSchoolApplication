@@ -52,21 +52,6 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/tv_star_rank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textview_bgsss"
-            android:text="星级排行"
-            android:textColor="#666666"
-            android:textSize="13sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
         <TextView
             android:id="@+id/tv_popularity_rank"
             android:layout_width="wrap_content"
@@ -76,6 +61,22 @@
             android:textColor="#666666"
             android:textSize="13sp" />
 
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+
+        <TextView
+            android:id="@+id/tv_star_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_bgsss"
+            android:text="星级排行"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            android:visibility="invisible"/>
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"

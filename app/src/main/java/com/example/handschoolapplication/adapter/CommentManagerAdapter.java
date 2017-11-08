@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.EvaluateManagerBean;
-import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.view.MyListView;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class CommentManagerAdapter extends BaseAdapter {
         }
         EvaluateManagerBean evaluateManagerBean = mlist.get(position);
         holder.tvCourseName.setText(evaluateManagerBean.getCourse_name());
-        Glide.with(context).load(InternetS.BASE_URL + evaluateManagerBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
+        Glide.with(context).load(Internet.BASE_URL + evaluateManagerBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
         holder.tvEavaName.setText("评价人：" + evaluateManagerBean.getSend_name());
         holder.tvContent.setText(evaluateManagerBean.getContents());
         holder.tvReplyEva.setOnClickListener(new View.OnClickListener() {

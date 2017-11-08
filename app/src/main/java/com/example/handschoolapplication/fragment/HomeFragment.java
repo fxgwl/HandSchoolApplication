@@ -39,7 +39,6 @@ import com.example.handschoolapplication.activity.EducationActivity;
 import com.example.handschoolapplication.activity.HomeEduActivity;
 import com.example.handschoolapplication.activity.LoginActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
-import com.example.handschoolapplication.activity.TrusteeshipActivity;
 import com.example.handschoolapplication.adapter.HPClassAdapter;
 import com.example.handschoolapplication.adapter.HPCourseAdapter;
 import com.example.handschoolapplication.adapter.HorizontalActivityListViewAdapter;
@@ -185,7 +184,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     private ArrayList<String> typeones;
     public LocationClient mLocationClient = null;
     public MyLocationListener myListener = new MyLocationListener();
-    private String city;
+    private String city= "";
     private double[] locations;
     private boolean isLogin;
 
@@ -262,7 +261,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         typelist = new TextView[]{tvHometypelist1, tvHometypelist2, tvHometypelist3, tvHometypelist4, tvHometypelist5, tvHometypelist6};
         LvCourseName = (ListView) view.findViewById(R.id.lv_course_name);
         tvLocation = (TextView) view.findViewById(R.id.tv_location);
-        locationAt();
+        startLocate();
         initLvData();
         //教育资讯跑马灯
         initTeachNews();
@@ -299,10 +298,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         return R.layout.fragment_home;
     }
 
-    //定位
-    private void locationAt() {
-        startLocate();
-    }
+
 
     //判断签到  后台需要  前台没用
     private void isSign() {
@@ -329,6 +325,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         OkHttpUtils.post()
                 .url(Internet.ORGANLIST)
                 .addParams("mechanism_type", type)
+                .addParams("mechanism_city",city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -766,13 +763,25 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                 );
                 break;
             case R.id.rl_child_edu://早教
-                startActivity(new Intent(getActivity(), ChildEduActivity.class));
+                startActivity(new Intent(getActivity(), ChildEduActivity.class)
+                        .putExtra("flag", "早教")
+                        .putExtra("city", city)
+                        .putExtra("latitude", locations[0])
+                        .putExtra("longitude", locations[1]));
                 break;
             case R.id.rl_trusteeship://托管
-                startActivity(new Intent(getActivity(), TrusteeshipActivity.class));
+                startActivity(new Intent(getActivity(), ChildEduActivity.class)
+                        .putExtra("flag", "托教")
+                        .putExtra("city", city)
+                        .putExtra("latitude", locations[0])
+                        .putExtra("longitude", locations[1]));
                 break;
             case R.id.rl_family_edu://家教
-                startActivity(new Intent(getActivity(), HomeEduActivity.class));
+                startActivity(new Intent(getActivity(), HomeEduActivity.class)
+                        .putExtra("flag", "家教")
+                        .putExtra("city", city)
+                        .putExtra("latitude", locations[0])
+                        .putExtra("longitude", locations[1]));
                 break;
             case R.id.tv_more_art:
                 startActivity(new Intent(getActivity(), ArtActivity.class)
@@ -799,13 +808,25 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                         .putExtra("longitude", locations[1]));
                 break;
             case R.id.tv_more_child:
-                startActivity(new Intent(getActivity(), ChildEduActivity.class));
+                startActivity(new Intent(getActivity(), ChildEduActivity.class)
+                        .putExtra("flag", "早教")
+                        .putExtra("city", city)
+                        .putExtra("latitude", locations[0])
+                        .putExtra("longitude", locations[1]));
                 break;
             case R.id.tv_more_trusteeship:
-                startActivity(new Intent(getActivity(), TrusteeshipActivity.class));
+                startActivity(new Intent(getActivity(), ChildEduActivity.class)
+                        .putExtra("flag", "托教")
+                        .putExtra("city", city)
+                        .putExtra("latitude", locations[0])
+                        .putExtra("longitude", locations[1]));
                 break;
             case R.id.tv_more_home:
-                startActivity(new Intent(getActivity(), HomeEduActivity.class));
+                startActivity(new Intent(getActivity(), HomeEduActivity.class)
+                        .putExtra("flag", "家教")
+                        .putExtra("city", city)
+                        .putExtra("latitude", locations[0])
+                        .putExtra("longitude", locations[1]));
                 break;
             case R.id.et_search:
                 startActivity(new Intent(getActivity(), SearchActivity.class));

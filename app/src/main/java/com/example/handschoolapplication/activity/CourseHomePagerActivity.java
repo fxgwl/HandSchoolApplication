@@ -24,6 +24,7 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ClassTimeAdapter;
 import com.example.handschoolapplication.adapter.CostAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.ClassInfoCHP;
 import com.example.handschoolapplication.bean.CostBean;
 import com.example.handschoolapplication.bean.CourseDertailBean;
 import com.example.handschoolapplication.bean.CourseTimeBean;
@@ -88,6 +89,25 @@ public class CourseHomePagerActivity extends BaseActivity {
     TextView tvPopulatrity;
     @BindView(R.id.ll_bottem)
     LinearLayout llBottem;
+    @BindView(R.id.iv_class_photo)
+    ImageView ivClassPhoto;
+    @BindView(R.id.tv_class_name)
+    TextView tvClassName;
+    @BindView(R.id.iv_grade_1)
+    ImageView ivGradeOne;
+    @BindView(R.id.iv_grade_2)
+    ImageView ivGradeTwo;
+    @BindView(R.id.iv_grade_3)
+    ImageView ivGradeThree;
+    @BindView(R.id.iv_grade_4)
+    ImageView ivGradeFour;
+    @BindView(R.id.iv_grade_5)
+    ImageView ivGradeFive;
+    @BindView(R.id.tv_all_course_num)
+    TextView tvAllCourseNum;
+    @BindView(R.id.tv_love_num)
+    TextView tvLoveNum;
+
     private ConvenientBanner convenientBanner;
     private List<String> listImg = new ArrayList<>();
 
@@ -111,6 +131,13 @@ public class CourseHomePagerActivity extends BaseActivity {
     private String preferential_price;
     private boolean isLogin;
     private String user_type;
+    private String dengji;
+    private String course_info;
+    private String head_photo;
+    private String school_name1;
+    private String collect_num;
+    private String class_num;
+    private String user_dengji;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +161,74 @@ public class CourseHomePagerActivity extends BaseActivity {
 //        initConvenientBannerData();
         //获取课程的总评价数
         getEvaTotalNum();
+
+        getClassInfo();
+    }
+
+    private void getClassInfo() {
+        OkHttpUtils.post()
+                .url(InternetS.CPH_CLASS_INFO)
+                .addParams("school_id", school_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(CourseHomePagerActivity.java:170)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(CourseHomePagerActivity.java:176)" + response);
+                        try {
+                            Gson gson = new Gson();
+                            ClassInfoCHP classInfoCHP = gson.fromJson(response, ClassInfoCHP.class);
+                            user_dengji = classInfoCHP.getData().getUser_dengji();
+                            head_photo = classInfoCHP.getData().getHead_photo();
+                            class_num = classInfoCHP.getData().getSchoolDataMap().get(0).getClass_num();
+                            school_name1 = classInfoCHP.getData().getSchoolDataMap().get(0).getSchool_name();
+                            collect_num = classInfoCHP.getData().getSchoolDataMap().get(0).getCollect_num();
+
+                            switch (user_dengji){
+                                case "0":
+                                    break;
+                                case "1":
+                                    ivGradeOne.setImageResource(R.drawable.wujiaoxing);
+                                    break;
+                                case "2":
+                                    ivGradeOne.setImageResource(R.drawable.wujiaoxing);
+                                    ivGradeTwo.setImageResource(R.drawable.wujiaoxing);
+                                    break;
+                                case "3":
+                                    ivGradeOne.setImageResource(R.drawable.wujiaoxing);
+                                    ivGradeTwo.setImageResource(R.drawable.wujiaoxing);
+                                    ivGradeThree.setImageResource(R.drawable.wujiaoxing);
+                                    break;
+                                case "4":
+                                    ivGradeOne.setImageResource(R.drawable.wujiaoxing);
+                                    ivGradeTwo.setImageResource(R.drawable.wujiaoxing);
+                                    ivGradeThree.setImageResource(R.drawable.wujiaoxing);
+                                    ivGradeFour.setImageResource(R.drawable.wujiaoxing);
+                                    break;
+                                case "5":
+                                    ivGradeOne.setImageResource(R.drawable.wujiaoxing);
+                                    ivGradeTwo.setImageResource(R.drawable.wujiaoxing);
+                                    ivGradeThree.setImageResource(R.drawable.wujiaoxing);
+                                    ivGradeFour.setImageResource(R.drawable.wujiaoxing);
+                                    ivGradeFive.setImageResource(R.drawable.wujiaoxing);
+                                    break;
+                            }
+                            Glide.with(CourseHomePagerActivity.this).load(Internet.BASE_URL+ CourseHomePagerActivity.this.head_photo).centerCrop().into(ivClassPhoto);
+                            tvAllCourseNum.setText(CourseHomePagerActivity.this.class_num);
+                            tvClassName.setText(school_name1);
+                            tvLoveNum.setText(CourseHomePagerActivity.this.collect_num);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     private void getEvaTotalNum() {
@@ -171,6 +266,8 @@ public class CourseHomePagerActivity extends BaseActivity {
                 .addParams("course_id", course_id)
                 .build()
                 .execute(new StringCallback() {
+
+
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -196,6 +293,8 @@ public class CourseHomePagerActivity extends BaseActivity {
                         course_teacher = courseDetail.getCourse_teacher();
                         original_price = courseDetail.getOriginal_price();
                         preferential_price = courseDetail.getPreferential_price();
+                        dengji = courseDetail.getDengji();
+                        course_info = courseDetail.getCourse_info();//课堂图片
 
                         courseName.setText(courseDetail.getCourse_name());
                         courseMoneyTv.setText("¥" + courseDetail.getPreferential_price());
@@ -267,7 +366,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                 break;
             case R.id.course_classdetail://课程详情
                 Intent intent = new Intent(this, CourseDetailActivity.class);
-                intent.putExtra("courseId",course_id);
+                intent.putExtra("courseId", course_id);
                 startActivity(intent);
                 break;
             case R.id.course_allpingjia_btn:

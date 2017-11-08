@@ -114,6 +114,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         }
     };
     private boolean isCourse;
+    private String city;
 
     public FindFragment() {
         // Required empty public constructor
@@ -236,6 +237,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         OkHttpUtils.post()
                 .url(InternetS.ORGANIZATION_RANK)
                 .addParams("mechanism_type", "")
+                .addParams("mechanism_city", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -316,6 +318,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             }
 
             String addrStr = location.getAddrStr();
+            city = location.getCity();
             Log.e("aaa",
                     "(MyLocationListenner.java:146)" + addrStr);
             Message msg = new Message();

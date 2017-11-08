@@ -6,8 +6,9 @@ package com.example.handschoolapplication.bean;
 
 public class CourseDertailBean {
 
+
     /**
-     * data : {"age_range":"2-6岁","course_address":"1","course_capacity":"28","course_id":"1505888221350","course_info":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_money":"","course_name":"艺术1","course_photo":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_state":"1","course_teacher":"1","course_time":"2017-09-20 14:17:01","course_type":"夏令营,中小学教育","enrol_num":"26","original_price":"660","popularity_num":"101","preferential_price":"330","school_id":"1505805630235","school_jing":"1","school_name":"我的小学堂b","school_wei":"1","study_num":"1505888221351","user_id":"4c975ad7eeb646f7b0e06cabc8290ddd"}
+     * data : {"age_range":"2-6岁","course_address":"1","course_capacity":"28","course_id":"1506153404911","course_info":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_money":"800元/4节","course_name":"音乐","course_photo":"images/head.jpg","course_state":"1","course_teacher":"1","course_time":"2017-09-23 15:56:44","course_type":"文体艺术/书画,学习辅导/中小学教育","dengji":"5","enrol_num":"30","hot_time":"2017-09-20 14:15:50","original_price":"660","popularity_num":"431","preferential_price":"330","school_id":"1505805630236","school_jing":"119.40403592998626","school_name":"我的小学堂a","school_wei":"39.91386028193478","study_num":"1506153404911","user_id":"8841f54f7b574f06a470ee9002043f8d"}
      * msg : 成功
      * result : 0
      */
@@ -45,25 +46,27 @@ public class CourseDertailBean {
          * age_range : 2-6岁
          * course_address : 1
          * course_capacity : 28
-         * course_id : 1505888221350
+         * course_id : 1506153404911
          * course_info : bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg
-         * course_money :
-         * course_name : 艺术1
-         * course_photo : bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg
+         * course_money : 800元/4节
+         * course_name : 音乐
+         * course_photo : images/head.jpg
          * course_state : 1
          * course_teacher : 1
-         * course_time : 2017-09-20 14:17:01
-         * course_type : 夏令营,中小学教育
-         * enrol_num : 26
+         * course_time : 2017-09-23 15:56:44
+         * course_type : 文体艺术/书画,学习辅导/中小学教育
+         * dengji : 5
+         * enrol_num : 30
+         * hot_time : 2017-09-20 14:15:50
          * original_price : 660
-         * popularity_num : 101
+         * popularity_num : 431
          * preferential_price : 330
-         * school_id : 1505805630235
-         * school_jing : 1
-         * school_name : 我的小学堂b
-         * school_wei : 1
-         * study_num : 1505888221351
-         * user_id : 4c975ad7eeb646f7b0e06cabc8290ddd
+         * school_id : 1505805630236
+         * school_jing : 119.40403592998626
+         * school_name : 我的小学堂a
+         * school_wei : 39.91386028193478
+         * study_num : 1506153404911
+         * user_id : 8841f54f7b574f06a470ee9002043f8d
          */
 
         private String age_range;
@@ -78,7 +81,9 @@ public class CourseDertailBean {
         private String course_teacher;
         private String course_time;
         private String course_type;
+        private String dengji;
         private String enrol_num;
+        private String hot_time;
         private String original_price;
         private String popularity_num;
         private String preferential_price;
@@ -185,12 +190,28 @@ public class CourseDertailBean {
             this.course_type = course_type;
         }
 
+        public String getDengji() {
+            return dengji;
+        }
+
+        public void setDengji(String dengji) {
+            this.dengji = dengji;
+        }
+
         public String getEnrol_num() {
             return enrol_num;
         }
 
         public void setEnrol_num(String enrol_num) {
             this.enrol_num = enrol_num;
+        }
+
+        public String getHot_time() {
+            return hot_time;
+        }
+
+        public void setHot_time(String hot_time) {
+            this.hot_time = hot_time;
         }
 
         public String getOriginal_price() {

@@ -330,7 +330,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 startActivity(new Intent(ArtActivity.this, SearchActivity.class));
                 break;
             case R.id.tv_sort:
-
                 showCourse(view);
                 iv_bg.setVisibility(View.VISIBLE);
                 break;
@@ -487,6 +486,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         OkHttpUtils.post()
                 .url(InternetS.COURSE_RANK)
                 .addParams("course_type", flag)
+                .addParams("course_address", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -499,6 +499,8 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:148)" + response);
+                        Log.e("aaa",
+                                "(ArtActivity.java:504) city === " + city);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
@@ -522,6 +524,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         OkHttpUtils.post()
                 .url(InternetS.ORGANIZATION_RANK)
                 .addParams("mechanism_type", flag)
+                .addParams("mechanism_city", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
