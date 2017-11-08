@@ -76,7 +76,6 @@ public class ConsultAdapter extends BaseAdapter {
                 holder2 = new ViewHolder2(view);
                 view.setTag(holder2);
             } else {
-
                 view = View.inflate(context, R.layout.item_contactservice, null);
                 holder = new ViewHolder(view);
                 view.setTag(holder);

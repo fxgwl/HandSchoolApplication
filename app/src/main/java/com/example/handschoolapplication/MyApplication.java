@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.mob.MobSDK;
-import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 /**
  * Created by Administrator on 2017/7/21.
@@ -16,7 +15,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SDKInitializer.initialize(getApplicationContext());
-        ZXingLibrary.initDisplayOpinion(this);
+//        ZXingLibrary.initDisplayOpinion(this);
         MobSDK.init(this);
     }
 

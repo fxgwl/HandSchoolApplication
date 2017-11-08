@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/PhotoPicker" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/pullToRefrece" />
+            <option value="$PROJECT_DIR$/zxingibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -378,7 +378,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                 Intent intent3 = new Intent(this, HumanServiceActivity.class);
                 intent3.putExtra("type", "0");
                 intent3.putExtra("course_id", course_id);
-                intent3.putExtra("schooluid", schooluid);
+                intent3.putExtra("send_id", schooluid);
                 intent3.putExtra("name", school_name);
                 startActivity(intent3);
                 break;

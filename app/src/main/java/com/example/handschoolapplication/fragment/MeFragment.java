@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.AllCourseActivity;
 import com.example.handschoolapplication.activity.GradeActivity;
+import com.example.handschoolapplication.activity.HelpActivity;
 import com.example.handschoolapplication.activity.LearningActivity;
 import com.example.handschoolapplication.activity.MyBroswerActivity;
 import com.example.handschoolapplication.activity.MyDiscountcouponActivity;
@@ -32,8 +32,6 @@ import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -187,7 +185,7 @@ public class MeFragment extends BaseFragment {
 
     @OnClick({R.id.iv_edit, R.id.ll_course_all, R.id.ll_islearning, R.id.ll_unpay, R.id.ll_isevaluate,
             R.id.tv_more, R.id.iv_more, R.id.ll_scan, R.id.ll_evaluate, R.id.ll_broswer, R.id.ll_love,
-            R.id.ll_discountcoupon, R.id.iv_settings, R.id.ll_dengji, R.id.civ_usericon,R.id.rl_sign})
+            R.id.ll_discountcoupon, R.id.iv_settings, R.id.ll_dengji, R.id.civ_usericon,R.id.rl_sign,R.id.ll_help})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_edit://编辑
@@ -213,8 +211,8 @@ public class MeFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), MyOrderActivity.class).putExtra("flag", "all"));
                 break;
             case R.id.ll_scan://扫一扫
-                Intent intent = new Intent(getActivity(), CaptureActivity.class);
-                startActivityForResult(intent, REQUEST_CODE);
+//                Intent intent = new Intent(getActivity(), CaptureActivity.class);
+//                startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.ll_evaluate://评价
                 startActivity(new Intent(getActivity(), MyEvaluateActivity.class));
@@ -239,6 +237,9 @@ public class MeFragment extends BaseFragment {
             case R.id.civ_usericon:
                 startActivity(new Intent(getActivity(), MyInformationActivity.class));
                 break;
+            case R.id.ll_help:
+                startActivity(new Intent(getActivity(), HelpActivity.class));
+                break;
 
         }
     }
@@ -253,12 +254,12 @@ public class MeFragment extends BaseFragment {
                 if (bundle == null) {
                     return;
                 }
-                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    Toast.makeText(getActivity(), "解析结果:" + result, Toast.LENGTH_LONG).show();
-                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
-                }
+//                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+//                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+//                    Toast.makeText(getActivity(), "解析结果:" + result, Toast.LENGTH_LONG).show();
+//                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+//                    Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
+//                }
             }
         }
     }

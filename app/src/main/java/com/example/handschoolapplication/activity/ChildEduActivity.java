@@ -116,7 +116,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
     private TextView tvFarRank;
     private TextView tvSure;
     private TextView tvOrganizationRank;
-    private boolean isCourse = true;
+    private boolean isCourse = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +145,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
 
         baiduMap.setOnMapClickListener(listener);
         listView.setOnItemClickListener(this);
-
+        rbSearchType.setChecked(false);
         rbSearchType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -781,6 +781,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", flag)
+                .addParams("course_address", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -856,6 +857,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", flag)
+                .addParams("course_address", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override

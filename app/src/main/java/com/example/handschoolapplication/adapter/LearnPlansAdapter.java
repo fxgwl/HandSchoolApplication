@@ -6,12 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.CarListBean;
 import com.example.handschoolapplication.bean.GroupInfo;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.util.List;
 import java.util.Map;
@@ -95,6 +99,8 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
             convertView = View.inflate(context, R.layout.item_plan_list_lv, null);
             gholder.cb_check = (CheckBox) convertView.findViewById(R.id.cb_select_all);
             gholder.tv_group_name = (TextView) convertView.findViewById(R.id.tv_listname);
+            gholder.llClass = (LinearLayout) convertView.findViewById(R.id.ll_class);
+
             convertView.setTag(gholder);
         } else {
             gholder = (GroupHolder) convertView.getTag();
@@ -113,7 +119,15 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
                 }
             });
             gholder.cb_check.setChecked(group.isChoosed());
+            gholder.llClass.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "groupPosition"+groupPosition, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
+
+
         return convertView;
     }
 
@@ -132,8 +146,11 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
             cholder.iv_decrease = (TextView) convertView.findViewById(R.id.tv_sub);//课程数量减少
             cholder.tv_count = (TextView) convertView.findViewById(R.id.tv_num);//课程数量
             cholder.ll_num = (LinearLayout) convertView.findViewById(R.id.ll_number);
+            cholder.iv_imag = (ImageView) convertView.findViewById(R.id.iv_imag);
             cholder.tv_editnum = (TextView) convertView.findViewById(R.id.tv_editnum);
             cholder.ll_edit_num = (LinearLayout) convertView.findViewById(R.id.ll_edit_num);
+            cholder.ll_course = (LinearLayout) convertView.findViewById(R.id.ll_course);
+
 
             // childrenMap.put(groupPosition, convertView);
             convertView.setTag(cholder);
@@ -159,6 +176,7 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
             cholder.tv_price.setText("价格：¥" + product.getOrder_money() + "");
             cholder.tv_count.setText(TextUtils.isEmpty(product.getCourse_num()) ? 0 + "" : product.getCourse_num());
             cholder.cb_check.setChecked(product.isChoosed());
+            Glide.with(context).load(Internet.BASE_URL + product.getClass_photo()).centerCrop().into(cholder.iv_imag);
             cholder.cb_check.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -179,6 +197,12 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
                 public void onClick(View v) {
                     modifyCountInterface.doDecrease(groupPosition, childPosition, cholder.tv_count, cholder.cb_check.isChecked());// 暴露删减接口
                     cholder.tv_editnum.setText(cholder.tv_count.getText().toString());
+                }
+            });
+            cholder.ll_course.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "childPosition==="+childPosition, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -215,6 +239,7 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
     private class GroupHolder {
         CheckBox cb_check;
         TextView tv_group_name;
+        LinearLayout llClass;
     }
 
     /**
@@ -230,8 +255,11 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
         TextView iv_increase;
         TextView tv_count;
         TextView iv_decrease;
+        ImageView iv_imag;
         LinearLayout ll_num;
         LinearLayout ll_edit_num;
+        LinearLayout ll_course;
+
     }
 
     /**

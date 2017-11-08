@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -99,7 +98,7 @@ public class HelpActivity extends BaseActivity {
             //联系客服
             case R.id.ll_help_service:
                 Intent intent = new Intent(HelpActivity.this, HumanServiceActivity.class);
-                intent.putExtra("type", "1");
+                intent.putExtra("type", "2");
                 startActivity(intent);
                 break;
             //意见反馈

@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
@@ -20,6 +19,7 @@ import com.example.handschoolapplication.activity.ClassActivity;
 import com.example.handschoolapplication.activity.CommentManagerActivity;
 import com.example.handschoolapplication.activity.DealManagerActivity;
 import com.example.handschoolapplication.activity.MyAccountActivity;
+import com.example.handschoolapplication.activity.QRCodeActivity;
 import com.example.handschoolapplication.activity.SchoolInformationActivity;
 import com.example.handschoolapplication.activity.SettingsActivity;
 import com.example.handschoolapplication.base.BaseFragment;
@@ -27,8 +27,6 @@ import com.example.handschoolapplication.bean.SchoolInfoBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -190,8 +188,8 @@ public class MeComFragment extends BaseFragment {
             case R.id.iv_edit://编辑
                 break;
             case R.id.ll_scan://扫一扫
-                Intent intent = new Intent(getActivity(), CaptureActivity.class);
-                startActivityForResult(intent, REQUEST_CODE);
+//                Intent intent = new Intent(getActivity(), CaptureActivity.class);
+//                startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.ll_my_class://我的学堂
                 startActivity(new Intent(getActivity(), ClassActivity.class).putExtra("school_id", school_id));
@@ -209,6 +207,7 @@ public class MeComFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), CommentManagerActivity.class));
                 break;
             case R.id.ll_code:
+                startActivity(new Intent(getActivity(), QRCodeActivity.class));
                 break;
             case R.id.civ_usericon:
                 startActivity(new Intent(getActivity(), SchoolInformationActivity.class));
@@ -226,12 +225,12 @@ public class MeComFragment extends BaseFragment {
                 if (bundle == null) {
                     return;
                 }
-                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    Toast.makeText(getActivity(), "解析结果:" + result, Toast.LENGTH_LONG).show();
-                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
-                }
+//                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+//                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+//                    Toast.makeText(getActivity(), "解析结果:" + result, Toast.LENGTH_LONG).show();
+//                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+//                    Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
+//                }
             }
         }
     }

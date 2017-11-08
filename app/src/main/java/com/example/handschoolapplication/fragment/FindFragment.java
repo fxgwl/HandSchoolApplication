@@ -39,6 +39,7 @@ import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.ClassSortBean;
 import com.example.handschoolapplication.bean.CourseSortBean;
 import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -130,7 +131,8 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         findCourseList = new ArrayList<>();
         findClassList = new ArrayList<>();
         findCourseAdapter = new FindCourseAdapter(findCourseList, getActivity());
-        findClassAdapter = new FindClassAdapter(getActivity(), findClassList);
+        findClassAdapter = new FindClassAdapter(getActivity(),findClassList);
+        city = (String) SPUtils.get(getActivity(),"city","");
         map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         map.setMyLocationEnabled(true);
         mLocClient = new LocationClient(getActivity());
@@ -201,6 +203,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         OkHttpUtils.post()
                 .url(InternetS.COURSE_RANK)
                 .addParams("course_type", "")
+                .addParams("course_address", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -232,7 +235,6 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 });
 
     }
-
     private void initLvClassData() {
         findClassList.clear();
         OkHttpUtils.post()

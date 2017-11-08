@@ -7,5 +7,5 @@
         android:state_checked="true"/>
     <!-- 默认为黑色 -->
     <item
-        android:color="@color/grgray"/>
+        android:color="@color/colorgrey"/>
 </selector>

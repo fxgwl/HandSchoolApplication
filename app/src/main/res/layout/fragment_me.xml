@@ -230,7 +230,7 @@
             android:layout_width="0.5dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:background="@color/grgray"/>
+            android:background="@color/colorgrey"/>
 
         <LinearLayout
             android:id="@+id/ll_unpay"
@@ -447,6 +447,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_help"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

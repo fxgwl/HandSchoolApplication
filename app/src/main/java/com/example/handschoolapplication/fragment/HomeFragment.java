@@ -83,7 +83,7 @@ import static com.example.handschoolapplication.R.id.iv_sign;
 public class HomeFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
 
-//    @BindView(R.id.tv_location)
+    //    @BindView(R.id.tv_location)
 //    TextView tvLocation;
     @BindView(R.id.et_search)
     TextView etSearch;
@@ -184,15 +184,15 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     private ArrayList<String> typeones;
     public LocationClient mLocationClient = null;
     public MyLocationListener myListener = new MyLocationListener();
-    private String city= "";
+    private String city = "";
     private double[] locations;
     private boolean isLogin;
 
-    private ScaleAnimation sato0 = new ScaleAnimation(1,0,1,1,
-            Animation.RELATIVE_TO_PARENT,0.5f,Animation.RELATIVE_TO_PARENT,0.5f);
+    private ScaleAnimation sato0 = new ScaleAnimation(1, 0, 1, 1,
+            Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0.5f);
 
-    private ScaleAnimation sato1 = new ScaleAnimation(0,1,1,1,
-            Animation.RELATIVE_TO_PARENT,0.5f,Animation.RELATIVE_TO_PARENT,0.5f);
+    private ScaleAnimation sato1 = new ScaleAnimation(0, 1, 1, 1,
+            Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0.5f);
 
     public HomeFragment() {
         // Required empty public constructor
@@ -212,9 +212,9 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                     initOrgan("家教", classBeanList3, classAdapter3, lvHomelearnName);
                     break;
                 case 3:
-                        if (null!=tvLocation){
-                            tvLocation.setText(city);
-                        }
+                    if (null != tvLocation) {
+                        tvLocation.setText(city);
+                    }
                     break;
                 case 2:
                     locations = (double[]) msg.obj;
@@ -252,7 +252,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = super.onCreateView(inflater,container,savedInstanceState);
+        view = super.onCreateView(inflater, container, savedInstanceState);
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         marqueeView = (MarqueeView) view.findViewById(R.id.marqueeView);
         user_id = (String) SPUtils.get(getActivity(), "userId", "");
@@ -293,11 +293,11 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         });
         return view;
     }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_home;
     }
-
 
 
     //判断签到  后台需要  前台没用
@@ -325,7 +325,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         OkHttpUtils.post()
                 .url(Internet.ORGANLIST)
                 .addParams("mechanism_type", type)
-                .addParams("mechanism_city",city)
+                .addParams("mechanism_city", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -338,8 +338,8 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                         Log.e("aaa",
                                 "(HomeFragment.java:217)" + type + "===" + response);
 
-                        if (response.contains("没有信息")){
-                        }else {
+                        if (response.contains("没有信息")) {
+                        } else {
                             switch (type) {
                                 case "早教":
                                     mHandler.sendEmptyMessage(0);
@@ -385,7 +385,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                         for (int i = 0; i < homeClassType.getData().size(); i++) {
                             typeones.add(homeClassType.getData().get(i).getType_one_name());
                             ArrayList<String> typetwos = new ArrayList<String>();
-                            if (null!=homeClassType.getData().get(i).getTypeTwoInfo()){
+                            if (null != homeClassType.getData().get(i).getTypeTwoInfo()) {
                                 for (int m = 0; m < homeClassType.getData().get(i).getTypeTwoInfo().size(); m++) {
                                     typetwos.add(homeClassType.getData().get(i).getTypeTwoInfo().get(m).getType_two_name());
                                 }
@@ -398,7 +398,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                         //初始化第二个列表
                         initHLArtData(typetwolist.get(0));
                         initHLLearnData(typetwolist.get(1));
-                        if (typetwolist.size()>2){
+                        if (typetwolist.size() > 2) {
                             initHLActivityData(typetwolist.get(2));
                         }
                     }
@@ -526,6 +526,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
             OkHttpUtils.post()
                     .url(Internet.COURSELIST)
                     .addParams("course_type", typetwolist.get(2).get(0))
+                    .addParams("course_address", city)
                     .build()
                     .execute(new StringCallback() {
                         @Override
@@ -538,7 +539,9 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                         @Override
                         public void onResponse(String response, int id) {
                             Log.e("aaa",
-                                    "(HomeFragment.java:425)" + response);
+                                    "(HomeFragment.java:542)" + response);
+                            Log.e("aaa",
+                                    "(HomeFragment.java:544)city===" + city);
                             courseBeanList3.clear();
                             Gson gson = new Gson();
                             if (response.contains("没有信息") || TextUtils.isEmpty(response)) {
@@ -555,6 +558,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                 OkHttpUtils.post()
                                         .url(Internet.COURSELIST)
                                         .addParams("course_type", typetwolist.get(1).get(0))
+                                        .addParams("course_address", city)
                                         .build()
                                         .execute(new StringCallback() {
                                             @Override
@@ -567,8 +571,10 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                             @Override
                                             public void onResponse(String response, int id) {
                                                 Log.e("aaa",
-                                                        "(HomeFragment.java:425)" + response);
+                                                        "(HomeFragment.java:573)" + response);
 
+                                                Log.e("aaa",
+                                                        "(HomeFragment.java:577)city==" + city);
                                                 courseBeanList2.clear();
                                                 Gson gson = new Gson();
                                                 if (response.contains("没有信息") || TextUtils.isEmpty(response)) {
@@ -584,6 +590,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                                     OkHttpUtils.post()
                                                             .url(Internet.COURSELIST)
                                                             .addParams("course_type", typetwolist.get(0).get(0))
+                                                            .addParams("course_address", city)
                                                             .build()
                                                             .execute(new StringCallback() {
                                                                 @Override
@@ -596,7 +603,9 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                                                 @Override
                                                                 public void onResponse(String response, int id) {
                                                                     Log.e("aaa",
-                                                                            "(HomeFragment.java:425)" + response);
+                                                                            "(HomeFragment.java:603)" + response);
+                                                                    Log.e("aaa",
+                                                                            "(HomeFragment.java:608)city====" + city);
                                                                     courseBeanList1.clear();
                                                                     Gson gson = new Gson();
                                                                     if (response.contains("没有信息") || TextUtils.isEmpty(response)) {
@@ -641,6 +650,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", s)
+                .addParams("course_address", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -653,7 +663,9 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(HomeFragment.java:425)" + response);
+                                "(HomeFragment.java:659)" + response);
+                        Log.e("aaa",
+                                "(HomeFragment.java:664)city=====" + city);
                         list.clear();
                         Gson gson = new Gson();
                         if (response.contains("没有信息") || TextUtils.isEmpty(response)) {
@@ -688,7 +700,6 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     }
 
 
-
     @OnClick({R.id.iv_search, R.id.ll_sign_in, R.id.rl_style_art, R.id.rl_learn_help, R.id.rl_activity,
             R.id.rl_child_edu, R.id.rl_trusteeship, R.id.rl_family_edu,
             R.id.tv_more_art, R.id.tv_more_learn, R.id.tv_more_activity,
@@ -701,7 +712,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
             case R.id.ll_sign_in://签到
 //                城市根据定位重新调整
                 ivSign.startAnimation(sato0);
-                if (isLogin){
+                if (isLogin) {
                     OkHttpUtils.post()
                             .url(Internet.SIGN)
                             .addParams("user_id", user_id)
@@ -730,8 +741,8 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                     }
                                 }
                             });
-                }else {
-                    startActivity(new Intent(getActivity(),LoginActivity.class));
+                } else {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
                     getActivity().finish();
                 }
 
@@ -935,6 +946,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
             Log.e("描述：", sb.toString());
 
             city = location.getCity();
+            SPUtils.put(getActivity(),"city",city);
             double[] locations = new double[2];
             locations[0] = location.getLatitude();//纬度
             locations[1] = location.getLongitude();//经度

@@ -6,6 +6,7 @@
               android:orientation="horizontal">
 
     <LinearLayout
+        android:id="@+id/ll_course"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -16,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp" />
 
         <ImageView
             android:id="@+id/iv_imag"
@@ -25,7 +26,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="17dp"
             android:scaleType="fitXY"
-            android:src="@drawable/kecheng"/>
+            android:src="@drawable/kecheng" />
 
         <LinearLayout
             android:layout_width="120dp"
@@ -35,7 +36,7 @@
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -46,30 +47,30 @@
                 android:maxLines="1"
                 android:text="课程名称"
                 android:textColor="@color/textcolor"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="价格：¥500"/>
+                android:text="价格：¥500" />
 
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
         </LinearLayout>
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <LinearLayout
             android:id="@+id/ll_edit_num"
@@ -87,12 +88,12 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="－"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#999999"/>
+                android:background="#999999" />
 
             <TextView
                 android:id="@+id/tv_num"
@@ -100,19 +101,19 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="1"/>
+                android:text="1" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#999999"/>
+                android:background="#999999" />
 
             <TextView
                 android:id="@+id/tv_add"
                 android:layout_width="27dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="＋"/>
+                android:text="＋" />
         </LinearLayout>
 
         <LinearLayout
@@ -130,15 +131,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="x"
-                android:textColor="#ff00"
-                />
+                android:textColor="#ff00" />
 
             <TextView
                 android:id="@+id/tv_editnum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1"
-                android:textColor="#ff00"/>
+                android:textColor="#ff00" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

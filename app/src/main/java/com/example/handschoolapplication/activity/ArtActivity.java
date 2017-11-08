@@ -65,6 +65,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+import static com.example.handschoolapplication.R.id.rb_search_type;
+
 public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewInterface, View.OnClickListener, AdapterView.OnItemClickListener {
 
     @BindView(R.id.tv_title)
@@ -77,7 +79,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
     ImageView iv_bg;
     @BindView(R.id.map_view)
     MapView mapView;
-    @BindView(R.id.rb_search_type)
+    @BindView(rb_search_type)
     CheckBox rbSearchType;
     @BindView(R.id.ll_parent)
     LinearLayout llParent;
@@ -254,6 +256,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", sort)
+                .addParams("course_address",city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -776,6 +779,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", flag)
+                .addParams("course_address", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -851,6 +855,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", flag)
+                .addParams("course_address", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
