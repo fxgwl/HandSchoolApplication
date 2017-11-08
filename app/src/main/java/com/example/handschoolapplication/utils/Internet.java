@@ -28,9 +28,9 @@ public class Internet {
     public static final String FORGOTPWD = BASE_URL + "UserInfo/forgetpwd";
 
     //----------------三方登录----------------------
-    public static final String WECHAT_LOGIN = BASE_URL+"UserInfo/weixin";
-    public static final String SINA_WEIBO_LOGIN = BASE_URL+"UserInfo/weibo";
-    public static final String QQ_LOGIN = BASE_URL+"UserInfo/qq";
+    public static final String WECHAT_LOGIN = BASE_URL + "UserInfo/weixin";
+    public static final String SINA_WEIBO_LOGIN = BASE_URL + "UserInfo/weibo";
+    public static final String QQ_LOGIN = BASE_URL + "UserInfo/qq";
 
 
     //========
@@ -152,9 +152,16 @@ public class Internet {
 
     //--------------------昝宏伟---------------------->
     //根据一级类型名称查二级类型
-    public static final String GET_SECOND = BASE_URL+"TypeTwoInfo/listTypeOne";
+    public static final String GET_SECOND = BASE_URL + "TypeTwoInfo/listTypeOne";
     //根据二级类型名称查三级类型
-    public static final String GET_THIRD = BASE_URL+"TypeThreeInfo/listTypeOne";
+    public static final String GET_THIRD = BASE_URL + "TypeThreeInfo/listTypeOne";
 
 
+    //---------------------------------------cc
+    //报名信息详情
+    public static final String BMINFO = BASE_URL + "ClassSign/listsign";
+    //发消息单发
+    public static final String SINGLENEWS = BASE_URL + "ClassSign/single";
+    //发消息群发
+    public static final String ALLNEWS = BASE_URL + "ClassSign/mass";
 }

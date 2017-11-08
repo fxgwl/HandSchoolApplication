@@ -130,7 +130,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         findCourseList = new ArrayList<>();
         findClassList = new ArrayList<>();
         findCourseAdapter = new FindCourseAdapter(findCourseList, getActivity());
-        findClassAdapter = new FindClassAdapter(getActivity(),findClassList);
+        findClassAdapter = new FindClassAdapter(getActivity(), findClassList);
         map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         map.setMyLocationEnabled(true);
         mLocClient = new LocationClient(getActivity());
@@ -232,6 +232,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 });
 
     }
+
     private void initLvClassData() {
         findClassList.clear();
         OkHttpUtils.post()

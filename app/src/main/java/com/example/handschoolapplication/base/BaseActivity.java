@@ -160,7 +160,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        super.onSaveInstanceState(outState, outPersistentState);
     }
 
-    public void showShare(String title,String text,String imageUrl,String url) {
+    public void showShare(String title, String text, String imageUrl, String url) {
         OnekeyShare oks = new OnekeyShare();
         oks.addHiddenPlatform(WechatFavorite.NAME);
         oks.addHiddenPlatform(TencentWeibo.NAME);

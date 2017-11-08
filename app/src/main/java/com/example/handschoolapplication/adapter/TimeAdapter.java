@@ -66,9 +66,10 @@ public class TimeAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
+        holder.tvTime.setText(mlist.get(position).getTime());
         holder.tvTime.setChecked(mlist.get(position).isChecked());
         Log.e("aaa",
-            "(TimeAdapter.java:71)"+mlist.toString());
+                "(TimeAdapter.java:71)" + mlist.toString());
         holder.tvTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override

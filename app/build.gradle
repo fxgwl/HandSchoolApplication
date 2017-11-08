@@ -94,9 +94,9 @@ dependencies {
     compile files('src/main/libs/ShareSDK-Wechat-Core-3.1.0.jar')
     compile files('src/main/libs/ShareSDK-Wechat-Favorite-3.1.0.jar')
     compile files('src/main/libs/ShareSDK-Wechat-Moments-3.1.0.jar')
+
+
     compile 'com.smarttop:jd-address:1.1.0'
-
-
     compile 'com.smarttop:jd-address:1.1.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'

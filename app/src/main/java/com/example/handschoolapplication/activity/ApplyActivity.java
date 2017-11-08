@@ -183,7 +183,8 @@ public class ApplyActivity extends BaseActivity implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(this, TimeChooseActivity.class));
+        startActivity(new Intent(this, TimeChooseActivity.class)
+                .putExtra("course_id", mList.get(position).getCourse_id()));
     }
 
     //开课
