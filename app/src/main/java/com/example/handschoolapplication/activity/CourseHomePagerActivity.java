@@ -267,6 +267,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                 break;
             case R.id.course_classdetail://课程详情
                 Intent intent = new Intent(this, CourseDetailActivity.class);
+                intent.putExtra("courseId",course_id);
                 startActivity(intent);
                 break;
             case R.id.course_allpingjia_btn:

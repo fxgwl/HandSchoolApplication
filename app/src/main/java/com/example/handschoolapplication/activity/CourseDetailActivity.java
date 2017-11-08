@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,7 +49,9 @@ public class CourseDetailActivity extends BaseActivity {
         CdDetailFragment cdDetailFragment = new CdDetailFragment();
         CdPingJiaFragment cdPingJiaFragment = new CdPingJiaFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("courseId",courseId );
+        Log.e("aaa",
+                "(CourseDetailActivity.java:52)" + courseId);
+        bundle.putString("courseId", courseId);
         cdDetailFragment.setArguments(bundle);
         cdPingJiaFragment.setArguments(bundle);
         fragments = new Fragment[]{cdDetailFragment, cdPingJiaFragment};
@@ -60,12 +63,12 @@ public class CourseDetailActivity extends BaseActivity {
         //添加首页
         ft.add(R.id.content, cdDetailFragment).commit();
         //默认设置为第0个
-        if ("chp".equals(getIntent().getStringExtra("from"))){
+        if ("chp".equals(getIntent().getStringExtra("from"))) {
             tv1.setVisibility(View.INVISIBLE);
             tv2.setVisibility(View.VISIBLE);
             setIndexSelected(1);
-        }else
-        setIndexSelected(0);
+        } else
+            setIndexSelected(0);
     }
 
     @OnClick({R.id.rl_back, R.id.tv_cd_detail, R.id.tv_cd_pingjia, R.id.iv_cd_more})
@@ -85,6 +88,7 @@ public class CourseDetailActivity extends BaseActivity {
                 setIndexSelected(1);
                 break;
             case R.id.iv_cd_more:
+                show(view);
                 break;
         }
     }
