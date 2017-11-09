@@ -1,21 +1,23 @@
 package com.example.handschoolapplication.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.example.handschoolapplication.utils.SPUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
+import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
 
 public class QRCodeActivity extends BaseActivity {
@@ -25,15 +27,24 @@ public class QRCodeActivity extends BaseActivity {
     @BindView(R.id.iv_qrcode)
     ImageView ivQrcode;
 
+    String text="";
+    private String school_id;
+    private String flag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        school_id = (String) SPUtils.get(this, "school_id", "");
+        flag = getIntent().getStringExtra("flag");
         tvTitle.setText("学堂二维码");
-//        generate();
-        ;
-
-        ivQrcode.setImageBitmap(encodeAsBitmap("shdaksnsakjsdasd"));
+//        createChineseQRCode(text);
+        if (flag.equals("CC"))
+        createChineseQRCodeWithLogo(school_id);
+        else {
+            String learnCode = getIntent().getStringExtra("learnCode");
+            createChineseQRCode(learnCode);
+        }
     }
 
     @Override
@@ -53,82 +64,49 @@ public class QRCodeActivity extends BaseActivity {
         }
     }
 
-    private Bitmap encodeAsBitmap(String str) {
-        Bitmap bitmap = null;
-        BitMatrix result = null;
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        try {
-            result = multiFormatWriter.encode(str, BarcodeFormat.QR_CODE, 400, 400);
-            // 使用 ZXing Android Embedded 要写的代码
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            bitmap = barcodeEncoder.createBitmap(result);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException iae) { // ?
-            return null;
-        }
+    private void createChineseQRCode(final String text) {
+        /*
+        这里为了偷懒，就没有处理匿名 AsyncTask 内部类导致 Activity 泄漏的问题
+        请开发在使用时自行处理匿名内部类导致Activity内存泄漏的问题，处理方式可参考 https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md
+         */
+        new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                return QRCodeEncoder.syncEncodeQRCode("lc"+text, BGAQRCodeUtil.dp2px(QRCodeActivity.this, 200));
+            }
 
-        return bitmap;
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                if (bitmap != null) {
+                    ivQrcode.setImageBitmap(bitmap);
+                } else {
+                    Toast.makeText(QRCodeActivity.this, "生成中文二维码失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 
-//    private Bitmap generateBitmap(String content, int width, int height) {
-//        QRCodeWriter qrCodeWriter = new QRCodeWriter();
-//        Map<EncodeHintType, String> hints = new HashMap<>();
-//        hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-//        try {
-//            BitMatrix encode = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, width, height, hints);
-//            int[] pixels = new int[width * height];
-//            for (int i = 0; i < height; i++) {
-//                for (int j = 0; j < width; j++) {
-//                    if (encode.get(j, i)) {
-//                        pixels[i * width + j] = 0x00000000;
-//                    } else {
-//                        pixels[i * width + j] = 0xffffffff;
-//                    }
-//                }
-//            }
-//            return Bitmap.createBitmap(pixels, 0, width, width, height, Bitmap.Config.RGB_565);
-//        } catch (WriterException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+    private void createChineseQRCodeWithLogo(final String text) {
+        /*
+        这里为了偷懒，就没有处理匿名 AsyncTask 内部类导致 Activity 泄漏的问题
+        请开发在使用时自行处理匿名内部类导致Activity内存泄漏的问题，处理方式可参考 https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md
+         */
+        new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                Bitmap logoBitmap = BitmapFactory.decodeResource(QRCodeActivity.this.getResources(), R.mipmap.logo);
+                return QRCodeEncoder.syncEncodeQRCode("xt"+text, BGAQRCodeUtil.dp2px(QRCodeActivity.this, 200), Color.parseColor("#27acf6"), logoBitmap);
+            }
 
-//    public void generate() {
-//        Bitmap qrBitmap = generateBitmap("http://www.csdn.net",400, 400);
-//        ivQrcode.setImageBitmap(qrBitmap);
-//    }
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                if (bitmap != null) {
+                    ivQrcode.setImageBitmap(bitmap);
+                } else {
+                    Toast.makeText(QRCodeActivity.this, "生成带logo的中文二维码失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
 
-//    /**
-//     * 添加logo
-//     * @param qrBitmap
-//     * @param logoBitmap
-//     * @return
-//     */
-//    private Bitmap addLogo(Bitmap qrBitmap, Bitmap logoBitmap) {
-//        int qrBitmapWidth = qrBitmap.getWidth();
-//        int qrBitmapHeight = qrBitmap.getHeight();
-//        int logoBitmapWidth = logoBitmap.getWidth();
-//        int logoBitmapHeight = logoBitmap.getHeight();
-//        Bitmap blankBitmap = Bitmap.createBitmap(qrBitmapWidth, qrBitmapHeight, Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(blankBitmap);
-//        canvas.drawBitmap(qrBitmap, 0, 0, null);
-//        canvas.save(Canvas.ALL_SAVE_FLAG);
-//        float scaleSize = 1.0f;
-//        while ((logoBitmapWidth / scaleSize) > (qrBitmapWidth / 5) || (logoBitmapHeight / scaleSize) > (qrBitmapHeight / 5)) {
-//            scaleSize *= 2;
-//        }
-//        float sx = 1.0f / scaleSize;
-//        canvas.scale(sx, sx, qrBitmapWidth / 2, qrBitmapHeight / 2);
-//        canvas.drawBitmap(logoBitmap, (qrBitmapWidth - logoBitmapWidth) / 2, (qrBitmapHeight - logoBitmapHeight) / 2, null);
-//        canvas.restore();
-//        return blankBitmap;
-//    }
-//
-//    public void generateWithLoge() {
-//        Bitmap qrBitmap = generateBitmap("http://www.csdn.net",400, 400);
-//        Bitmap logoBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-//        Bitmap bitmap = addLogo(qrBitmap, logoBitmap);
-//        ivQrcode.setImageBitmap(bitmap);
-//    }
 }

@@ -1,110 +1,194 @@
 package com.example.handschoolapplication.activity;
 
-import android.content.pm.PackageManager;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+import android.os.Vibrator;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
-import com.journeyapps.barcodescanner.CaptureManager;
-import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+import com.example.handschoolapplication.base.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity;
+import cn.bingoogolapple.qrcode.core.QRCodeView;
+import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder;
+import cn.bingoogolapple.qrcode.zxing.ZXingView;
 
-public class ScanQRCodeActivity extends AppCompatActivity implements DecoratedBarcodeView.TorchListener{ // 实现相关接口
-    // 添加一个按钮用来控制闪光灯，同时添加两个按钮表示其他功能，先用Toast表示
 
-    @BindView(R.id.btn_switch)
-    Button swichLight;
-    @BindView(R.id.btn_hint1) Button hint1Show;
-    @BindView(R.id.btn_hint2) Button hint2Show;
-    @BindView(R.id.dbv_custom) DecoratedBarcodeView mDBV;
+public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Delegate { // 实现相关接口
+    private static final String TAG = ScanQRCodeActivity.class.getSimpleName();
+    private static final int REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY = 666;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
 
-    private CaptureManager captureManager;
-    private boolean isLightOn = false;
+    private QRCodeView mQRCodeView;
+    //区分扫描二维码是干什么的
+    private String flag;//0 去学堂
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        captureManager.onPause();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        tvTitle.setText("二维码扫描");
+
+        flag = getIntent().getStringExtra("flag");
+
+        mQRCodeView = (ZXingView) findViewById(R.id.zxingview);
+        mQRCodeView.startSpot();
+        mQRCodeView.changeToScanQRCodeStyle();
+        mQRCodeView.setDelegate(this);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        captureManager.onResume();
+    public int getContentViewId() {
+        return R.layout.activity_custom_scan;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mQRCodeView.startCamera();
+//        mQRCodeView.startCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
+
+        mQRCodeView.showScanRect();
+    }
+
+    @Override
+    protected void onStop() {
+        mQRCodeView.stopCamera();
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
+        mQRCodeView.onDestroy();
         super.onDestroy();
-        captureManager.onDestroy();
+    }
+
+    //震动
+    private void vibrate() {
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(200);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        captureManager.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return mDBV.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_scan);
-        ButterKnife.bind(this);
-
-        mDBV.setTorchListener(this);
-
-        // 如果没有闪光灯功能，就去掉相关按钮
-        if(!hasFlash()) {
-            swichLight.setVisibility(View.GONE);
+    public void onScanQRCodeSuccess(String result) {
+        Log.i(TAG, "result:" + result);
+        vibrate();
+        if ("0".equals(flag)){
+            String[] split = result.split(",");
+            if ("xt".equals(split[0])){
+                startActivity(new Intent(this,ClassActivity.class).putExtra("school_id",result));
+            }else {
+                Toast.makeText(this, "扫描结果："+result, Toast.LENGTH_SHORT).show();
+            }
         }
-
-        //重要代码，初始化捕获
-        captureManager = new CaptureManager(this,mDBV);
-        captureManager.initializeFromIntent(getIntent(),savedInstanceState);
-        captureManager.decode();
-    }
-
-    // torch 手电筒
-    @Override
-    public void onTorchOn() {
-        Toast.makeText(this,"torch on",Toast.LENGTH_LONG).show();
-        isLightOn = true;
+        mQRCodeView.stopSpot();
+        ScanQRCodeActivity.this.finish();
     }
 
     @Override
-    public void onTorchOff() {
-        Toast.makeText(this,"torch off",Toast.LENGTH_LONG).show();
-        isLightOn = false;
+    public void onScanQRCodeOpenCameraError() {
+        Log.e(TAG, "打开相机出错");
     }
 
-    // 判断是否有闪光灯功能
-    private boolean hasFlash() {
-        return getApplicationContext().getPackageManager()
-                .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-    }
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.start_spot:
+//                mQRCodeView.startSpot();
+//                break;
+//            case R.id.stop_spot:
+//                mQRCodeView.stopSpot();
+//                break;
+//            case R.id.start_spot_showrect:
+//                mQRCodeView.startSpotAndShowRect();
+//                break;
+//            case R.id.stop_spot_hiddenrect:
+//                mQRCodeView.stopSpotAndHiddenRect();
+//                break;
+//            case R.id.show_rect:
+//                mQRCodeView.showScanRect();
+//                break;
+//            case R.id.hidden_rect:
+//                mQRCodeView.hiddenScanRect();
+//                break;
+//            case R.id.start_preview:
+//                mQRCodeView.startCamera();
+//                break;
+//            case R.id.stop_preview:
+//                mQRCodeView.stopCamera();
+//                break;
+//            case R.id.open_flashlight:
+//                mQRCodeView.openFlashlight();
+//                break;
+//            case R.id.close_flashlight:
+//                mQRCodeView.closeFlashlight();
+//                break;
+//            case R.id.scan_barcode:
+//                mQRCodeView.changeToScanBarcodeStyle();
+//                break;
+//            case R.id.scan_qrcode:
+//                mQRCodeView.changeToScanQRCodeStyle();
+//                break;
+//            case R.id.choose_qrcde_from_gallery:
+//                /*
+//                从相册选取二维码图片，这里为了方便演示，使用的是
+//                https://github.com/bingoogolapple/BGAPhotoPicker-Android
+//                这个库来从图库中选择二维码图片，这个库不是必须的，你也可以通过自己的方式从图库中选择图片
+//                 */
+//                startActivityForResult(BGAPhotoPickerActivity.newIntent(this, null, 1, null, false), REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY);
+//                break;
+//        }
+//    }
 
-    // 点击切换闪光灯
-    @OnClick(R.id.btn_switch)
-    public void swichLight(){
-        if(isLightOn){
-            mDBV.setTorchOff();
-        }else{
-            mDBV.setTorchOn();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mQRCodeView.showScanRect();
+
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY) {
+            final String picturePath = BGAPhotoPickerActivity.getSelectedImages(data).get(0);
+
+            /*
+            这里为了偷懒，就没有处理匿名 AsyncTask 内部类导致 Activity 泄漏的问题
+            请开发在使用时自行处理匿名内部类导致Activity内存泄漏的问题，处理方式可参考 https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md
+             */
+            new AsyncTask<Void, Void, String>() {
+                @Override
+                protected String doInBackground(Void... params) {
+                    return QRCodeDecoder.syncDecodeQRCode(picturePath);
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+                    if (TextUtils.isEmpty(result)) {
+                        Toast.makeText(ScanQRCodeActivity.this, "未发现二维码", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ScanQRCodeActivity.this, result, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }.execute();
         }
     }
 
-
+    @OnClick({R.id.rl_back, R.id.iv_menu})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.rl_back:
+                finish();
+                break;
+            case R.id.iv_menu:
+                show(view);
+                break;
+        }
+    }
 }

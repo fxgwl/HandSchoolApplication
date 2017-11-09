@@ -136,6 +136,7 @@ public class HelpActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(HelpActivity.java:137)" + response);
+
                         Gson gson = new Gson();
                         infoList.clear();
                         infoList.addAll(gson.fromJson(response, InfoBean.class).getData());

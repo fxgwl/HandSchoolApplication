@@ -96,6 +96,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="okio-1.8.0" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Alipay-Core-3.1.0" level="project" />
+    <orderEntry type="library" exported="" name="bga-zbar-1.1.9" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="runner-0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-idling-resource-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-QZone-3.1.0" level="project" />
@@ -105,13 +106,14 @@
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-3.1.0" level="project" />
     <orderEntry type="library" exported="" name="transition-25.3.0" level="project" />
     <orderEntry type="library" exported="" name="kotlin-stdlib-jre7-1.1.3-2" level="project" />
+    <orderEntry type="library" exported="" name="core-3.3.0" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-3.1.0" level="project" />
+    <orderEntry type="library" exported="" name="easypermissions-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="utilcode-1.1.5" level="project" />
     <orderEntry type="library" exported="" name="glide-transformations-2.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.annotation-api-1.2" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-3.1.0" level="project" />
-    <orderEntry type="library" exported="" name="zxing-android-embedded-3.3.0" level="project" />
     <orderEntry type="library" exported="" name="circleimageview-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Renren-3.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-compat-25.3.0" level="project" />
@@ -124,6 +126,7 @@
     <orderEntry type="library" exported="" name="support-vector-drawable-25.3.0" level="project" />
     <orderEntry type="library" exported="" name="MobTools-2017.0914.1125" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.2.37" level="project" />
+    <orderEntry type="library" exported="" name="bga-photopicker-1.2.3" level="project" />
     <orderEntry type="library" exported="" name="gson-2.8.1" level="project" />
     <orderEntry type="library" exported="" name="constraint-layout-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="MobCommons-2017.0914.1125" level="project" />
@@ -131,7 +134,7 @@
     <orderEntry type="library" exported="" name="design-25.3.0" level="project" />
     <orderEntry type="library" exported="" name="convenientbanner-2.0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-integration-1.3" level="project" />
-    <orderEntry type="library" exported="" name="core-3.2.1" level="project" />
+    <orderEntry type="library" exported="" name="bga-zxing-1.1.9" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-3.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-25.3.0" level="project" />
     <orderEntry type="library" exported="" name="BaiduLBS_Android" level="project" />
@@ -140,6 +143,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.3.0" level="project" />
     <orderEntry type="library" exported="" name="updateapputils-1.2" level="project" />
+    <orderEntry type="library" exported="" name="bga-qrcodecore-1.1.9" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Alipay-Moments-3.1.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="rules-0.5" level="project" />
@@ -148,6 +152,7 @@
     <orderEntry type="library" exported="" name="annotations-13.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="eventbus-3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="bga-adapter-1.2.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-SinaWeibo-3.1.0" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-3.1.0" level="project" />

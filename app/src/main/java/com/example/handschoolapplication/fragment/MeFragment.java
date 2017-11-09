@@ -232,7 +232,11 @@ public class MeFragment extends BaseFragment {
                         .putExtra("name", dataBean.getUser_name()));
                 break;
             case R.id.ll_dengji:
-                startActivity(new Intent(getActivity(), GradeActivity.class));
+                startActivity(new Intent(getActivity(), GradeActivity.class)
+                        .putExtra("grade",dataBean.getUser_dengji())
+                        .putExtra("integral",dataBean.getUser_integral())
+                        .putExtra("flag","per")
+                );
                 break;
             case R.id.civ_usericon:
                 startActivity(new Intent(getActivity(), MyInformationActivity.class));

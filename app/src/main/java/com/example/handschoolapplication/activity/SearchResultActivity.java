@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,10 +51,23 @@ public class SearchResultActivity extends BaseActivity {
         courseAdapter = new HPCourseAdapter(courseBeanList, this);
         classAdapter = new HPClassAdapter(this, classBeanList);
         initView();
+
+        rbSearchType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    setViewCourseData();
+                }else {
+                    setViewSchoolData();
+                }
+            }
+        });
     }
 
     private void initView() {
         etSearch.setText(search);
+        tvSearchTitle.setText("当前搜索：  "+etSearch.getText().toString());
+        setViewCourseData();
     }
 
     @Override

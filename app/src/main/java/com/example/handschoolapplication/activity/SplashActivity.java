@@ -12,8 +12,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.utils.Internet;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import util.DownloadAppUtils;
 
@@ -43,6 +46,16 @@ public class SplashActivity extends BaseActivity {
     private String localVersion;
     private File file = null;
     private ProgressDialog pd;
+
+    private String[] permissions = new String[]{
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.CALL_PHONE
+            ,Manifest.permission.READ_PHONE_STATE
+            ,Manifest.permission.ACCESS_FINE_LOCATION
+            ,Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
+    private ArrayList<String> mPermission = new ArrayList<>();
 
     Handler handler = new Handler() {
         @Override
@@ -75,6 +88,7 @@ public class SplashActivity extends BaseActivity {
     private static final int sleepTime = 2000;
     private long startTime;
     private String versions;
+    private int REQUEST_CODE_ACCESS_COARSE_LOCATION;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -83,7 +97,6 @@ public class SplashActivity extends BaseActivity {
             ScreenUtils.setTransparentStatusBar(SplashActivity.this);
         }
         super.onCreate(arg0);
-        requestPermission();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -96,24 +109,72 @@ public class SplashActivity extends BaseActivity {
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(3000);
         rootLayout.startAnimation(animation);
-
-        checkAutoLogin();
+        requestPermission();
     }
 
     private void requestPermission() {
         //判断Android版本是否大于23
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
-            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.CALL_PHONE,Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_CALL_PHONE);
-                return;
-            } else {
-                //已有权限
+
+            mPermission.clear();
+            for (int i = 0; i < permissions.length; i++) {
+                if (ContextCompat.checkSelfPermission(SplashActivity.this, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+                    mPermission.add(permissions[i]);
+                }
             }
+            if (mPermission.isEmpty()) {//未授予的权限为空，表示都授予了
+                Toast.makeText(SplashActivity.this,"已经授权",Toast.LENGTH_LONG).show();
+            } else {//请求权限方法
+                String[] permissions = mPermission.toArray(new String[mPermission.size()]);//将List转为数组
+                ActivityCompat.requestPermissions(SplashActivity.this, permissions, REQUEST_CODE_ACCESS_COARSE_LOCATION);
+            }
+
+
+
+//            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+//            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this, new String[]{
+//                        Manifest.permission.ACCESS_COARSE_LOCATION,
+//                        Manifest.permission.CALL_PHONE
+//                        ,Manifest.permission.READ_PHONE_STATE
+//                        ,Manifest.permission.ACCESS_FINE_LOCATION
+//                        ,Manifest.permission.READ_EXTERNAL_STORAGE
+//                },REQUEST_CODE_ACCESS_COARSE_LOCATION);
+//                Log.e("aaa",
+//                    "(SplashActivity.java:111)"+"请求获取权限");
+//            } else {
+//                Log.e("aaa",
+//                        "(SplashActivity.java:111)"+"已获取权限");
+//                //已有权限
+//                checkAutoLogin();
+//            }
         } else {
+            Log.e("aaa",
+                    "(SplashActivity.java:111)"+"不用获取权限");
             //API 版本在23以下
+            checkAutoLogin();
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE_ACCESS_COARSE_LOCATION) {
+
+            Log.e("aaa",
+                "(SplashActivity.java:136)grantResults.length   "+grantResults.length);
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    //判断是否勾选禁止后不再询问
+                    boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(SplashActivity.this, permissions[i]);
+                    if (showRequestPermission) {
+//                        Toast.makeText(this, "权限未申请", Toast.LENGTH_SHORT).show();
+                        requestPermission();
+                    }
+                }
+            }
+            checkAutoLogin();
+        }
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

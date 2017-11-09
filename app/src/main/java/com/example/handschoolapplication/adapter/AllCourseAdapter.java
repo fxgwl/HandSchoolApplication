@@ -26,6 +26,8 @@ public class AllCourseAdapter extends BaseAdapter {
     private Context context;
     private int size = 0;
 
+    private OnClickLearnCodeListener listener;
+
 
     public AllCourseAdapter(List<LearningCourseBean> mList, Context context) {
         this.mList = mList;
@@ -54,7 +56,7 @@ public class AllCourseAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
 
         ViewHolder holder = null;
         if (view == null) {
@@ -97,6 +99,14 @@ public class AllCourseAdapter extends BaseAdapter {
                 Toast.makeText(context, "签到成功", Toast.LENGTH_SHORT).show();
             }
         });
+
+        holder.llLearnCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(context, "dbsadbsahjdbjksad", Toast.LENGTH_SHORT).show();
+                listener.setLearnCode(position);
+            }
+        });
         return view;
     }
 
@@ -131,5 +141,13 @@ public class AllCourseAdapter extends BaseAdapter {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface OnClickLearnCodeListener{
+        void setLearnCode(int position);
+    }
+
+    public void setOnClickLearnCodeListener(OnClickLearnCodeListener listener){
+       this.listener = listener;
     }
 }

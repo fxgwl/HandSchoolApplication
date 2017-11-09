@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.fragment;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -18,8 +20,10 @@ import com.example.handschoolapplication.activity.ApplyActivity;
 import com.example.handschoolapplication.activity.ClassActivity;
 import com.example.handschoolapplication.activity.CommentManagerActivity;
 import com.example.handschoolapplication.activity.DealManagerActivity;
+import com.example.handschoolapplication.activity.GradeActivity;
 import com.example.handschoolapplication.activity.MyAccountActivity;
 import com.example.handschoolapplication.activity.QRCodeActivity;
+import com.example.handschoolapplication.activity.ScanQRCodeActivity;
 import com.example.handschoolapplication.activity.SchoolInformationActivity;
 import com.example.handschoolapplication.activity.SettingsActivity;
 import com.example.handschoolapplication.base.BaseFragment;
@@ -30,18 +34,22 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MeComFragment extends BaseFragment {
+public class MeComFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks{
 
     @BindView(R.id.civ_usericon)
     CircleImageView civUsericon;
@@ -79,12 +87,14 @@ public class MeComFragment extends BaseFragment {
     LinearLayout llEvaluateManager;
     @BindView(R.id.ll_code)
     LinearLayout llCode;
+    @BindView(R.id.rl_class_grade)
+    RelativeLayout rlClassGrade;
     private View view;
     private int REQUEST_CODE;
     private String school_id;
     private String user_id;
     private SchoolInfoBean.DataBean dataBean;
-
+    private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
 
     public MeComFragment() {
         // Required empty public constructor
@@ -177,7 +187,8 @@ public class MeComFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.civ_usericon, R.id.iv_settings, R.id.iv_edit, R.id.ll_scan, R.id.ll_my_class, R.id.ll_my_account, R.id.ll_apply, R.id.ll_deal_manager, R.id.ll_evaluate_manager, R.id.ll_code})
+    @OnClick({R.id.civ_usericon, R.id.iv_settings, R.id.iv_edit, R.id.ll_scan, R.id.ll_my_class, R.id.ll_my_account, R.id.ll_apply,
+            R.id.ll_deal_manager, R.id.ll_evaluate_manager, R.id.ll_code,R.id.rl_class_grade})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_settings://设置
@@ -188,6 +199,7 @@ public class MeComFragment extends BaseFragment {
             case R.id.iv_edit://编辑
                 break;
             case R.id.ll_scan://扫一扫
+                startActivity(new Intent(getActivity(), ScanQRCodeActivity.class));
 //                Intent intent = new Intent(getActivity(), CaptureActivity.class);
 //                startActivityForResult(intent, REQUEST_CODE);
                 break;
@@ -207,31 +219,64 @@ public class MeComFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), CommentManagerActivity.class));
                 break;
             case R.id.ll_code:
-                startActivity(new Intent(getActivity(), QRCodeActivity.class));
+                startActivity(new Intent(getActivity(), QRCodeActivity.class).putExtra("flag","CC"));
                 break;
             case R.id.civ_usericon:
                 startActivity(new Intent(getActivity(), SchoolInformationActivity.class));
+                break;
+            case R.id.rl_class_grade:
+                startActivity(new Intent(getActivity(), GradeActivity.class)
+                        .putExtra("grade",dataBean.getUser_dengji())
+                        .putExtra("integral",dataBean.getUser_integral())
+                        .putExtra("flag","com"));
                 break;
         }
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            //处理扫描结果（在界面上显示）
-            if (null != data) {
-                Bundle bundle = data.getExtras();
-                if (bundle == null) {
-                    return;
-                }
-//                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-//                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-//                    Toast.makeText(getActivity(), "解析结果:" + result, Toast.LENGTH_LONG).show();
-//                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-//                    Toast.makeText(getActivity(), "解析二维码失败", Toast.LENGTH_LONG).show();
-//                }
-            }
+    public void onStart() {
+        super.onStart();
+        requestCodeQRCodePermissions();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+    }
+
+    @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
+    private void requestCodeQRCodePermissions() {
+        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (!EasyPermissions.hasPermissions(getActivity(), perms)) {
+            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
+//
+//        Log.e("aaa",
+//            "(MeComFragment.java:236)"+"dasdadasdsadsadsadsad");
+//        if(intentResult != null) {
+//            if(intentResult.getContents() == null) {
+//                Toast.makeText(getActivity(),"内容为空",Toast.LENGTH_LONG).show();
+//            } else {
+//                Toast.makeText(getActivity(),"扫描成功",Toast.LENGTH_LONG).show();
+//                // ScanResult 为 获取到的字符串
+//                String ScanResult = intentResult.getContents();
+//            }
+//        } else {
+//            super.onActivityResult(requestCode,resultCode,data);
+//        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +53,16 @@ public class AllCourseActivity extends BaseActivity {
         tvTitle.setText("全部课程");
         mAdapter = new AllCourseAdapter(mList, this);
         lvAllCourse.setAdapter(mAdapter);
+
+        mAdapter.setOnClickLearnCodeListener(new AllCourseAdapter.OnClickLearnCodeListener() {
+            @Override
+            public void setLearnCode(int position) {
+                
+                startActivity(new Intent(AllCourseActivity.this,QRCodeActivity.class)
+                        .putExtra("learnCode",mList.get(position).getCourseInfo().getStudy_num())
+                        .putExtra("flag","LC"));
+            }
+        });
     }
 
     private void initData() {

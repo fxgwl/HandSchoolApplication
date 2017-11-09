@@ -89,6 +89,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/rl_class_grade"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -122,6 +123,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
+
                 <LinearLayout
                     android:id="@+id/ll_evaluate_grade"
                     android:layout_width="wrap_content"
@@ -131,39 +133,39 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:visibility="invisible"
                         android:id="@+id/iv_img1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wujiaoxing" />
+                        android:src="@drawable/wujiaoxing"
+                        android:visibility="invisible" />
 
                     <ImageView
-                        android:visibility="invisible"
                         android:id="@+id/iv_img2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wujiaoxing" />
+                        android:src="@drawable/wujiaoxing"
+                        android:visibility="invisible" />
 
                     <ImageView
-                        android:visibility="invisible"
                         android:id="@+id/iv_img3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wujiaoxing" />
+                        android:src="@drawable/wujiaoxing"
+                        android:visibility="invisible" />
 
                     <ImageView
-                        android:visibility="invisible"
                         android:id="@+id/iv_img4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wujiaoxing" />
+                        android:src="@drawable/wujiaoxing"
+                        android:visibility="invisible" />
 
                     <ImageView
-                        android:visibility="invisible"
                         android:id="@+id/iv_img5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/wujiaoxing" />
+                        android:src="@drawable/wujiaoxing"
+                        android:visibility="invisible" />
 
                 </LinearLayout>
 
@@ -204,7 +206,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="扫一扫" />
+                android:text="扫一扫"
+                />
         </LinearLayout>
 
         <LinearLayout

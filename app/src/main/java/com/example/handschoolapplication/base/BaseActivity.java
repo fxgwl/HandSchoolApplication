@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.blankj.utilcode.utils.ScreenUtils;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.HelpActivity;
 import com.example.handschoolapplication.activity.MainActivity;
@@ -46,6 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        ScreenUtils.hideStatusBar(this);
         setContentView(getContentViewId());
         bind = ButterKnife.bind(this);
         Log.e(getClass().getSimpleName(), "--->onCreate: ");

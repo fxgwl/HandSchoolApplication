@@ -48,12 +48,50 @@ public class GradeActivity extends BaseActivity {
     private List<IntegralBean.DataBean> mList = new ArrayList<>();
     private MyAdapter myAdapter;
     private String user_id;
+    private String flag;
+    private String grade;
+    private String integral;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tvTitle.setText("等级详情");
         user_id = (String) SPUtils.get(this, "userId", "");
+        flag = getIntent().getStringExtra("flag");
+        grade = getIntent().getStringExtra("grade");
+        integral = getIntent().getStringExtra("integral");
+
+        switch (grade){
+            case "0":
+            case "":
+                break;
+            case "1":
+                ivJewel1.setVisibility(View.VISIBLE);
+                break;
+            case "2":
+                ivJewel1.setVisibility(View.VISIBLE);
+                ivJewel2.setVisibility(View.VISIBLE);
+                break;
+            case "3":
+                ivJewel1.setVisibility(View.VISIBLE);
+                ivJewel2.setVisibility(View.VISIBLE);
+                ivJewel3.setVisibility(View.VISIBLE);
+                break;
+            case "4":
+                ivJewel1.setVisibility(View.VISIBLE);
+                ivJewel2.setVisibility(View.VISIBLE);
+                ivJewel3.setVisibility(View.VISIBLE);
+                ivJewel4.setVisibility(View.VISIBLE);
+                break;
+            case "5":
+                ivJewel1.setVisibility(View.VISIBLE);
+                ivJewel2.setVisibility(View.VISIBLE);
+                ivJewel3.setVisibility(View.VISIBLE);
+                ivJewel4.setVisibility(View.VISIBLE);
+                ivJewel5.setVisibility(View.VISIBLE);
+                break;
+        }
+        tvIntegralNum.setText(integral+"分");
         initData();
     }
 
