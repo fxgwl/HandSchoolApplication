@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,11 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.ClassActivity;
+import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.bean.CarListBean;
 import com.example.handschoolapplication.bean.GroupInfo;
 import com.example.handschoolapplication.utils.Internet;
@@ -122,8 +124,10 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
             gholder.llClass.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Toast.makeText(context, "groupPosition"+groupPosition, Toast.LENGTH_SHORT).show();
+                    //跳转到
+                    Intent intent = new Intent(context, ClassActivity.class);
+                    intent.putExtra("school_id", group.getId());
+                    context.startActivity(intent);
                 }
             });
         }
@@ -203,7 +207,11 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
             cholder.ll_course.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "childPosition==="+childPosition, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, CourseHomePagerActivity.class);
+                    intent.putExtra("school_id", product.getSchool_id());
+                    intent.putExtra("course_id", product.getCourse_id());
+                    intent.putExtra("schooluid", product.getUser_id());
+                    context.startActivity(intent);
                 }
             });
         }
@@ -308,5 +316,9 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
          * @param isChecked     子元素选中与否
          */
         public void doDecrease(int groupPosition, int childPosition, View showCountView, boolean isChecked);
+    }
+
+    public interface schoolClick {
+
     }
 }

@@ -1,11 +1,29 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.handschoolapplication.fragment.ClassInfoFragment">
-    <WebView
-        android:layout_below="@+id/rl_title"
-        android:id="@+id/wv_class_info"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.example.handschoolapplication.fragment.ClassInfoFragment">
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.baidu.mapapi.map.TextureMapView
+                android:id="@+id/tm_map"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"></com.baidu.mapapi.map.TextureMapView>
+
+            <WebView
+                android:id="@+id/wv_class_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/rl_title"/>
+        </LinearLayout>
+    </ScrollView>
+
 </FrameLayout>

@@ -3,7 +3,9 @@ apply plugin: 'com.android.application'
 //apply plugin: 'kotlin-android-extensions'
 
 android {
-
+    dexOptions {
+        jumboMode true
+    }
     signingConfigs {
         release {
             keyAlias 'axehome'

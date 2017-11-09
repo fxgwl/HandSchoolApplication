@@ -138,7 +138,8 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
                         for (int i = 0; i < map.size(); i++) {
                             iterator.hasNext();
                             String m = iterator.next().toString();
-                            groups.add(new GroupInfo(i + "", m));
+                            String school_id = map.get(m).get(0).getSchool_id();
+                            groups.add(new GroupInfo(school_id, m));
                             List<CarListBean.DataBean> products = new ArrayList<CarListBean.DataBean>();
                             products = map.get(m);
                             children.put(groups.get(i).getId(), products);// 将组元素的一个唯一值，这里取Id，作为子元素List的Key

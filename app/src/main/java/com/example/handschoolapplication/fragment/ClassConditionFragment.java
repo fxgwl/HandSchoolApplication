@@ -43,15 +43,16 @@ public class ClassConditionFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = super.onCreateView(inflater,container,savedInstanceState);
+        view = super.onCreateView(inflater, container, savedInstanceState);
         school_id = getArguments().getString("school_id");
-        lvCondition= (ListView) view.findViewById(R.id.lv_condition);
-        mList=new ArrayList<>();
-        mAdapter=new ImageAdapter(getActivity());
+        lvCondition = (ListView) view.findViewById(R.id.lv_condition);
+        mList = new ArrayList<>();
+        mAdapter = new ImageAdapter(getActivity());
         lvCondition.setAdapter(mAdapter);
         initView();
         return view;
     }
+
     //初始化学堂简介
     private void initView() {
         mList.clear();
@@ -72,7 +73,7 @@ public class ClassConditionFragment extends BaseFragment {
                         Gson gson = new Gson();
                         SchoolIntroBean school = gson.fromJson(response, SchoolIntroBean.class);
                         String school_environment = school.getData().getSchoolData().getSchool_environment();
-                        mList.add(Internet.BASE_URL+school_environment);
+                        mList.add(Internet.BASE_URL + school_environment);
                         mAdapter.setData(mList);
                         mAdapter.notifyDataSetChanged();
                     }

@@ -57,6 +57,18 @@ public class ClassActivity extends BaseActivity {
     LinearLayout llCourse;
     @BindView(R.id.iv_love)
     ImageView ivLove;
+    @BindView(R.id.iv1)
+    ImageView iv1;
+    @BindView(R.id.iv2)
+    ImageView iv2;
+    @BindView(R.id.iv3)
+    ImageView iv3;
+    @BindView(R.id.iv4)
+    ImageView iv4;
+    @BindView(R.id.iv5)
+    ImageView iv5;
+    @BindView(R.id.tv_pingfen)
+    TextView tvPingfen;
 
     private int mIndex = 0;
 
@@ -67,13 +79,13 @@ public class ClassActivity extends BaseActivity {
     private ClassCourseFragment classCourseFragment;
     private String school_id;
     private String user_id;
+    private SchoolIntroBean school;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         school_id = getIntent().getStringExtra("school_id");
         user_id = (String) SPUtils.get(this, "userId", "");
-        initFragments();
         initView();
         tvTitle.setText("学堂主页");
     }
@@ -95,20 +107,58 @@ public class ClassActivity extends BaseActivity {
                         Log.e("aaa",
                                 "(ClassActivity.java:79)" + response);
                         Gson gson = new Gson();
-                        SchoolIntroBean school = gson.fromJson(response, SchoolIntroBean.class);
+                        school = gson.fromJson(response, SchoolIntroBean.class);
                         Glide.with(ClassActivity.this)
                                 .load(Internet.BASE_URL + school.getData().getHead_photo())
                                 .centerCrop()
                                 .error(R.drawable.zhangshangsishu)
                                 .into(ivIcon);
                         tvSchoolname.setText(school.getData().getSchoolData().getSchool_name());
+                        switch (school.getData().getUser_dengji()) {
+                            case "0":
+                                tvPingfen.setText(0 + "分");
+                                break;
+                            case "1":
+                                iv1.setImageResource(R.drawable.wujiaoxing);
+                                tvPingfen.setText(1 + "分");
+                                break;
+                            case "2":
+                                iv1.setImageResource(R.drawable.wujiaoxing);
+                                iv2.setImageResource(R.drawable.wujiaoxing);
+                                tvPingfen.setText(2 + "分");
+                                break;
+                            case "3":
+                                iv1.setImageResource(R.drawable.wujiaoxing);
+                                iv2.setImageResource(R.drawable.wujiaoxing);
+                                iv3.setImageResource(R.drawable.wujiaoxing);
+                                tvPingfen.setText(3 + "分");
+                                break;
+                            case "4":
+                                tvPingfen.setText(4 + "分");
+                                iv1.setImageResource(R.drawable.wujiaoxing);
+                                iv2.setImageResource(R.drawable.wujiaoxing);
+                                iv3.setImageResource(R.drawable.wujiaoxing);
+                                iv4.setImageResource(R.drawable.wujiaoxing);
+                                break;
+                            case "5":
+                                tvPingfen.setText(5 + "分");
+                                iv1.setImageResource(R.drawable.wujiaoxing);
+                                iv2.setImageResource(R.drawable.wujiaoxing);
+                                iv3.setImageResource(R.drawable.wujiaoxing);
+                                iv4.setImageResource(R.drawable.wujiaoxing);
+                                iv5.setImageResource(R.drawable.wujiaoxing);
+                                break;
+                        }
+                        initFragments();
                     }
                 });
     }
 
     private void initFragments() {
         Bundle bundle = new Bundle();
-        bundle.putString("school_id",school_id);
+        bundle.putString("school_id", school_id);
+        bundle.putDouble("longitude", Double.parseDouble(school.getData().getSchoolData().getSchool_jing()));
+        bundle.putDouble("latitude", Double.parseDouble(school.getData().getSchoolData().getSchool_wei()));
         classInfoFragment = new ClassInfoFragment();
         classConditionFragment = new ClassConditionFragment();
         classTeacherFragment = new ClassTeacherFragment();
@@ -138,7 +188,8 @@ public class ClassActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.ll_love:
                 //收藏
@@ -169,7 +220,7 @@ public class ClassActivity extends BaseActivity {
                         });
                 break;
             case R.id.ll_share:
-                showShare("我是标题","我的分享文本","","");
+                showShare("我是标题", "我的分享文本", "", "");
                 break;
             case R.id.ll_info:
                 tvBgInfoLine.setBackgroundResource(R.color.blue);
