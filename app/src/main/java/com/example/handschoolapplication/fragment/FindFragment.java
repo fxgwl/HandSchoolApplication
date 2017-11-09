@@ -49,6 +49,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -114,7 +115,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             }
         }
     };
-    private boolean isCourse;
+    private boolean isCourse = true;
     private String city;
 
     public FindFragment() {
@@ -131,8 +132,8 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         findCourseList = new ArrayList<>();
         findClassList = new ArrayList<>();
         findCourseAdapter = new FindCourseAdapter(findCourseList, getActivity());
-        findClassAdapter = new FindClassAdapter(getActivity(),findClassList);
-        city = (String) SPUtils.get(getActivity(),"city","");
+        findClassAdapter = new FindClassAdapter(getActivity(), findClassList);
+        city = (String) SPUtils.get(getActivity(), "city", "");
         map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         map.setMyLocationEnabled(true);
         mLocClient = new LocationClient(getActivity());
@@ -171,7 +172,13 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
          * @param point 点击的地理坐标
          */
         public void onMapClick(LatLng point) {
-            startActivity(new Intent(getActivity(), BaiduMapActivity.class));
+            if (isCourse) {
+                startActivity(new Intent(getActivity(), BaiduMapActivity.class).putExtra("findCourseList", (Serializable) findCourseList)
+                        .putExtra("isCourse", "0"));
+            } else {
+                startActivity(new Intent(getActivity(), BaiduMapActivity.class).putExtra("findCourseList", (Serializable) findClassList)
+                        .putExtra("isCourse", "1"));
+            }
         }
 
         /**
@@ -235,6 +242,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 });
 
     }
+
     private void initLvClassData() {
         findClassList.clear();
         OkHttpUtils.post()

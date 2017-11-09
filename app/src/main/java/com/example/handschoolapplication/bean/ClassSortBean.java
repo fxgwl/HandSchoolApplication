@@ -1,10 +1,12 @@
 package com.example.handschoolapplication.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/10/19.
  */
 
-public class ClassSortBean {
+public class ClassSortBean implements Serializable {
 
     /**
      * data_integrity : 100
@@ -277,5 +279,38 @@ public class ClassSortBean {
 
     public void setUser_type(String user_type) {
         this.user_type = user_type;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassSortBean{" +
+                "data_integrity='" + data_integrity + '\'' +
+                ", head_photo='" + head_photo + '\'' +
+                ", id_number='" + id_number + '\'' +
+                ", mechanism_address='" + mechanism_address + '\'' +
+                ", mechanism_city='" + mechanism_city + '\'' +
+                ", mechanism_ctime='" + mechanism_ctime + '\'' +
+                ", mechanism_name='" + mechanism_name + '\'' +
+                ", mechanism_type='" + mechanism_type + '\'' +
+                ", mid_photo='" + mid_photo + '\'' +
+                ", pingjia='" + pingjia + '\'' +
+                ", qualification_prove='" + qualification_prove + '\'' +
+                ", school_id='" + school_id + '\'' +
+                ", signed_num='" + signed_num + '\'' +
+                ", user_area='" + user_area + '\'' +
+                ", user_code='" + user_code + '\'' +
+                ", user_create_time='" + user_create_time + '\'' +
+                ", user_dengji='" + user_dengji + '\'' +
+                ", user_gold='" + user_gold + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", user_integral='" + user_integral + '\'' +
+                ", user_name='" + user_name + '\'' +
+                ", user_password='" + user_password + '\'' +
+                ", user_phone='" + user_phone + '\'' +
+                ", user_renqi='" + user_renqi + '\'' +
+                ", user_state='" + user_state + '\'' +
+                ", user_type='" + user_type + '\'' +
+                ", distance=" + distance +
+                '}';
     }
 }

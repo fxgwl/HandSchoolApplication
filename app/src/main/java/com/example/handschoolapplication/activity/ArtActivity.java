@@ -256,7 +256,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", sort)
-                .addParams("course_address",city)
+                .addParams("course_address", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -310,6 +310,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                                 types.add(type_two_name);
                             }
                             horizontalListViewAdapter.setList(types);
+                            horizontalListViewAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

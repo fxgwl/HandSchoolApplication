@@ -1,6 +1,8 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,9 +12,8 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapPoi;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
@@ -23,10 +24,11 @@ import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.ClassSortBean;
+import com.example.handschoolapplication.bean.CourseSortBean;
 import com.example.handschoolapplication.bean.Info;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -65,15 +67,24 @@ public class BaiduMapActivity extends BaseActivity {
         mLocClient.setLocOption(option);
         mLocClient.start();
         initMap();
-
-        List<Info> mlist = new ArrayList<>();
-        mlist.add(new Info(39.101508, 117.221021));
-        mlist.add(new Info(39.10106, 117.246893));
-        mlist.add(new Info(39.143606, 117.229645));
-        mlist.add(new Info(39.1950748, 117.173303));
-
-        addInfosOverlay(mlist);
-
+        map.clear();
+        if ("1".equals(getIntent().getStringExtra("isCourse"))) {
+            ArrayList<ClassSortBean> classList = (ArrayList<ClassSortBean>) getIntent().getSerializableExtra("findCourseList");
+            for (int i = 0; i < classList.size(); i++) {
+                ClassSortBean classSortBean = classList.get(i);
+                Log.e("aaa",
+                        "(BaiduMapActivity.java:77)" + classSortBean.toString());
+                addInfosOverlay(new Info(Double.parseDouble(classSortBean.getUser_area()), Double.parseDouble(classSortBean.getUser_name()), null, classSortBean));
+            }
+        } else {
+            ArrayList<CourseSortBean> courseList = (ArrayList<CourseSortBean>) getIntent().getSerializableExtra("findCourseList");
+            for (int i = 0; i < courseList.size(); i++) {
+                CourseSortBean courseSortBean = courseList.get(i);
+                Log.e("aaa",
+                        "(BaiduMapActivity.java:86)" + courseSortBean.toString());
+                addInfosOverlay(new Info(Double.parseDouble(courseSortBean.getSchool_wei()), Double.parseDouble(courseSortBean.getSchool_jing()), courseSortBean, null));
+            }
+        }
 //        map.getUiSettings().setScrollGesturesEnabled(true);
     }
 
@@ -147,39 +158,59 @@ public class BaiduMapActivity extends BaseActivity {
     /**
      * 初始化图层
      */
-    public void addInfosOverlay(List<Info> infos) {
-        map.clear();
+    public void addInfosOverlay(Info infos) {
         LatLng latLng = null;
         OverlayOptions overlayOptions = null;
         Marker marker = null;
-        for (Info info : infos) {
-            // 位置
-            latLng = new LatLng(info.getLatitude(), info.getLongitude());
-            // 图标
-            overlayOptions = new MarkerOptions().position(latLng)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.shoucang)).zIndex(5);
-            marker = (Marker) (map.addOverlay(overlayOptions));
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("info", info);
-            marker.setExtraInfo(bundle);
-        }
-        // 将地图移到到最后一个经纬度位置
-        MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(latLng);
-        map.setMapStatus(u);
-
-
-        map.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
-
+        latLng = new LatLng(infos.getLatitude(), infos.getLongitude());
+        // 图标
+        overlayOptions = new MarkerOptions().position(latLng)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.dingweis)).zIndex(5);
+        marker = (Marker) (map.addOverlay(overlayOptions));
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("info", infos);
+        marker.setExtraInfo(bundle);
+        map.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
-            public boolean onMapPoiClick(MapPoi arg0) {
+            public boolean onMarkerClick(Marker marker) {
+                Bundle bundle = marker.getExtraInfo();
+
+                View view = getLayoutInflater().inflate(R.layout.mark, null);
+                TextView tv = (TextView) view.findViewById(R.id.tv);
+                final Info info = (Info) bundle.getSerializable("info");
+                //学堂
+                if ("1".equals(getIntent().getStringExtra("isCourse"))) {
+                    tv.setText(info.getClassBean().getMechanism_name());
+
+                    tv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.e("aaa",
+                                    "(BaiduMapActivity.java:189)" + info.getCourseBean());
+                            Intent intent = new Intent(BaiduMapActivity.this, ClassActivity.class);
+                            intent.putExtra("school_id", info.getClassBean().getSchool_id());
+                            startActivity(intent);
+
+                        }
+                    });
+                } else {
+                    //课程
+                    tv.setText(info.getCourseBean().getCourse_name());
+                    tv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(BaiduMapActivity.this, CourseHomePagerActivity.class);
+                            intent.putExtra("school_id", info.getCourseBean().getSchool_id());
+                            intent.putExtra("course_id", info.getCourseBean().getCourse_id());
+                            intent.putExtra("schooluid", info.getCourseBean().getUser_id());
+                            startActivity(intent);
+                        }
+                    });
+                }
+                LatLng pt = new LatLng(info.getLatitude(), info.getLongitude());
+                InfoWindow mInfoWindow = new InfoWindow(view, pt, -120);
+                map.showInfoWindow(mInfoWindow);
                 return false;
-            }
-
-            @Override
-            public void onMapClick(LatLng arg0) {
-//                mMarkerInfoLy.setVisibility(View.GONE);
-//                map.hideInfoWindow();
-
             }
         });
     }
@@ -188,5 +219,17 @@ public class BaiduMapActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
     }
 }

@@ -92,6 +92,8 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
         view = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
         user_id = (String) SPUtils.get(getActivity(), "userId", "");
+        mAdapter = new LearnPlansAdapter(groups, children, getActivity());
+        lvList.setAdapter(mAdapter);
         return view;
     }
 
@@ -113,6 +115,8 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
                                 "(LearnPlanFragment.java:101)" + response);
                         Gson gson = new Gson();
                         carBeans.clear();
+                        groups.clear();
+                        children.clear();
                         try {
                             carBeans.addAll(gson.fromJson(response, CarListBean.class).getData());
                         } catch (Exception e) {
@@ -139,8 +143,7 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
                             products = map.get(m);
                             children.put(groups.get(i).getId(), products);// 将组元素的一个唯一值，这里取Id，作为子元素List的Key
                         }
-                        mAdapter = new LearnPlansAdapter(groups, children, getActivity());
-                        lvList.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
                         initEvents();
                     }
                 });
@@ -371,8 +374,8 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
         initViewData();
     }
 }

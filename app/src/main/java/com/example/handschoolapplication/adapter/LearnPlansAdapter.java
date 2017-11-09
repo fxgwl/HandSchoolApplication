@@ -122,6 +122,7 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
             gholder.llClass.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Toast.makeText(context, "groupPosition"+groupPosition, Toast.LENGTH_SHORT).show();
                 }
             });

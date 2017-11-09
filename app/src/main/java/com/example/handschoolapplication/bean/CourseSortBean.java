@@ -1,10 +1,12 @@
 package com.example.handschoolapplication.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/10/19.
  */
 
-public class CourseSortBean {
+public class CourseSortBean implements Serializable {
 
     public CourseSortBean(double distance) {
         this.distance = distance;
@@ -283,4 +285,5 @@ public class CourseSortBean {
                 ", distance=" + distance +
                 '}';
     }
+
 }
