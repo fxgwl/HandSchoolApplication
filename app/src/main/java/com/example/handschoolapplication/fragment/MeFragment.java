@@ -74,6 +74,7 @@ public class MeFragment extends BaseFragment {
     private int REQUEST_CODE;
     private String user_id;
     private SchoolInfoBean.DataBean dataBean;
+    private String signed_num;
 
 
     public MeFragment() {
@@ -142,6 +143,7 @@ public class MeFragment extends BaseFragment {
                             tvPercent.setText(dataBean.getData_integrity() + "%");
                             tvDays.setText(dataBean.getSigned_num());
                             tvGoldNum.setText(dataBean.getUser_gold());
+                            signed_num = dataBean.getSigned_num();
                             switch (dataBean.getUser_dengji()) {
                                 case "0":
                                     break;
@@ -195,7 +197,7 @@ public class MeFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), AllCourseActivity.class));
                 break;
             case R.id.rl_sign:
-                startActivity(new Intent(getActivity(), SignActivity.class));
+                startActivity(new Intent(getActivity(), SignActivity.class).putExtra("signed_num",signed_num));
                 break;
             case R.id.ll_islearning://学习中
                 startActivity(new Intent(getActivity(), LearningActivity.class));

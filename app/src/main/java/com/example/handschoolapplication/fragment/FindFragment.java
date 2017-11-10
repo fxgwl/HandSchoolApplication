@@ -1,19 +1,28 @@
 package com.example.handschoolapplication.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,17 +38,27 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.BaiduMapActivity;
+import com.example.handschoolapplication.activity.ClassActivity;
 import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
 import com.example.handschoolapplication.adapter.FindClassAdapter;
 import com.example.handschoolapplication.adapter.FindCourseAdapter;
+import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.ClassSortBean;
 import com.example.handschoolapplication.bean.CourseSortBean;
+import com.example.handschoolapplication.bean.HomeClassTypeBean;
+import com.example.handschoolapplication.bean.TimeHourBean;
+import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.RankListUtils;
 import com.example.handschoolapplication.utils.SPUtils;
+import com.example.handschoolapplication.view.CommonPopupWindow;
+import com.example.handschoolapplication.view.HorizontalListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -49,37 +68,54 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import okhttp3.Call;
+
+import static com.example.handschoolapplication.R.id.tv_grade_rank;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FindFragment extends BaseFragment implements AdapterView.OnItemClickListener {
+public class FindFragment extends BaseFragment implements AdapterView.OnItemClickListener, CommonPopupWindow.ViewInterface, View.OnClickListener {
 
     @BindView(R.id.tv_location)
     TextView tvLocation;
     @BindView(R.id.tv_current_location)
     TextView tvCurrentLocation;
     @BindView(R.id.lv_ff_course)
-    ListView lvFfCourse;
+    ListView listView;
     @BindView(R.id.map_view)
     MapView mapView;
     @BindView(R.id.rb_search_type)
     CheckBox rbSearchType;
+    @BindView(R.id.iv_img_bg)
+    ImageView iv_bg;
+    Unbinder unbinder;
     private View view;
 
     private List<CourseSortBean> findCourseList;
     private List<ClassSortBean> findClassList;
     private FindCourseAdapter findCourseAdapter;
     private FindClassAdapter findClassAdapter;
+
+    private CommonPopupWindow sortPopupwindow, synthesisRankPopupwindow;
+    private HorizontalListViewAdapter horizontalListViewAdapter;
+    private ArrayList<String> types = new ArrayList();//第二级下拉菜单的数据源
+    private MyThirdAdapter myThirdAdapter;
+    private List<TimeHourBean> typeThirdList = new ArrayList<>();
+    private List<CourseSortBean> mCourseList = new ArrayList<>();
+    private List<ClassSortBean> mClassList = new ArrayList<>();
+    private MyCourseAdapter myCourseAdapter = new MyCourseAdapter();
+    private MyClassAdapter myClassAdapter = new MyClassAdapter();
+
     private BaiduMap map;
     // 定位相关
     LocationClient mLocClient;
@@ -99,7 +135,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 case 0:
                     Log.e("aaa",
                             "(FindFragment.java:86)" + "dsahjdhsadhasdasdj");
-                    double[] locations = (double[]) msg.obj;
+                    locations = (double[]) msg.obj;
                     Log.e("aaa",
                             "(FindFragment.java:89)" + locations);
                     findCourseAdapter.setLocations(locations);
@@ -115,8 +151,20 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             }
         }
     };
-    private boolean isCourse = true;
+    private boolean isCourse;
     private String city;
+    private TextView tvGradeRAnk;
+    private TextView tvStarRAnk;
+    private TextView tvPopularityRAnk;
+    private TextView tvUpRank;
+    private TextView tvDownRank;
+    private TextView tvNearRank;
+    private TextView tvFarRank;
+    private TextView tvSure;
+    private ArrayList<String> typeones;
+    private ArrayList<ArrayList<String>> typetwolist;
+    private String flag;
+    private double[] locations;
 
     public FindFragment() {
         // Required empty public constructor
@@ -147,8 +195,13 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         mLocClient.start();
         initMap();
         initLvData();
-        lvFfCourse.setOnItemClickListener(this);
+        //获取类别
+        initClassType();
+        listView.setOnItemClickListener(this);
         map.setOnMapClickListener(listener);
+
+        horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity());
+        myThirdAdapter = new MyThirdAdapter(getActivity(), typeThirdList);
 
 
         rbSearchType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -163,6 +216,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 }
             }
         });
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -172,13 +226,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
          * @param point 点击的地理坐标
          */
         public void onMapClick(LatLng point) {
-            if (isCourse) {
-                startActivity(new Intent(getActivity(), BaiduMapActivity.class).putExtra("findCourseList", (Serializable) findCourseList)
-                        .putExtra("isCourse", "0"));
-            } else {
-                startActivity(new Intent(getActivity(), BaiduMapActivity.class).putExtra("findCourseList", (Serializable) findClassList)
-                        .putExtra("isCourse", "1"));
-            }
+            startActivity(new Intent(getActivity(), BaiduMapActivity.class));
         }
 
         /**
@@ -231,7 +279,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                                 JSONArray data = jsonObject.getJSONArray("data");
                                 findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                                 }.getType()));
-                                lvFfCourse.setAdapter(findCourseAdapter);
+                                listView.setAdapter(findCourseAdapter);
                                 findCourseAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -241,6 +289,44 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                     }
                 });
 
+    }
+
+    private void initClassType() {
+        OkHttpUtils.post()
+                .url(Internet.CLASSTYPE)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(HomeFragment.java:180)" + response);
+
+                        if (response.contains("没有信息")) {
+                        } else {
+                            Gson gson = new Gson();
+                            HomeClassTypeBean homeClassType = gson.fromJson(response, HomeClassTypeBean.class);
+                            typeones = new ArrayList<String>();
+                            typetwolist = new ArrayList<ArrayList<String>>();
+                            for (int i = 0; i < homeClassType.getData().size(); i++) {
+                                typeones.add(homeClassType.getData().get(i).getType_one_name());
+                                ArrayList<String> typetwos = new ArrayList<String>();
+                                if (null != homeClassType.getData().get(i).getTypeTwoInfo()) {
+                                    for (int m = 0; m < homeClassType.getData().get(i).getTypeTwoInfo().size(); m++) {
+                                        typetwos.add(homeClassType.getData().get(i).getTypeTwoInfo().get(m).getType_two_name());
+                                    }
+                                }
+                                typetwolist.add(typetwos);
+                            }
+
+                            horizontalListViewAdapter.setList(typeones);
+                        }
+                    }
+                });
     }
 
     private void initLvClassData() {
@@ -269,7 +355,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                                 JSONArray data = jsonObject.getJSONArray("data");
                                 findClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
                                 }.getType()));
-                                lvFfCourse.setAdapter(findClassAdapter);
+                                listView.setAdapter(findClassAdapter);
                                 findClassAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -281,10 +367,40 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
 
     }
 
-    @OnClick({R.id.iv_search, R.id.tv_search})
-    public void onViewClicked() {
-        startActivity(new Intent(getActivity(), SearchActivity.class));
+    private void initData(String sort) {
+
+        mCourseList.clear();
+        OkHttpUtils.post()
+                .url(Internet.COURSELIST)
+                .addParams("course_type", sort)
+                .addParams("course_address", city)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:78)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:84)" + response);
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            }.getType()));
+                            myCourseAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
     }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -294,6 +410,1085 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         intent.putExtra("schooluid", findCourseList.get(position).getUser_id());
         startActivity(intent);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick({R.id.tv_search, R.id.iv_search, R.id.tv_sort, R.id.tv_defaultrank, R.id.tv_allrank, R.id.iv_img_bg})
+    public void onViewClicked(View v) {
+        switch (v.getId()) {
+            case R.id.tv_search:
+            case R.id.iv_search:
+                startActivity(new Intent(getActivity(), SearchActivity.class));
+                break;
+            case R.id.tv_sort:
+                showCourse(v);
+                iv_bg.setVisibility(View.VISIBLE);
+                break;
+            case R.id.tv_defaultrank:
+                break;
+            case R.id.tv_allrank:
+                showSynthesisRankPopupwindow(v);
+                iv_bg.setVisibility(View.VISIBLE);
+                break;
+            case R.id.iv_img_bg:
+                int visibility = iv_bg.getVisibility();
+                switch (visibility) {
+                    case View.GONE:
+                        iv_bg.setVisibility(View.VISIBLE);
+                        break;
+                    case View.VISIBLE:
+                        if (sortPopupwindow != null && sortPopupwindow.isShowing()) {
+                            sortPopupwindow.dismiss();
+                        }
+                        if (synthesisRankPopupwindow != null && synthesisRankPopupwindow.isShowing()) {
+                            synthesisRankPopupwindow.dismiss();
+                        }
+                        iv_bg.setVisibility(View.GONE);
+                        break;
+                }
+                break;
+        }
+    }
+
+
+    @Override
+    public void getChildView(View view, int layoutResId) {
+        switch (layoutResId) {
+            case R.layout.popupwindow_sort:
+                HorizontalListView hlvSort = (HorizontalListView) view.findViewById(R.id.hlv_sort);
+                GridView gv = (GridView) view.findViewById(R.id.gv_third);
+                hlvSort.setAdapter(horizontalListViewAdapter);
+                gv.setAdapter(myThirdAdapter);
+                hlvSort.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        Toast.makeText(ArtActivity.this, types.get(position).toString(), Toast.LENGTH_SHORT).show();
+                        horizontalListViewAdapter.setSelectedPosition(position);
+                        horizontalListViewAdapter.notifyDataSetChanged();
+//                        sortPopupwindow.dismiss();
+//                        iv_bg.setVisibility(iew.GONE);
+                        flag = typeones.get(position);
+                        types.clear();
+                        typeThirdList.clear();
+                        types.addAll(typetwolist.get(position));
+                        for (int i = 0; i < types.size(); i++) {
+                            TimeHourBean timeHourBean = new TimeHourBean(false, types.get(i));
+                            typeThirdList.add(timeHourBean);
+                        }
+                        myThirdAdapter.notifyDataSetChanged();
+//                        initData(types.get(position).toString());
+                    }
+                });
+                gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String typeThird = typeThirdList.get(position).getTime();
+                        sortPopupwindow.dismiss();
+                        iv_bg.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), typeThird, Toast.LENGTH_SHORT).show();
+                        //筛选
+                        initData(typeThird);
+                    }
+                });
+                break;
+            case R.layout.popupwindow_synthesis_rank:
+                //等级排序
+                tvGradeRAnk = (TextView) view.findViewById(tv_grade_rank);
+                //星级排序
+                tvStarRAnk = (TextView) view.findViewById(R.id.tv_star_rank);
+                //人气排序
+                tvPopularityRAnk = (TextView) view.findViewById(R.id.tv_popularity_rank);
+                //价格高到低
+                tvUpRank = (TextView) view.findViewById(R.id.tv_up_rank);
+                //价格低到高
+                tvDownRank = (TextView) view.findViewById(R.id.tv_down_rank);
+                //距离近到远
+                tvNearRank = (TextView) view.findViewById(R.id.tv_near_rank);
+                //距离远到近
+                tvFarRank = (TextView) view.findViewById(R.id.tv_far_rank);
+                //确定
+                tvSure = (TextView) view.findViewById(R.id.tv_sure);
+
+                tvGradeRAnk.setOnClickListener(this);
+                tvStarRAnk.setOnClickListener(this);
+                tvPopularityRAnk.setOnClickListener(this);
+                tvUpRank.setOnClickListener(this);
+                tvDownRank.setOnClickListener(this);
+                tvNearRank.setOnClickListener(this);
+                tvFarRank.setOnClickListener(this);
+                tvSure.setOnClickListener(this);
+                break;
+        }
+    }
+
+    /**
+     * 获取三级列表的数据源
+     *
+     * @param typeOne
+     */
+
+    private void getSecondList(final String typeOne) {
+        types.clear();
+        OkHttpUtils.post()
+                .url(Internet.GET_SECOND)
+                .addParams("type_one_name", typeOne)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:203)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:209)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject jsonObject1 = data.getJSONObject(i);
+                                String type_two_name = jsonObject1.getString("type_two_name");
+                                types.add(type_two_name);
+                            }
+                            horizontalListViewAdapter.setList(types);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_grade_rank:
+                tvGradeRAnk.setTextColor(Color.parseColor("#ffffff"));
+                tvGradeRAnk.setBackgroundColor(Color.parseColor("#FF3C4B"));
+                tvStarRAnk.setTextColor(Color.parseColor("#666666"));
+                tvStarRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvPopularityRAnk.setTextColor(Color.parseColor("#666666"));
+                tvPopularityRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvUpRank.setTextColor(Color.parseColor("#666666"));
+                tvUpRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvDownRank.setTextColor(Color.parseColor("#666666"));
+                tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvNearRank.setTextColor(Color.parseColor("#666666"));
+                tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvFarRank.setTextColor(Color.parseColor("#666666"));
+                tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                if (isCourse) {
+                    getCourseStarOrGradeRank();
+                } else
+                    getStarOrGradeRank();
+                break;
+            case R.id.tv_star_rank:
+                tvStarRAnk.setTextColor(Color.parseColor("#ffffff"));
+                tvStarRAnk.setBackgroundColor(Color.parseColor("#FF3C4B"));
+                tvGradeRAnk.setTextColor(Color.parseColor("#666666"));
+                tvGradeRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvPopularityRAnk.setTextColor(Color.parseColor("#666666"));
+                tvPopularityRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvUpRank.setTextColor(Color.parseColor("#666666"));
+                tvUpRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvDownRank.setTextColor(Color.parseColor("#666666"));
+                tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvNearRank.setTextColor(Color.parseColor("#666666"));
+                tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvFarRank.setTextColor(Color.parseColor("#666666"));
+                tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                if (isCourse) {
+                    getCourseStarOrGradeRank();
+                } else
+                    getStarOrGradeRank();
+                break;
+            case R.id.tv_popularity_rank:
+                tvPopularityRAnk.setTextColor(Color.parseColor("#ffffff"));
+                tvPopularityRAnk.setBackgroundColor(Color.parseColor("#FF3C4B"));
+                tvGradeRAnk.setTextColor(Color.parseColor("#666666"));
+                tvGradeRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvStarRAnk.setTextColor(Color.parseColor("#666666"));
+                tvStarRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvUpRank.setTextColor(Color.parseColor("#666666"));
+                tvUpRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvDownRank.setTextColor(Color.parseColor("#666666"));
+                tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvNearRank.setTextColor(Color.parseColor("#666666"));
+                tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvFarRank.setTextColor(Color.parseColor("#666666"));
+                tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                if (isCourse) {
+                    getCoursePopularityRank();
+                } else
+                    getPopularityRank();
+                break;
+            case R.id.tv_up_rank:
+                tvUpRank.setTextColor(Color.parseColor("#ffffff"));
+                tvUpRank.setBackgroundColor(Color.parseColor("#FF3C4B"));
+                tvGradeRAnk.setTextColor(Color.parseColor("#666666"));
+                tvGradeRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvStarRAnk.setTextColor(Color.parseColor("#666666"));
+                tvStarRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvPopularityRAnk.setTextColor(Color.parseColor("#666666"));
+                tvPopularityRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvDownRank.setTextColor(Color.parseColor("#666666"));
+                tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvNearRank.setTextColor(Color.parseColor("#666666"));
+                tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvFarRank.setTextColor(Color.parseColor("#666666"));
+                tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                if (isCourse) {
+                    getPriceUpRank();
+                } else {
+
+                }
+                break;
+            case R.id.tv_down_rank:
+                tvDownRank.setTextColor(Color.parseColor("#ffffff"));
+                tvDownRank.setBackgroundColor(Color.parseColor("#FF3C4B"));
+                tvGradeRAnk.setTextColor(Color.parseColor("#666666"));
+                tvGradeRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvStarRAnk.setTextColor(Color.parseColor("#666666"));
+                tvStarRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvPopularityRAnk.setTextColor(Color.parseColor("#666666"));
+                tvPopularityRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvUpRank.setTextColor(Color.parseColor("#666666"));
+                tvUpRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvNearRank.setTextColor(Color.parseColor("#666666"));
+                tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvFarRank.setTextColor(Color.parseColor("#666666"));
+                tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                if (isCourse) {
+                    getPriceDownRank();
+                } else {
+                }
+                break;
+            case R.id.tv_near_rank:
+                tvNearRank.setTextColor(Color.parseColor("#ffffff"));
+                tvNearRank.setBackgroundColor(Color.parseColor("#FF3C4B"));
+                tvGradeRAnk.setTextColor(Color.parseColor("#666666"));
+                tvGradeRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvStarRAnk.setTextColor(Color.parseColor("#666666"));
+                tvStarRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvPopularityRAnk.setTextColor(Color.parseColor("#666666"));
+                tvPopularityRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvUpRank.setTextColor(Color.parseColor("#666666"));
+                tvUpRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvDownRank.setTextColor(Color.parseColor("#666666"));
+                tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvFarRank.setTextColor(Color.parseColor("#666666"));
+                tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                if (isCourse)
+                    getDistenceDesc();
+                else
+                    getOrganizationDistanceDesc();
+                break;
+            case R.id.tv_far_rank:
+                tvFarRank.setTextColor(Color.parseColor("#ffffff"));
+                tvFarRank.setBackgroundColor(Color.parseColor("#FF3C4B"));
+                tvGradeRAnk.setTextColor(Color.parseColor("#666666"));
+                tvGradeRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvStarRAnk.setTextColor(Color.parseColor("#666666"));
+                tvStarRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvPopularityRAnk.setTextColor(Color.parseColor("#666666"));
+                tvPopularityRAnk.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvUpRank.setTextColor(Color.parseColor("#666666"));
+                tvUpRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvDownRank.setTextColor(Color.parseColor("#666666"));
+                tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvNearRank.setTextColor(Color.parseColor("#666666"));
+                tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                if (isCourse)
+                    getDistenceAsc();
+                else
+                    getOrganizationDistanceAse();
+                break;
+            case R.id.tv_sure:
+                synthesisRankPopupwindow.dismiss();
+                iv_bg.setVisibility(View.GONE);
+                break;
+//            case R.id.tv_course_rank:
+//                synthesisRankPopupwindow.dismiss();
+//                iv_bg.setVisibility(View.GONE);
+//                getCourseRank();
+//                break;
+//            case R.id.tv_organization_rank:
+//                synthesisRankPopupwindow.dismiss();
+//                iv_bg.setVisibility(View.GONE);
+//                getOrganizationRank();
+//                break;
+        }
+    }
+
+
+    /**
+     * 课程排名
+     */
+    private void getCourseRank() {
+        mCourseList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.COURSE_RANK)
+                .addParams("course_type", flag)
+                .addParams("course_address", city)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:141)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:148)" + response);
+                        Log.e("aaa",
+                                "(ArtActivity.java:504) city === " + city);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                            listView.setAdapter(myCourseAdapter);
+                            myCourseAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 机构排序
+     */
+    private void getOrganizationRank() {
+        mClassList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.ORGANIZATION_RANK)
+                .addParams("mechanism_type", flag)
+                .addParams("mechanism_city", city)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:233)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:239)" + response);
+                        if (response.contains("没有信息")) {
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                                }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                                myClassAdapter = new MyClassAdapter();
+                                listView.setAdapter(myClassAdapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                });
+
+    }
+
+    /**
+     * 机构的等级推荐  星级排行
+     */
+    private void getStarOrGradeRank() {
+        mClassList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.CLASS_GRADE_RANK)
+                .addParams("course_type", flag)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:232)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:238)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                            }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                            myClassAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 课程的等级推荐  星级排行
+     */
+    private void getCourseStarOrGradeRank() {
+        mCourseList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.COURSE_GRADE_RANK)
+                .addParams("course_type", flag)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:232)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:238)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                            myCourseAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 机构的人气排行
+     */
+
+    private void getPopularityRank() {
+        mCourseList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.POPULIRATION_RANK)
+                .addParams("course_type", flag)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:266)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:272)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                            myCourseAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 课程的人气排行
+     */
+    private void getCoursePopularityRank() {
+        mCourseList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.COURSE_POPULIRATION_RANK)
+                .addParams("course_type", flag)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:266)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:272)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                            myCourseAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 价格排序  由高到低
+     */
+
+    private void getPriceUpRank() {
+        mCourseList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.PRICE_UP_RANK)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:298)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+
+                        Log.e("aaa",
+                                "(ArtActivity.java:305)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            }.getType()));
+
+//                            myCourseAdapter.setLocations(locations);
+                            myCourseAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 价格排序  由低到高
+     */
+
+    private void getPriceDownRank() {
+        mCourseList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.PRICE_UP_RANK)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:298)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+
+                        Log.e("aaa",
+                                "(ArtActivity.java:305)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            ArrayList<CourseSortBean> list = new ArrayList<CourseSortBean>();
+                            list.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            }.getType()));
+                            if (list.size() > 0) {
+                                for (int i = 0; i < list.size(); i++) {
+                                    mCourseList.add(list.get((list.size() - 1) - i));
+                                }
+                            }
+//                            myCourseAdapter.setLocations(locations);
+                            myCourseAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    private void getDistenceDesc() {//由远到近
+        mCourseList.clear();
+        OkHttpUtils.post()
+                .url(Internet.COURSELIST)
+                .addParams("course_type", flag)
+                .addParams("course_address", city)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:78)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:84)" + response);
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            }.getType()));
+                            if (locations != null)
+                                RankListUtils.rankListsss(mCourseList, new LatLng(locations[0], locations[1]));
+                            myCourseAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+    }
+
+    /**
+     * 机构的距离排序  由远到近
+     */
+
+    private void getOrganizationDistanceDesc() {
+        mClassList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.ORGANIZATION_RANK)
+                .addParams("mechanism_type", flag)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:233)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:239)" + response);
+                        if (response.contains("没有信息")) {
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                                }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                                if (locations != null)
+                                    RankListUtils.rankListssss(mClassList, new LatLng(locations[0], locations[1]));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                });
+
+    }
+
+    private void getDistenceAsc() {//由近到远
+        mCourseList.clear();
+        OkHttpUtils.post()
+                .url(Internet.COURSELIST)
+                .addParams("course_type", flag)
+                .addParams("course_address", city)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:78)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:84)" + response);
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            }.getType()));
+                            if (locations != null)
+                                RankListUtils.rankList(mCourseList, new LatLng(locations[0], locations[1]));
+                            myCourseAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+    }
+
+    /**
+     * 机构的距离排序  由近到远
+     */
+    private void getOrganizationDistanceAse() {
+        mClassList.clear();
+        OkHttpUtils.post()
+                .url(InternetS.ORGANIZATION_RANK)
+                .addParams("mechanism_type", flag)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:233)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ArtActivity.java:239)" + response);
+                        if (response.contains("没有信息")) {
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                                }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                                if (locations != null)
+                                    RankListUtils.rankListss(mClassList, new LatLng(locations[0], locations[1]));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                });
+
+    }
+
+    class MyCourseAdapter extends BaseAdapter {
+
+        int size = 0;
+
+        @Override
+        public int getCount() {
+            if (mCourseList != null) {
+                size = mCourseList.size();
+            }
+            return size;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+                convertView = View.inflate(getActivity(), R.layout.item_find_course_lv, null);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            CourseSortBean courseSortBean = mCourseList.get(position);
+            Glide.with(getActivity()).load(Internet.BASE_URL + courseSortBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
+            holder.tvCourse.setText(courseSortBean.getCourse_name());
+            holder.tvPrice.setText("¥" + courseSortBean.getPreferential_price());//价格是放的优惠价
+            holder.popularity.setText("（" + courseSortBean.getPopularity_num() + "人已报名）");
+
+            double school_wei = Double.parseDouble(courseSortBean.getSchool_wei());
+            double school_jing = Double.parseDouble(courseSortBean.getSchool_jing());
+
+            if (locations != null) {
+                double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
+                holder.tvDistance.setText((int) distance + "m");
+            } else {
+                holder.tvDistance.setText("定位失败");
+            }
+            return convertView;
+        }
+
+
+        class ViewHolder {
+            @BindView(R.id.iv_course)
+            ImageView ivCourse;
+            @BindView(R.id.tv_course)
+            TextView tvCourse;
+            @BindView(R.id.tv_distance)
+            TextView tvDistance;
+            @BindView(R.id.tv_price)
+            TextView tvPrice;
+            @BindView(R.id.popularity)
+            TextView popularity;
+
+            ViewHolder(View view) {
+                ButterKnife.bind(this, view);
+            }
+        }
+    }
+
+    class MyClassAdapter extends BaseAdapter {
+        private int size = 0;
+
+        @Override
+        public int getCount() {
+            if (mClassList != null) {
+                size = mClassList.size();
+            }
+            return size;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mClassList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View view, ViewGroup parent) {
+
+            ViewHolder holder = null;
+            if (view == null) {
+                view = View.inflate(getActivity(), R.layout.item_hf_class_lv, null);
+                holder = new ViewHolder(view);
+                view.setTag(holder);
+            } else {
+                holder = (ViewHolder) view.getTag();
+            }
+            final ClassSortBean classSortBean = mClassList.get(position);
+            Glide.with(getActivity())
+                    .load(Internet.BASE_URL + classSortBean.getHead_photo())
+                    .centerCrop()
+                    .error(R.drawable.kecheng)
+                    .into(holder.ivCourse);
+            holder.tvCourse.setText(classSortBean.getMechanism_name());
+            holder.popularity.setText("(" + classSortBean.getUser_renqi() + "人已报名)");
+            holder.rlItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ClassActivity.class);
+                    intent.putExtra("school_id", classSortBean.getSchool_id());
+                    startActivity(intent);
+                }
+            });
+            String user_dengji = classSortBean.getUser_dengji();
+            if (TextUtils.isEmpty(user_dengji)) {
+
+            } else {
+
+                switch (user_dengji) {
+                    case "1":
+                        holder.star1.setImageResource(R.drawable.wujiaoxing);
+                        holder.star2.setImageResource(R.drawable.wujiaoxinghuise);
+                        holder.star3.setImageResource(R.drawable.wujiaoxinghuise);
+                        holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
+                        holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                        break;
+                    case "2":
+                        holder.star1.setImageResource(R.drawable.wujiaoxing);
+                        holder.star2.setImageResource(R.drawable.wujiaoxing);
+                        holder.star3.setImageResource(R.drawable.wujiaoxinghuise);
+                        holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
+                        holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                        break;
+                    case "3":
+                        holder.star1.setImageResource(R.drawable.wujiaoxing);
+                        holder.star2.setImageResource(R.drawable.wujiaoxing);
+                        holder.star3.setImageResource(R.drawable.wujiaoxing);
+                        holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
+                        holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                        break;
+                    case "4":
+                        holder.star1.setImageResource(R.drawable.wujiaoxing);
+                        holder.star2.setImageResource(R.drawable.wujiaoxing);
+                        holder.star3.setImageResource(R.drawable.wujiaoxing);
+                        holder.star4.setImageResource(R.drawable.wujiaoxing);
+                        holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                        break;
+                    case "5":
+                        holder.star1.setImageResource(R.drawable.wujiaoxing);
+                        holder.star2.setImageResource(R.drawable.wujiaoxing);
+                        holder.star3.setImageResource(R.drawable.wujiaoxing);
+                        holder.star4.setImageResource(R.drawable.wujiaoxing);
+                        holder.star5.setImageResource(R.drawable.wujiaoxing);
+                        break;
+                }
+            }
+            double school_wei = Double.parseDouble(classSortBean.getUser_area());//纬度
+            double school_jing = Double.parseDouble(classSortBean.getUser_name());
+
+            if (locations != null) {
+                double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
+                holder.tvDistance.setText((int) distance + "m");
+            } else {
+                holder.tvDistance.setText("定位失败");
+            }
+
+            return view;
+        }
+
+        class ViewHolder {
+            @BindView(R.id.iv_course)
+            ImageView ivCourse;
+            @BindView(R.id.tv_course)
+            TextView tvCourse;
+            @BindView(R.id.tv_distance)
+            TextView tvDistance;
+            @BindView(R.id.popularity)
+            TextView popularity;
+            @BindView(R.id.rl_item)
+            RelativeLayout rlItem;
+            @BindView(R.id.iv_star1)
+            ImageView star1;
+            @BindView(R.id.iv_star2)
+            ImageView star2;
+            @BindView(R.id.iv_star3)
+            ImageView star3;
+            @BindView(R.id.iv_star4)
+            ImageView star4;
+            @BindView(R.id.iv_star5)
+            ImageView star5;
+
+            ViewHolder(View view) {
+                ButterKnife.bind(this, view);
+            }
+        }
+    }
+
+    //向下弹出
+    public void showCourse(View view) {
+        if (sortPopupwindow != null && sortPopupwindow.isShowing()) return;
+        sortPopupwindow = new CommonPopupWindow.Builder(getActivity())
+                .setView(R.layout.popupwindow_sort)
+                .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setAnimationStyle(R.style.AnimDown)
+                .setViewOnclickListener(this)
+                .setOutsideTouchable(false)
+                .create();
+        sortPopupwindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        sortPopupwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        sortPopupwindow.showAsDropDown(view, 0, 0);
+    }
+
+    //向下弹出
+    public void showSynthesisRankPopupwindow(View view) {
+        if (synthesisRankPopupwindow != null && synthesisRankPopupwindow.isShowing()) return;
+        synthesisRankPopupwindow = new CommonPopupWindow.Builder(getActivity())
+                .setView(R.layout.popupwindow_synthesis_rank)
+                .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setAnimationStyle(R.style.AnimDown)
+                .setViewOnclickListener(this)
+                .setOutsideTouchable(false)
+                .create();
+        synthesisRankPopupwindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        synthesisRankPopupwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        synthesisRankPopupwindow.showAsDropDown(view, 0, 0);
+    }
+
+    class MyThirdAdapter extends BaseAdapter {
+
+        private List<TimeHourBean> mCourseList;
+        private int size = 0;
+        private ChooseItem chooseItem;
+
+        public MyThirdAdapter(Context context, List<TimeHourBean> mCourseList) {
+            this.mCourseList = mCourseList;
+        }
+
+        public void setChooseItem(ChooseItem chooseItem) {
+            this.chooseItem = chooseItem;
+        }
+
+        @Override
+        public int getCount() {
+
+            if (mCourseList != null) {
+                size = mCourseList.size();
+            }
+            return mCourseList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mCourseList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View view, final ViewGroup parent) {
+
+            ViewHolder holder = null;
+
+            if (view == null) {
+                view = View.inflate(getActivity(), R.layout.sort_item, null);
+                holder = new ViewHolder(view);
+                view.setTag(holder);
+            } else {
+                holder = (ViewHolder) view.getTag();
+            }
+            holder.tvTime.setChecked(mCourseList.get(position).isChecked());
+            holder.tvTime.setText(mCourseList.get(position).getTime());
+            Log.e("aaa",
+                    "(TimeAdapter.java:71)" + mCourseList.toString());
+            holder.tvTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView,
+                                             boolean isChecked) {
+                    // TODO Auto-generated method stub
+                    if (isChecked) {
+                        Log.e("aaa",
+                                "(TimeAdapter.java:79)" + parent.getTag());
+                        chooseItem.cbCheck(position, Integer.parseInt(parent.getTag() + ""), true);
+                        mCourseList.get(position).setChecked(true);
+                        notifyDataSetChanged();
+                    } else {
+                        chooseItem.cbCheck(position, Integer.parseInt(parent.getTag() + ""), false);
+                        mCourseList.get(position).setChecked(false);
+                        notifyDataSetChanged();
+                    }
+                }
+
+            });
+            return view;
+        }
+
+        class ViewHolder {
+            @BindView(R.id.cb_time)
+            CheckBox tvTime;
+
+            ViewHolder(View view) {
+                ButterKnife.bind(this, view);
+            }
+        }
+
+    }
+
+
+    interface ChooseItem {
+        public void cbCheck(int position, int parentPosition, boolean cb);
+    }
+
 
     /**
      * 定位SDK监听函数
@@ -376,4 +1571,6 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         }
 
     }
+
+
 }

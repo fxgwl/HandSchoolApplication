@@ -712,7 +712,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
             R.id.rl_child_edu, R.id.rl_trusteeship, R.id.rl_family_edu,
             R.id.tv_more_art, R.id.tv_more_learn, R.id.tv_more_activity,
             R.id.tv_more_child, R.id.tv_more_trusteeship, R.id.tv_more_home
-            , R.id.et_search})
+            , R.id.et_search,R.id.ll_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_search://搜索

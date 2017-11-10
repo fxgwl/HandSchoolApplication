@@ -122,11 +122,11 @@ public class SearchActivity extends BaseActivity {
             case R.id.iv_search:
 //                Internet.COURSESEARCH
                 //搜索成功调用的方法
-                if (TextUtils.isEmpty(etSearch.getText().toString())) {
+                if (TextUtils.isEmpty(etSearch.getText().toString().trim())) {
                     Toast.makeText(this, "搜索不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }else {
-                    String search = etSearch.getText().toString();
+                    String search = etSearch.getText().toString().trim();
                     history.add(search);
                     listDataSave.setDataList("history",history);
                     startActivity(new Intent(this,SearchResultActivity.class).putExtra("search",search));

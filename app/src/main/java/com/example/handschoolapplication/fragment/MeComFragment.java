@@ -26,6 +26,7 @@ import com.example.handschoolapplication.activity.QRCodeActivity;
 import com.example.handschoolapplication.activity.ScanQRCodeActivity;
 import com.example.handschoolapplication.activity.SchoolInformationActivity;
 import com.example.handschoolapplication.activity.SettingsActivity;
+import com.example.handschoolapplication.activity.SignActivity;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.SchoolInfoBean;
 import com.example.handschoolapplication.utils.Internet;
@@ -95,6 +96,7 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
     private String user_id;
     private SchoolInfoBean.DataBean dataBean;
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
+    private String signed_num;
 
     public MeComFragment() {
         // Required empty public constructor
@@ -151,6 +153,7 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
                                     .into(civUsericon);
                             tvPercent.setText(dataBean.getData_integrity() + "%");
                             tvIntegral.setText(dataBean.getUser_integral());
+                            signed_num = dataBean.getSigned_num();
                             switch (dataBean.getUser_dengji()) {
                                 case "0":
                                     break;
@@ -188,7 +191,7 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
 
 
     @OnClick({R.id.civ_usericon, R.id.iv_settings, R.id.iv_edit, R.id.ll_scan, R.id.ll_my_class, R.id.ll_my_account, R.id.ll_apply,
-            R.id.ll_deal_manager, R.id.ll_evaluate_manager, R.id.ll_code,R.id.rl_class_grade})
+            R.id.ll_deal_manager, R.id.ll_evaluate_manager, R.id.ll_code,R.id.rl_class_grade,R.id.rl_sign})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_settings://设置
@@ -229,6 +232,9 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
                         .putExtra("grade",dataBean.getUser_dengji())
                         .putExtra("integral",dataBean.getUser_integral())
                         .putExtra("flag","com"));
+                break;
+            case R.id.rl_sign:
+                startActivity(new Intent(getActivity(), SignActivity.class).putExtra("signed_num",signed_num));
                 break;
         }
     }

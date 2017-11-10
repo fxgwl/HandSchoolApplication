@@ -137,10 +137,12 @@ public class HelpActivity extends BaseActivity {
                         Log.e("aaa",
                                 "(HelpActivity.java:137)" + response);
 
-                        Gson gson = new Gson();
-                        infoList.clear();
-                        infoList.addAll(gson.fromJson(response, InfoBean.class).getData());
-                        mAdapter.notifyDataSetChanged();
+                        if (response.contains("没有信息")){}else {
+                            Gson gson = new Gson();
+                            infoList.clear();
+                            infoList.addAll(gson.fromJson(response, InfoBean.class).getData());
+                            mAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
     }

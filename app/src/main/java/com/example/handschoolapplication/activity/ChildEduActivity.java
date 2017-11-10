@@ -125,8 +125,25 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         mCourseList = new ArrayList<>();
         myCourseAdapter = new MyCourseAdapter();
 //        myClassAdapter = new MyClassAdapter();
+
+        types.add("和平区");
+        types.add("河西区");
+        types.add("河东区");
+        types.add("红桥区");
+        types.add("南开区");
+        types.add("河北区 ");
+        types.add("西青区 ");
+        types.add("津南区 ");
+        types.add("北辰区 ");
+        types.add("东丽区 ");
+        types.add("武清");
+        types.add("宁河");
+        types.add("静海");
+        types.add("宝坻");
+        types.add("汉沽");
+
         myThirdAdapter = new MyThirdAdapter(this, typeThirdList);
-        horizontalListViewAdapter = new HorizontalListViewAdapter(this);
+        horizontalListViewAdapter = new HorizontalListViewAdapter(this,types);
         listView.setAdapter(myCourseAdapter);
 
 //        types = (ArrayList) getIntent().getSerializableExtra("types");
@@ -142,6 +159,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         getOrganizationRank();
 //        startLocate();
         //获取文体艺术的小类
+
 
         baiduMap.setOnMapClickListener(listener);
         listView.setOnItemClickListener(this);
@@ -162,7 +180,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
 
     @Override
     public int getContentViewId() {
-        return R.layout.activity_art;
+        return R.layout.activity_class_xiaolei;
     }
 
     private void getThirdList(String flag) {
@@ -379,9 +397,12 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
 //                        Toast.makeText(ChildEduActivity.this, types.get(position).toString(), Toast.LENGTH_SHORT).show();
                         horizontalListViewAdapter.setSelectedPosition(position);
                         horizontalListViewAdapter.notifyDataSetChanged();
+                        sortPopupwindow.dismiss();
+                        iv_bg.setVisibility(View.GONE);
 //                        sortPopupwindow.dismiss();
 //                        iv_bg.setVisibility(View.GONE);
-                        getThirdList(types.get(position).toString());
+                        //三级列表没数据
+//                        getThirdList(types.get(position).toString());
 //                        initData(types.get(position).toString());
                     }
                 });

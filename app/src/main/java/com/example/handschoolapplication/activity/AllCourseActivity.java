@@ -45,6 +45,7 @@ public class AllCourseActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userId = (String) SPUtils.get(this, "userId", "");
+
         initView();
         initData();
     }
@@ -57,10 +58,11 @@ public class AllCourseActivity extends BaseActivity {
         mAdapter.setOnClickLearnCodeListener(new AllCourseAdapter.OnClickLearnCodeListener() {
             @Override
             public void setLearnCode(int position) {
-                
-                startActivity(new Intent(AllCourseActivity.this,QRCodeActivity.class)
-                        .putExtra("learnCode",mList.get(position).getCourseInfo().getStudy_num())
-                        .putExtra("flag","LC"));
+//                Log.e("aaa",
+//                    "(AllCourseActivity.java:62)"+mList.get(position).getCourseInfo().getStudy_num());
+                startActivity(new Intent(AllCourseActivity.this, QRCodeActivity.class)
+                        .putExtra("learnCode", (mList.get(position).getCourseInfo().getStudy_num() + "," + mList.get(position).getOrder_id()))
+                        .putExtra("flag", "LC"));
             }
         });
     }
@@ -81,7 +83,7 @@ public class AllCourseActivity extends BaseActivity {
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(LearningActivity.java:68)" + response);
+                                "(AllCourseActivity.java:86)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
@@ -91,7 +93,7 @@ public class AllCourseActivity extends BaseActivity {
                             for (int i = 0; i < learningCourseBeen.size(); i++) {
                                 if ("2".equals(learningCourseBeen.get(i).getOrder_state())) {
                                     mList.add(learningCourseBeen.get(i));
-                                }else if ("1".equals(learningCourseBeen.get(i).getOrder_state())){
+                                } else if ("1".equals(learningCourseBeen.get(i).getOrder_state())) {
                                     mList.add(learningCourseBeen.get(i));
                                 }
                             }

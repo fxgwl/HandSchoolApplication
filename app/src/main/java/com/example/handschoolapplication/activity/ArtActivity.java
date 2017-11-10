@@ -131,6 +131,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         horizontalListViewAdapter = new HorizontalListViewAdapter(this);
         listView.setAdapter(myCourseAdapter);
 
+
 //        types = (ArrayList) getIntent().getSerializableExtra("types");
         flag = getIntent().getStringExtra("flag");
         city = getIntent().getStringExtra("city");

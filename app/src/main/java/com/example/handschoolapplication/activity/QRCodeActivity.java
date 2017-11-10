@@ -72,7 +72,7 @@ public class QRCodeActivity extends BaseActivity {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return QRCodeEncoder.syncEncodeQRCode("lc"+text, BGAQRCodeUtil.dp2px(QRCodeActivity.this, 200));
+                return QRCodeEncoder.syncEncodeQRCode(text, BGAQRCodeUtil.dp2px(QRCodeActivity.this, 200));
             }
 
             @Override

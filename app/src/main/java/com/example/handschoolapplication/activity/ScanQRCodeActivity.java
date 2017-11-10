@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.utils.SPUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -32,13 +33,14 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     private QRCodeView mQRCodeView;
     //区分扫描二维码是干什么的
     private String flag;//0 去学堂
+    private String user_type;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         tvTitle.setText("二维码扫描");
-
+        user_type = (String) SPUtils.get(this, "user_type", "");
         flag = getIntent().getStringExtra("flag");
 
         mQRCodeView = (ZXingView) findViewById(R.id.zxingview);
@@ -83,13 +85,15 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     public void onScanQRCodeSuccess(String result) {
         Log.i(TAG, "result:" + result);
         vibrate();
-        if ("0".equals(flag)){
+        if ("0".equals(user_type)){
             String[] split = result.split(",");
             if ("xt".equals(split[0])){
                 startActivity(new Intent(this,ClassActivity.class).putExtra("school_id",result));
             }else {
                 Toast.makeText(this, "扫描结果："+result, Toast.LENGTH_SHORT).show();
             }
+        }else {
+
         }
         mQRCodeView.stopSpot();
         ScanQRCodeActivity.this.finish();

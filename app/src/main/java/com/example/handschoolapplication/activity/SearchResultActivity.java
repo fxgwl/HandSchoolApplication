@@ -66,7 +66,7 @@ public class SearchResultActivity extends BaseActivity {
 
     private void initView() {
         etSearch.setText(search);
-        tvSearchTitle.setText("当前搜索：  "+etSearch.getText().toString());
+        tvSearchTitle.setText("当前搜索：  "+etSearch.getText().toString().trim());
         setViewCourseData();
     }
 
@@ -83,7 +83,7 @@ public class SearchResultActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_search:
-                tvSearchTitle.setText("当前搜索：  "+etSearch.getText().toString());
+                tvSearchTitle.setText("当前搜索：  "+etSearch.getText().toString().trim());
                 if (rbSearchType.isChecked())setViewCourseData();//课堂
                 else setViewSchoolData();//学堂
                 break;
@@ -93,7 +93,7 @@ public class SearchResultActivity extends BaseActivity {
     private void setViewSchoolData() {
         OkHttpUtils.post()
                 .url(Internet.SCHOOLSEARCH)
-                .addParams("mechanism_name", etSearch.getText().toString())
+                .addParams("mechanism_name", etSearch.getText().toString().trim())
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -123,7 +123,7 @@ public class SearchResultActivity extends BaseActivity {
 
         OkHttpUtils.post()
                 .url(Internet.COURSESEARCH)
-                .addParams("course_name", etSearch.getText().toString())
+                .addParams("course_name", etSearch.getText().toString().trim())
                 .build()
                 .execute(new StringCallback() {
                     @Override
