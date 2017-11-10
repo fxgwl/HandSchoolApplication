@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,11 +71,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
 
-import static com.example.handschoolapplication.R.id.iv_sign;
 
 
 /**
@@ -155,8 +156,11 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     TextView tvHometypelist5;
     @BindView(R.id.tv_hometypelist6)
     TextView tvHometypelist6;
-    @BindView(iv_sign)
+    @BindView(R.id.iv_sign)
     ImageView ivSign;
+    Unbinder unbinder1;
+    @BindView(R.id.mScrollView)
+    ScrollView mScrollView;
     private View view;
     HorizontalListViewAdapter mAdapter;
     HorizontalLearnListViewAdapter mLearnAdapter;
@@ -193,6 +197,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
 
     private ScaleAnimation sato1 = new ScaleAnimation(0, 1, 1, 1,
             Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0.5f);
+    private Animation animation;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -253,6 +258,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder1 = ButterKnife.bind(this, view);
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         marqueeView = (MarqueeView) view.findViewById(R.id.marqueeView);
         user_id = (String) SPUtils.get(getActivity(), "userId", "");
@@ -291,6 +297,8 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
 
             }
         });
+
+        mScrollView.smoothScrollTo(0, 20);
         return view;
     }
 
@@ -858,6 +866,12 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         mActivityAdapter.setSelectedPosition(position);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder1.unbind();
+    }
+
 
     class NetWorkImageHolderView implements Holder<String> {
         private ImageView imageView;
@@ -946,7 +960,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
             Log.e("描述：", sb.toString());
 
             city = location.getCity();
-            SPUtils.put(getActivity(),"city",city);
+            SPUtils.put(getActivity(), "city", city);
             double[] locations = new double[2];
             locations[0] = location.getLatitude();//纬度
             locations[1] = location.getLongitude();//经度
