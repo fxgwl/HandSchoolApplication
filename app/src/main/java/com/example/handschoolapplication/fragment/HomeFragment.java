@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -75,7 +76,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
-
 
 
 /**
@@ -161,6 +161,8 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     Unbinder unbinder1;
     @BindView(R.id.mScrollView)
     ScrollView mScrollView;
+    @BindView(R.id.iv)
+    ImageView iv;
     private View view;
     HorizontalListViewAdapter mAdapter;
     HorizontalLearnListViewAdapter mLearnAdapter;
@@ -719,6 +721,26 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                 break;
             case R.id.ll_sign_in://签到
 //                城市根据定位重新调整
+                iv.setVisibility(View.VISIBLE);
+                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha_anim);
+                iv.startAnimation(animation);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        iv.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
                 ivSign.startAnimation(sato0);
                 if (isLogin) {
                     OkHttpUtils.post()
@@ -740,8 +762,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                         JSONObject json = new JSONObject(response);
                                         String msg = json.getString("msg");
                                         if (msg.contains("成功")) {
-//                                            llSignIn.setVisibility(View.GONE);
-//                                            llSignIns.setVisibility(View.VISIBLE);
+
                                         }
                                         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                     } catch (JSONException e) {
