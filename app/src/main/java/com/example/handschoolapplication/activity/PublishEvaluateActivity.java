@@ -55,21 +55,25 @@ public class PublishEvaluateActivity extends BaseActivity {
     private String classscore = "5.0";
     private String schoolscore = "5.0";
     private OrderBean.DataBean dataBean;
+    private String school_name;
+    private String class_photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         user_id = (String) SPUtils.get(this, "userId", "");
-        dataBean = (OrderBean.DataBean) getIntent().getSerializableExtra("dataBean");
-        order_id = dataBean.getOrder_id();
+//        dataBean = (OrderBean.DataBean) getIntent().getSerializableExtra("dataBean");
+        order_id = getIntent().getStringExtra("order_id");
+        school_name = getIntent().getStringExtra("school_name");
+        class_photo = getIntent().getStringExtra("class_photo");
         initView();
         ratbClassflee.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 Log.e("aaa",
                         "(PublishEvaluateActivity.java:42)" + rating);
-                classscore = rating + "";
+                classscore = (int)rating + "";
                 tvClassscore.setText(rating + "分");
             }
         });
@@ -78,7 +82,7 @@ public class PublishEvaluateActivity extends BaseActivity {
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 Log.e("aaa",
                         "(PublishEvaluateActivity.java:42)" + rating);
-                schoolscore = rating + "";
+                schoolscore = (int)rating + "";
                 tvShcoolscore.setText(rating + "分");
             }
         });
@@ -86,9 +90,16 @@ public class PublishEvaluateActivity extends BaseActivity {
     }
 
     private void initView() {
-        tvClassName.setText(dataBean.getSchool_name());
+        tvClassName.setText(school_name);
+        String photo = "";
+        if (class_photo.contains(",")){
+            String[] split = class_photo.split(",");
+            photo = split[0];
+        }else {
+            photo = class_photo;
+        }
         Glide.with(this)
-                .load(Internet.BASE_URL+dataBean.getClass_photo())
+                .load(Internet.BASE_URL+photo)
                 .centerCrop()
                 .into(civClassIcon);
     }
@@ -106,7 +117,6 @@ public class PublishEvaluateActivity extends BaseActivity {
                 break;
             case R.id.tv_save:
                 String schoolComment = etClasscomment.getText().toString();
-
                 if (TextUtils.isEmpty(schoolComment)) {
                     Toast.makeText(this, "请输入评价", Toast.LENGTH_SHORT).show();
                     return;

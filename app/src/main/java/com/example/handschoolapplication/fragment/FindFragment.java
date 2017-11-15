@@ -68,6 +68,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -111,8 +113,6 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
     private ArrayList<String> types = new ArrayList();//第二级下拉菜单的数据源
     private MyThirdAdapter myThirdAdapter;
     private List<TimeHourBean> typeThirdList = new ArrayList<>();
-    private List<CourseSortBean> mCourseList = new ArrayList<>();
-    private List<ClassSortBean> mClassList = new ArrayList<>();
     private MyCourseAdapter myCourseAdapter = new MyCourseAdapter();
     private MyClassAdapter myClassAdapter = new MyClassAdapter();
 
@@ -133,13 +133,11 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    Log.e("aaa",
-                            "(FindFragment.java:86)" + "dsahjdhsadhasdasdj");
                     locations = (double[]) msg.obj;
-                    Log.e("aaa",
-                            "(FindFragment.java:89)" + locations);
                     findCourseAdapter.setLocations(locations);
                     findCourseAdapter.notifyDataSetChanged();
+                    findClassAdapter.setLocations(locations);
+                    findClassAdapter.notifyDataSetChanged();
                     break;
                 case 1:
                     String address = (String) msg.obj;
@@ -151,7 +149,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             }
         }
     };
-    private boolean isCourse;
+    private boolean isCourse = true;
     private String city;
     private TextView tvGradeRAnk;
     private TextView tvStarRAnk;
@@ -202,8 +200,6 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
 
         horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity());
         myThirdAdapter = new MyThirdAdapter(getActivity(), typeThirdList);
-
-
         rbSearchType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -226,7 +222,20 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
          * @param point 点击的地理坐标
          */
         public void onMapClick(LatLng point) {
-            startActivity(new Intent(getActivity(), BaiduMapActivity.class));
+
+            if (isCourse) {
+                startActivity(new Intent(getActivity(), BaiduMapActivity.class)
+                        .putExtra("findCourseList", (Serializable) findCourseList)
+                        .putExtra("isCourse", "0"));
+                Log.e("aaa",
+                        "(FindFragment.java:236)------------" + findCourseList.toString());
+            } else {
+                startActivity(new Intent(getActivity(), BaiduMapActivity.class)
+                        .putExtra("findCourseList", (Serializable) findClassList)
+                        .putExtra("isCourse", "1"));
+                Log.e("aaa",
+                        "(FindFragment.java:242)=================" + findClassList.toString());
+            }
         }
 
         /**
@@ -369,7 +378,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
 
     private void initData(String sort) {
 
-        mCourseList.clear();
+        findCourseList.clear();
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", sort)
@@ -379,20 +388,20 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:78)" + e.getMessage());
+                                "(FindFragment.java:393)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:84)" + response);
+                                "(FindFragment.java:399)" + response);
 
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
-                            myCourseAdapter.notifyDataSetChanged();
+                            findCourseAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -491,7 +500,11 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                         iv_bg.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), typeThird, Toast.LENGTH_SHORT).show();
                         //筛选
-                        initData(typeThird);
+                        if (isCourse){
+                            initData(typeThird);
+                        }else {
+                            getOrganizationRank(typeThird);
+                        }
                     }
                 });
                 break;
@@ -541,13 +554,13 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:203)" + e.getMessage());
+                                "(FindFragment.java:203)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:209)" + response);
+                                "(FindFragment.java:209)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
@@ -730,7 +743,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
      * 课程排名
      */
     private void getCourseRank() {
-        mCourseList.clear();
+        findCourseList.clear();
         OkHttpUtils.post()
                 .url(InternetS.COURSE_RANK)
                 .addParams("course_type", flag)
@@ -740,19 +753,19 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:141)" + e.getMessage());
+                                "(FindFragment.java:141)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:148)" + response);
+                                "(FindFragment.java:148)" + response);
                         Log.e("aaa",
-                                "(ArtActivity.java:504) city === " + city);
+                                "(FindFragment.java:504) city === " + city);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
 //                            myCourseAdapter.setLocations(locations);
                             listView.setAdapter(myCourseAdapter);
@@ -767,30 +780,30 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
     /**
      * 机构排序
      */
-    private void getOrganizationRank() {
-        mClassList.clear();
+    private void getOrganizationRank(String type) {
+        findClassList.clear();
         OkHttpUtils.post()
                 .url(InternetS.ORGANIZATION_RANK)
-                .addParams("mechanism_type", flag)
+                .addParams("mechanism_type", type)
                 .addParams("mechanism_city", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:233)" + e.getMessage());
+                                "(FindFragment.java:233)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:239)" + response);
+                                "(FindFragment.java:239)" + response);
                         if (response.contains("没有信息")) {
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 JSONArray data = jsonObject.getJSONArray("data");
-                                mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                                findClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
                                 }.getType()));
 //                            myCourseAdapter.setLocations(locations);
                                 myClassAdapter = new MyClassAdapter();
@@ -809,26 +822,26 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
      * 机构的等级推荐  星级排行
      */
     private void getStarOrGradeRank() {
-        mClassList.clear();
+        findClassList.clear();
         OkHttpUtils.post()
                 .url(InternetS.CLASS_GRADE_RANK)
-                .addParams("course_type", flag)
+                .addParams("course_type", "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:232)" + e.getMessage());
+                                "(FindFragment.java:232)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:238)" + response);
+                                "(FindFragment.java:238)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
-                            mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                            findClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
                             }.getType()));
 //                            myCourseAdapter.setLocations(locations);
                             myClassAdapter.notifyDataSetChanged();
@@ -843,26 +856,26 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
      * 课程的等级推荐  星级排行
      */
     private void getCourseStarOrGradeRank() {
-        mCourseList.clear();
+        findCourseList.clear();
         OkHttpUtils.post()
                 .url(InternetS.COURSE_GRADE_RANK)
-                .addParams("course_type", flag)
+                .addParams("course_type", "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:232)" + e.getMessage());
+                                "(FindFragment.java:232)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:238)" + response);
+                                "(FindFragment.java:238)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
 //                            myCourseAdapter.setLocations(locations);
                             myCourseAdapter.notifyDataSetChanged();
@@ -878,26 +891,26 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
      */
 
     private void getPopularityRank() {
-        mCourseList.clear();
+        findCourseList.clear();
         OkHttpUtils.post()
                 .url(InternetS.POPULIRATION_RANK)
-                .addParams("course_type", flag)
+                .addParams("course_type", "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:266)" + e.getMessage());
+                                "(FindFragment.java:266)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:272)" + response);
+                                "(FindFragment.java:272)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
 //                            myCourseAdapter.setLocations(locations);
                             myCourseAdapter.notifyDataSetChanged();
@@ -912,26 +925,26 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
      * 课程的人气排行
      */
     private void getCoursePopularityRank() {
-        mCourseList.clear();
+        findCourseList.clear();
         OkHttpUtils.post()
                 .url(InternetS.COURSE_POPULIRATION_RANK)
-                .addParams("course_type", flag)
+                .addParams("course_type", "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:266)" + e.getMessage());
+                                "(FindFragment.java:266)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:272)" + response);
+                                "(FindFragment.java:272)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
 //                            myCourseAdapter.setLocations(locations);
                             myCourseAdapter.notifyDataSetChanged();
@@ -947,7 +960,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
      */
 
     private void getPriceUpRank() {
-        mCourseList.clear();
+        findCourseList.clear();
         OkHttpUtils.post()
                 .url(InternetS.PRICE_UP_RANK)
                 .build()
@@ -955,18 +968,18 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:298)" + e.getMessage());
+                                "(FindFragment.java:298)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
 
                         Log.e("aaa",
-                                "(ArtActivity.java:305)" + response);
+                                "(FindFragment.java:305)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
 
 //                            myCourseAdapter.setLocations(locations);
@@ -983,7 +996,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
      */
 
     private void getPriceDownRank() {
-        mCourseList.clear();
+        findCourseList.clear();
         OkHttpUtils.post()
                 .url(InternetS.PRICE_UP_RANK)
                 .build()
@@ -991,14 +1004,14 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:298)" + e.getMessage());
+                                "(FindFragment.java:298)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
 
                         Log.e("aaa",
-                                "(ArtActivity.java:305)" + response);
+                                "(FindFragment.java:305)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
@@ -1007,7 +1020,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                             }.getType()));
                             if (list.size() > 0) {
                                 for (int i = 0; i < list.size(); i++) {
-                                    mCourseList.add(list.get((list.size() - 1) - i));
+                                    findCourseList.add(list.get((list.size() - 1) - i));
                                 }
                             }
 //                            myCourseAdapter.setLocations(locations);
@@ -1020,31 +1033,31 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
     }
 
     private void getDistenceDesc() {//由远到近
-        mCourseList.clear();
+        findCourseList.clear();
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
-                .addParams("course_type", flag)
+                .addParams("course_type", "")
                 .addParams("course_address", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:78)" + e.getMessage());
+                                "(FindFragment.java:78)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:84)" + response);
+                                "(FindFragment.java:84)" + response);
 
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
                             if (locations != null)
-                                RankListUtils.rankListsss(mCourseList, new LatLng(locations[0], locations[1]));
+                                RankListUtils.rankListsss(findCourseList, new LatLng(locations[0], locations[1]));
                             myCourseAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1059,32 +1072,32 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
      */
 
     private void getOrganizationDistanceDesc() {
-        mClassList.clear();
+        findClassList.clear();
         OkHttpUtils.post()
                 .url(InternetS.ORGANIZATION_RANK)
-                .addParams("mechanism_type", flag)
+                .addParams("mechanism_type", "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:233)" + e.getMessage());
+                                "(FindFragment.java:233)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:239)" + response);
+                                "(FindFragment.java:239)" + response);
                         if (response.contains("没有信息")) {
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 JSONArray data = jsonObject.getJSONArray("data");
-                                mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                                findClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
                                 }.getType()));
 //                            myCourseAdapter.setLocations(locations);
                                 if (locations != null)
-                                    RankListUtils.rankListssss(mClassList, new LatLng(locations[0], locations[1]));
+                                    RankListUtils.rankListssss(findClassList, new LatLng(locations[0], locations[1]));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -1096,31 +1109,31 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
     }
 
     private void getDistenceAsc() {//由近到远
-        mCourseList.clear();
+        findCourseList.clear();
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
-                .addParams("course_type", flag)
+                .addParams("course_type", "")
                 .addParams("course_address", city)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:78)" + e.getMessage());
+                                "(FindFragment.java:78)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:84)" + response);
+                                "(FindFragment.java:84)" + response);
 
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                            findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
                             if (locations != null)
-                                RankListUtils.rankList(mCourseList, new LatLng(locations[0], locations[1]));
+                                RankListUtils.rankList(findCourseList, new LatLng(locations[0], locations[1]));
                             myCourseAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1134,32 +1147,32 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
      * 机构的距离排序  由近到远
      */
     private void getOrganizationDistanceAse() {
-        mClassList.clear();
+        findClassList.clear();
         OkHttpUtils.post()
                 .url(InternetS.ORGANIZATION_RANK)
-                .addParams("mechanism_type", flag)
+                .addParams("mechanism_type", "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:233)" + e.getMessage());
+                                "(FindFragment.java:233)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:239)" + response);
+                                "(FindFragment.java:239)" + response);
                         if (response.contains("没有信息")) {
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 JSONArray data = jsonObject.getJSONArray("data");
-                                mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                                findClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
                                 }.getType()));
 //                            myCourseAdapter.setLocations(locations);
                                 if (locations != null)
-                                    RankListUtils.rankListss(mClassList, new LatLng(locations[0], locations[1]));
+                                    RankListUtils.rankListss(findClassList, new LatLng(locations[0], locations[1]));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -1174,10 +1187,11 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
 
         int size = 0;
 
+
         @Override
         public int getCount() {
-            if (mCourseList != null) {
-                size = mCourseList.size();
+            if (findCourseList != null) {
+                size = findCourseList.size();
             }
             return size;
         }
@@ -1202,8 +1216,17 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            CourseSortBean courseSortBean = mCourseList.get(position);
-            Glide.with(getActivity()).load(Internet.BASE_URL + courseSortBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
+            CourseSortBean courseSortBean = findCourseList.get(position);
+
+            String course_photo = courseSortBean.getCourse_photo();
+            String photo = "";
+            if (course_photo.contains(",")) {
+                String[] split = course_photo.split(",");
+                photo = split[0];
+            } else {
+                photo = course_photo;
+            }
+            Glide.with(getActivity()).load(Internet.BASE_URL + photo).centerCrop().into(holder.ivCourse);
             holder.tvCourse.setText(courseSortBean.getCourse_name());
             holder.tvPrice.setText("¥" + courseSortBean.getPreferential_price());//价格是放的优惠价
             holder.popularity.setText("（" + courseSortBean.getPopularity_num() + "人已报名）");
@@ -1213,6 +1236,12 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
 
             if (locations != null) {
                 double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
+                distance = (distance / 1000);
+                BigDecimal bigDecimal = new BigDecimal(distance).setScale(2);
+                String string = bigDecimal.toString();
+
+                Log.e("aaa",
+                        "(MyCourseAdapter.java:1246)  ==换成千米的距离===" + distance + "字符类型的数据 ==" + string);
                 holder.tvDistance.setText((int) distance + "m");
             } else {
                 holder.tvDistance.setText("定位失败");
@@ -1244,15 +1273,15 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
 
         @Override
         public int getCount() {
-            if (mClassList != null) {
-                size = mClassList.size();
+            if (findClassList != null) {
+                size = findClassList.size();
             }
             return size;
         }
 
         @Override
         public Object getItem(int position) {
-            return mClassList.get(position);
+            return findClassList.get(position);
         }
 
         @Override
@@ -1271,7 +1300,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             } else {
                 holder = (ViewHolder) view.getTag();
             }
-            final ClassSortBean classSortBean = mClassList.get(position);
+            final ClassSortBean classSortBean = findClassList.get(position);
             Glide.with(getActivity())
                     .load(Internet.BASE_URL + classSortBean.getHead_photo())
                     .centerCrop()
@@ -1403,12 +1432,12 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
 
     class MyThirdAdapter extends BaseAdapter {
 
-        private List<TimeHourBean> mCourseList;
+        private List<TimeHourBean> findCourseList;
         private int size = 0;
         private ChooseItem chooseItem;
 
-        public MyThirdAdapter(Context context, List<TimeHourBean> mCourseList) {
-            this.mCourseList = mCourseList;
+        public MyThirdAdapter(Context context, List<TimeHourBean> findCourseList) {
+            this.findCourseList = findCourseList;
         }
 
         public void setChooseItem(ChooseItem chooseItem) {
@@ -1418,15 +1447,15 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         @Override
         public int getCount() {
 
-            if (mCourseList != null) {
-                size = mCourseList.size();
+            if (findCourseList != null) {
+                size = findCourseList.size();
             }
-            return mCourseList.size();
+            return findCourseList.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return mCourseList.get(position);
+            return findCourseList.get(position);
         }
 
         @Override
@@ -1446,10 +1475,10 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
             } else {
                 holder = (ViewHolder) view.getTag();
             }
-            holder.tvTime.setChecked(mCourseList.get(position).isChecked());
-            holder.tvTime.setText(mCourseList.get(position).getTime());
+            holder.tvTime.setChecked(findCourseList.get(position).isChecked());
+            holder.tvTime.setText(findCourseList.get(position).getTime());
             Log.e("aaa",
-                    "(TimeAdapter.java:71)" + mCourseList.toString());
+                    "(TimeAdapter.java:71)" + findCourseList.toString());
             holder.tvTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                 @Override
@@ -1460,11 +1489,11 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                         Log.e("aaa",
                                 "(TimeAdapter.java:79)" + parent.getTag());
                         chooseItem.cbCheck(position, Integer.parseInt(parent.getTag() + ""), true);
-                        mCourseList.get(position).setChecked(true);
+                        findCourseList.get(position).setChecked(true);
                         notifyDataSetChanged();
                     } else {
                         chooseItem.cbCheck(position, Integer.parseInt(parent.getTag() + ""), false);
-                        mCourseList.get(position).setChecked(false);
+                        findCourseList.get(position).setChecked(false);
                         notifyDataSetChanged();
                     }
                 }

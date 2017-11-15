@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.AllCourseAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.LearningCourseBean;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -61,10 +64,51 @@ public class AllCourseActivity extends BaseActivity {
 //                Log.e("aaa",
 //                    "(AllCourseActivity.java:62)"+mList.get(position).getCourseInfo().getStudy_num());
                 startActivity(new Intent(AllCourseActivity.this, QRCodeActivity.class)
-                        .putExtra("learnCode", (mList.get(position).getCourseInfo().getStudy_num() + "," + mList.get(position).getOrder_id()))
+                        .putExtra("learnCode", "gr,"+(mList.get(position).getClass_teacher() + "," + mList.get(position).getOrder_id()))
                         .putExtra("flag", "LC"));
             }
+
+            @Override
+            public void setCourseSign(int position, String classTime) {
+                String course_id = mList.get(position).getCourse_id();
+                signInOrder(course_id,userId,classTime);
+            }
         });
+    }
+
+    private void signInOrder(String course_id, String userId, String classTime) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("course_id",course_id);
+        params.put("user_id",userId);
+        params.put("all_class",classTime);
+        OkHttpUtils.post()
+                .url(InternetS.SIGN_LIST_ORDER)
+                .params(params)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                            "(AllCourseActivity.java:91)"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                            "(AllCourseActivity.java:97)"+response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            int result = jsonObject.getInt("result");
+                            if (result==0){
+                                Toast.makeText(AllCourseActivity.this, "签到成功", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(AllCourseActivity.this, jsonObject.getString("msg"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     private void initData() {

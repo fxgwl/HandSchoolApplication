@@ -158,7 +158,9 @@ public class SignActivity extends BaseActivity {
                             for (int i = 0; i < mList.size(); i++) {
                                 String sign_time = mList.get(i).getSign_time();
                                 String[] split1 = sign_time.split("-");
-                                if (split1[2].equals(split[2])) tvSign.setText("已签到");
+                                if (split1[2].equals(split[2])){
+                                    tvSign.setText("已签到");
+                                }
                                 initView2(split1[2]);
                             }
 
@@ -266,7 +268,6 @@ public class SignActivity extends BaseActivity {
     }
 
     private void initView() {
-
         tvTitle.setText("签到");
         tvSignDays.setText(signed_num);
         int currentMonthDay = getCurrentMonthDay();//当月天数
@@ -309,6 +310,9 @@ public class SignActivity extends BaseActivity {
 //                                            llSignIns.setVisibility(View.VISIBLE);
                                 initView2(split[2]);
 //                setTvBg(tvDate1);
+                                int i = Integer.parseInt(signed_num);
+                                i=i+1;
+                                tvSignDays.setText(i+"");
                             }
                             Toast.makeText(SignActivity.this, msg, Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {

@@ -37,14 +37,18 @@ public class QRCodeActivity extends BaseActivity {
 
         school_id = (String) SPUtils.get(this, "school_id", "");
         flag = getIntent().getStringExtra("flag");
-        tvTitle.setText("学堂二维码");
+
 //        createChineseQRCode(text);
-        if (flag.equals("CC"))
-        createChineseQRCodeWithLogo(school_id);
+        if (flag.equals("CC")){
+            tvTitle.setText("学堂二维码");
+            createChineseQRCodeWithLogo("xt,"+ school_id);
+        }
         else {
+            tvTitle.setText("学习码");
             String learnCode = getIntent().getStringExtra("learnCode");
             createChineseQRCode(learnCode);
         }
+
     }
 
     @Override
@@ -95,7 +99,7 @@ public class QRCodeActivity extends BaseActivity {
             @Override
             protected Bitmap doInBackground(Void... params) {
                 Bitmap logoBitmap = BitmapFactory.decodeResource(QRCodeActivity.this.getResources(), R.mipmap.logo);
-                return QRCodeEncoder.syncEncodeQRCode("xt"+text, BGAQRCodeUtil.dp2px(QRCodeActivity.this, 200), Color.parseColor("#27acf6"), logoBitmap);
+                return QRCodeEncoder.syncEncodeQRCode(text, BGAQRCodeUtil.dp2px(QRCodeActivity.this, 200), Color.parseColor("#000000"), logoBitmap);
             }
 
             @Override

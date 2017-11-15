@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.handschoolapplication.R;
@@ -33,7 +32,7 @@ import okhttp3.Call;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.EvaluateListener {
+public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.EvaluateListener, OrderAdapter.OnMakeOrderListener {
 
     @BindView(R.id.lv_all_order)
     ListView lvAllOrder;
@@ -41,8 +40,8 @@ public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.Evalu
     private View view;
     private List<OrderBean.DataBean> mlist = new ArrayList<>();
 
-    private OrderAdapter mAdapter;
     private String user_id;
+    private OrderAdapter orderAdapter;
 
 
     public UnEvaFragment() {
@@ -56,11 +55,16 @@ public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.Evalu
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
         user_id = (String) SPUtils.get(getActivity(), "userId", "");
+        orderAdapter = new OrderAdapter(getActivity(), mlist);
+        lvAllOrder.setAdapter(orderAdapter);
         initDataView();
+
+        orderAdapter.setOnMakeOrderListener(this);
         return view;
     }
 
     private void initDataView() {
+        mlist.clear();
         OkHttpUtils.post()
                 .url(Internet.ORDERSTATE)
                 .addParams("user_id", user_id)
@@ -80,16 +84,10 @@ public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.Evalu
                         mlist.clear();
                         try {
                             mlist.addAll(gson.fromJson(response, OrderBean.class).getData());
+                            orderAdapter.notifyDataSetChanged();
                         } catch (Exception e) {
                         }
-                        OrderAdapter orderAdapter = new OrderAdapter(getActivity(), mlist);
-                        lvAllOrder.setAdapter(orderAdapter);
-                        lvAllOrder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                            }
-                        });
                     }
                 });
     }
@@ -103,6 +101,42 @@ public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.Evalu
     @Override
     public void onEvaluate(int position) {
         OrderBean.DataBean dataBean = mlist.get(position);
-        startActivity(new Intent(getActivity(), PublishEvaluateActivity.class).putExtra("dataBean",dataBean));
+        Intent intent = new Intent(getActivity(), PublishEvaluateActivity.class)
+                .putExtra("order_id", dataBean.getCourse_id())
+                .putExtra("school_name", dataBean.getSchool_name())
+                .putExtra("class_photo", dataBean.getClass_photo()
+                );
+        startActivity(intent);
+    }
+
+    @Override
+    public void setOnCancelOrder(int position) {
+
+    }
+
+    @Override
+    public void setOnPayOrder(int position) {
+
+    }
+
+    @Override
+    public void setOnRefund(int position) {
+
+    }
+
+    @Override
+    public void setOnVertify(int position) {
+
+    }
+
+    @Override
+    public void setEvaluate(int position) {
+        OrderBean.DataBean dataBean = mlist.get(position);
+        Intent intent = new Intent(getActivity(), PublishEvaluateActivity.class)
+                .putExtra("order_id", dataBean.getCourse_id())
+                .putExtra("school_name", dataBean.getSchool_name())
+                .putExtra("class_photo", dataBean.getClass_photo()
+                );
+        startActivity(intent);
     }
 }

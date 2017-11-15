@@ -27,7 +27,7 @@
             android:layout_height="20dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/iv_icon"
-            android:src="@drawable/xuetangdengji"/>
+            android:src="@drawable/xuetangdengji_gold"/>
 
         <TextView
             android:id="@+id/tv_schoolname"

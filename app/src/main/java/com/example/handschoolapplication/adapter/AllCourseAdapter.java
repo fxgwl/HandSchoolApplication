@@ -1,12 +1,12 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.LearningCourseBean;
@@ -70,35 +70,38 @@ public class AllCourseAdapter extends BaseAdapter {
         if ("2".equals(learningCourseBean.getOrder_state())) {
             holder.llLearn.setVisibility(View.GONE);
             holder.tvLearnState.setText("学习中");//学习状态
-            holder.llSign.setVisibility(View.GONE);
+            holder.llSign.setVisibility(View.VISIBLE);
 
         } else if ("1".equals(learningCourseBean.getOrder_state())) {
             holder.llLearn.setVisibility(View.VISIBLE);
             holder.tvLearnState.setText("即将学习");
             holder.tvTolearn.setText("即将学习");
-            holder.llSign.setVisibility(View.VISIBLE);
+            holder.llSign.setVisibility(View.GONE);
         }
         holder.tvTime.setText(learningCourseBean.getOrdre_time());//时间
         holder.tvClassName.setText(learningCourseBean.getSchool_name());//学堂名称
-        if (null!=learningCourseBean.getCourseInfo()){
-            holder.tvCourseName.setText(learningCourseBean.getCourseInfo().getCourse_name());//课程名称
+        holder.tvCourseName.setText(learningCourseBean.getClass_name());//课程名称
+        if (null != learningCourseBean.getClass_money()) {
+            String string = learningCourseBean.getClass_money();
+            final String course_hour = string.split("/")[1].split("节")[0];
+            holder.tvClassHour.setText("共" + course_hour + "学时");//学时
+            Log.e("aaa",
+                    "(AllCourseAdapter.java:88)" + learningCourseBean.getClass_teacher());
+            holder.tvLearnCode.setText(learningCourseBean.getClass_teacher());//学习码
+            holder.llSign.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.setCourseSign(position, course_hour);
+                }
+            });
+        }
+        holder.tvLearnTime.setText(learningCourseBean.getOrder_course_time());
+        if (null != learningCourseBean.getCourseInfo()) {
 //        holder.tvLearnTime.setText(learningCourseBean.get);
             holder.tvTeacher.setText(learningCourseBean.getCourseInfo().getCourse_teacher());//讲师
             holder.tvAddress.setText(learningCourseBean.getCourseInfo().getCourse_address());//地址
-            if (null != learningCourseBean.getCourseInfo().getCourse_money()) {
-                String string = learningCourseBean.getCourseInfo().getCourse_money();
-                String course_hour = string.split("/")[1].split("节")[0];
-                holder.tvClassHour.setText("共" + course_hour + "学时");//学时
-            }
-            holder.tvLearnCode.setText(learningCourseBean.getCourseInfo().getStudy_num());
         }
 
-        holder.llSign.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "签到成功", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         holder.llLearnCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,11 +146,17 @@ public class AllCourseAdapter extends BaseAdapter {
         }
     }
 
-    public interface OnClickLearnCodeListener{
+    public interface OnClickLearnCodeListener {
         void setLearnCode(int position);
+
+        void setCourseSign(int position, String classTime);
     }
 
-    public void setOnClickLearnCodeListener(OnClickLearnCodeListener listener){
-       this.listener = listener;
+    public void setOnClickLearnCodeListener(OnClickLearnCodeListener listener) {
+        this.listener = listener;
+    }
+
+    public void setOnClickCourseSignListener(OnClickLearnCodeListener listener) {
+        this.listener = listener;
     }
 }

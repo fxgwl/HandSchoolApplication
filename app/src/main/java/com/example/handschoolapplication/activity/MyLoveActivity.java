@@ -47,7 +47,6 @@ public class MyLoveActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         user_id = (String) SPUtils.get(this, "userId", "");
         tvTitle.setText("我的收藏");
-        tvEdit.setVisibility(View.VISIBLE);
         initFragment();
     }
 
@@ -71,7 +70,8 @@ public class MyLoveActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.ll_love_course:
                 vLineClass.setBackgroundColor(Color.parseColor("#ffffff"));

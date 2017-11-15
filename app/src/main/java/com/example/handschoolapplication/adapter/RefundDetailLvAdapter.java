@@ -8,11 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.OrderInfoBean;
+import com.example.handschoolapplication.utils.Internet;
 
 import java.text.DecimalFormat;
 import java.util.List;
+
+import static com.example.handschoolapplication.R.id.iv_itemrefunddetail_classlogo;
 
 /**
  * Created by axehome on 2017/8/24.
@@ -57,12 +61,13 @@ public class RefundDetailLvAdapter extends BaseAdapter {
             holder.mTvClassprice = ((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_classprice));
             holder.mTvNum = ((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_num));
             holder.mTvRefundPrice = ((TextView) convertView.findViewById(R.id.tv_itemrefunddetail_refundprice));
-            holder.ivClasslogo = ((ImageView) convertView.findViewById(R.id.iv_itemrefunddetail_classlogo));
+            holder.ivClasslogo = ((ImageView) convertView.findViewById(iv_itemrefunddetail_classlogo));
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         OrderInfoBean orderInfoBean = mList.get(position);
+        Glide.with(mContext).load(Internet.BASE_URL+orderInfoBean.getClass_photo()).centerCrop().into(holder.ivClasslogo);
         double money = Double.parseDouble(orderInfoBean.getOrder_money());
         double num = Double.parseDouble(orderInfoBean.getCourse_num());
         double totalMon = money * num;

@@ -8,8 +8,10 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.TimeBean;
+import com.example.handschoolapplication.bean.TimeHourBean;
 import com.example.handschoolapplication.view.MyGridView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,7 +25,7 @@ public class ClassTimeAdapter extends BaseAdapter {
     private Context context;
     private List<TimeBean> mlist;
     private int size = 0;
-    private TimeAdapter timeAdapter;
+    private CostAdapter timeAdapter;
 
     public ClassTimeAdapter(Context context, List<TimeBean> mlist) {
         this.context = context;
@@ -62,15 +64,26 @@ public class ClassTimeAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.timechooseWeek.setText(mlist.get(position).getName());
-        timeAdapter = new TimeAdapter(context, mlist.get(position).getMlist());
-        holder.timechooseGv.setAdapter(timeAdapter);
-        holder.timechooseGv.setTag(position);
-        timeAdapter.setChooseItem(new TimeAdapter.ChooseItem() {
+        List<TimeHourBean> mlist = this.mlist.get(position).getMlist();
+        ArrayList<String> time = new ArrayList<>();
+        for (int i = 0; i < mlist.size(); i++) {
+            time.add(mlist.get(i).getTime());
+        }
+        timeAdapter = new CostAdapter(context, time);
+        timeAdapter.setCbClick(new CostAdapter.CbClick() {
             @Override
-            public void cbCheck(int position, int parentPosition, boolean cb) {
-                mlist.get(parentPosition).getMlist().get(position).setChecked(cb);
+            public void onCBClick(int postion) {
+//                class_money = costs.get(postion);
             }
         });
+        holder.timechooseGv.setAdapter(timeAdapter);
+        holder.timechooseGv.setTag(position);
+//        timeAdapter.setChooseItem(new TimeAdapter.ChooseItem() {
+//            @Override
+//            public void cbCheck(int position, int parentPosition, boolean cb) {
+//                ClassTimeAdapter.this.mlist.get(parentPosition).getMlist().get(position).setChecked(cb);
+//            }
+//        });
         return view;
     }
 

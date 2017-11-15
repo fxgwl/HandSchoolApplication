@@ -114,7 +114,7 @@ public class ClassActivity extends BaseActivity {
                                 .error(R.drawable.zhangshangsishu)
                                 .into(ivIcon);
                         tvSchoolname.setText(school.getData().getSchoolData().getSchool_name());
-                        switch (school.getData().getUser_dengji()) {
+                        switch (school.getData().getPingjia()) {
                             case "0":
                                 tvPingfen.setText(0 + "分");
                                 break;
@@ -149,6 +149,19 @@ public class ClassActivity extends BaseActivity {
                                 iv5.setImageResource(R.drawable.wujiaoxing);
                                 break;
                         }
+                        switch (school.getData().getUser_dengji()){
+                            case "0":
+                            case "1":
+                                ivGrade.setImageResource(R.drawable.xuetangdengji_tong);
+                                break;
+                            case "2":
+                                ivGrade.setImageResource(R.drawable.xuetangdengji_yin);
+                                break;
+                            case "3":
+                                ivGrade.setImageResource(R.drawable.xuetangdengji_gold);
+                                break;
+                        }
+
                         initFragments();
                     }
                 });

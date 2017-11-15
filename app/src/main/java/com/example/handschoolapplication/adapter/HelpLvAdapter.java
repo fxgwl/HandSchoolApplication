@@ -52,7 +52,7 @@ public class HelpLvAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         InfoBean.DataBean question = list.get(position);
-        holder.tvQuestion.setText(question.getHelp_content());
+        holder.tvQuestion.setText(question.getHelp_title());
         return convertView;
     }
 

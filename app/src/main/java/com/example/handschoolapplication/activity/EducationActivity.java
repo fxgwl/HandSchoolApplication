@@ -66,8 +66,8 @@ public class EducationActivity extends BaseActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        startActivity(new Intent(EducationActivity.this, EducationDetailActivity.class));
+        String newsId = mList.get(position).getNews_id() + "";
+        startActivity(new Intent(EducationActivity.this, EducationDetailActivity.class).putExtra("newId",newsId));
     }
 
     private void initTeachNews() {
@@ -77,13 +77,14 @@ public class EducationActivity extends BaseActivity implements AdapterView.OnIte
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa",
+                            "(EducationActivity.java:82)"+e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(HomeFragment.java:185)" + response);
+                                "(EducationActivity.java:87)" + response);
                         Gson gson = new Gson();
                         mList.clear();
                         mList.addAll(gson.fromJson(response, TeachNewsBean.class).getData());

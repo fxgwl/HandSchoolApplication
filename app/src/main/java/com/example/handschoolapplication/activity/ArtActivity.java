@@ -56,6 +56,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -157,7 +159,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     getCourseRank();
                 } else {
                     isCourse = false;
-                    getOrganizationRank();
+                    getOrganizationRank(flag);
                 }
             }
         });
@@ -391,9 +393,12 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                         String typeThird = typeThirdList.get(position).getTime();
                         sortPopupwindow.dismiss();
                         iv_bg.setVisibility(View.GONE);
-                        Toast.makeText(ArtActivity.this, typeThird, Toast.LENGTH_SHORT).show();
                         //筛选
-                        initData(typeThird);
+                        if (isCourse){
+                            initData(typeThird);
+                        }else {
+                            getOrganizationRank(typeThird);
+                        }
                     }
                 });
                 break;
@@ -524,11 +529,11 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
     /**
      * 机构排序
      */
-    private void getOrganizationRank() {
+    private void getOrganizationRank(String type) {
         mClassList.clear();
         OkHttpUtils.post()
                 .url(InternetS.ORGANIZATION_RANK)
-                .addParams("mechanism_type", flag)
+                .addParams("mechanism_type", type)
                 .addParams("mechanism_city", city)
                 .build()
                 .execute(new StringCallback() {
@@ -842,6 +847,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 //                            myCourseAdapter.setLocations(locations);
                                 if (locations != null)
                                     RankListUtils.rankListssss(mClassList, new LatLng(locations[0], locations[1]));
+                                myClassAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -917,6 +923,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 //                            myCourseAdapter.setLocations(locations);
                                 if (locations != null)
                                     RankListUtils.rankListss(mClassList, new LatLng(locations[0], locations[1]));
+                                myClassAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -1048,7 +1055,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 if (isCourse)
-                    getDistenceDesc();
+                    getDistenceAsc();
                 else
                     getOrganizationDistanceDesc();
                 break;
@@ -1068,7 +1075,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 tvNearRank.setTextColor(Color.parseColor("#666666"));
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 if (isCourse)
-                    getDistenceAsc();
+                    getDistenceDesc();
                 else
                     getOrganizationDistanceAse();
                 break;
@@ -1123,17 +1130,25 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 holder = (ViewHolder) convertView.getTag();
             }
             CourseSortBean courseSortBean = mCourseList.get(position);
-            Glide.with(ArtActivity.this).load(Internet.BASE_URL + courseSortBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
+            String photo = "";
+            if (courseSortBean.getCourse_photo().contains(",")) {
+                String[] split = courseSortBean.getCourse_photo().split(",");
+                photo = split[0];
+            } else {
+                photo = courseSortBean.getCourse_photo();
+            }
+            Glide.with(ArtActivity.this).load(Internet.BASE_URL + photo).centerCrop().into(holder.ivCourse);
             holder.tvCourse.setText(courseSortBean.getCourse_name());
-            holder.tvPrice.setText("¥" + courseSortBean.getPreferential_price());//价格是放的优惠价
+            holder.tvPrice.setText("价格："+"¥" + courseSortBean.getPreferential_price());//价格是放的优惠价
             holder.popularity.setText("（" + courseSortBean.getPopularity_num() + "人已报名）");
-
             double school_wei = Double.parseDouble(courseSortBean.getSchool_wei());
             double school_jing = Double.parseDouble(courseSortBean.getSchool_jing());
 
             if (locations != null) {
                 double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
-                holder.tvDistance.setText((int) distance + "m");
+                distance = (distance / 1000);
+                double v = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                holder.tvDistance.setText("距离："+v + "km");
             } else {
                 holder.tvDistance.setText("定位失败");
             }
@@ -1255,7 +1270,9 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 
             if (locations != null) {
                 double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
-                holder.tvDistance.setText((int) distance + "m");
+                distance = distance/1000;
+                double v = new BigDecimal(distance).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                holder.tvDistance.setText("距离："+v+"km");
             } else {
                 holder.tvDistance.setText("定位失败");
             }

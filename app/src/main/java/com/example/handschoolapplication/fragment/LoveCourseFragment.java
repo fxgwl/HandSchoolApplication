@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.base.SaveCourseBean;
 import com.example.handschoolapplication.utils.Internet;
@@ -122,8 +124,15 @@ public class LoveCourseFragment extends BaseFragment {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+            String photo = "";
+            if (mlist.get(position).getCourse_photo().contains(",")){
+                String[] split = mlist.get(position).getCourse_photo().split(",");
+                photo = split[0];
+            }else {
+                photo = mlist.get(position).getCourse_photo();
+            }
             Glide.with(getActivity())
-                    .load(Internet.BASE_URL +mlist.get(position).getCourse_photo())
+                    .load(Internet.BASE_URL +photo)
                     .centerCrop()
                     .error(R.drawable.kecheng)
                     .into(holder.ivCourse);
@@ -158,17 +167,29 @@ public class LoveCourseFragment extends BaseFragment {
                                         mlist.remove(position);
                                         myLoveCourseAdapter.notifyDataSetChanged();
                                         finalHolder.tvDelet.setVisibility(View.GONE);
-                                        Toast.makeText(activity, "删除成功", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
                                     }
 
                                 }
                             });
                 }
             });
+            holder.rl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Toast.makeText(getActivity(), "jksbdjhasbdhjsabhdbsjh", Toast.LENGTH_SHORT).show();
+                    String user_id = mlist.get(position).getUser_id();
+                    String course_id = mlist.get(position).getCourse_id();
+                    startActivity(new Intent(getActivity(), CourseHomePagerActivity.class)
+                            .putExtra("course_id",course_id)
+                            .putExtra("schooluid",user_id));
+                }
+            });
             holder.ivShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // TODO: 2017/8/15 fenxiang
+                    showShare("我是标题","我是分享文本","","");
                 }
             });
             return convertView;

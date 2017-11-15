@@ -56,6 +56,7 @@ public class SchoolIntroBean {
         private String user_dengji;
         private String user_id;
         private String user_renqi;
+        private String pingjia;
 
         public String getHead_photo() {
             return head_photo;
@@ -103,6 +104,14 @@ public class SchoolIntroBean {
 
         public void setUser_renqi(String user_renqi) {
             this.user_renqi = user_renqi;
+        }
+
+        public String getPingjia() {
+            return pingjia;
+        }
+
+        public void setPingjia(String pingjia) {
+            this.pingjia = pingjia;
         }
 
         public static class SchoolDataBean {

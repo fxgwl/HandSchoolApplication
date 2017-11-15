@@ -47,7 +47,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_margin="10dp"
-                        android:src="@mipmap/ic_launcher" />
+                         />
 
                     <TextView
                         android:id="@+id/tv_time"
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="60dp"
                     android:divider="#F2F2F2"
-                    android:dividerHeight="5dp"></com.example.handschoolapplication.view.MyListView>
+                    android:dividerHeight="5dp"/>
             </LinearLayout>
         </ScrollView>
 

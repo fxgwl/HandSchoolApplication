@@ -7,10 +7,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.ClassCourse;
+import com.example.handschoolapplication.utils.Internet;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,10 +30,15 @@ public class ClassCourseAdapter extends BaseAdapter {
     private Context context;
     private List<ClassCourse.DataBean> mList;
     private int size = 0;
+    private double[] locations;
 
     public ClassCourseAdapter(Context context, List<ClassCourse.DataBean> mList) {
         this.context = context;
         this.mList = mList;
+    }
+
+    public void setLocation(double[] location){
+        this.locations = location;
     }
 
     @Override
@@ -61,15 +71,34 @@ public class ClassCourseAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         ClassCourse.DataBean classCourse = mList.get(position);
+        String course_photo = classCourse.getCourse_photo();
+        String photo = "";
+        if (course_photo.contains(",")){
+            String[] split = course_photo.split(",");
+            photo = split[0];
+        }else {
+            photo = course_photo;
+        }
+
+        double school_wei = Double.parseDouble(classCourse.getSchool_wei());
+        double school_jing = Double.parseDouble(classCourse.getSchool_jing());
+
+        if (locations != null) {
+            double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
+            distance = (distance / 1000);
+            double v = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            holder.tvDiscount.setText("距离：" + v + "km");
+        } else {
+            holder.tvDiscount.setText("定位失败");
+        }
         Glide.with(context)
-                .load(classCourse.getCourse_photo().split(",")[0])
+                .load(Internet.BASE_URL+photo)
                 .centerCrop()
                 .error(R.drawable.kecheng)
                 .into(holder.ivCourse);
         holder.tvCourse.setText(classCourse.getCourse_name());
-        holder.tvDiscount.setText("金币抵" + classCourse.getPreferential_price() + "%");
 //        holder.tvXianshi.setText();
-        holder.tvPrice.setText("价格： ¥" + classCourse.getCourse_money());
+        holder.tvPrice.setText("价格： ¥" + classCourse.getPreferential_price());
         holder.popularity.setText("(" + classCourse.getPopularity_num() + "人已报名)");
         return view;
     }

@@ -62,10 +62,9 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 //        classAdapter = new HPClassAdapter(this, classBeanList);
         recommendAdapter = new RecommendAdapter(this, recommendBeenList);
-        listDataSave = new ListDataSave(this,"search");
-        history = listDataSave.getDataList("history");
-        initViewData();
 
+        initViewData();
+        lvRecommand.setAdapter(recommendAdapter);
         getRecommand();
     }
 
@@ -98,13 +97,20 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void initViewData() {
+        listDataSave = new ListDataSave(this,"search");
+        history = listDataSave.getDataList("history");
         mlist = new ArrayList<>();
         if (history!=null){
             mlist.addAll(history);
         }
         mySearchAdapter = new MySearchAdapter();
         lvHistory.setAdapter(mySearchAdapter);
-        lvRecommand.setAdapter(recommendAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initViewData();
     }
 
     @Override

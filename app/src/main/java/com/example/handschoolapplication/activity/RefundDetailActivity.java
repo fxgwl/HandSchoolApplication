@@ -1,5 +1,6 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -50,6 +51,9 @@ public class RefundDetailActivity extends BaseActivity {
     private RefundDetailLvAdapter mAdapter;
     private List<OrderInfoBean> mList = new ArrayList<>();
     private String order_id;
+    private String ordernum;
+    private String course_id;
+    private String schooluid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,8 @@ public class RefundDetailActivity extends BaseActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         ButterKnife.bind(this);
         tvTitle.setText("退款详情");
-        order_id = getIntent().getStringExtra("order_id");
+        Intent intent = getIntent();
+        order_id = intent.getStringExtra("order_id");
         mAdapter=new RefundDetailLvAdapter(RefundDetailActivity.this,mList);
         mlvRefunddetail.setAdapter(mAdapter);
 
@@ -91,7 +96,7 @@ public class RefundDetailActivity extends BaseActivity {
                                 mList.add(orderInfoBean);
                                 tvOrderId.setText(orderInfoBean.getOrder_id());
                                 tvTime.setText("申请时间："+orderInfoBean.getOrdre_time());
-                                tvReason.setText(orderInfoBean.getClass_people()+"(接口没有返回退款原因字段)");
+                                tvReason.setText(orderInfoBean.getClass_people()+"");
                                 tvState.setText("退款中");
                                 mAdapter.notifyDataSetChanged();
                             }

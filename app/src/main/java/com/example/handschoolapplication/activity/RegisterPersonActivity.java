@@ -12,9 +12,12 @@ import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.UserBean;
 import com.example.handschoolapplication.utils.CountDownTimerUtils;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.MyUtiles;
+import com.example.handschoolapplication.utils.SPUtils;
+import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -48,6 +51,7 @@ public class RegisterPersonActivity extends BaseActivity {
     private CountDownTimerUtils countDownTimerUtils;
     private int flag = 0;//默认没选用户协议
     private String type;
+    private boolean isThree;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,11 @@ public class RegisterPersonActivity extends BaseActivity {
             case "1":
                 btnRegister.setText("下一步");
                 break;
+        }
+        if ("three".equals(getIntent().getStringExtra("flag"))){
+            isThree = true;
+        }else {
+            isThree = false;
         }
     }
 
@@ -77,7 +86,11 @@ public class RegisterPersonActivity extends BaseActivity {
                 break;
             case R.id.tv_get_code:
                 countDownTimerUtils.start();
-                getRegCode();
+                if (isThree){
+                    getThreeCode();
+                }else {
+                    getRegCode();
+                }
                 break;
             case R.id.btn_register:
                 if (flag == 1) {
@@ -104,14 +117,39 @@ public class RegisterPersonActivity extends BaseActivity {
         }
     }
 
+    private void getThreeCode() {
+        String phonenum = etPhoneNum.getText().toString().trim();
+        String user_id = getIntent().getStringExtra("user_id");
+        OkHttpUtils.post()
+                .url(Internet.GET_CODE_FOR_THREE)
+                .addParams("user_phone", phonenum)
+                .addParams("user_id", user_id)
+                .build()
+                .execute(new StringCallback() {
+
+                    @Override
+                    public void onError(okhttp3.Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(RegisterPersonActivity.java:137)" + response);
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            Toast.makeText(RegisterPersonActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
     private void getRegCode() {
         String phonenum = etPhoneNum.getText().toString().trim();
-
-//        if (!MyUtiles.isPhone(phonenum)) {
-//            Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-
         OkHttpUtils.post()
                 .url(Internet.RE_GETCODE)
                 .addParams("user_phone", phonenum)
@@ -126,7 +164,7 @@ public class RegisterPersonActivity extends BaseActivity {
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(RegisterPersonActivity.java:134)" + response);
+                                "(RegisterPersonActivity.java:166)" + response);
 
                         try {
                             JSONObject jsonObject = new JSONObject(response);
@@ -142,7 +180,7 @@ public class RegisterPersonActivity extends BaseActivity {
     //注册
     private void register(String type) {
 
-        String phone = etPhoneNum.getText().toString().trim();
+        final String phone = etPhoneNum.getText().toString().trim();
         String code = etPhoneCode.getText().toString().trim();
         String pwd = etPwd.getText().toString().trim();
         String pwds = etPwds.getText().toString().trim();
@@ -183,8 +221,16 @@ public class RegisterPersonActivity extends BaseActivity {
                                 MyUtiles.saveBeanByFastJson(RegisterPersonActivity.this, "userId", user_id);
                                 switch (RegisterPersonActivity.this.type) {
                                     case "0":
-                                        startActivity(new Intent(RegisterPersonActivity.this, LoginActivity.class));
-                                        finish();
+                                        if (jsonObject.getInt("result")==0){
+                                            UserBean userBean = new Gson().fromJson(data.toString(), UserBean.class);
+                                            SPUtils.put(RegisterPersonActivity.this, "userId", userBean.getUser_id());
+                                            SPUtils.put(RegisterPersonActivity.this, "user_type", userBean.getUser_type());
+                                            SPUtils.put(RegisterPersonActivity.this, "user_phone", phone);
+                                            SPUtils.put(RegisterPersonActivity.this, "isLogin", true);
+                                            SPUtils.put(RegisterPersonActivity.this, "flag", "0");
+                                            startActivity(new Intent(RegisterPersonActivity.this, MainActivity.class));
+                                            finish();
+                                        }
                                         break;
                                     case "1":
                                         startActivity(new Intent(RegisterPersonActivity.this, AddDataActivity.class));

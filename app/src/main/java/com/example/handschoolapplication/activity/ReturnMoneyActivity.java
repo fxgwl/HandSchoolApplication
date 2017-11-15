@@ -2,7 +2,6 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.utils.Internet;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-public class ReturnMoneyActivity extends AppCompatActivity {
+public class ReturnMoneyActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -52,12 +52,15 @@ public class ReturnMoneyActivity extends AppCompatActivity {
     EditText tvTuireason;
     @BindView(R.id.tv_submit)
     TextView tvSubmit;
+    @BindView(R.id.rl_course)
+    RelativeLayout rlCourse;
     private String ordernum;
+    private String course_id;
+    private String schooluid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_return_money);
         ButterKnife.bind(this);
         Intent intent = getIntent();
         ordernum = intent.getStringExtra("ordernum");
@@ -67,6 +70,8 @@ public class ReturnMoneyActivity extends AppCompatActivity {
         String money = intent.getStringExtra("money");
         String coursenum = intent.getStringExtra("coursenum");
         String tuimoney = intent.getStringExtra("tuimoney");
+        course_id = intent.getStringExtra("course_id");
+        schooluid = intent.getStringExtra("schooluid");
         tvTitle.setText("订单详情");
         tvOrdernum.setText(ordernum);
         Glide.with(this)
@@ -81,11 +86,26 @@ public class ReturnMoneyActivity extends AppCompatActivity {
         tvTuimoney.setText(tuimoney);
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_submit})
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_return_money;
+    }
+
+    @OnClick({R.id.iv_back, R.id.tv_submit, R.id.rl_back, R.id.iv_menu,R.id.rl_course})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+            case R.id.rl_back:
                 finish();
+                break;
+            case R.id.iv_menu:
+                show(view);
+                break;
+            case R.id.rl_course:
+                Intent intent = new Intent(this, CourseHomePagerActivity.class);
+                intent.putExtra("course_id",course_id);
+                intent.putExtra("schooluid",schooluid);
+                startActivity(intent);
                 break;
             case R.id.tv_submit:
                 String class_people = tvTuireason.getText().toString();
@@ -117,4 +137,6 @@ public class ReturnMoneyActivity extends AppCompatActivity {
                 break;
         }
     }
+
+
 }

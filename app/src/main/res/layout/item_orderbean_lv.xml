@@ -50,7 +50,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:scaleType="fitXY"
-            android:src="@drawable/kecheng"/>
+            android:layout_marginLeft="20dp"/>
 
         <LinearLayout
             android:id="@+id/ll_course"
@@ -153,7 +153,8 @@
     <LinearLayout
         android:id="@+id/ll_pingjia"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <View
             android:layout_width="0dp"
@@ -170,13 +171,15 @@
             android:background="@color/blue"
             android:gravity="center"
             android:text="去评价"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_waitpay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <View
             android:layout_width="0dp"
@@ -210,7 +213,8 @@
     <LinearLayout
         android:id="@+id/ll_waitconfig"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <View
             android:layout_width="0dp"
@@ -244,7 +248,8 @@
     <LinearLayout
         android:id="@+id/ll_tuikuan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <View
             android:layout_width="0dp"
@@ -265,7 +270,8 @@
     <LinearLayout
         android:id="@+id/ll_cancle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <View
             android:layout_width="0dp"
@@ -285,7 +291,8 @@
     <LinearLayout
         android:id="@+id/ll_yituikuan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <View
             android:layout_width="0dp"
@@ -305,7 +312,8 @@
     <LinearLayout
         android:id="@+id/ll_yipingjia"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <View
             android:layout_width="0dp"

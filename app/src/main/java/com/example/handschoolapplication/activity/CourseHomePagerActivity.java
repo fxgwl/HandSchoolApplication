@@ -154,7 +154,6 @@ public class CourseHomePagerActivity extends BaseActivity {
             llBottem.setVisibility(View.VISIBLE);
         }
         course_id = getIntent().getStringExtra("course_id");
-        school_id = getIntent().getStringExtra("school_id");
         schooluid = getIntent().getStringExtra("schooluid");
         user_id = (String) SPUtils.get(this, "userId", "");
         initData();
@@ -162,7 +161,7 @@ public class CourseHomePagerActivity extends BaseActivity {
         //获取课程的总评价数
         getEvaTotalNum();
 
-        getClassInfo();
+
     }
 
     private void getClassInfo() {
@@ -190,7 +189,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                             school_name1 = classInfoCHP.getData().getSchoolDataMap().get(0).getSchool_name();
                             collect_num = classInfoCHP.getData().getSchoolDataMap().get(0).getCollect_num();
 
-                            switch (user_dengji){
+                            switch (user_dengji) {
                                 case "0":
                                     break;
                                 case "1":
@@ -219,7 +218,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                                     ivGradeFive.setImageResource(R.drawable.wujiaoxing);
                                     break;
                             }
-                            Glide.with(CourseHomePagerActivity.this).load(Internet.BASE_URL+ CourseHomePagerActivity.this.head_photo).centerCrop().into(ivClassPhoto);
+                            Glide.with(CourseHomePagerActivity.this).load(Internet.BASE_URL + CourseHomePagerActivity.this.head_photo).centerCrop().into(ivClassPhoto);
                             tvAllCourseNum.setText(CourseHomePagerActivity.this.class_num);
                             tvClassName.setText(school_name1);
                             tvLoveNum.setText(CourseHomePagerActivity.this.collect_num);
@@ -277,45 +276,50 @@ public class CourseHomePagerActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(CourseHomePagerActivity.java:116)" + response);
-                        Gson gson = new Gson();
-                        CourseDertailBean.DataBean courseDetail =
-                                gson.fromJson(response, CourseDertailBean.class).getData();
+                        if (response.contains("没有信息")) {
+                        } else {
+
+                            Gson gson = new Gson();
+                            CourseDertailBean.DataBean courseDetail =
+                                    gson.fromJson(response, CourseDertailBean.class).getData();
 //                        course_name: 课程名称，course_photo: 课程轮播图，original_price: 原价，preferential_price: 优惠价，course_capacity: 班级容量，enrol_num: 报名人数，
 //                        popularity_num: 人气，age_range: 年龄范围，course_teacher: 课程教师，course_address: 学堂地址，course_time: 上课时间，course_money: 课时费用，
 //                        course_info: 课程详情，course_type: 课程类型，course_state: 课程状态，
 //                        school_id: 学堂id，study_num: 学习码，school_jing: 经度，school_wei: 纬度，user_id: 用户id，hot_time: 热门推荐时间，school_name: 学堂名字
-                        school_name = courseDetail.getSchool_name();
-                        course_name = courseDetail.getCourse_name();
-                        course_time = courseDetail.getCourse_time();
-                        enrol_num = courseDetail.getEnrol_num();
-                        course_capacity = courseDetail.getCourse_capacity();
-                        age_range = courseDetail.getAge_range();
-                        course_teacher = courseDetail.getCourse_teacher();
-                        original_price = courseDetail.getOriginal_price();
-                        preferential_price = courseDetail.getPreferential_price();
-                        dengji = courseDetail.getDengji();
-                        course_info = courseDetail.getCourse_info();//课堂图片
+                            school_name = courseDetail.getSchool_name();
+                            course_name = courseDetail.getCourse_name();
+                            course_time = courseDetail.getCourse_time();
+                            enrol_num = courseDetail.getEnrol_num();
+                            course_capacity = courseDetail.getCourse_capacity();
+                            age_range = courseDetail.getAge_range();
+                            course_teacher = courseDetail.getCourse_teacher();
+                            original_price = courseDetail.getOriginal_price();
+                            preferential_price = courseDetail.getPreferential_price();
+                            dengji = courseDetail.getDengji();
+                            course_info = courseDetail.getCourse_info();//课堂图片
+                            school_id = courseDetail.getSchool_id();
 
-                        courseName.setText(courseDetail.getCourse_name());
-                        courseMoneyTv.setText("¥" + courseDetail.getPreferential_price());
-                        courseOldmoneyTv.setText("¥" + courseDetail.getOriginal_price());
-                        courseClassml.setText(courseDetail.getCourse_capacity());
-                        courseDuixiang.setText(courseDetail.getAge_range());
-                        courseTeacher.setText(courseDetail.getCourse_teacher());
-                        courseAddress.setText(courseDetail.getCourse_address());
-                        tvPopulatrity.setText(courseDetail.getPopularity_num());
-                        String photos = courseDetail.getCourse_photo();
-                        if (!TextUtils.isEmpty(photos)) {
-                            if (photos.contains(",")) {
-                                for (String photo :
-                                        photos.split(",")) {
-                                    listImg.add(Internet.BASE_URL + photo);
+                            courseName.setText(courseDetail.getCourse_name());
+                            courseMoneyTv.setText("¥" + courseDetail.getPreferential_price());
+                            courseOldmoneyTv.setText("¥" + courseDetail.getOriginal_price());
+                            courseClassml.setText(courseDetail.getCourse_capacity());
+                            courseDuixiang.setText(courseDetail.getAge_range());
+                            courseTeacher.setText(courseDetail.getCourse_teacher());
+                            courseAddress.setText(courseDetail.getCourse_address());
+                            tvPopulatrity.setText(courseDetail.getPopularity_num());
+                            String photos = courseDetail.getCourse_photo();
+                            getClassInfo();
+                            if (!TextUtils.isEmpty(photos)) {
+                                if (photos.contains(",")) {
+                                    for (String photo : photos.split(",")) {
+                                        listImg.add(Internet.BASE_URL + photo);
+                                    }
+                                } else {
+                                    listImg.add(Internet.BASE_URL + photos);
                                 }
-                            } else {
-                                listImg.add(Internet.BASE_URL + photos);
                             }
+                            setConvenientBanner(listImg);
                         }
-                        setConvenientBanner(listImg);
                     }
                 });
     }
@@ -431,6 +435,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                         .addParams("course_num", "1")
                         .addParams("order_money", courseOldmoneyTv.getText().toString().split("¥")[1])
                         .addParams("class_money", class_money)
+                        .addParams("order_course_time", "周一 8:30-10:00")
                         .build()
                         .execute(new StringCallback() {
                             @Override
@@ -458,20 +463,55 @@ public class CourseHomePagerActivity extends BaseActivity {
                     Toast.makeText(this, "请选择课时费用", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent intent1 = new Intent(this, NowApplyActivity.class);
-                intent1.putExtra("school_id", school_id);
-                intent1.putExtra("school_name", school_name);
-                intent1.putExtra("course_name", course_name);
-                intent1.putExtra("course_time", course_time);
-                intent1.putExtra("enrol_num", enrol_num);
-                intent1.putExtra("course_capacity", course_capacity);
-                intent1.putExtra("age_range", age_range);
-                intent1.putExtra("course_teacher", course_teacher);
-                intent1.putExtra("original_price", original_price);
-                intent1.putExtra("preferential_price", preferential_price);
-                intent1.putExtra("class_money", class_money);
-                intent1.putExtra("course_id", course_id);
-                startActivity(intent1);
+                OkHttpUtils.post()
+                        .url(Internet.SINGUP)
+                        .addParams("user_id", user_id)
+                        .addParams("course_id", course_id)
+                        .addParams("course_num", "1")
+                        .addParams("order_money", courseOldmoneyTv.getText().toString().split("¥")[1])
+                        .addParams("class_money", class_money)
+                        .addParams("order_course_time", "周一 8:30-10:00")
+                        .build()
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+
+                            }
+
+                            @Override
+                            public void onResponse(String response, int id) {
+                                Log.e("aaa",
+                                        "(CourseHomePagerActivity.java:270)" + response);
+                                try {
+                                    JSONObject json = new JSONObject(response);
+                                    String msg = json.getString("msg");
+                                    Toast.makeText(CourseHomePagerActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                    if (response.contains("添加成功") || response.contains("已添加")) {
+                                        JSONObject data = json.getJSONObject("data");
+                                        String order_id = data.getString("order_id");
+                                        Intent intent1 = new Intent(CourseHomePagerActivity.this, NowApplyActivity.class);
+                                        intent1.putExtra("school_id", school_id);
+                                        intent1.putExtra("school_name", school_name);
+                                        intent1.putExtra("course_name", course_name);
+                                        intent1.putExtra("course_time", course_time);
+                                        intent1.putExtra("enrol_num", enrol_num);
+                                        intent1.putExtra("course_capacity", course_capacity);
+                                        intent1.putExtra("age_range", age_range);
+                                        intent1.putExtra("course_teacher", course_teacher);
+                                        intent1.putExtra("original_price", original_price);
+                                        intent1.putExtra("preferential_price", preferential_price);
+                                        intent1.putExtra("class_money", class_money);
+                                        intent1.putExtra("course_id", course_id);
+                                        intent1.putExtra("order_id",order_id);
+                                        Log.e("aaa",
+                                                "(CourseHomePagerActivity.java:503)" + order_id);
+                                        startActivity(intent1);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                 break;
         }
     }

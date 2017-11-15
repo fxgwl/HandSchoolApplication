@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.example.handschoolapplication.activity.ClassTypeAddDetailActivity">
 
-    <include layout="@layout/title_bar_blue_erji"></include>
+    <include layout="@layout/title_bar_blue"></include>
 
     <TextView
         android:id="@+id/tv_type_one"
@@ -52,7 +52,7 @@
         android:id="@+id/gv_art_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:numColumns="6"></GridView>
+        android:numColumns="5"></GridView>
 
     <TextView
         android:id="@+id/actad_config"

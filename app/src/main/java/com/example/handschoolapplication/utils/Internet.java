@@ -6,11 +6,8 @@ package com.example.handschoolapplication.utils;
 
 public class Internet {
 
-    //    public static final String BASE_URL = "http://axehome.viphk.ngrok.org/PrivateSchool/";
+//    public static final String BASE_URL = "http://axehome.viphk.ngrok.org/PrivateSchool/";
     public static final String BASE_URL = "http://120.92.44.55/PrivateSchool/";
-
-//    public static final String BASE_URL = "http://157.10.1.105/PrivateSchool/";
-
 
     //注册登录等相关
 
@@ -31,6 +28,8 @@ public class Internet {
     public static final String WECHAT_LOGIN = BASE_URL + "UserInfo/weixin";
     public static final String SINA_WEIBO_LOGIN = BASE_URL + "UserInfo/weibo";
     public static final String QQ_LOGIN = BASE_URL + "UserInfo/qq";
+    //三房登录获取验证码
+    public static final String GET_CODE_FOR_THREE = BASE_URL + "UserInfo/getThreecode";
 
 
     //========
@@ -164,4 +163,10 @@ public class Internet {
     public static final String SINGLENEWS = BASE_URL + "ClassSign/single";
     //发消息群发
     public static final String ALLNEWS = BASE_URL + "ClassSign/mass";
+
+    //支付
+    //支付宝支付
+    public static final String ALIPAY = BASE_URL + "alipay/trade/create";
+    //微信支付
+    public static final String WECHATPAY = BASE_URL + "wechat/weiBuy";
 }

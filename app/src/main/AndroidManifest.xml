@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.handschoolapplication">
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 这个权限用于进行网络定位 -->
@@ -140,7 +144,8 @@
         <activity android:name=".activity.RefundDetailActivity" />
         <activity android:name=".activity.OrderDetailActivity" />
         <activity android:name=".activity.HelpActivity" />
-        <activity android:name=".activity.HumanServiceActivity" />
+        <activity android:name=".activity.HumanServiceActivity"
+            android:windowSoftInputMode="adjustResize|adjustUnspecified|stateHidden"></activity>
         <activity android:name=".activity.FeedBackActivity" />
         <activity android:name=".activity.AboutUsActivity" />
         <activity android:name=".activity.ChangePhoneActivity" />
@@ -244,7 +249,25 @@
             android:name=".activity.QualificationActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".activity.QRCodeActivity" />
-        <activity android:name=".activity.ScanQRCodeActivity"></activity>
+        <activity android:name=".activity.ScanQRCodeActivity" />
+        <activity
+            android:name=".activity.CurrentCitysActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".activity.LearnNewsDetailActivity"></activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
     </application>
 
 </manifest>

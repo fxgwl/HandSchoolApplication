@@ -45,12 +45,31 @@
             android:text="身份证"
             android:textColor="@color/blue"
             android:layout_gravity="center_vertical"/>
-        <me.iwf.photopicker.widget.MultiPickResultView
-            android:id="@+id/recycler_shenfenzheng"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="0.4"/>
+        <ImageView
+            android:id="@+id/iv_preview"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/add"
             />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="0.2"/>
+
+        <ImageView
+            android:id="@+id/iv_preview2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/add" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <RelativeLayout

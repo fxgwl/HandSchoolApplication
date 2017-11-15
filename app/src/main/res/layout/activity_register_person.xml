@@ -52,7 +52,8 @@
             android:hint="请输入手机号"
             android:paddingLeft="10dp"
             android:textColorHint="#333333"
-            app:theme="@style/MyEditText" />
+            app:theme="@style/MyEditText"
+            android:inputType="phone"/>
 
         <View
             android:id="@+id/view1"

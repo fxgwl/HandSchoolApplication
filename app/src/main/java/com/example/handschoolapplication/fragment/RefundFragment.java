@@ -37,6 +37,7 @@ public class RefundFragment extends BaseFragment {
     private View view;
     private List<OrderBean.DataBean> mOrderList = new ArrayList<>();
     private String user_id;
+    private OrderAdapter orderAdapter;
 
 
     public RefundFragment() {
@@ -50,6 +51,8 @@ public class RefundFragment extends BaseFragment {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
         user_id = (String) SPUtils.get(getActivity(), "userId", "");
+        orderAdapter = new OrderAdapter(getActivity(), mOrderList);
+        lvRefund.setAdapter(orderAdapter);
         initDataView();
         return view;
     }
@@ -74,10 +77,10 @@ public class RefundFragment extends BaseFragment {
                         mOrderList.clear();
                         try {
                             mOrderList.addAll(gson.fromJson(response, OrderBean.class).getData());
+                            orderAdapter.notifyDataSetChanged();
                         } catch (Exception e) {
                         }
-                        OrderAdapter orderAdapter = new OrderAdapter(getActivity(), mOrderList);
-                        lvRefund.setAdapter(orderAdapter);
+
                     }
                 });
     }

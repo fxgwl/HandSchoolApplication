@@ -15,18 +15,14 @@ import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.ClassActivity;
 import com.example.handschoolapplication.activity.OrderDetailActivity;
-import com.example.handschoolapplication.activity.PublishEvaluateActivity;
-import com.example.handschoolapplication.activity.ReturnMoneyActivity;
+import com.example.handschoolapplication.activity.RefundDetailActivity;
 import com.example.handschoolapplication.bean.OrderBean;
 import com.example.handschoolapplication.utils.Internet;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.Call;
 
 /**
  * Created by Administrator on 2017/8/16.
@@ -37,6 +33,7 @@ public class OrderAdapter extends BaseAdapter {
     private Context context;
     private List<OrderBean.DataBean> mlist;
     private int size = 0;
+    private OnMakeOrderListener listener;
 
     public OrderAdapter(Context context, List<OrderBean.DataBean> mlist) {
         this.context = context;
@@ -76,8 +73,16 @@ public class OrderAdapter extends BaseAdapter {
         }
         final OrderBean.DataBean dataBean = mlist.get(position);
         holder.tvOrganization.setText(dataBean.getSchool_name());
+        String class_photo = dataBean.getClass_photo();
+        String photo = "";
+        if (class_photo.contains(",")){
+            String[] split = class_photo.split(",");
+            photo= split[0];
+        }else {
+            photo = class_photo;
+        }
         Glide.with(context)
-                .load(Internet.BASE_URL + dataBean.getClass_photo())
+                .load(Internet.BASE_URL + photo)
                 .centerCrop()
                 .error(R.drawable.kecheng)
                 .into(holder.ivCourse);
@@ -85,9 +90,10 @@ public class OrderAdapter extends BaseAdapter {
         holder.tvPrice.setText("价格：¥" + dataBean.getOrder_money());
         holder.tvRealmoney.setText("¥" + dataBean.getOrder_money());
         holder.tvNum.setText("x" + dataBean.getCourse_num());
-//        0待付款 1待确认 2待评价 3评价后 4退款 5取消订单 6已退款
+//        0待付款 1待确认 2待评价 3评价后 4退款中 5取消订单 6已退款
         switch (dataBean.getOrder_state()) {
             case "0":
+                //待付款
                 holder.llWaitpay.setVisibility(View.VISIBLE);
                 holder.llPingjia.setVisibility(View.GONE);
                 holder.llTuikuan.setVisibility(View.GONE);
@@ -95,9 +101,9 @@ public class OrderAdapter extends BaseAdapter {
                 holder.llCancle.setVisibility(View.GONE);
                 holder.llYipingjia.setVisibility(View.GONE);
                 holder.llYituikuan.setVisibility(View.GONE);
-
                 break;
             case "1":
+                //待确认
                 holder.llWaitpay.setVisibility(View.GONE);
                 holder.llPingjia.setVisibility(View.GONE);
                 holder.llTuikuan.setVisibility(View.GONE);
@@ -107,6 +113,7 @@ public class OrderAdapter extends BaseAdapter {
                 holder.llYituikuan.setVisibility(View.GONE);
                 break;
             case "2":
+                //去评价
                 holder.llWaitpay.setVisibility(View.GONE);
                 holder.llPingjia.setVisibility(View.VISIBLE);
                 holder.llTuikuan.setVisibility(View.GONE);
@@ -116,6 +123,7 @@ public class OrderAdapter extends BaseAdapter {
                 holder.llYituikuan.setVisibility(View.GONE);
                 break;
             case "3":
+                //已评价
                 holder.llWaitpay.setVisibility(View.GONE);
                 holder.llPingjia.setVisibility(View.GONE);
                 holder.llTuikuan.setVisibility(View.GONE);
@@ -125,6 +133,7 @@ public class OrderAdapter extends BaseAdapter {
                 holder.llYituikuan.setVisibility(View.GONE);
                 break;
             case "4":
+                //退款中
                 holder.llWaitpay.setVisibility(View.GONE);
                 holder.llPingjia.setVisibility(View.GONE);
                 holder.llTuikuan.setVisibility(View.VISIBLE);
@@ -134,6 +143,7 @@ public class OrderAdapter extends BaseAdapter {
                 holder.llYituikuan.setVisibility(View.GONE);
                 break;
             case "5":
+                //已取消
                 holder.llWaitpay.setVisibility(View.GONE);
                 holder.llPingjia.setVisibility(View.GONE);
                 holder.llTuikuan.setVisibility(View.GONE);
@@ -143,6 +153,7 @@ public class OrderAdapter extends BaseAdapter {
                 holder.llYituikuan.setVisibility(View.GONE);
                 break;
             case "6":
+                //已退款
                 holder.llWaitpay.setVisibility(View.GONE);
                 holder.llPingjia.setVisibility(View.GONE);
                 holder.llTuikuan.setVisibility(View.GONE);
@@ -155,48 +166,19 @@ public class OrderAdapter extends BaseAdapter {
         holder.tvMake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//去评价
-                Intent intent = new Intent(context, PublishEvaluateActivity.class).putExtra("dataBean", dataBean);
-                context.startActivity(intent);
+                listener.setEvaluate(position);
             }
         });
         holder.tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//取消订单
-                OkHttpUtils.post()
-                        .url(Internet.CLOSEORDER)
-                        .addParams("order_id", dataBean.getOrder_id())
-                        .build()
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onError(Call call, Exception e, int id) {
-
-                            }
-
-                            @Override
-                            public void onResponse(String response, int id) {
-                                Log.e("aaa",
-                                        "(OrderAdapter.java:164)" + response);
-                                if (response.contains("成功")) {
-                                    mlist.remove(position);
-                                    notifyDataSetChanged();
-                                }
-                            }
-                        });
-
+                listener.setOnCancelOrder(position);
             }
         });
         holder.tvRefund.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//退款
-                Intent intent = new Intent(context, ReturnMoneyActivity.class);
-                intent.putExtra("ordernum", dataBean.getOrder_id());
-                intent.putExtra("courseid", dataBean.getCourse_id());
-                intent.putExtra("ivcourse", dataBean.getClass_photo());
-                intent.putExtra("coursename", dataBean.getClass_name());
-                intent.putExtra("money", dataBean.getOrder_money());
-                intent.putExtra("coursenum", dataBean.getCourse_num());
-                intent.putExtra("tuimoney", dataBean.getOrder_money());
-                context.startActivity(intent);
+                listener.setOnRefund(position);
             }
         });
         holder.llClassInfo.setOnClickListener(new View.OnClickListener() {
@@ -209,13 +191,41 @@ public class OrderAdapter extends BaseAdapter {
             }
         });
 
+
         holder.rlCourseInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, OrderDetailActivity.class).putExtra("order_id",dataBean.getOrder_id()));
+                if (dataBean.getOrder_state().equals("4")){
+                    Intent intent = new Intent(context, RefundDetailActivity.class);
+                    intent.putExtra("order_id", dataBean.getOrder_id());
+                    intent.putExtra("courseid", dataBean.getCourse_id());
+                    intent.putExtra("ivcourse", dataBean.getClass_photo());
+                    intent.putExtra("coursename", dataBean.getClass_name());
+                    intent.putExtra("money", dataBean.getOrder_money());
+                    intent.putExtra("coursenum", dataBean.getCourse_num());
+                    intent.putExtra("tuimoney", dataBean.getOrder_money());
+                    intent.putExtra("course_id",dataBean.getCourse_id());
+                    intent.putExtra("schooluid",dataBean.getUser_id());
+                    context.startActivity(intent);
+                }else {
+                    Log.e("aaa",
+                        "(OrderAdapter.java:211)orderId === "+dataBean.getOrder_id());
+                    context.startActivity(new Intent(context, OrderDetailActivity.class).putExtra("order_id",dataBean.getOrder_id()));
+                }
             }
         });
-
+        holder.tvVerify.setOnClickListener(new View.OnClickListener() {//学习确认
+            @Override
+            public void onClick(View v) {
+                listener.setOnVertify(position);
+            }
+        });
+        holder.tvPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setOnPayOrder(position);
+            }
+        });
 
         return view;
     }
@@ -271,5 +281,22 @@ public class OrderAdapter extends BaseAdapter {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface OnMakeOrderListener{
+        //取消订单的方法
+        void setOnCancelOrder(int position);
+        //确认支付的方法
+        void setOnPayOrder(int position);
+        //退款的方法
+        void setOnRefund(int position);
+        //学习确认的方法
+        void setOnVertify(int position);
+        //评价的方法
+        void setEvaluate(int position);
+    }
+
+    public void setOnMakeOrderListener(OnMakeOrderListener listener){
+        this.listener = listener;
     }
 }

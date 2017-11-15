@@ -4,11 +4,11 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.view.MyListView;
+import com.example.handschoolapplication.bean.ClassType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,9 +20,10 @@ import butterknife.ButterKnife;
 
 public class ClassTypeAdapter extends BaseAdapter {
     private Context context;
-    private List<String> mlist;
+    private List<ClassType> mlist;
+    private int size = 0;
 
-    public ClassTypeAdapter(Context context, List<String> mlist) {
+    public ClassTypeAdapter(Context context, List<ClassType> mlist) {
         this.context = context;
         this.mlist = mlist;
     }
@@ -30,7 +31,10 @@ public class ClassTypeAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 
-        return 3;
+        if (mlist != null) {
+            size = mlist.size();
+        }
+        return size;
     }
 
     @Override
@@ -55,15 +59,20 @@ public class ClassTypeAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        ClassTypelittleAdapter classTypelittleAdapter = new ClassTypelittleAdapter(context, new ArrayList<String>());
-        holder.typeLv.setAdapter(classTypelittleAdapter);
+//        ClassTypelittleAdapter classTypelittleAdapter = new ClassTypelittleAdapter(context, new ArrayList<String>());
+//        holder.typeLv.setAdapter(classTypelittleAdapter);
+        ClassType classType = mlist.get(position);
+        holder.tvTypeOne.setText(classType.getTypeOne());
+        holder.tvTypeTwo.setText(classType.getTypetwo());
         return view;
     }
 
 
     static class ViewHolder {
-        @BindView(R.id.type_lv)
-        MyListView typeLv;
+        @BindView(R.id.tv_type_one)
+        TextView tvTypeOne;
+        @BindView(R.id.tv_type_two)
+        TextView tvTypeTwo;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

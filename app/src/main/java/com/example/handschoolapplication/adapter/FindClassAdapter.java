@@ -10,12 +10,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.ClassActivity;
 import com.example.handschoolapplication.bean.ClassSortBean;
 import com.example.handschoolapplication.utils.Internet;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,6 +47,7 @@ public class FindClassAdapter extends BaseAdapter {
         }
         return size;
     }
+
 
     @Override
     public Object getItem(int position) {
@@ -124,9 +128,15 @@ public class FindClassAdapter extends BaseAdapter {
                 break;
         }
         if (locations != null) {
+            String user_area = classSortBean.getUser_area();//纬度
+            String user_name = classSortBean.getUser_name();//经度
             double latitude = locations[0];//纬度
             double longitude = locations[1];//经度
 //            DistanceUtil.getDistance(new LatLng(latitude,longitude));
+            double distance = DistanceUtil.getDistance(new LatLng(latitude, longitude), new LatLng(Double.parseDouble(user_area), Double.parseDouble(user_name)));
+            distance = distance/1000;
+            double v = new BigDecimal(distance).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            holder.tvDistance.setText("距离："+v+"km");
         }
 
         return view;

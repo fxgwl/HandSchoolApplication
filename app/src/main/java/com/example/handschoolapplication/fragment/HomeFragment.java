@@ -36,7 +36,7 @@ import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.ArtActivity;
 import com.example.handschoolapplication.activity.ChildEduActivity;
-import com.example.handschoolapplication.activity.CurrentCityActivity;
+import com.example.handschoolapplication.activity.CurrentCitysActivity;
 import com.example.handschoolapplication.activity.EducationActivity;
 import com.example.handschoolapplication.activity.HomeEduActivity;
 import com.example.handschoolapplication.activity.LoginActivity;
@@ -872,7 +872,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                 startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.ll_address:
-                startActivity(new Intent(getActivity(), CurrentCityActivity.class).putExtra("city", city));
+                startActivityForResult(new Intent(getActivity(), CurrentCitysActivity.class).putExtra("city", city),1);
                 break;
         }
     }
@@ -885,6 +885,15 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         mAdapter.notifyDataSetChanged();
 
         mActivityAdapter.setSelectedPosition(position);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode==1&&resultCode==11){
+            city = data.getStringExtra("cityName");
+            tvLocation.setText(city);
+            initOrgan("早教", classBeanList1, classAdapter1, lvChildName);
+        }
     }
 
     @Override

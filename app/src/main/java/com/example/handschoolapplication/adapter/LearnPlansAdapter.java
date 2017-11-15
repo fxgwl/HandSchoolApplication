@@ -181,7 +181,15 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
             cholder.tv_price.setText("价格：¥" + product.getOrder_money() + "");
             cholder.tv_count.setText(TextUtils.isEmpty(product.getCourse_num()) ? 0 + "" : product.getCourse_num());
             cholder.cb_check.setChecked(product.isChoosed());
-            Glide.with(context).load(Internet.BASE_URL + product.getClass_photo()).centerCrop().into(cholder.iv_imag);
+            String class_photo = product.getClass_photo();
+            String photo = "";
+            if (class_photo.contains(",")){
+                String[] split = class_photo.split(",");
+                photo = split[0];
+            }else {
+                photo = class_photo;
+            }
+            Glide.with(context).load(Internet.BASE_URL + photo).centerCrop().into(cholder.iv_imag);
             cholder.cb_check.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

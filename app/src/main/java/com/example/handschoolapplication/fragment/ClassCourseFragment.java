@@ -17,7 +17,6 @@ import com.example.handschoolapplication.adapter.ClassCourseAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.ClassCourse;
 import com.example.handschoolapplication.utils.Internet;
-import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -43,6 +42,7 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
     ;
     private ClassCourseAdapter mAdapter;
     private String school_id;
+    private double[] doubles;
 
     public ClassCourseFragment() {
         // Required empty public constructor
@@ -56,7 +56,11 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
         view = super.onCreateView(inflater, container, savedInstanceState);
         lvClassCourse = (ListView) view.findViewById(R.id.lv_class_course);
         EventBus.getDefault().register(ClassCourseFragment.this);
-        school_id = (String) SPUtils.get(getActivity(), "school_id", "");
+        school_id = getArguments().getString("school_id");
+        double longitude = getArguments().getDouble("longitude");
+        double latitude = getArguments().getDouble("latitude");
+        doubles = new double[]{latitude, longitude};
+
         mAdapter = new ClassCourseAdapter(getActivity(), mList);
         lvClassCourse.setAdapter(mAdapter);
         initViewData();
@@ -65,6 +69,8 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
     }
 
     private void initViewData() {
+        Log.e("aaa",
+            "(ClassCourseFragment.java:69)school_idschool_id====="+school_id);
         OkHttpUtils.post()
                 .url(Internet.COURSEINFO)
                 .addParams("school_id", school_id)
@@ -83,6 +89,7 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
                             Gson gson = new Gson();
                             mList.clear();
                             mList.addAll(gson.fromJson(response, ClassCourse.class).getData());
+                            mAdapter.setLocation(doubles);
                         }
                         mAdapter.notifyDataSetChanged();
                     }

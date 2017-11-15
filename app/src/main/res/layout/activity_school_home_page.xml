@@ -41,7 +41,7 @@
                     android:layout_width="25dp"
                     android:layout_height="30dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/xuetangdengji" />
+                    android:src="@drawable/xuetangdengji_gold" />
 
                 <TextView
                     android:layout_gravity="center_vertical"

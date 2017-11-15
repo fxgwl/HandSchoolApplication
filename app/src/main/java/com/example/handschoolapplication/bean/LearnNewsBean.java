@@ -1,10 +1,12 @@
 package com.example.handschoolapplication.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/8/17.
  */
 
-public class LearnNewsBean {
+public class LearnNewsBean implements Serializable{
 
 
     /**

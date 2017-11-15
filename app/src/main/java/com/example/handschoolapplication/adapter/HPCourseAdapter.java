@@ -70,10 +70,16 @@ public class HPCourseAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Log.e("aaa",
-                "(HPCourseAdapter.java:66)" + courseBeanList.get(position).toString());
+        String course_photo = courseBeanList.get(position).getCourse_photo();
+        String url= "";
+        if (course_photo.contains(",")){
+            String[] split = course_photo.split(",");
+             url = split[0];
+        }else {
+            url = course_photo;
+        }
         Glide.with(context)
-                .load(Internet.BASE_URL + courseBeanList.get(position).getCourse_photo())
+                .load(Internet.BASE_URL + url)
                 .centerCrop()
                 .error(R.drawable.kecheng)
                 .into(holder.ivCourse);
@@ -90,8 +96,6 @@ public class HPCourseAdapter extends BaseAdapter {
             double distance = DistanceUtil.getDistance(new LatLng(latitude1, longitude1), new LatLng(school_wei, school_jing));
 //            Double distance = MyUtiles.Distance(latitude1, longitude1, school_wei, school_jing);
             holder.tvDistance.setText(((int)distance) + "m");
-            Log.e("aaa",
-                    "(HPCourseAdapter.java:92)距离计算=====" + ((int) distance) + "m");
 
         }else Log.e("aaa",
                 "(HPCourseAdapter.java:84)"+"locations == null");

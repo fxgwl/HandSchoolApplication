@@ -2,6 +2,8 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,8 +16,11 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ClassTypeAdapter;
 import com.example.handschoolapplication.adapter.ClassTypeAddAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.ClassType;
 import com.example.handschoolapplication.bean.HomeClassTypeBean;
+import com.example.handschoolapplication.bean.SchoolInfoBean;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.MyListView;
 import com.example.handschoolapplication.view.MyPopupWindow;
 import com.google.gson.Gson;
@@ -46,12 +51,40 @@ public class ClassTypeActivity extends BaseActivity {
     private ArrayList<String> typeThreeList = new ArrayList<>();
     private List<ArrayList<String>> typeThreeLists = new ArrayList<>();
     private ClassTypeAddAdapter addAdapter;
+    private String userId;
+    private List<ClassType> mList = new ArrayList<>();
+    private String schoolType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        userId = (String) SPUtils.get(this, "userId", "");
+        if (null != getIntent().getStringExtra("schoolType")){
+            schoolType = getIntent().getStringExtra("schoolType");
+        }
+        if (TextUtils.isEmpty(schoolType)){
+            mList.clear();
+        }else {
+            mList.clear();
+            ArrayList<String> type = new ArrayList<>();
+            String[] string = schoolType.split(";");
+            for (int i = 0; i < string.length; i++) {
+                if (TextUtils.isEmpty(string[i])){
+
+                }else {
+                    type.add(string[i]);
+                }
+            }
+
+            for (int i = 0; i < type.size(); i++) {
+                String[] split = type.get(i).split("//");
+                ClassType classType = new ClassType(split[0], split[1]);
+                mList.add(classType);
+            }
+        }
         initView();
+        initClassInfo();
         addClassType();
     }
 
@@ -62,7 +95,7 @@ public class ClassTypeActivity extends BaseActivity {
 
     private void initView() {
         tvTitle.setText("学堂类别");
-        ClassTypeAdapter classTypeAdapter = new ClassTypeAdapter(this, new ArrayList<String>());
+        ClassTypeAdapter classTypeAdapter = new ClassTypeAdapter(this,mList);
         classtypeLv.setAdapter(classTypeAdapter);
     }
 
@@ -87,7 +120,6 @@ public class ClassTypeActivity extends BaseActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         startActivity(new Intent(ClassTypeActivity.this, ClassTypeAddDetailActivity.class)
-                                .putExtra("typeTwo", typeTowLists.get(position))
                                 .putExtra("type",typeOneList.get(position)));
                     }
                 });
@@ -103,6 +135,30 @@ public class ClassTypeActivity extends BaseActivity {
         }
     }
 
+    //初始化数据
+    private void initClassInfo() {
+        OkHttpUtils.post()
+                .url(Internet.USERINFO)
+                .addParams("user_id", userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ClassTypeActivity.java:126)" + response);
+                        Gson gson = new Gson();
+                        SchoolInfoBean.DataBean schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
+                        schoolType = schoolInfo.getMechanism_type();
+
+                    }
+                });
+    }
+
     private void addClassType() {
         OkHttpUtils.post()
                 .url(Internet.CLASSTYPE)
@@ -116,33 +172,19 @@ public class ClassTypeActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                            "(ClassTypeActivity.java:177)"+response);
 
                         if (response.contains("没有信息")){}else {
                             try {
                                 typeOneList.clear();
-                                typeTwoList.clear();
-                                typeThreeList.clear();
-                                typeTowLists.clear();
-                                typeThreeLists.clear();
                                 Gson gson = new Gson();
                                 HomeClassTypeBean homeClassType = gson.fromJson(response, HomeClassTypeBean.class);
                                 for (int i = 0; i < homeClassType.getData().size(); i++) {
                                     typeOneList.add(homeClassType.getData().get(i).getType_one_name());
-                                    if (null != homeClassType.getData().get(i).getTypeTwoInfo()){
-                                        for (int j = 0; j < homeClassType.getData().get(i).getTypeTwoInfo().size(); j++) {
-                                            typeTwoList.add(homeClassType.getData().get(i).getTypeTwoInfo().get(j).getType_two_name());
-                                            if (null!=homeClassType.getData().get(i).getTypeTwoInfo().get(j).getTypeThreeInfo()){
-                                                for (int k = 0; k < homeClassType.getData().get(i).getTypeTwoInfo().get(j).getTypeThreeInfo().size(); k++) {
-                                                    typeThreeList.add(homeClassType.getData().get(i).getTypeTwoInfo().get(j).getTypeThreeInfo().get(k).getType_three_name());
-                                                }
-                                                typeThreeLists.add(typeThreeList);
-                                            }
-                                        }
-                                        typeTowLists.add(typeTwoList);
-                                    }
                                 }
                                 addAdapter.notifyDataSetChanged();
-                                
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

@@ -15,7 +15,8 @@ import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
-import com.example.handschoolapplication.bean.CityBean;
+import com.example.handschoolapplication.bean.AddressBeanS;
+import com.example.handschoolapplication.bean.DataAbc;
 import com.example.handschoolapplication.bean.HotCity;
 import com.example.handschoolapplication.utils.ChineseToEnglish;
 import com.example.handschoolapplication.utils.CompareSort;
@@ -41,10 +42,14 @@ import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-public class CurrentCityActivity extends BaseActivity {
+
+
+
+public class CurrentCityActivity extends BaseActivity implements SideBarView.LetterSelectListener {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -56,48 +61,66 @@ public class CurrentCityActivity extends BaseActivity {
     SideBarView sidebarview;
     @BindView(R.id.tv_current_city)
     TextView tvCurrentCity;
+    @BindView(R.id.listview)
+    MyListView listView;
+    @BindView(R.id.tip)
+    TextView mTip;
 
     private List<HotCity> mList;
     private String city;
     private UserAdapter mAdapter;
+    private MyHotCityAdapter myHotCityAdapter;
+    private ArrayList<AddressBeanS> addressBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
+        myHotCityAdapter = new MyHotCityAdapter();
+        gvHotCity.setAdapter(myHotCityAdapter);
         city = getIntent().getStringExtra("city");
-        tvTitle.setText("当前城市"+"（"+ city +"）");
+        tvTitle.setText("当前城市" + "（" + city + "）");
         tvCurrentCity.setText(city);
-
         initData();
 //        initView();
+        init();
 
     }
 
-    private void initView() {
-        GetJsonDataUtil getJsonDataUtil = new GetJsonDataUtil();
-        String json = getJsonDataUtil.getJson(this, "province.json");
-        List<CityBean> cities = new ArrayList<>();
-        cities.addAll((Collection<? extends CityBean>) new Gson().fromJson(json,new TypeToken<ArrayList<CityBean>>(){}.getType()));
 
-        for (int i = 0; i < cities.size(); i++) {
-            CityBean user = new CityBean();
-            String firstSpell = ChineseToEnglish.getFirstSpell(cities.get(i).getName());
+    private void init() {
+        String JsonData = new GetJsonDataUtil().getJson(this, "province.json");//获取assets目录下的json文件数据
+        Gson gson = new Gson();
+        addressBean = gson.fromJson(JsonData, new TypeToken<ArrayList<AddressBeanS>>() {
+        }.getType());
+
+        Log.e("aaa",
+                "(CurrentCityActivity.java:95)size ===== " + addressBean.size());
+        ArrayList<DataAbc> users = new ArrayList<>();
+        for (int i = 0; i < addressBean.size(); i++) {
+            DataAbc dataAbc = new DataAbc();
+            dataAbc.setName(addressBean.get(i).getName());
+            String firstSpell = ChineseToEnglish.getFirstSpell(addressBean.get(i).getName());
             String substring = firstSpell.substring(0, 1).toUpperCase();
             if (substring.matches("[A-Z]")) {
-                user.setLetter(substring);
+                dataAbc.setLetter(substring);
             } else {
-                user.setLetter("#");
+                dataAbc.setLetter("#");
             }
+            users.add(dataAbc);
         }
 
         //排序
-        Collections.sort(cities, new CompareSort());
+        Collections.sort(users, new CompareSort());
+
         //设置数据
         mAdapter = new UserAdapter(this);
-        mAdapter.setData(cities);
-        lvAddress.setAdapter(mAdapter);
+        mAdapter.setData(users);
+        listView.setAdapter(mAdapter);
+
+        //设置回调
+        sidebarview.setOnLetterSelectListen(this);
+
     }
 
     private void initData() {
@@ -120,7 +143,9 @@ public class CurrentCityActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
                             mList = new ArrayList<HotCity>();
-                            mList.addAll((Collection<? extends HotCity>) new Gson().fromJson(data.toString(),new TypeToken<ArrayList<HotCity>>(){}.getType()));
+                            mList.addAll((Collection<? extends HotCity>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<HotCity>>() {
+                            }.getType()));
+                            myHotCityAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -139,8 +164,41 @@ public class CurrentCityActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
+        }
+    }
+
+    @Override
+    public void onLetterSelected(String letter) {
+        setListviewPosition(letter);
+        mTip.setText(letter);
+        mTip.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onLetterChanged(String letter) {
+        setListviewPosition(letter);
+        mTip.setText(letter);
+    }
+
+    @Override
+    public void onLetterReleased(String letter) {
+        mTip.setVisibility(View.GONE);
+    }
+
+    private void setListviewPosition(String letter) {
+        final int firstLetterPosition = mAdapter.getFirstLetterPosition(letter);
+        if (firstLetterPosition != -1) {
+            listView.post(new Runnable() {
+                @Override
+                public void run() {
+                    listView.requestFocusFromTouch();//获取焦点
+                    listView.setSelection(firstLetterPosition);
+                }
+            });
+
         }
     }
 
@@ -171,14 +229,14 @@ public class CurrentCityActivity extends BaseActivity {
      */
     public class UserAdapter extends BaseAdapter {
         private Context mContext;
-        private ArrayList<CityBean> users;
+        private ArrayList<DataAbc> users;
 
         public UserAdapter(Context context) {
             this.mContext = context;
             users = new ArrayList<>();
         }
 
-        public void setData(List<CityBean> data) {
+        public void setData(List<DataAbc> data) {
             this.users.clear();
             this.users.addAll(data);
         }
@@ -273,6 +331,57 @@ public class CurrentCityActivity extends BaseActivity {
             LinearLayout tvItem;
         }
 
+    }
+
+    class MyHotCityAdapter extends BaseAdapter {
+        int size = 0;
+
+        @Override
+        public int getCount() {
+            if (mList != null) {
+                if (mList.size() > 9) {
+                    size = 9;
+                } else {
+                    size = mList.size();
+                }
+            }
+            return size;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+                convertView = View.inflate(CurrentCityActivity.this, R.layout.item_hot_city_gv, null);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            HotCity hotCity = mList.get(position);
+            String address_name = hotCity.getAddress_name();
+            holder.tvCity.setText(address_name);
+            return convertView;
+        }
+
+        class ViewHolder {
+            @BindView(R.id.tv_city)
+            TextView tvCity;
+
+            ViewHolder(View view) {
+                ButterKnife.bind(this, view);
+            }
+        }
     }
 
 }

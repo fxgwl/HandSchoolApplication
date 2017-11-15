@@ -24,6 +24,7 @@ import com.example.handschoolapplication.activity.MyEvaluateActivity;
 import com.example.handschoolapplication.activity.MyInformationActivity;
 import com.example.handschoolapplication.activity.MyLoveActivity;
 import com.example.handschoolapplication.activity.MyOrderActivity;
+import com.example.handschoolapplication.activity.ScanQRCodeActivity;
 import com.example.handschoolapplication.activity.SettingsActivity;
 import com.example.handschoolapplication.activity.SignActivity;
 import com.example.handschoolapplication.base.BaseFragment;
@@ -213,8 +214,7 @@ public class MeFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), MyOrderActivity.class).putExtra("flag", "all"));
                 break;
             case R.id.ll_scan://扫一扫
-//                Intent intent = new Intent(getActivity(), CaptureActivity.class);
-//                startActivityForResult(intent, REQUEST_CODE);
+                startActivity(new Intent(getActivity(), ScanQRCodeActivity.class));
                 break;
             case R.id.ll_evaluate://评价
                 startActivity(new Intent(getActivity(), MyEvaluateActivity.class));
@@ -274,5 +274,11 @@ public class MeFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initView();
     }
 }

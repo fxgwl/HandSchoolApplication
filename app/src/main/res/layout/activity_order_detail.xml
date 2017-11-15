@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:background="@color/blue"
         android:gravity="bottom">
         <include
@@ -293,191 +293,190 @@
                     android:textColor="@color/t666666"
                     android:textSize="14sp" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="#e6e6e6" />
-
-            <LinearLayout
-                android:id="@+id/ll_pingjia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/tv_make"
-                    android:layout_width="88dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/blue"
-                    android:gravity="center"
-                    android:text="去评价"
-                    android:textColor="#fff"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_waitpay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/tv_cancel"
-                    android:layout_width="88dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/tv_bg"
-                    android:gravity="center"
-                    android:text="取消订单"/>
-
-                <TextView
-                    android:id="@+id/tv_pay"
-                    android:layout_width="88dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/blue"
-                    android:gravity="center"
-                    android:text="确认支付"
-                    android:textColor="#fff"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_waitconfig"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/tv_refund"
-                    android:layout_width="88dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/tv_bg"
-                    android:gravity="center"
-                    android:text="退款"/>
-
-                <TextView
-                    android:id="@+id/tv_verify"
-                    android:layout_width="88dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/blue"
-                    android:gravity="center"
-                    android:text="学习确认"
-                    android:textColor="#fff"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_tuikuan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/tv_refund2"
-                    android:layout_width="88dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/tv_bg"
-                    android:gravity="center"
-                    android:text="退款中"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_cancle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="88dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/tv_bg"
-                    android:gravity="center"
-                    android:text="已取消"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_yituikuan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="88dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/tv_bg"
-                    android:gravity="center"
-                    android:text="已退款"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_yipingjia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="88dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/tv_bg"
-                    android:gravity="center"
-                    android:text="已评价"/>
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#e6e6e6" />
+
+    <LinearLayout
+        android:id="@+id/ll_pingjia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_make"
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:text="去评价"
+            android:textColor="#fff"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_waitpay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tv_bg"
+            android:gravity="center"
+            android:text="取消订单"/>
+
+        <TextView
+            android:id="@+id/tv_pay"
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:text="确认支付"
+            android:textColor="#fff"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_waitconfig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_refund"
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tv_bg"
+            android:gravity="center"
+            android:text="退款"/>
+
+        <TextView
+            android:id="@+id/tv_verify"
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:text="学习确认"
+            android:textColor="#fff"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_tuikuan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_refund2"
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tv_bg"
+            android:gravity="center"
+            android:text="退款中"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tv_bg"
+            android:gravity="center"
+            android:text="已取消"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_yituikuan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tv_bg"
+            android:gravity="center"
+            android:text="已退款"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_yipingjia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="88dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/tv_bg"
+            android:gravity="center"
+            android:text="已评价"/>
+    </LinearLayout>
 </LinearLayout>

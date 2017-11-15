@@ -8,8 +8,9 @@ import java.util.List;
 
 public class ClassCourse {
 
+
     /**
-     * data : [{"age_range":"的","course_capacity":"的","course_id":"1507603212791","course_info":"","course_money":"啊","course_name":"v的v的的","course_photo":"2017/10/10/1507603212769.jpg,2017/10/10/1507603212773.png,2017/10/10/1507603212779.png,2017/10/10/1507603212785.png","course_state":"0","course_time":"2017-10-10 10:40:12","enrol_num":"的","original_price":"v但是","popularity_num":"的","preferential_price":"4","school_id":"1507602671757","school_name":"1","study_num":"1507603212791","user_id":"816939bd23dc4296a4d1f3cd731b3143"},{"age_range":"c","course_capacity":"v","course_id":"1507603247255","course_info":"","course_money":"现在","course_name":"再在","course_photo":"2017/10/10/1507603247236.png,2017/10/10/1507603247243.png,2017/10/10/1507603247248.png","course_state":"0","course_time":"2017-10-10 10:40:47","enrol_num":" v","original_price":"中v","popularity_num":"  传","preferential_price":"2","school_id":"1507602671757","school_name":"1","study_num":"1507603247255","user_id":"816939bd23dc4296a4d1f3cd731b3143"}]
+     * data : [{"age_range":"2-6岁","course_address":"天津市北京市","course_capacity":"28","course_id":"1506153404911","course_info":"<p>bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg<\/p>","course_money":"800元/4节","course_name":"音乐","course_photo":"2017/11/10/1510302644926.jpg,2017/11/10/1510302644931.jpg,2017/11/10/1510302644935.jpg,2017/11/10/1510302644950.jpg,2017/11/10/1510302644953.jpg","course_state":"1","course_teacher":"李小明","course_time":"2017-11-10 16:47:55","course_type":"文体艺术/书画,学习辅导/中小学教育","dengji":"5","enrol_num":"53","hot_time":"2017-09-20 14:15:50","original_price":"660","popularity_num":"646","preferential_price":"330","school_id":"1505805630236","school_jing":"119.40403592998626","school_name":"我的小学堂a","school_wei":"39.91386028193478","study_num":"1506153404911","user_id":"8841f54f7b574f06a470ee9002043f8d"},{"age_range":"2-6岁","course_address":"天津市北京市","course_capacity":"28","course_id":"1506153854854","course_info":"<p>bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg<\/p>","course_money":"800元/4节","course_name":"音乐2","course_photo":"2017/11/10/1510302704831.jpg,2017/11/10/1510302704834.jpg","course_state":"2","course_teacher":"李小红","course_time":"2017-11-10 16:48:04","course_type":"文体艺术/球类/足球/乒乓球","enrol_num":"25","hot_time":"2017-09-20 14:15:50","original_price":"660","popularity_num":"98","preferential_price":"330","school_id":"1505805630236","school_jing":"116.40403592998626","school_name":"我的小学堂a","school_wei":"19.91386028193478","study_num":"1506153854854","user_id":"8841f54f7b574f06a470ee9002043f8d"},{"age_range":"2-6岁","course_address":"天津市北京市","course_capacity":"28","course_id":"1506153961723","course_info":"<p>bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg<\/p>","course_money":"800元/4节","course_name":"音乐3","course_photo":"2017/11/10/1510302723335.jpg,2017/11/10/1510302723346.jpg,2017/11/10/1510302723357.jpg","course_state":"2","course_teacher":"李小明","course_time":"2017-11-10 16:48:08","course_type":"文体艺术/书画/球类/足球/篮球","dengji":"5","enrol_num":"37","hot_time":"2017-09-20 14:15:50","original_price":"660","popularity_num":"258","preferential_price":"330","school_id":"1505805630236","school_jing":"116.40403592998626","school_name":"我的小学堂a","school_wei":"29.91386028193478","study_num":"1506153961723","user_id":"8841f54f7b574f06a470ee9002043f8d"}]
      * msg : 成功
      * result : 0
      */
@@ -44,26 +45,34 @@ public class ClassCourse {
 
     public static class DataBean {
         /**
-         * age_range : 的
-         * course_capacity : 的
-         * course_id : 1507603212791
-         * course_info :
-         * course_money : 啊
-         * course_name : v的v的的
-         * course_photo : 2017/10/10/1507603212769.jpg,2017/10/10/1507603212773.png,2017/10/10/1507603212779.png,2017/10/10/1507603212785.png
-         * course_state : 0
-         * course_time : 2017-10-10 10:40:12
-         * enrol_num : 的
-         * original_price : v但是
-         * popularity_num : 的
-         * preferential_price : 4
-         * school_id : 1507602671757
-         * school_name : 1
-         * study_num : 1507603212791
-         * user_id : 816939bd23dc4296a4d1f3cd731b3143
+         * age_range : 2-6岁
+         * course_address : 天津市北京市
+         * course_capacity : 28
+         * course_id : 1506153404911
+         * course_info : <p>bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg</p>
+         * course_money : 800元/4节
+         * course_name : 音乐
+         * course_photo : 2017/11/10/1510302644926.jpg,2017/11/10/1510302644931.jpg,2017/11/10/1510302644935.jpg,2017/11/10/1510302644950.jpg,2017/11/10/1510302644953.jpg
+         * course_state : 1
+         * course_teacher : 李小明
+         * course_time : 2017-11-10 16:47:55
+         * course_type : 文体艺术/书画,学习辅导/中小学教育
+         * dengji : 5
+         * enrol_num : 53
+         * hot_time : 2017-09-20 14:15:50
+         * original_price : 660
+         * popularity_num : 646
+         * preferential_price : 330
+         * school_id : 1505805630236
+         * school_jing : 119.40403592998626
+         * school_name : 我的小学堂a
+         * school_wei : 39.91386028193478
+         * study_num : 1506153404911
+         * user_id : 8841f54f7b574f06a470ee9002043f8d
          */
 
         private String age_range;
+        private String course_address;
         private String course_capacity;
         private String course_id;
         private String course_info;
@@ -71,13 +80,19 @@ public class ClassCourse {
         private String course_name;
         private String course_photo;
         private String course_state;
+        private String course_teacher;
         private String course_time;
+        private String course_type;
+        private String dengji;
         private String enrol_num;
+        private String hot_time;
         private String original_price;
         private String popularity_num;
         private String preferential_price;
         private String school_id;
+        private String school_jing;
         private String school_name;
+        private String school_wei;
         private String study_num;
         private String user_id;
 
@@ -87,6 +102,14 @@ public class ClassCourse {
 
         public void setAge_range(String age_range) {
             this.age_range = age_range;
+        }
+
+        public String getCourse_address() {
+            return course_address;
+        }
+
+        public void setCourse_address(String course_address) {
+            this.course_address = course_address;
         }
 
         public String getCourse_capacity() {
@@ -145,6 +168,14 @@ public class ClassCourse {
             this.course_state = course_state;
         }
 
+        public String getCourse_teacher() {
+            return course_teacher;
+        }
+
+        public void setCourse_teacher(String course_teacher) {
+            this.course_teacher = course_teacher;
+        }
+
         public String getCourse_time() {
             return course_time;
         }
@@ -153,12 +184,36 @@ public class ClassCourse {
             this.course_time = course_time;
         }
 
+        public String getCourse_type() {
+            return course_type;
+        }
+
+        public void setCourse_type(String course_type) {
+            this.course_type = course_type;
+        }
+
+        public String getDengji() {
+            return dengji;
+        }
+
+        public void setDengji(String dengji) {
+            this.dengji = dengji;
+        }
+
         public String getEnrol_num() {
             return enrol_num;
         }
 
         public void setEnrol_num(String enrol_num) {
             this.enrol_num = enrol_num;
+        }
+
+        public String getHot_time() {
+            return hot_time;
+        }
+
+        public void setHot_time(String hot_time) {
+            this.hot_time = hot_time;
         }
 
         public String getOriginal_price() {
@@ -193,12 +248,28 @@ public class ClassCourse {
             this.school_id = school_id;
         }
 
+        public String getSchool_jing() {
+            return school_jing;
+        }
+
+        public void setSchool_jing(String school_jing) {
+            this.school_jing = school_jing;
+        }
+
         public String getSchool_name() {
             return school_name;
         }
 
         public void setSchool_name(String school_name) {
             this.school_name = school_name;
+        }
+
+        public String getSchool_wei() {
+            return school_wei;
+        }
+
+        public void setSchool_wei(String school_wei) {
+            this.school_wei = school_wei;
         }
 
         public String getStudy_num() {

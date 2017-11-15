@@ -1,721 +1,729 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="true"
-            android:id="@+id/mScrollView"
-            android:focusableInTouchMode="true"
-            android:scrollbars="none"
-            tools:context="com.example.handschoolapplication.fragment.HomeFragment">
-    <RelativeLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.handschoolapplication.fragment.HomeFragment">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:id="@+id/ll_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:src="@drawable/bluepoint" />
 
-                <LinearLayout
-                    android:id="@+id/ll_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:text="位置"
+                android:textColor="@color/textcolor"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="middle"/>
+        </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/bluepoint"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
-                    <TextView
-                        android:id="@+id/tv_location"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:text="位置"
-                        android:textColor="@color/textcolor"
-                        android:textSize="12sp"/>
-                </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/shape_home_etsearch_bg"
+            android:orientation="horizontal">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/et_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="搜索您想学的课程或课堂"
+                android:paddingLeft="20dp"
+                android:textSize="12sp"
+                app:theme="@style/MyEditText" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/shape_home_etsearch_bg"
-                    android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/search" />
+        </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/et_search"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="center_vertical"
-                        android:hint="搜索您想学的课程或课堂"
-                        android:paddingLeft="20dp"
-                        android:textSize="12sp"
-                        app:theme="@style/MyEditText"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
-                    <ImageView
-                        android:id="@+id/iv_search"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/search"/>
-                </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+            <ImageView
+                android:id="@+id/iv_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/glodecoin" />
 
-                <LinearLayout
-                    android:id="@+id/ll_sign_in"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:text="签到"
+                android:textColor="@color/textcolor"
+                android:textSize="12sp" />
+        </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/iv_sign"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/glodecoin"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="20dp"
-                        android:text="签到"
-                        android:textColor="@color/textcolor"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_sign_ins"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+        <LinearLayout
+            android:id="@+id/ll_sign_ins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="+1"
-                        android:textColor="#fec601"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="+1"
+                android:textColor="#fec601" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="15dp"
-                        android:text="已签到"
-                        android:textColor="@color/textcolor"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="15dp"
+                android:text="已签到"
+                android:textColor="@color/textcolor"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <ScrollView
+        android:id="@+id/mScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:scrollbars="none">
 
-            <com.bigkoo.convenientbanner.ConvenientBanner
-                android:id="@+id/convenientBanner"
-                android:layout_width="match_parent"
-                android:layout_height="154dp"
-                android:layout_marginTop="10dp"
-                app:canLoop="true"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/ll_learn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
                 android:orientation="vertical">
+                <com.bigkoo.convenientbanner.ConvenientBanner
+                    android:id="@+id/convenientBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="154dp"
+                    app:canLoop="true" />
 
                 <LinearLayout
+                    android:id="@+id/ll_learn"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:id="@+id/rl_style_art"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/iv_style_art"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:src="@drawable/wenyi"/>
-
-                        <TextView
-                            android:id="@+id/tv_hometype1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/iv_style_art"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:text="文体艺术"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_learn_help"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/iv_learn_help"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:src="@drawable/xuexi"/>
-
-                        <TextView
-                            android:id="@+id/tv_hometype2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/iv_learn_help"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:text="学习辅导"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_activity"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/iv_activity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:src="@drawable/huodong"/>
-
-                        <TextView
-                            android:id="@+id/tv_hometype3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/iv_activity"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:text="活动拓展"/>
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:id="@+id/rl_child_edu"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/iv_child_edu"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:src="@drawable/zaojiao"/>
-
-                        <TextView
-                            android:id="@+id/tv_hometype4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/iv_child_edu"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:text="早教"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_trusteeship"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/iv_trusteeship"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:src="@drawable/tuoguan"/>
-
-                        <TextView
-                            android:id="@+id/tv_hometype5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/iv_trusteeship"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:text="托管"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_family_edu"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:id="@+id/iv_family_edu"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:src="@drawable/jiajiao"/>
-
-                        <TextView
-                            android:id="@+id/tv_hometype6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/iv_family_edu"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:text="家教"/>
-                    </RelativeLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/jiaoyuzixun"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
-                    <com.example.handschoolapplication.view.MarqueeView
-                        android:id="@+id/marqueeView"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mvAnimDuration="500"
-                        app:mvInterval="3000"
-                        app:mvTextSize="14sp"></com.example.handschoolapplication.view.MarqueeView>
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_style_art"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/iv_style_art"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/wenyi" />
+
+                            <TextView
+                                android:id="@+id/tv_hometype1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/iv_style_art"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:text="文体艺术" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl_learn_help"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/iv_learn_help"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/xuexi" />
+
+                            <TextView
+                                android:id="@+id/tv_hometype2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/iv_learn_help"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:text="学习辅导" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl_activity"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/iv_activity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/huodong" />
+
+                            <TextView
+                                android:id="@+id/tv_hometype3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/iv_activity"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:text="活动拓展" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_child_edu"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/iv_child_edu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/zaojiao" />
+
+                            <TextView
+                                android:id="@+id/tv_hometype4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/iv_child_edu"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:text="早教" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl_trusteeship"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/iv_trusteeship"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/tuoguan" />
+
+                            <TextView
+                                android:id="@+id/tv_hometype5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/iv_trusteeship"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:text="托管" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl_family_edu"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <ImageView
+                                android:id="@+id/iv_family_edu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:src="@drawable/jiajiao" />
+
+                            <TextView
+                                android:id="@+id/tv_hometype6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/iv_family_edu"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:text="家教" />
+                        </RelativeLayout>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#f2f2f3"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp">
-
-                <ImageView
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/wenyi"/>
-                />
-
-                <TextView
-                    android:id="@+id/tv_hometypelist1"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:text="文体艺术"
-                    android:textColor="@color/textcolor"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/jiaoyuzixun" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.example.handschoolapplication.view.MarqueeView
+                            android:id="@+id/marqueeView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:mvAnimDuration="500"
+                            app:mvInterval="3000"
+                            app:mvTextSize="14sp"></com.example.handschoolapplication.view.MarqueeView>
+                    </LinearLayout>
+                </LinearLayout>
 
                 <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="#f2f2f3" />
 
-                <TextView
-                    android:id="@+id/tv_more_art"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="更多>>"/>
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/wenyi" />
+                    />
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tv_hometypelist1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="文体艺术"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_more_art"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="更多>>" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/left"/>
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <com.example.handschoolapplication.view.HorizontalListView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/left" />
+
+                    <com.example.handschoolapplication.view.HorizontalListView
+                        android:id="@+id/hl_art"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:focusable="false" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+
+                <com.example.handschoolapplication.view.MyListView
+                    android:id="@+id/lv_course_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:id="@+id/hl_art"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/right"/>
-            </LinearLayout>
-
-            <com.example.handschoolapplication.view.MyListView
-                android:focusable="false"
-                android:id="@+id/lv_course_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#f2f2f3"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp">
-
-                <ImageView
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/xuexi"/>
-                />
-
-                <TextView
-                    android:id="@+id/tv_hometypelist2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:text="学习辅导"
-                    android:textColor="@color/textcolor"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:paddingLeft="20dp" />
 
                 <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="#f2f2f3" />
 
-                <TextView
-                    android:id="@+id/tv_more_learn"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="更多>>"/>
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/xuexi" />
+                    />
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tv_hometypelist2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="学习辅导"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_more_learn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="更多>>" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/left"/>
+                    android:orientation="horizontal">
 
-                <com.example.handschoolapplication.view.HorizontalLearnListView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/left" />
+
+                    <com.example.handschoolapplication.view.HorizontalLearnListView
+                        android:id="@+id/hl_learn"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:focusable="false" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+
+                <com.example.handschoolapplication.view.MyListView
+                    android:id="@+id/lv_learn_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:id="@+id/hl_learn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/right"/>
-            </LinearLayout>
-
-            <com.example.handschoolapplication.view.MyListView
-                android:focusable="false"
-                android:id="@+id/lv_learn_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#f2f2f3"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp">
-
-                <ImageView
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/huodong"/>
-                />
-
-                <TextView
-                    android:id="@+id/tv_hometypelist3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:text="活动拓展"
-                    android:textColor="@color/textcolor"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:paddingLeft="20dp" />
 
                 <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="#f2f2f3" />
 
-                <TextView
-                    android:id="@+id/tv_more_activity"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="更多>>"/>
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/huodong" />
+                    />
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/tv_hometypelist3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="活动拓展"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_more_activity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="更多>>" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/left"/>
+                    android:orientation="horizontal">
 
-                <com.example.handschoolapplication.view.HorizontalActivityListView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/left" />
+
+                    <com.example.handschoolapplication.view.HorizontalActivityListView
+                        android:id="@+id/hl_activity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:focusable="false" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/right" />
+                </LinearLayout>
+
+                <com.example.handschoolapplication.view.MyListView
+                    android:id="@+id/lv_activity_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:id="@+id/hl_activity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/right"/>
-            </LinearLayout>
-
-            <com.example.handschoolapplication.view.MyListView
-                android:focusable="false"
-                android:id="@+id/lv_activity_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#f2f2f3"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp">
-
-                <ImageView
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/zaojiao"/>
-                />
-
-                <TextView
-                    android:id="@+id/tv_hometypelist4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:text="早教"
-                    android:textColor="@color/textcolor"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:paddingLeft="20dp" />
 
                 <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="#f2f2f3" />
 
-                <TextView
-                    android:id="@+id/tv_more_child"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="更多>>"/>
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
 
-            <ListView
-                android:focusable="false"
-                android:id="@+id/lv_child_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"/>
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/zaojiao" />
+                    />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#f2f2f3"/>
+                    <TextView
+                        android:id="@+id/tv_hometypelist4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="早教"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp">
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
 
-                <ImageView
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/tuoguan"/>
-                />
+                    <TextView
+                        android:id="@+id/tv_more_child"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="更多>>" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_hometypelist5"
-                    android:layout_width="wrap_content"
+                <ListView
+                    android:id="@+id/lv_child_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:text="托管"
-                    android:textColor="@color/textcolor"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:focusable="false"
+                    android:paddingLeft="20dp" />
 
                 <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="#f2f2f3" />
 
-                <TextView
-                    android:id="@+id/tv_more_trusteeship"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="更多>>"/>
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
 
-            <com.example.handschoolapplication.view.MyListView
-                android:focusable="false"
-                android:id="@+id/lv_trusteeship_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20dp"/>
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/tuoguan" />
+                    />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#f2f2f3"/>
+                    <TextView
+                        android:id="@+id/tv_hometypelist5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="托管"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp">
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
 
-                <ImageView
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/jiajiao"/>
-                />
+                    <TextView
+                        android:id="@+id/tv_more_trusteeship"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="更多>>" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_hometypelist6"
-                    android:layout_width="wrap_content"
+                <com.example.handschoolapplication.view.MyListView
+                    android:id="@+id/lv_trusteeship_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="5dp"
-                    android:text="家教"
-                    android:textColor="@color/textcolor"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
+                    android:focusable="false"
+                    android:paddingLeft="20dp" />
 
                 <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="#f2f2f3" />
 
-                <TextView
-                    android:id="@+id/tv_more_home"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="更多>>"/>
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/jiajiao" />
+                    />
+
+                    <TextView
+                        android:id="@+id/tv_hometypelist6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:text="家教"
+                        android:textColor="@color/textcolor"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_more_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="更多>>" />
+                </LinearLayout>
+
+                <com.example.handschoolapplication.view.MyListView
+                    android:id="@+id/lv_homelearn_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:paddingLeft="20dp" />
             </LinearLayout>
 
-            <com.example.handschoolapplication.view.MyListView
-                android:focusable="false"
-                android:id="@+id/lv_homelearn_name"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"/>
-        </LinearLayout>
-        <ImageView
-            android:visibility="gone"
-            android:src="@drawable/glodecoin"
-            android:id="@+id/iv"
-            android:layout_marginTop="300dp"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
-</ScrollView>
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="300dp"
+                android:src="@drawable/glodecoin"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>
+

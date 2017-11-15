@@ -19,4 +19,5 @@
     <color name="pink">#FF3C4B</color>
     <color name="b3b3b3">#b3b3b3</color>
     <color name="normal" >#eae8e8</color>
+    <color name="partTranslucent">#39000000</color>
 </resources>

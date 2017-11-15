@@ -238,7 +238,7 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
                 jsonObject.put("image" + i, photoStr.get(i));
             }
 
-            for (int i = 0; i < photoStr.size(); i++) {
+            for (int i = 0; i < idencardStr.size(); i++) {
                 json2.put("photo" + i, idencardStr.get(i));
             }
         } catch (JSONException e) {

@@ -47,7 +47,5 @@
                 android:padding="14dp"
                 android:text="添加学堂类别"/>
         </LinearLayout>
-
-
     </ScrollView>
 </LinearLayout>

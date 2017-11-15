@@ -2,7 +2,6 @@ package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -68,10 +67,16 @@ public class RecommendAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Log.e("aaa",
-                "(RecommendAdapter.java:72)" + mList.get(position).toString());
+        String course_photo = mList.get(position).getCourse_photo();
+        String photo = "";
+        if (course_photo.contains(",")){
+            String[] split = course_photo.split(",");
+            photo = split[0];
+        }else {
+            photo = course_photo;
+        }
         Glide.with(context)
-                .load(Internet.BASE_URL + mList.get(position).getCourse_photo())
+                .load(Internet.BASE_URL + photo)
                 .centerCrop()
                 .error(R.drawable.kecheng)
                 .into(holder.ivCourse);

@@ -6,113 +6,126 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-<RelativeLayout
-    android:id="@+id/rl_item"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp">
-    <ImageView
-        android:id="@+id/iv_course"
-        android:layout_width="78dp"
-        android:layout_height="78dp"
-        android:src="@drawable/kecheng"
-        android:scaleType="fitXY"
-        android:layout_centerVertical="true"/>
-    <LinearLayout
-        android:id="@+id/ll_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/iv_course"
+
+    <RelativeLayout
+        android:id="@+id/rl_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_centerVertical="true">
-        <TextView
-            android:id="@+id/tv_course"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+
+        <ImageView
+            android:id="@+id/iv_course"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+             />
+
+        <LinearLayout
+            android:id="@+id/ll_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="机构名称"
-            android:textSize="16sp"
-            android:textColor="@color/textcolor" />
-        <!--<TextView-->
-            <!--android:id="@+id/tv_distance"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="距离： 200m"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:textColor="#666666"-->
-            <!--android:textSize="14sp"/>-->
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/iv_course"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="机构名称"
+                android:textColor="@color/textcolor"
+                android:textSize="16sp" />
+            <!--<TextView-->
+                <!--android:id="@+id/tv_distance"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="距离： 200m"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:textColor="#666666"-->
+                <!--android:textSize="14sp"/>-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="星级："
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/iv_star1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/wujiaoxinghuise" />
+
+                <ImageView
+                    android:id="@+id/iv_star2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/wujiaoxinghuise" />
+
+                <ImageView
+                    android:id="@+id/iv_star3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/wujiaoxinghuise" />
+
+                <ImageView
+                    android:id="@+id/iv_star4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/wujiaoxinghuise" />
+
+                <ImageView
+                    android:id="@+id/iv_star5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/wujiaoxinghuise" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="距离："
+                android:textColor="#666666"
+                android:textSize="12sp" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:layout_alignBottom="@id/ll_1"
+            android:layout_alignParentRight="true">
+
             <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="星级："
-            android:textColor="#666666"
-            android:textSize="14sp"/>
-            <ImageView
-                android:id="@+id/iv_star1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"
-                android:layout_gravity="center_vertical"/>
-            <ImageView
-                android:id="@+id/iv_star2"
+                android:text="人气："
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/popularity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"
-                android:layout_gravity="center_vertical"/>
-            <ImageView
-                android:id="@+id/iv_star3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"
-                android:layout_gravity="center_vertical"/>
-            <ImageView
-                android:id="@+id/iv_star4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"
-                android:layout_gravity="center_vertical"/>
-            <ImageView
-                android:id="@+id/iv_star5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/wujiaoxinghuise"
-                android:layout_gravity="center_vertical"/>
+                android:layout_marginRight="20dp"
+                android:text="(0人已报名)"
+                android:textColor="#666666"
+                android:textSize="12sp" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="距离：200m"
-            android:layout_marginTop="5dp"
-            android:textColor="#666666"
-            android:textSize="14sp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/ll_1">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="人气："
-            android:textSize="14sp"/>
-        <TextView
-            android:id="@+id/popularity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(20人已报名)"
-            android:layout_marginRight="20dp"
-            android:textColor="#666666"
-            android:textSize="14sp"/>
-    </LinearLayout>
-</RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -109,7 +109,7 @@ public class PJDAdapter extends BaseAdapter {
                 break;
             case "2":
                 Glide.with(context)
-                        .load(Internet.BASE_URL + mlist.get(position).getFrom_photo())
+                        .load(Internet.BASE_URL + mlist.get(position).getSend_photo())
                         .centerCrop()
                         .into(holder3.iv_hfhead);
                 holder3.tv_hfname.setText(mlist.get(position).getFrom_name());

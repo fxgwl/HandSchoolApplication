@@ -10,19 +10,21 @@ public class LearningCourseBean {
 
 
     /**
-     * class_money :
+     * class_money : 800元/4节
      * class_name : 音乐
      * class_people :
      * class_photo : images/head.jpg
      * class_size :
      * class_teacher : 1506153404911
      * class_time :
-     * courseInfo : {"age_range":"2-6岁","course_address":"1","course_capacity":"28","course_id":"1506153404911","course_info":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_name":"音乐","course_photo":"images/head.jpg","course_state":"1","course_teacher":"1","course_time":"2017-09-23 15:56:44","course_type":"文体艺术/书画,学习辅导/中小学教育","enrol_num":"29","hot_time":"2017-09-20 14:15:50","original_price":"660","popularity_num":"256","preferential_price":"330","school_id":"1505805630236","school_jing":"116.40403592998626","school_name":"我的小学堂a","school_wei":"39.91386028193478","study_num":"1506153404911","user_id":"8841f54f7b574f06a470ee9002043f8d"}
-     * courseTimeInfo : []
+     * courseInfo : {"age_range":"2-6岁","course_address":"天津市北京市","course_capacity":"28","course_id":"1506153404911","course_info":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_money":"800元/4节","course_name":"音乐","course_photo":"images/head.jpg","course_state":"1","course_teacher":"1","course_time":"2017-09-23 15:56:44","course_type":"文体艺术/书画,学习辅导/中小学教育","dengji":"5","enrol_num":"35","hot_time":"2017-09-20 14:15:50","original_price":"660","popularity_num":"537","preferential_price":"330","school_id":"1505805630236","school_jing":"119.40403592998626","school_name":"我的小学堂a","school_wei":"39.91386028193478","study_num":"1506153404911","user_id":"8841f54f7b574f06a470ee9002043f8d"}
+     * courseTimeInfo : [{"course_id":"1506153404911","create_time":"2017-10-20 17:30:05","ctime_id":7,"ctime_times":"8:30-10:00,10:30-12:00,13:30-15:00,15:30-17:00","ctime_week":"周一"},{"course_id":"1506153404911","create_time":"2017-10-20 17:30:05","ctime_id":8,"ctime_times":"8:30-10:00,10:30-12:00,13:30-15:00,15:30-17:00","ctime_week":"周二"}]
      * course_id : 1506153404911
      * course_num : 2
      * is_coupons : 0
      * is_gold : 0
+     * order_course_time : 周一8:30-10:00,10:30-12:00,13:30-15:00,15:30-17:00
+     周二8:30-10:00,10:30-12:00,13:30-15:00,15:30-17:00
      * order_id : 1507541019423
      * order_money : 330
      * order_state : 3
@@ -50,6 +52,7 @@ public class LearningCourseBean {
     private String course_num;
     private int is_coupons;
     private String is_gold;
+    private String order_course_time;
     private String order_id;
     private String order_money;
     private String order_state;
@@ -63,7 +66,7 @@ public class LearningCourseBean {
     private String user_id;
     private String user_name;
     private String user_phone;
-    private List<?> courseTimeInfo;
+    private List<CourseTimeInfoBean> courseTimeInfo;
 
     public String getClass_money() {
         return class_money;
@@ -159,6 +162,14 @@ public class LearningCourseBean {
 
     public void setIs_gold(String is_gold) {
         this.is_gold = is_gold;
+    }
+
+    public String getOrder_course_time() {
+        return order_course_time;
+    }
+
+    public void setOrder_course_time(String order_course_time) {
+        this.order_course_time = order_course_time;
     }
 
     public String getOrder_id() {
@@ -265,35 +276,36 @@ public class LearningCourseBean {
         this.user_phone = user_phone;
     }
 
-    public List<?> getCourseTimeInfo() {
+    public List<CourseTimeInfoBean> getCourseTimeInfo() {
         return courseTimeInfo;
     }
 
-    public void setCourseTimeInfo(List<?> courseTimeInfo) {
+    public void setCourseTimeInfo(List<CourseTimeInfoBean> courseTimeInfo) {
         this.courseTimeInfo = courseTimeInfo;
     }
 
     public static class CourseInfoBean {
         /**
          * age_range : 2-6岁
-         * course_address : 1
+         * course_address : 天津市北京市
          * course_capacity : 28
          * course_id : 1506153404911
          * course_info : bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg
+         * course_money : 800元/4节
          * course_name : 音乐
-         * course_money　：800元/4节
          * course_photo : images/head.jpg
          * course_state : 1
          * course_teacher : 1
          * course_time : 2017-09-23 15:56:44
          * course_type : 文体艺术/书画,学习辅导/中小学教育
-         * enrol_num : 29
+         * dengji : 5
+         * enrol_num : 35
          * hot_time : 2017-09-20 14:15:50
          * original_price : 660
-         * popularity_num : 256
+         * popularity_num : 537
          * preferential_price : 330
          * school_id : 1505805630236
-         * school_jing : 116.40403592998626
+         * school_jing : 119.40403592998626
          * school_name : 我的小学堂a
          * school_wei : 39.91386028193478
          * study_num : 1506153404911
@@ -312,6 +324,7 @@ public class LearningCourseBean {
         private String course_teacher;
         private String course_time;
         private String course_type;
+        private String dengji;
         private String enrol_num;
         private String hot_time;
         private String original_price;
@@ -364,20 +377,20 @@ public class LearningCourseBean {
             this.course_info = course_info;
         }
 
-        public String getCourse_name() {
-            return course_name;
-        }
-
-        public void setCourse_name(String course_name) {
-            this.course_name = course_name;
-        }
-
         public String getCourse_money() {
             return course_money;
         }
 
         public void setCourse_money(String course_money) {
             this.course_money = course_money;
+        }
+
+        public String getCourse_name() {
+            return course_name;
+        }
+
+        public void setCourse_name(String course_name) {
+            this.course_name = course_name;
         }
 
         public String getCourse_photo() {
@@ -418,6 +431,14 @@ public class LearningCourseBean {
 
         public void setCourse_type(String course_type) {
             this.course_type = course_type;
+        }
+
+        public String getDengji() {
+            return dengji;
+        }
+
+        public void setDengji(String dengji) {
+            this.dengji = dengji;
         }
 
         public String getEnrol_num() {
@@ -506,6 +527,62 @@ public class LearningCourseBean {
 
         public void setUser_id(String user_id) {
             this.user_id = user_id;
+        }
+    }
+
+    public static class CourseTimeInfoBean {
+        /**
+         * course_id : 1506153404911
+         * create_time : 2017-10-20 17:30:05
+         * ctime_id : 7
+         * ctime_times : 8:30-10:00,10:30-12:00,13:30-15:00,15:30-17:00
+         * ctime_week : 周一
+         */
+
+        private String course_id;
+        private String create_time;
+        private int ctime_id;
+        private String ctime_times;
+        private String ctime_week;
+
+        public String getCourse_id() {
+            return course_id;
+        }
+
+        public void setCourse_id(String course_id) {
+            this.course_id = course_id;
+        }
+
+        public String getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(String create_time) {
+            this.create_time = create_time;
+        }
+
+        public int getCtime_id() {
+            return ctime_id;
+        }
+
+        public void setCtime_id(int ctime_id) {
+            this.ctime_id = ctime_id;
+        }
+
+        public String getCtime_times() {
+            return ctime_times;
+        }
+
+        public void setCtime_times(String ctime_times) {
+            this.ctime_times = ctime_times;
+        }
+
+        public String getCtime_week() {
+            return ctime_week;
+        }
+
+        public void setCtime_week(String ctime_week) {
+            this.ctime_week = ctime_week;
         }
     }
 }

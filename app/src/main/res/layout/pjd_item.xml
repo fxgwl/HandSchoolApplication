@@ -19,10 +19,13 @@
 
         <TextView
             android:id="@+id/tv_hfname"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="名字"
-            android:textColor="#000"/>
+            android:maxLines="1"
+            android:ellipsize="middle"
+            android:textColor="#000"
+            android:textSize="14sp"/>
 
         <ImageView
             android:id="@+id/iv_dj"
@@ -37,7 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:gravity="right"
-            android:text="2017-07-05   18:23:17"/>
+            android:text="2017-07-05   18:23:17"
+            android:textSize="12sp"/>
     </LinearLayout>
 
     <TextView
@@ -46,5 +50,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="老师讲解很细心,老师很喜欢!"
-        android:textColor="#000"/>
+        android:textColor="#000"
+        android:textSize="14sp"/>
 </LinearLayout>

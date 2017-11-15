@@ -1,8 +1,10 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,6 +47,14 @@ public class LearnNewsActivity extends BaseActivity {
         userId = (String) SPUtils.get(this, "userId", "");
         tvTitle.setText("学习消息");
         initData();
+
+        lvLearnNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LearnNewsBean learnNewsBean = mList.get(position);
+                startActivity(new Intent(LearnNewsActivity.this,LearnNewsDetailActivity.class).putExtra("learnNewsBean",learnNewsBean));
+            }
+        });
 
     }
 
@@ -91,7 +101,8 @@ public class LearnNewsActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
         }
     }

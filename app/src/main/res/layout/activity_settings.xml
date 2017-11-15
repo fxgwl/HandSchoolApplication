@@ -56,7 +56,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e6e6e6"/>
+        android:background="#e6e6e6"
+        android:layout_marginLeft="20dp"/>
 
     <LinearLayout
         android:id="@+id/ll_change_phone"
@@ -87,10 +88,6 @@
             android:layout_marginRight="20dp"
             android:src="@drawable/xiayiye" />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e6e6e6"/>
     <LinearLayout
         android:id="@+id/ll_changepwd"
         android:layout_width="match_parent"
@@ -152,7 +149,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e6e6e6"/>
+        android:background="#e6e6e6"
+        android:layout_marginLeft="20dp"/>
     <LinearLayout
         android:id="@+id/ll_help"
         android:layout_width="match_parent"
@@ -181,7 +179,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e6e6e6"/>
+        android:background="#e6e6e6"
+        android:layout_marginLeft="20dp"/>
     <LinearLayout
         android:id="@+id/ll_about"
         android:layout_width="match_parent"
@@ -210,7 +209,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e6e6e6"/>
+        android:background="#e6e6e6"
+        android:layout_marginLeft="20dp"/>
     <Button
         android:id="@+id/btn_unlogin"
         android:layout_width="230dp"

@@ -1,9 +1,12 @@
 package com.example.handschoolapplication.activity;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -61,6 +64,9 @@ public class HumanServiceActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View decorView = getWindow().getDecorView();
+        View contentView = findViewById(Window.ID_ANDROID_CONTENT);
+        decorView.getViewTreeObserver().addOnGlobalLayoutListener(getGlobalLayoutListener(decorView, contentView));
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         if (null != getIntent().getStringExtra("name"))
             tvTitle.setText(getIntent().getStringExtra("name"));
@@ -285,33 +291,26 @@ public class HumanServiceActivity extends BaseActivity {
 
     }
 
-    private void sendToRobot() {
-        OkHttpUtils.post()
-                .url(Internet.CONTACTSERVICE)
-                .addParams("user_id", user_id)
-                .addParams("message_content", content)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+    private ViewTreeObserver.OnGlobalLayoutListener getGlobalLayoutListener(final View decorView, final View contentView) {
+        return new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                decorView.getWindowVisibleDisplayFrame(r);
 
-                    }
+                int height = decorView.getContext().getResources().getDisplayMetrics().heightPixels;
+                int diff = height - r.bottom;
 
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Log.e("aaa",
-                                "(HumanServiceActivity.java:82)" + response);
-                        try {
-                            JSONObject json = new JSONObject(response);
-                            Toast.makeText(HumanServiceActivity.this, json.getString("msg"), Toast.LENGTH_SHORT).show();
-                            if (response.contains("成功")) {
-                                tvContactContent.setText("");
-                                initView();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                if (diff != 0) {
+                    if (contentView.getPaddingBottom() != diff) {
+                        contentView.setPadding(0, 0, 0, diff);
                     }
-                });
+                } else {
+                    if (contentView.getPaddingBottom() != 0) {
+                        contentView.setPadding(0, 0, 0, 0);
+                    }
+                }
+            }
+        };
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="350dp"
               android:background="#ffffff"
               android:orientation="vertical">
 
@@ -33,25 +33,30 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#E7E7E7"></View>
-
-    <com.example.handschoolapplication.view.MyGridView
-        android:id="@+id/classmoney_mlv"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:choiceMode="singleChoice"
-        android:numColumns="3"
-        android:layout_marginTop="20dp" />
+        android:layout_height="350dp">
+        <com.example.handschoolapplication.view.MyGridView
+            android:id="@+id/classmoney_mlv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:choiceMode="singleChoice"
+            android:numColumns="3"
+            android:layout_marginTop="20dp" />
 
-    <TextView
-        android:id="@+id/classmoney_config"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="#27ACF6"
-        android:gravity="center"
-        android:text="已选好"
-        android:textColor="#fff"/>
+        <TextView
+            android:id="@+id/classmoney_config"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="#27ACF6"
+            android:gravity="center"
+            android:text="已选好"
+            android:textColor="#fff"/>
+    </RelativeLayout>
+
+
 </LinearLayout>

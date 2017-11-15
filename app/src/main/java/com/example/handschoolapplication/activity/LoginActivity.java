@@ -149,7 +149,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         Platform sina = ShareSDK.getPlatform(SinaWeibo.NAME);
         sina.SSOSetting(false);  //设置false表示使用SSO授权方式
         if (!sina.isClientValid()) {
-            Toast.makeText(LoginActivity.this, "QQ未安装,请先安装微信", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "微博未安装,请先安装微信", Toast.LENGTH_LONG).show();
         }
         sina.setPlatformActionListener(this); // 设置分享事件回调
 //        wechat.showUser(null);//授权并获取用户信息
@@ -258,6 +258,8 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         String userName = platform.getDb().getUserName();
         String userId = platform.getDb().getUserId();
 
+        Log.e("aaa",
+            "(LoginActivity.java:262)  name=== "+name+"   userIcon===="+userIcon+"   userName===="+userName+"   userId==="+userId);
         toLogin(name, userIcon, userName, userId);
 
     }
@@ -275,7 +277,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                 url = Internet.QQ_LOGIN;
                 user_id = "qq_id";
                 break;
-            case "":
+            case "SinaWeibo":
                 url = Internet.SINA_WEIBO_LOGIN;
                 user_id = "weibo_id";
                 break;
@@ -301,6 +303,30 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(LoginActivity.java:301)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            int result = jsonObject.getInt("result");
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            UserBean userBean = new Gson().fromJson(data.toString(), UserBean.class);
+                            String user_id = userBean.getUser_id();
+                            if (result==1){
+                                startActivity(new Intent(LoginActivity.this,RegisterPersonActivity.class)
+                                        .putExtra("flag","three")
+                                        .putExtra("user_id",user_id)
+                                        .putExtra("type","0"));
+                            }else {
+                                SPUtils.put(LoginActivity.this, "userId", user_id);
+                                SPUtils.put(LoginActivity.this, "user_type", userBean.getUser_type());
+                                SPUtils.put(LoginActivity.this, "user_phone", userBean.getUser_phone());
+                                SPUtils.put(LoginActivity.this, "isLogin", true);
+                                SPUtils.put(LoginActivity.this, "flag", "0");
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            }
+                        } catch (JSONException e) {
+
+
+                        }
                     }
                 });
 

@@ -90,6 +90,8 @@ public class PJDetailActivity extends BaseActivity {
 
     //初始化
     private void initView() {
+        replyInfoBeens.clear();
+        replyInfoBeens2.clear();
         OkHttpUtils.post()
                 .url(Internet.COMMENTDETAIL)
                 .addParams("interact_id", interact_id)
@@ -194,6 +196,7 @@ public class PJDetailActivity extends BaseActivity {
                                 if (response.contains("成功")) {
                                     Toast.makeText(PJDetailActivity.this, "回复成功", Toast.LENGTH_SHORT).show();
                                     etReplycontent.setText("");
+                                    initView();//刷新
                                 }
                             }
                         });

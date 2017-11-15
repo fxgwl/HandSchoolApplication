@@ -82,6 +82,7 @@ public class SchoolInformationActivity extends BaseActivity {
     Button btnSchoolinfoSave;
     private ImageView iv_personal_icon;
     private String user_id;
+    private SchoolInfoBean.DataBean schoolInfo;
 
 
     @Override
@@ -110,14 +111,14 @@ public class SchoolInformationActivity extends BaseActivity {
                         Log.e("aaa",
                                 "(SchoolInformationActivity.java:102)" + response);
                         Gson gson = new Gson();
-                        SchoolInfoBean.DataBean schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
+                        schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
                         Glide.with(SchoolInformationActivity.this)
                                 .load(Internet.BASE_URL + schoolInfo.getHead_photo())
                                 .error(R.drawable.touxiang)
                                 .centerCrop()
                                 .into(ivUsericon);
                         tvSchoolinfoSchoolname.setText(schoolInfo.getMechanism_name());
-                        tvSchoolinfoSchoolclass.setText(schoolInfo.getMechanism_type());
+//                        tvSchoolinfoSchoolclass.setText(schoolInfo.getMechanism_type());
                         tvSchoolinfoShenfenrenzheng.setText(schoolInfo.getId_number());
 //                        tvSchoolinfoQualification.setText(schoolInfo.getQualification_prove());
                     }
@@ -293,7 +294,7 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             //学堂类别
             case R.id.ll_schoolinfo_schoolclass:
-//                startActivity(new Intent(this, ClassTypeActivity.class));
+                startActivity(new Intent(this, ClassTypeActivity.class).putExtra("schoolType",schoolInfo.getMechanism_type()));
                 break;
             //身份认证
             case R.id.ll_schoolinfo_shenfenrenzheng:

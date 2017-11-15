@@ -80,13 +80,6 @@ public class RankListUtils {
             }
         }
         courseSortBeen.addAll(mlist);
-
-//        for (int i = 0; i < mlist.size(); i++) {
-//            double distance = mlist.get(i).getDistance();
-//            Log.e("aaa",
-//                "(RankListUtils.java:42)==================="+distance);
-//        }
-
         return courseSortBeen;
     }
     public static List<CourseSortBean> rankListsss(List<CourseSortBean> mlist,LatLng currentPoint){

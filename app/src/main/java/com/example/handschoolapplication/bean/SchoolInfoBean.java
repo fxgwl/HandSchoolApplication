@@ -65,6 +65,7 @@ public class SchoolInfoBean {
          * user_renqi : 0
          * user_state : 0
          * user_type : 1
+         * pingjia
          */
 
         private String data_integrity;
@@ -91,6 +92,7 @@ public class SchoolInfoBean {
         private String user_state;
         private String user_type;
         private String user_name;
+        private String pingjia;
 
         public String getUser_name() {
             return user_name;
@@ -282,6 +284,14 @@ public class SchoolInfoBean {
 
         public void setUser_type(String user_type) {
             this.user_type = user_type;
+        }
+
+        public String getPingjia() {
+            return pingjia;
+        }
+
+        public void setPingjia(String pingjia) {
+            this.pingjia = pingjia;
         }
     }
 }

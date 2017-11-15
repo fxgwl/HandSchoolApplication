@@ -19,14 +19,16 @@
             android:layout_height="wrap_content"
             android:text="学习状态："
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:textSize="14sp"/>
         <TextView
             android:id="@+id/tv_learn_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="学习中"
+            android:text=""
             android:layout_marginLeft="5dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:textSize="14sp"/>
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
@@ -35,7 +37,8 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2011-02-02"
+            android:text=""
+            android:textSize="14sp"
             android:layout_gravity="bottom"/>
     </LinearLayout>
 
@@ -65,7 +68,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="成龙音乐学堂" />
+                android:text="" />
         </LinearLayout>
 
         <View
@@ -90,7 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="钢琴成人课程" />
+                android:text="" />
         </LinearLayout>
 
         <View
@@ -113,14 +116,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:paddingLeft="10dp"
-                    android:text="上课时间：" />
+                    android:text="上课时间："
+                    android:layout_gravity="center_vertical"/>
 
                 <TextView
                     android:id="@+id/tv_learn_time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
-                    android:text="周五\t16:30-18:30" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -203,7 +207,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="易中天" />
+                android:text="" />
         </LinearLayout>
 
         <View
@@ -217,6 +221,7 @@
             android:gravity="center_vertical">
 
             <TextView
+                android:id="@+id/textView4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
@@ -228,7 +233,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="北京市廊坊大兴区65号" />
+                android:text="" />
         </LinearLayout>
 
         <View
@@ -253,7 +258,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="共20学时" />
+                android:text="" />
         </LinearLayout>
 
         <View
@@ -288,7 +293,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:text="123456789" />
+                    android:text="" />
 
                 <ImageView
                     android:layout_width="wrap_content"

@@ -14,7 +14,13 @@ import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -22,6 +28,7 @@ import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;
+import okhttp3.Call;
 
 
 public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Delegate { // 实现相关接口
@@ -85,18 +92,59 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     public void onScanQRCodeSuccess(String result) {
         Log.i(TAG, "result:" + result);
         vibrate();
-        if ("0".equals(user_type)){
+        if ("0".equals(user_type)) {
             String[] split = result.split(",");
-            if ("xt".equals(split[0])){
-                startActivity(new Intent(this,ClassActivity.class).putExtra("school_id",result));
-            }else {
-                Toast.makeText(this, "扫描结果："+result, Toast.LENGTH_SHORT).show();
+            if ("xt".equals(split[0])) {
+                startActivity(new Intent(this, ClassActivity.class).putExtra("school_id", split[1]));
+                ScanQRCodeActivity.this.finish();
+            } else {
+                Toast.makeText(this, "扫描结果：" + result, Toast.LENGTH_SHORT).show();
+                ScanQRCodeActivity.this.finish();
             }
-        }else {
-
+        } else {
+            String[] split = result.split(",");
+            if ("gr".equals(split[0])) {
+                sign(split[1], split[2]);
+                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+                ScanQRCodeActivity.this.finish();
+            }
         }
         mQRCodeView.stopSpot();
         ScanQRCodeActivity.this.finish();
+    }
+
+    private void sign(String learnCode, String orderId) {
+        OkHttpUtils.post()
+                .url(InternetS.SCAN_ORDER)
+                .addParams("study_num", (learnCode + "," + orderId))
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ScanQRCodeActivity.java:118)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ScanQRCodeActivity.java:124)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            int result = jsonObject.getInt("result");
+                            if (result == 0) {
+                                ScanQRCodeActivity.this.finish();
+                                Toast.makeText(ScanQRCodeActivity.this, "确认成功", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ScanQRCodeActivity.this, jsonObject.getString("msg"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     @Override

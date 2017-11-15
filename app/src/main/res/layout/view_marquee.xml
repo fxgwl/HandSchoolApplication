@@ -30,7 +30,9 @@
             android:padding="5dp"
             android:text="1111"
             android:textColor="#666666"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -58,6 +60,8 @@
             android:padding="5dp"
             android:text="1111"
             android:textColor="#666666"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
     </RelativeLayout>
 </LinearLayout>

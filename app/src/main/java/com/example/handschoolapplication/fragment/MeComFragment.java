@@ -38,9 +38,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -70,8 +68,6 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
     ImageView ivImg4;
     @BindView(R.id.iv_img5)
     ImageView ivImg5;
-
-    Unbinder unbinder;
     @BindView(R.id.ll_evaluate_grade)
     LinearLayout llEvaluateGrade;
     @BindView(R.id.ll_scan)
@@ -90,6 +86,8 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
     LinearLayout llCode;
     @BindView(R.id.rl_class_grade)
     RelativeLayout rlClassGrade;
+    @BindView(R.id.tv_days)
+    TextView tvDays;
     private View view;
     private int REQUEST_CODE;
     private String school_id;
@@ -108,7 +106,6 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, view);
         school_id = (String) SPUtils.get(getActivity(), "school_id", "");
         user_id = (String) SPUtils.get(getActivity(), "userId", "");
         initView();
@@ -124,7 +121,12 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initView();
     }
 
     //初始化界面
@@ -154,7 +156,8 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
                             tvPercent.setText(dataBean.getData_integrity() + "%");
                             tvIntegral.setText(dataBean.getUser_integral());
                             signed_num = dataBean.getSigned_num();
-                            switch (dataBean.getUser_dengji()) {
+
+                            switch (dataBean.getPingjia()) {
                                 case "0":
                                     break;
                                 case "1":
@@ -183,6 +186,20 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
                                     ivImg5.setVisibility(View.VISIBLE);
                                     break;
                             }
+
+                            switch (dataBean.getUser_dengji()){
+                                case "0":
+                                case "1":
+                                    ivGrade.setImageResource(R.drawable.xuetangdengji_tong);
+                                    break;
+                                case "2":
+                                    ivGrade.setImageResource(R.drawable.xuetangdengji_yin);
+                                    break;
+                                case "3":
+                                    ivGrade.setImageResource(R.drawable.xuetangdengji_gold);
+                                    break;
+                            }
+                            tvDays.setText(signed_num);
                         } catch (Exception e) {
                         }
                     }

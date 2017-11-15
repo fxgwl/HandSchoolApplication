@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.ClassActivity;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.SchoolSaveBean;
 import com.example.handschoolapplication.utils.Internet;
@@ -122,18 +125,65 @@ public class LoveClassFragment extends BaseFragment {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+
+            String school_logo = mlist.get(position).getSchool_logo();
             Glide.with(getActivity())
-                    .load(Internet.BASE_URL + Internet.SCHOOLCOLLECT)
+                    .load(Internet.BASE_URL + school_logo)
                     .centerCrop()
                     .error(R.drawable.kecheng)
                     .into(holder.ivClass);
             holder.tvClass.setText(mlist.get(position).getSchool_name());
+            String school_jifen = mlist.get(position).getSchool_jifen();
+            switch (school_jifen){
+                case "0":
+                    break;
+                case "1":
+                    holder.ivXing1.setImageResource(R.drawable.wujiaoxing);
+                    break;
+                case "2":
+                    holder.ivXing1.setImageResource(R.drawable.wujiaoxing);
+                    holder.ivXing2.setImageResource(R.drawable.wujiaoxing);
+
+                    break;
+                case "3":
+                    holder.ivXing1.setImageResource(R.drawable.wujiaoxing);
+                    holder.ivXing2.setImageResource(R.drawable.wujiaoxing);
+                    holder.ivXing3.setImageResource(R.drawable.wujiaoxing);
+                    break;
+                case "4":
+                    holder.ivXing1.setImageResource(R.drawable.wujiaoxing);
+                    holder.ivXing2.setImageResource(R.drawable.wujiaoxing);
+                    holder.ivXing3.setImageResource(R.drawable.wujiaoxing);
+                    holder.ivXing4.setImageResource(R.drawable.wujiaoxing);
+                    break;
+                case "5":
+                    holder.ivXing1.setImageResource(R.drawable.wujiaoxing);
+                    holder.ivXing2.setImageResource(R.drawable.wujiaoxing);
+                    holder.ivXing3.setImageResource(R.drawable.wujiaoxing);
+                    holder.ivXing4.setImageResource(R.drawable.wujiaoxing);
+                    holder.ivXing5.setImageResource(R.drawable.wujiaoxing);
+                    break;
+            }
             final ViewHolder finalHolder = holder;
             holder.rl.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     finalHolder.tvDelet.setVisibility(View.VISIBLE);
                     return false;
+                }
+            });
+            holder.rl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String school_id = mlist.get(position).getSchool_id();
+                    startActivity(new Intent(getActivity(), ClassActivity.class).putExtra("school_id",school_id));
+                }
+            });
+
+            finalHolder.llShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showShare("我是标题","我是分享文本","","");
                 }
             });
             finalHolder.tvDelet.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +214,7 @@ public class LoveClassFragment extends BaseFragment {
                             });
                 }
             });
+
             return convertView;
         }
 
@@ -188,6 +239,8 @@ public class LoveClassFragment extends BaseFragment {
             RelativeLayout rl;
             @BindView(R.id.tvdelet)
             TextView tvDelet;
+            @BindView(R.id.ll_share)
+            LinearLayout llShare;
 
             ViewHolder(View view) {
                 ButterKnife.bind(this, view);

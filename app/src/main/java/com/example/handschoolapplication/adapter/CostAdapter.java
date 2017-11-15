@@ -61,18 +61,17 @@ public class CostAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         final ViewHolder finalHolder = holder;
-        holder.tvTime.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-
-                // 重置，确保最多只有一项被选中
-                for (String key : states.keySet()) {
-                    states.put(key, false);
-                }
-                states.put(String.valueOf(position), finalHolder.tvTime.isChecked());
-                notifyDataSetChanged();
-            }
-        });
+//        holder.tvTime.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View v) {
+////                // 重置，确保最多只有一项被选中
+////                for (String key : states.keySet()) {
+////                    states.put(key, false);
+////                }
+////                states.put(String.valueOf(position), finalHolder.tvTime.isChecked());
+////                notifyDataSetChanged();
+//            }
+//        });
 
         boolean res = false;
         if (states.get(String.valueOf(position)) == null
@@ -86,6 +85,11 @@ public class CostAdapter extends BaseAdapter {
         holder.tvTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (String key : states.keySet()) {
+                    states.put(key, false);
+                }
+                states.put(String.valueOf(position), finalHolder.tvTime.isChecked());
+                notifyDataSetChanged();
                 cbClick.onCBClick(position);
             }
         });

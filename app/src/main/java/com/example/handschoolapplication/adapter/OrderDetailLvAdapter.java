@@ -62,14 +62,23 @@ public class OrderDetailLvAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        OrderInfoBean orderInfoBean = mList.get(position);
+        OrderInfoBean dataBean = mList.get(position);
+        String class_photo = dataBean.getClass_photo();
+        String photo = "";
+
+        if (class_photo.contains(",")){
+            String[] split = class_photo.split(",");
+            photo = split[0];
+        }else {
+            photo = class_photo;
+        }
         Glide.with(mContext)
-                .load(Internet.BASE_URL + orderInfoBean.getClass_photo())
+                .load(Internet.BASE_URL + photo)
                 .centerCrop()
                 .into(holder.ivClasslogo);
-        holder.mTvClassName.setText(orderInfoBean.getClass_name());
-        holder.mTvClassprice.setText(orderInfoBean.getOrder_money());
-        holder.mTvNum.setText("数量：" + orderInfoBean.getCourse_num());
+        holder.mTvClassName.setText(dataBean.getClass_name());
+        holder.mTvClassprice.setText(dataBean.getOrder_money());
+        holder.mTvNum.setText("数量：" + dataBean.getCourse_num());
 
         return convertView;
     }

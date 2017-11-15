@@ -15,6 +15,8 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.CourseSortBean;
 import com.example.handschoolapplication.utils.Internet;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,13 +40,13 @@ public class FindCourseAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-    public void setLocations(double[] locations){
+    public void setLocations(double[] locations) {
         this.locations = locations;
     }
 
     @Override
     public int getCount() {
-        if (mlist!=null){
+        if (mlist != null) {
             size = mlist.size();
         }
         return size;
@@ -68,11 +70,18 @@ public class FindCourseAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_find_course_lv, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
-        }else {
-            holder= (ViewHolder) convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
         CourseSortBean courseSortBean = mlist.get(position);
-        Glide.with(context).load(Internet.BASE_URL + courseSortBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
+        String photo = "";
+        if (courseSortBean.getCourse_photo().contains(",")) {
+            String[] split = courseSortBean.getCourse_photo().split(",");
+            photo = split[0];
+        } else {
+            photo = courseSortBean.getCourse_photo();
+        }
+        Glide.with(context).load(Internet.BASE_URL + photo).centerCrop().into(holder.ivCourse);
         holder.tvCourse.setText(courseSortBean.getCourse_name());
         holder.tvPrice.setText("¥" + courseSortBean.getPreferential_price());//价格是放的优惠价
         holder.popularity.setText("（" + courseSortBean.getPopularity_num() + "人已报名）");
@@ -82,7 +91,9 @@ public class FindCourseAdapter extends BaseAdapter {
 
         if (locations != null) {
             double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
-            holder.tvDistance.setText((int) distance + "m");
+            distance = (distance / 1000);
+            double v = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            holder.tvDistance.setText("距离：" + v + "km");
         } else {
             holder.tvDistance.setText("定位失败");
         }

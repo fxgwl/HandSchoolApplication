@@ -2,10 +2,12 @@ package com.example.handschoolapplication.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,7 +23,6 @@ import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -46,15 +47,15 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     LinearLayout llPingjia;
     @BindView(R.id.ll_waitpay)
     LinearLayout llWaitpay;
-    @BindView(R.id.ll_waitconfig)
-    LinearLayout llTuikuan;
     @BindView(R.id.ll_tuikuan)
+    LinearLayout llTuikuan;
+    @BindView(R.id.ll_waitconfig)
     LinearLayout llWaitconfig;
     @BindView(R.id.ll_cancle)
     LinearLayout llCancle;
-    @BindView(R.id.ll_yituikuan)
-    LinearLayout llYipingjia;
     @BindView(R.id.ll_yipingjia)
+    LinearLayout llYipingjia;
+    @BindView(R.id.ll_yituikuan)
     LinearLayout llYituikuan;
     @BindView(R.id.tv_order_id)
     TextView tvOrderId;
@@ -83,6 +84,17 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
         initData();
 
+        mlvOrderdetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String course_id = mList.get(position).getCourse_id();
+                String schooluid = mList.get(position).getUser_id();
+                Intent intent = new Intent(OrderDetailActivity.this, CourseHomePagerActivity.class);
+                intent.putExtra("course_id",course_id);
+                intent.putExtra("schooluid",schooluid);
+                startActivity(intent);
+            }
+        });
         llCancle.setOnClickListener(this);
     }
 
@@ -104,16 +116,21 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                         Log.e("aaa",
                                 "(OrderDetailActivity.java:70)" + response);
                         try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONObject data = jsonObject.getJSONObject("data");
+
                             if (response.contains("没有信息")) {
 
                             } else {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONObject data = jsonObject.getJSONObject("data");
                                 OrderInfoBean orderInfoBean = new Gson().fromJson(data.toString(), OrderInfoBean.class);
                                 mList.add(orderInfoBean);
                                 mAdapter.notifyDataSetChanged();
                                 String school_name = orderInfoBean.getSchool_name();
                                 //        0待付款 1待确认 2待评价 3评价后 4退款 5取消订单 6已退款
+
+                                //        0待付款 1待确认 2待评价 3评价后 4退款中 5取消订单 6已退款
+                                Log.e("aaa",
+                                    "(OrderDetailActivity.java:133)order_state ==== "+orderInfoBean.getOrder_state());
                                 switch (orderInfoBean.getOrder_state()) {
                                     case "0":
                                         llWaitpay.setVisibility(View.VISIBLE);
@@ -186,7 +203,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                                 tvClassName.setText(school_name);
                             }
 
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -198,7 +215,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         return R.layout.activity_order_detail;
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_menu})
+    @OnClick({R.id.rl_back, R.id.iv_menu,R.id.tv_make,R.id.tv_cancel,R.id.tv_pay})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
@@ -206,6 +223,20 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_menu:
                 show(view);
+                break;
+            case R.id.tv_make://评价
+                OrderInfoBean dataBean = mList.get(0);
+                Intent intent = new Intent(this, PublishEvaluateActivity.class)
+                        .putExtra("order_id", dataBean.getCourse_id())
+                        .putExtra("school_name", dataBean.getSchool_name())
+                        .putExtra("class_photo", dataBean.getClass_photo()
+                        );
+                startActivity(intent);
+                break;
+            case R.id.tv_cancel://取消订单
+                showCashDialog();
+                break;
+            case R.id.tv_pay://付款
                 break;
         }
     }

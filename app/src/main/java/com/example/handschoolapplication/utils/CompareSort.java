@@ -1,6 +1,6 @@
 package com.example.handschoolapplication.utils;
 
-import com.example.handschoolapplication.bean.CityBean;
+import com.example.handschoolapplication.bean.DataAbc;
 
 import java.util.Comparator;
 
@@ -9,9 +9,9 @@ import java.util.Comparator;
  * //@标签代表A前面的那些，#代表除了A-Z以外的其他标签
  * Created by tian on 16-1-9.
  */
-public class CompareSort implements Comparator<CityBean> {
+public class CompareSort implements Comparator<DataAbc> {
     @Override
-    public int compare(CityBean user1, CityBean user2) {
+    public int compare(DataAbc user1, DataAbc user2) {
         if(user1.getLetter().equals("@") || user2.getLetter().equals("@")){
             //通讯录前面的ｉｔｅｍ(公众号，标签......)
             return user1.getLetter().equals("@") ? -1:1;
