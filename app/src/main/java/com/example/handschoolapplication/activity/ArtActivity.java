@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,6 +38,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.adapter.GalleryAdapter;
 import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.ClassSortBean;
@@ -46,16 +48,19 @@ import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.RankListUtils;
 import com.example.handschoolapplication.view.CommonPopupWindow;
-import com.example.handschoolapplication.view.HorizontalListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -67,7 +72,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-import static com.example.handschoolapplication.R.id.rb_search_type;
+import static android.view.View.inflate;
+
 
 public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewInterface, View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -77,11 +83,13 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
     TextView tvLocation;
     @BindView(R.id.tv_sort)
     TextView tvSort;
+    @BindView(R.id.tv_allrank)
+    TextView tvAllRank;
     @BindView(R.id.iv_img_bg)
     ImageView iv_bg;
     @BindView(R.id.map_view)
     MapView mapView;
-    @BindView(rb_search_type)
+    @BindView(R.id.rb_search_type)
     CheckBox rbSearchType;
     @BindView(R.id.ll_parent)
     LinearLayout llParent;
@@ -95,7 +103,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
     private MyClassAdapter myClassAdapter;
     private MyThirdAdapter myThirdAdapter;
     private ArrayList types = new ArrayList();//第一级下拉菜单的数据源
-    private List<TimeHourBean> typeThirdList = new ArrayList<>();
+    private List<String> typeThirdList = new ArrayList<>();
     //    public LocationClient mLocationClient = null;
 //    public MyLocationListener myListener = new MyLocationListener();
     private String city;
@@ -121,6 +129,9 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
     private TextView tvSure;
     private TextView tvOrganizationRank;
     private boolean isCourse = true;
+    private TagAdapter<String> tagAdapter;
+    private GalleryAdapter galleryAdapter;
+    private String city1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +140,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         mCourseList = new ArrayList<>();
         myCourseAdapter = new MyCourseAdapter();
 //        myClassAdapter = new MyClassAdapter();
-        myThirdAdapter = new MyThirdAdapter(this, typeThirdList);
+//        myThirdAdapter = new MyThirdAdapter(this, typeThirdList);
         horizontalListViewAdapter = new HorizontalListViewAdapter(this);
         listView.setAdapter(myCourseAdapter);
 
@@ -137,10 +148,11 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 //        types = (ArrayList) getIntent().getSerializableExtra("types");
         flag = getIntent().getStringExtra("flag");
         city = getIntent().getStringExtra("city");
+        city1 = city;
         double latitude = getIntent().getDoubleExtra("latitude", 0);
         double longitude = getIntent().getDoubleExtra("longitude", 0);
         locations = new double[]{latitude, longitude};
-        tvLocation.setText(city);
+        tvLocation.setText(city1);
         tvTitle.setText(flag);
         initMap();
         getSecondList(flag);
@@ -172,7 +184,6 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 
     private void getThirdList(String flag) {
         typeThirdList.clear();
-
         OkHttpUtils.post()
                 .url(Internet.GET_THIRD)
                 .addParams("two_name", flag)
@@ -197,14 +208,14 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject jsonObject1 = data.getJSONObject(i);
                                     String type_three_name = jsonObject1.getString("type_three_name");
-                                    TimeHourBean timeHourBean = new TimeHourBean(false, type_three_name);
-                                    typeThirdList.add(timeHourBean);
+//                                    TimeHourBean timeHourBean = new TimeHourBean(false, type_three_name);
+                                    typeThirdList.add(type_three_name);
                                 }
-                                myThirdAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
+                        tagAdapter.notifyDataChanged();
                     }
                 });
 
@@ -238,8 +249,19 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
          * @param point 点击的地理坐标
          */
         public void onMapClick(LatLng point) {
-            startActivity(new Intent(ArtActivity.this, BaiduMapActivity.class));
-            baiduMap.clear();
+            if (isCourse) {
+                startActivity(new Intent(ArtActivity.this, BaiduMapActivity.class)
+                        .putExtra("findCourseList", (Serializable) mCourseList)
+                        .putExtra("isCourse", "0"));
+                Log.e("aaa",
+                        "(FindFragment.java:236)------------" + mCourseList.toString());
+            } else {
+                startActivity(new Intent(ArtActivity.this, BaiduMapActivity.class)
+                        .putExtra("findCourseList", (Serializable) mClassList)
+                        .putExtra("isCourse", "1"));
+                Log.e("aaa",
+                        "(FindFragment.java:242)=================" + mClassList.toString());
+            }
         }
 
         /**
@@ -254,12 +276,11 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 
 
     private void initData(String sort) {
-
         mCourseList.clear();
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", sort)
-                .addParams("course_address", city)
+                .addParams("course_address", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -272,17 +293,20 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:84)" + response);
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                             myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+                                myCourseAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-
                     }
                 });
     }
@@ -304,6 +328,9 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:209)" + response);
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
@@ -312,8 +339,9 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                                 String type_two_name = jsonObject1.getString("type_two_name");
                                 types.add(type_two_name);
                             }
-                            horizontalListViewAdapter.setList(types);
-                            horizontalListViewAdapter.notifyDataSetChanged();
+
+                            galleryAdapter = new GalleryAdapter(ArtActivity.this, types);
+                            galleryAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -323,29 +351,35 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 
 
     @OnClick({R.id.rl_back, R.id.iv_menu, R.id.et_search, R.id.iv_search, R.id.tv_sort, R.id.iv_sort, R.id.tv_defaultrank,
-            R.id.tv_allrank, R.id.iv_allrank, R.id.iv_img_bg})
+            R.id.tv_allrank, R.id.iv_allrank, R.id.iv_img_bg,R.id.tv_location})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
+                break;
+            case R.id.tv_location:
+                startActivityForResult(new Intent(this, CurrentCitysActivity.class).putExtra("city", city),1);
                 break;
             case R.id.iv_menu:
                 show(view);
                 break;
             case R.id.et_search:
             case R.id.iv_search://搜索
-                startActivity(new Intent(ArtActivity.this, SearchActivity.class));
+                startActivity(new Intent(ArtActivity.this, SearchActivity.class).putExtra("location",locations));
                 break;
             case R.id.tv_sort:
                 showCourse(view);
-                iv_bg.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_defaultrank://默认排序
-                initData(flag);
+                //筛选
+                if (isCourse){
+                    initData(flag);
+                }else {
+                    getOrganizationRank(flag);
+                }
                 break;
             case R.id.tv_allrank://综合排序
                 showSynthesisRankPopupwindow(view);
-                iv_bg.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_img_bg:
                 int visibility = iv_bg.getVisibility();
@@ -368,39 +402,65 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1&&resultCode==11){
+            city1 = data.getStringExtra("cityName");
+
+            tvLocation.setText(city1);
+//            initOrgan("早教", classBeanList1, classAdapter1, lvChildName);
+            getCourseRank();
+        }
+    }
+
+    @Override
     public void getChildView(View view, int layoutResId) {
         switch (layoutResId) {
             case R.layout.popupwindow_sort:
-                HorizontalListView hlvSort = (HorizontalListView) view.findViewById(R.id.hlv_sort);
-                GridView gv = (GridView) view.findViewById(R.id.gv_third);
-                hlvSort.setAdapter(horizontalListViewAdapter);
-                gv.setAdapter(myThirdAdapter);
-                hlvSort.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                RecyclerView hlvSort = (RecyclerView) view.findViewById(R.id.hlv_sort);
+                TagFlowLayout flow = (TagFlowLayout) view.findViewById(R.id.flow_layout);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ArtActivity.this);
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                hlvSort.setLayoutManager(linearLayoutManager);
+                hlvSort.setAdapter(galleryAdapter);
+                galleryAdapter.setOnItemClickListener(new GalleryAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        Toast.makeText(ArtActivity.this, types.get(position).toString(), Toast.LENGTH_SHORT).show();
-                        horizontalListViewAdapter.setSelectedPosition(position);
-                        horizontalListViewAdapter.notifyDataSetChanged();
-//                        sortPopupwindow.dismiss();
-//                        iv_bg.setVisibility(View.GONE);
+                    public void onItemClick(View view, int position) {
+                        galleryAdapter.setSelectedPosition(position);
+                        galleryAdapter.notifyDataSetChanged();
                         getThirdList(types.get(position).toString());
-//                        initData(types.get(position).toString());
                     }
                 });
-                gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                tagAdapter = new TagAdapter<String>((ArrayList<String>) typeThirdList) {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String typeThird = typeThirdList.get(position).getTime();
+                    public View getView(FlowLayout parent, int position, String s) {
+                        TextView textView = (TextView) View.inflate(ArtActivity.this, R.layout.textview, null);
+                        textView.setText(s);
+                        return textView;
+                    }
+                };
+                flow.setAdapter(tagAdapter);
+
+                flow.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+                    @Override
+                    public boolean onTagClick(View view, int position, FlowLayout parent) {
+                        String s = typeThirdList.get(position);
+//                        Toast.makeText(ArtActivity.this, s, Toast.LENGTH_SHORT).show();
+                        tvSort.setText(s);
                         sortPopupwindow.dismiss();
                         iv_bg.setVisibility(View.GONE);
                         //筛选
                         if (isCourse){
-                            initData(typeThird);
+                            initData(s);
                         }else {
-                            getOrganizationRank(typeThird);
+                            getOrganizationRank(s);
                         }
+                        return true;
                     }
                 });
+
+
                 break;
             case R.layout.popupwindow_synthesis_rank:
                 //等级排序
@@ -496,7 +556,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         OkHttpUtils.post()
                 .url(InternetS.COURSE_RANK)
                 .addParams("course_type", flag)
-                .addParams("course_address", city)
+                .addParams("course_address", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -510,17 +570,21 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                         Log.e("aaa",
                                 "(ArtActivity.java:148)" + response);
                         Log.e("aaa",
-                                "(ArtActivity.java:504) city === " + city);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-//                            myCourseAdapter.setLocations(locations);
-                            listView.setAdapter(myCourseAdapter);
+                                "(ArtActivity.java:504) city === " + city1);
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                             myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                                listView.setAdapter(myCourseAdapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -534,7 +598,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         OkHttpUtils.post()
                 .url(InternetS.ORGANIZATION_RANK)
                 .addParams("mechanism_type", type)
-                .addParams("mechanism_city", city)
+                .addParams("mechanism_city", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -548,6 +612,8 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                         Log.e("aaa",
                                 "(ArtActivity.java:239)" + response);
                         if (response.contains("没有信息")) {
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
@@ -581,22 +647,32 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:232)" + e.getMessage());
+
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:238)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
-                            }.getType()));
-//                            myCourseAdapter.setLocations(locations);
+                        Log.e("aaa",
+                                "(ArtActivity.java:619)flag === "+flag);
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                             myClassAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                                }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                                myClassAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+
+
                     }
                 });
     }
@@ -621,15 +697,20 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:238)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-//                            myCourseAdapter.setLocations(locations);
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                             myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                                myCourseAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -656,15 +737,20 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:272)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-//                            myCourseAdapter.setLocations(locations);
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                             myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                                myCourseAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -690,15 +776,20 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:272)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-//                            myCourseAdapter.setLocations(locations);
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                             myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+//                            myCourseAdapter.setLocations(locations);
+                                myCourseAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -725,16 +816,21 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 
                         Log.e("aaa",
                                 "(ArtActivity.java:305)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                            myCourseAdapter.notifyDataSetChanged();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
 
 //                            myCourseAdapter.setLocations(locations);
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                myCourseAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -761,22 +857,28 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 
                         Log.e("aaa",
                                 "(ArtActivity.java:305)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            ArrayList<CourseSortBean> list = new ArrayList<CourseSortBean>();
-                            list.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-                            if (list.size() > 0) {
-                                for (int i = 0; i < list.size(); i++) {
-                                    mCourseList.add(list.get((list.size() - 1) - i));
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                ArrayList<CourseSortBean> list = new ArrayList<CourseSortBean>();
+                                list.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+                                if (list.size() > 0) {
+                                    for (int i = 0; i < list.size(); i++) {
+                                        mCourseList.add(list.get((list.size() - 1) - i));
+                                    }
                                 }
-                            }
 //                            myCourseAdapter.setLocations(locations);
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        myCourseAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -786,7 +888,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", flag)
-                .addParams("course_address", city)
+                .addParams("course_address", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -799,18 +901,21 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:84)" + response);
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-                            if (locations != null)
-                                RankListUtils.rankListsss(mCourseList, new LatLng(locations[0], locations[1]));
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+                                if (locations != null)
+                                    RankListUtils.rankListsss(mCourseList, new LatLng(locations[0], locations[1]));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        myCourseAdapter.notifyDataSetChanged();
 
                     }
                 });
@@ -838,6 +943,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                         Log.e("aaa",
                                 "(ArtActivity.java:239)" + response);
                         if (response.contains("没有信息")) {
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
@@ -847,11 +953,11 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 //                            myCourseAdapter.setLocations(locations);
                                 if (locations != null)
                                     RankListUtils.rankListssss(mClassList, new LatLng(locations[0], locations[1]));
-                                myClassAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
+                        myClassAdapter.notifyDataSetChanged();
 
                     }
                 });
@@ -863,7 +969,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", flag)
-                .addParams("course_address", city)
+                .addParams("course_address", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -876,19 +982,21 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:84)" + response);
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-                            if (locations != null)
-                                RankListUtils.rankList(mCourseList, new LatLng(locations[0], locations[1]));
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+                                if (locations != null)
+                                    RankListUtils.rankList(mCourseList, new LatLng(locations[0], locations[1]));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-
+                        myCourseAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -914,6 +1022,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                         Log.e("aaa",
                                 "(ArtActivity.java:239)" + response);
                         if (response.contains("没有信息")) {
+                            Toast.makeText(ArtActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
@@ -923,11 +1032,11 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 //                            myCourseAdapter.setLocations(locations);
                                 if (locations != null)
                                     RankListUtils.rankListss(mClassList, new LatLng(locations[0], locations[1]));
-                                myClassAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
+                        myClassAdapter.notifyDataSetChanged();
 
                     }
                 });
@@ -953,6 +1062,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("等级推荐");
                 if (isCourse) {
                     getCourseStarOrGradeRank();
                 } else
@@ -993,6 +1103,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("人气排行");
                 if (isCourse) {
                     getCoursePopularityRank();
                 } else
@@ -1013,6 +1124,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由高到低");
                 if (isCourse) {
                     getPriceUpRank();
                 } else {
@@ -1034,6 +1146,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由低到高");
                 if (isCourse) {
                     getPriceDownRank();
                 } else {
@@ -1054,6 +1167,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由近到远");
                 if (isCourse)
                     getDistenceAsc();
                 else
@@ -1074,6 +1188,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
                 tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvNearRank.setTextColor(Color.parseColor("#666666"));
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由远及近");
                 if (isCourse)
                     getDistenceDesc();
                 else
@@ -1123,7 +1238,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
             if (convertView == null) {
-                convertView = View.inflate(ArtActivity.this, R.layout.item_find_course_lv, null);
+                convertView = inflate(ArtActivity.this, R.layout.item_find_course_lv, null);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
             } else {
@@ -1200,7 +1315,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 
             ViewHolder holder = null;
             if (view == null) {
-                view = View.inflate(ArtActivity.this, R.layout.item_hf_class_lv, null);
+                view = inflate(ArtActivity.this, R.layout.item_hf_class_lv, null);
                 holder = new ViewHolder(view);
                 view.setTag(holder);
             } else {
@@ -1310,7 +1425,11 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
 
     //向下弹出
     public void showCourse(View view) {
-        if (sortPopupwindow != null && sortPopupwindow.isShowing()) return;
+        if (sortPopupwindow != null && sortPopupwindow.isShowing()){
+            iv_bg.setVisibility(View.GONE);
+            sortPopupwindow.dismiss();
+            return;
+        }
         sortPopupwindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popupwindow_sort)
                 .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -1321,11 +1440,16 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         sortPopupwindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         sortPopupwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         sortPopupwindow.showAsDropDown(view, 0, 0);
+        iv_bg.setVisibility(View.VISIBLE);
     }
 
     //向下弹出
     public void showSynthesisRankPopupwindow(View view) {
-        if (synthesisRankPopupwindow != null && synthesisRankPopupwindow.isShowing()) return;
+        if (synthesisRankPopupwindow != null && synthesisRankPopupwindow.isShowing()){
+            iv_bg.setVisibility(View.GONE);
+            synthesisRankPopupwindow.dismiss();
+            return;
+        }
         synthesisRankPopupwindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popupwindow_synthesis_rank)
                 .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -1336,6 +1460,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
         synthesisRankPopupwindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         synthesisRankPopupwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         synthesisRankPopupwindow.showAsDropDown(view, 0, 0);
+        iv_bg.setVisibility(View.VISIBLE);
     }
 
     class MyThirdAdapter extends BaseAdapter {
@@ -1377,7 +1502,7 @@ public class ArtActivity extends BaseActivity implements CommonPopupWindow.ViewI
             ViewHolder holder = null;
 
             if (view == null) {
-                view = View.inflate(ArtActivity.this, R.layout.sort_item, null);
+                view = inflate(ArtActivity.this, R.layout.sort_item, null);
                 holder = new ViewHolder(view);
                 view.setTag(holder);
             } else {

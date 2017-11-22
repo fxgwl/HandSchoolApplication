@@ -2,6 +2,7 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -49,6 +50,10 @@ public class SetUserNameActivity extends BaseActivity {
                 break;
             case R.id.tv_save:
                 final String username = etUsername.getText().toString().trim();
+                if (TextUtils.isEmpty(username)){
+                    Toast.makeText(this, "会员名称不能为空！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 OkHttpUtils.post()
                         .url(Internet.REALNAME)
                         .addParams("user_id", user_id)
@@ -66,9 +71,11 @@ public class SetUserNameActivity extends BaseActivity {
                                         "(SetUserNameActivity.java:64)" + response);
                                 if (response.contains("成功")) {
                                     Toast.makeText(SetUserNameActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                                    setResult(22, new Intent().putExtra("username", username));
+                                    finish();
+                                }else {
+                                    Toast.makeText(SetUserNameActivity.this, "添加失败", Toast.LENGTH_SHORT).show();
                                 }
-                                setResult(22, new Intent().putExtra("username", username));
-                                finish();
                             }
                         });
 

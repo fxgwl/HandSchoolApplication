@@ -101,6 +101,7 @@ public class AllCourseActivity extends BaseActivity {
                             int result = jsonObject.getInt("result");
                             if (result==0){
                                 Toast.makeText(AllCourseActivity.this, "签到成功", Toast.LENGTH_SHORT).show();
+                                initData();
                             }else {
                                 Toast.makeText(AllCourseActivity.this, jsonObject.getString("msg"), Toast.LENGTH_SHORT).show();
                             }

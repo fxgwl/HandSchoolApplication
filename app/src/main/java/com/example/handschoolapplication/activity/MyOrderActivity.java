@@ -239,5 +239,8 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
         currentFragment = fragment;
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

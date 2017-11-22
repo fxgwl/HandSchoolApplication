@@ -120,6 +120,7 @@ public class CourseHomePagerActivity extends BaseActivity {
     private String school_id;
     private String schooluid;
     private String class_money = "";
+    private String class_time="";
     private String school_name;
     private String course_name;
     private String course_time;
@@ -157,6 +158,7 @@ public class CourseHomePagerActivity extends BaseActivity {
         schooluid = getIntent().getStringExtra("schooluid");
         user_id = (String) SPUtils.get(this, "userId", "");
         initData();
+        getClassTime();//获取上课时间
 //        initConvenientBannerData();
         //获取课程的总评价数
         getEvaTotalNum();
@@ -433,9 +435,9 @@ public class CourseHomePagerActivity extends BaseActivity {
                         .addParams("user_id", user_id)
                         .addParams("course_id", course_id)
                         .addParams("course_num", "1")
-                        .addParams("order_money", courseOldmoneyTv.getText().toString().split("¥")[1])
+                        .addParams("order_money", class_money.split("元")[0])
                         .addParams("class_money", class_money)
-                        .addParams("order_course_time", "周一 8:30-10:00")
+                        .addParams("order_course_time", class_time)
                         .build()
                         .execute(new StringCallback() {
                             @Override
@@ -468,9 +470,9 @@ public class CourseHomePagerActivity extends BaseActivity {
                         .addParams("user_id", user_id)
                         .addParams("course_id", course_id)
                         .addParams("course_num", "1")
-                        .addParams("order_money", courseOldmoneyTv.getText().toString().split("¥")[1])
+                        .addParams("order_money", class_money.split("元")[0])
                         .addParams("class_money", class_money)
-                        .addParams("order_course_time", "周一 8:30-10:00")
+                        .addParams("order_course_time", class_time)
                         .build()
                         .execute(new StringCallback() {
                             @Override
@@ -493,7 +495,7 @@ public class CourseHomePagerActivity extends BaseActivity {
                                         intent1.putExtra("school_id", school_id);
                                         intent1.putExtra("school_name", school_name);
                                         intent1.putExtra("course_name", course_name);
-                                        intent1.putExtra("course_time", course_time);
+                                        intent1.putExtra("course_time", class_time);
                                         intent1.putExtra("enrol_num", enrol_num);
                                         intent1.putExtra("course_capacity", course_capacity);
                                         intent1.putExtra("age_range", age_range);
@@ -503,8 +505,6 @@ public class CourseHomePagerActivity extends BaseActivity {
                                         intent1.putExtra("class_money", class_money);
                                         intent1.putExtra("course_id", course_id);
                                         intent1.putExtra("order_id",order_id);
-                                        Log.e("aaa",
-                                                "(CourseHomePagerActivity.java:503)" + order_id);
                                         startActivity(intent1);
                                     }
                                 } catch (JSONException e) {
@@ -584,6 +584,7 @@ public class CourseHomePagerActivity extends BaseActivity {
 
     //课程时间的选择
     private void initClassTime() {
+        class_time="";
         OkHttpUtils.post()
                 .url(Internet.COURSETIME)
                 .addParams("course_id", course_id)
@@ -617,9 +618,14 @@ public class CourseHomePagerActivity extends BaseActivity {
                                 timebean.setMlist(hourList);
                                 mList.add(timebean);
                             }
+                            for (int i = 0; i < courseTime.getData().size(); i++) {
+                                if (i==(courseTime.getData().size()-1)){
+                                    class_time = class_time+courseTime.getData().get(i).getCtime_week()+courseTime.getData().get(i).getCtime_times();
+                                }else
+                                class_time = class_time+courseTime.getData().get(i).getCtime_week()+courseTime.getData().get(i).getCtime_times()+"\n";
+                            }
                             Log.e("aaa",
-                                    "(CourseHomePagerActivity.java:283)" + mList.toString());
-
+                                    "(CourseHomePagerActivity.java:630)===class_time==="+class_time);
                         }
                         View v = View.inflate(CourseHomePagerActivity.this, R.layout.class_time, null);
                         ImageView classtime_back = (ImageView) v.findViewById(R.id.classtime_back);//关闭
@@ -651,6 +657,56 @@ public class CourseHomePagerActivity extends BaseActivity {
                             }
                         });
 
+                    }
+                });
+
+    }
+    //课程时间的选择
+    private void getClassTime() {
+        class_time="";
+        OkHttpUtils.post()
+                .url(Internet.COURSETIME)
+                .addParams("course_id", course_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(CourseHomePagerActivity.java:264)课程时间" + response);
+                        if (response.contains("没有信息")) {
+                            Toast.makeText(CourseHomePagerActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Gson gson = new Gson();
+                            CourseTimeBean courseTime = gson.fromJson(response, CourseTimeBean.class);
+                            mList = new ArrayList<>();
+                            for (int i = 0; i < courseTime.getData().size(); i++) {
+                                ArrayList<TimeHourBean> hourList = new ArrayList<>();
+                                TimeBean timebean = new TimeBean();
+                                timebean.setName(courseTime.getData().get(i).getCtime_week());
+                                for (int m = 0; m < courseTime.getData().get(i).getCtime_times().split(",").length; m++) {
+                                    TimeHourBean thb = new TimeHourBean();
+                                    thb.setTime(courseTime.getData().get(i).getCtime_times().split(",")[m]);
+                                    thb.setChecked(false);
+                                    hourList.add(thb);
+                                }
+                                timebean.setMlist(hourList);
+                                mList.add(timebean);
+                            }
+                            for (int i = 0; i < courseTime.getData().size(); i++) {
+                                if (i==(courseTime.getData().size()-1)){
+                                    class_time = class_time+courseTime.getData().get(i).getCtime_week()+courseTime.getData().get(i).getCtime_times();
+                                }else
+                                class_time = class_time+courseTime.getData().get(i).getCtime_week()+courseTime.getData().get(i).getCtime_times()+"\n";
+                            }
+
+                            Log.e("aaa",
+                                "(CourseHomePagerActivity.java:708)===class_time==="+class_time);
+                        }
                     }
                 });
 

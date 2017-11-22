@@ -1,7 +1,6 @@
 package com.example.handschoolapplication.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +29,9 @@ import com.smarttop.library.widget.BottomDialog;
 import com.smarttop.library.widget.OnAddressSelectedListener;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -60,11 +62,15 @@ public class AddAddressActivity extends BaseActivity implements OnAddressSelecte
     private GeoCoder geoCoder;
     private double latitude;
     private double longitude;
+    private String choosecity;
+    private String chooseStreets;
+    private String city;
+    private String addressDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tvTitle.setText("学堂地址");
+        tvTitle.setText("添加学堂地址");
         user_id = (String) SPUtils.get(this, "userId", "");
         tvCity = (TextView) findViewById(R.id.tv_city);
         dialog = new BottomDialog(this);
@@ -73,8 +79,6 @@ public class AddAddressActivity extends BaseActivity implements OnAddressSelecte
         geoCoder = GeoCoder.newInstance();
         geoCoder.setOnGetGeoCodeResultListener(listener);
 
-
-
     }
 
     @Override
@@ -82,50 +86,20 @@ public class AddAddressActivity extends BaseActivity implements OnAddressSelecte
         return R.layout.activity_add_address;
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_area,R.id.tv_commit})
+    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_area, R.id.tv_commit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
             case R.id.tv_commit:
-                final String city = tvCity.getText().toString().trim();
-                final String addressDetail = etAddressDetail.getText().toString().trim();
-//                user_id
-//                        sd_city
-//                sd_content
-//                        school_jing
-//                school_wei
+                city = tvCity.getText().toString().trim();
+                addressDetail = etAddressDetail.getText().toString().trim();
                 if ("".equals(city) || "".equals(addressDetail)) {
-
                 } else {
                     geoCoder.geocode(new GeoCodeOption()
-                            .city("北京")
-                            .address("海淀区上地十街10号"));
-                    OkHttpUtils.post()
-                            .url(Internet.ADDADDRESS)
-                            .addParams("user_id", user_id)
-                            .addParams("sd_city", citys)
-                            .addParams("sd_content", addressDetail)
-                            .addParams("school_jing", ""+longitude)
-                            .addParams("school_wei", latitude+"")
-                            .build()
-                            .execute(new StringCallback() {
-                                @Override
-                                public void onError(Call call, Exception e, int id) {
-                                    Log.e("aaa",
-                                        "(AddAddressActivity.java:120)"+e.getMessage());
-                                }
-
-                                @Override
-                                public void onResponse(String response, int id) {
-                                    Log.e("aaa",
-                                            "(AddAddressActivity.java:94)" + response);
-                                    setResult(11, new Intent()
-                                            .putExtra("address", city)
-                                            .putExtra("street", addressDetail));
-                                }
-                            });
+                            .city(choosecity)
+                            .address(chooseStreets + addressDetail));
                 }
 
                 break;
@@ -139,7 +113,6 @@ public class AddAddressActivity extends BaseActivity implements OnAddressSelecte
     }
 
 
-
     @Override
     public void onAddressSelected(Province province, City city, County county, Street street) {
         citys = (province == null ? "" : province.name) + (city == null ? "" : city.name);
@@ -150,6 +123,11 @@ public class AddAddressActivity extends BaseActivity implements OnAddressSelecte
         String s = (province == null ? "" : province.name) + (city == null ? "" : city.name) + (county == null ? "" : county.name) +
                 (street == null ? "" : street.name);
         tvCity.setText(s);
+        choosecity = (province == null ? "" : province.name);
+        Log.e("aaa",
+                "(AddAddressActivity.java:156)" + choosecity);
+        chooseStreets = (city == null ? "" : city.name) + (county == null ? "" : county.name) +
+                (street == null ? "" : street.name);
         if (dialog != null) {
             dialog.dismiss();
         }
@@ -189,11 +167,15 @@ public class AddAddressActivity extends BaseActivity implements OnAddressSelecte
         public void onGetGeoCodeResult(GeoCodeResult result) {
             if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                 //没有检索到结果
-                Toast.makeText(AddAddressActivity.this, "抱歉，未能找到结果", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddAddressActivity.this, "地址填写有误", Toast.LENGTH_SHORT).show();
             }
             //获取地理编码结果
             latitude = result.getLocation().latitude;
             longitude = result.getLocation().longitude;
+
+            toadd();
+            Log.e("aaa",
+                    "(AddAddressActivity.java:202)latitude ======" + latitude + "           longitude," + longitude);
         }
 
         @Override
@@ -204,6 +186,41 @@ public class AddAddressActivity extends BaseActivity implements OnAddressSelecte
             //获取反向地理编码结果
         }
     };
+
+    private void toadd() {
+
+        OkHttpUtils.post()
+                .url(Internet.ADDADDRESS)
+                .addParams("user_id", user_id)
+                .addParams("sd_city", citys)
+                .addParams("sd_content", addressDetail)
+                .addParams("school_jing", "" + longitude)
+                .addParams("school_wei", latitude + "")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(AddAddressActivity.java:120)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(AddAddressActivity.java:94)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            if (response.contains("添加成功")) {
+                                finish();
+                            }
+                            Toast.makeText(AddAddressActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
 
     @Override
     protected void onDestroy() {

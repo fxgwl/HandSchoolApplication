@@ -103,6 +103,7 @@ dependencies {
 
     // Version 23+ is required || 要求版本23以上
     compile project(':indexlib')
+    compile files('libs/alipaySdk-20170725.jar')
     compile 'com.smarttop:jd-address:1.1.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -124,10 +125,11 @@ dependencies {
     compile 'pub.devrel:easypermissions:1.0.0'
     compile 'cn.bingoogolapple:bga-photopicker:1.2.3@aar'
     compile 'cn.bingoogolapple:bga-adapter:1.2.0@aar'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.zhy:flowlayout-lib:1.0.3'
+    compile 'id.zelory:compressor:1.0.3'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
-    compile files('libs/alipaySdk-20170725.jar')
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }
 repositories {
     mavenCentral()

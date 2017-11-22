@@ -1,10 +1,15 @@
 package com.example.handschoolapplication.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -41,6 +46,7 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     //区分扫描二维码是干什么的
     private String flag;//0 去学堂
     private String user_type;
+    private int REQUEST_CALL_PHONE;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +55,7 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
         tvTitle.setText("二维码扫描");
         user_type = (String) SPUtils.get(this, "user_type", "");
         flag = getIntent().getStringExtra("flag");
-
+        requestPermission();
         mQRCodeView = (ZXingView) findViewById(R.id.zxingview);
         mQRCodeView.startSpot();
         mQRCodeView.changeToScanQRCodeStyle();
@@ -152,54 +158,21 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
         Log.e(TAG, "打开相机出错");
     }
 
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.start_spot:
-//                mQRCodeView.startSpot();
-//                break;
-//            case R.id.stop_spot:
-//                mQRCodeView.stopSpot();
-//                break;
-//            case R.id.start_spot_showrect:
-//                mQRCodeView.startSpotAndShowRect();
-//                break;
-//            case R.id.stop_spot_hiddenrect:
-//                mQRCodeView.stopSpotAndHiddenRect();
-//                break;
-//            case R.id.show_rect:
-//                mQRCodeView.showScanRect();
-//                break;
-//            case R.id.hidden_rect:
-//                mQRCodeView.hiddenScanRect();
-//                break;
-//            case R.id.start_preview:
-//                mQRCodeView.startCamera();
-//                break;
-//            case R.id.stop_preview:
-//                mQRCodeView.stopCamera();
-//                break;
-//            case R.id.open_flashlight:
-//                mQRCodeView.openFlashlight();
-//                break;
-//            case R.id.close_flashlight:
-//                mQRCodeView.closeFlashlight();
-//                break;
-//            case R.id.scan_barcode:
-//                mQRCodeView.changeToScanBarcodeStyle();
-//                break;
-//            case R.id.scan_qrcode:
-//                mQRCodeView.changeToScanQRCodeStyle();
-//                break;
-//            case R.id.choose_qrcde_from_gallery:
-//                /*
-//                从相册选取二维码图片，这里为了方便演示，使用的是
-//                https://github.com/bingoogolapple/BGAPhotoPicker-Android
-//                这个库来从图库中选择二维码图片，这个库不是必须的，你也可以通过自己的方式从图库中选择图片
-//                 */
-//                startActivityForResult(BGAPhotoPickerActivity.newIntent(this, null, 1, null, false), REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY);
-//                break;
-//        }
-//    }
+    private void requestPermission() {
+        //判断Android版本是否大于23
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.CALL_PHONE,Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CALL_PHONE);
+                return;
+            } else {
+                //已有权限
+            }
+        } else {
+            //API 版本在23以下
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

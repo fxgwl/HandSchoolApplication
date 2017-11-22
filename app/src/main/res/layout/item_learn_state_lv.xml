@@ -20,7 +20,7 @@
             android:text="学习状态："
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
         <TextView
             android:id="@+id/tv_learn_state"
             android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
             android:text=""
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_gravity="bottom"/>
     </LinearLayout>
 
@@ -48,7 +48,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="8dp"
-        android:background="#fff"
+        android:background="@drawable/linearlayout_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -114,10 +114,10 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="4"
                     android:paddingLeft="10dp"
-                    android:text="上课时间："
-                    android:layout_gravity="center_vertical"/>
+                    android:text="上课时间：" />
 
                 <TextView
                     android:id="@+id/tv_learn_time"
@@ -282,6 +282,7 @@
                 android:id="@+id/ll_learn_code"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
+                android:layout_marginRight="15dp"
                 android:layout_weight="6"
                 android:background="#e6e6e6"
                 android:orientation="horizontal">

@@ -69,7 +69,6 @@ public class MyInformationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         userId = (String) SPUtils.get(MyInformationActivity.this, "userId", "");
         tvTitle.setText("个人资料");
-
         initView();
     }
 
@@ -93,7 +92,7 @@ public class MyInformationActivity extends BaseActivity {
                             UserInfoBean.DataBean user = gson.fromJson(response, UserInfoBean.class).getData();
                             Glide.with(MyInformationActivity.this)
                                     .load(Internet.BASE_URL + user.getHead_photo())
-                                    .error(R.drawable.touxiang)
+                                    .error(R.drawable.morentouxiang)
                                     .centerCrop()
                                     .into(ivUsericon);
                             tvUsername.setText(user.getMember_name());
@@ -131,10 +130,14 @@ public class MyInformationActivity extends BaseActivity {
                 startActivity(new Intent(MyInformationActivity.this, ChangePhoneActivity.class));
                 break;
             case R.id.ll_username:
-                if ("会员名称".equals(tvUsername.getText().toString())) {
+                if (TextUtils.isEmpty(tvUsername.getText().toString().trim())){
                     startActivityForResult(new Intent(this, SetUserNameActivity.class), 1);
-                } else {
-                    Toast.makeText(this, "会员名称只能修改一次", Toast.LENGTH_SHORT).show();
+                }else {
+                    if ("会员名称".equals(tvUsername.getText().toString())) {
+                        startActivityForResult(new Intent(this, SetUserNameActivity.class), 1);
+                    } else {
+                        Toast.makeText(this, "会员名称只能修改一次", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             case R.id.ll_name:
@@ -152,7 +155,7 @@ public class MyInformationActivity extends BaseActivity {
 
                 break;
             case R.id.ll_myaddress:
-                startActivityForResult(new Intent(this, CurrentCityActivity.class), 1);
+                startActivityForResult(new Intent(this, CurrentCitysActivity.class), 1);
                 break;
             case R.id.btn_save:
                 //保存资料

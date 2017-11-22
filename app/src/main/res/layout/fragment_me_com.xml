@@ -18,7 +18,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginLeft="30dp"
-            android:src="@drawable/touxiang" />
+            />
 
         <ImageView
             android:id="@+id/iv_settings"
@@ -46,7 +46,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/tv_text1"
-            android:text="80%"
+            android:text="0%"
             android:textColor="#fff" />
 
         <ImageView
@@ -76,7 +76,7 @@
             android:layout_alignBottom="@+id/tv_text2"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/tv_text2"
-            android:text="50000"
+            android:text="0"
             android:textColor="#fff"
             android:textSize="14sp" />
 
@@ -101,7 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/xuetangdengji_gold" />
+                    android:src="@drawable/xuetangdengji_tong" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="30天"
+                    android:text="0天"
                     android:textColor="#fff"
                     android:textSize="14sp"/>
 

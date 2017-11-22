@@ -3,6 +3,8 @@ package com.example.handschoolapplication.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -16,22 +18,27 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.SchoolInfoBean;
 import com.example.handschoolapplication.utils.Internet;
-import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import id.zelory.compressor.Compressor;
 import me.iwf.photopicker.PhotoPickUtils;
 import me.iwf.photopicker.PhotoPickerActivity;
-import me.iwf.photopicker.widget.MultiPickResultView;
 import okhttp3.Call;
 
 public class IdentityCardActivity extends BaseActivity {
@@ -44,10 +51,7 @@ public class IdentityCardActivity extends BaseActivity {
     ImageView ivPreview;
     @BindView(R.id.iv_preview2)
     ImageView ivPreview2;
-    @BindView(R.id.recycler_shenfenzheng)
-    MultiPickResultView multiPickResultView;
 
-    private List<String> photo = new ArrayList<>();
     private String userId;
     private Bitmap bitmap;
     private List<Bitmap> photos = new ArrayList<>();
@@ -62,7 +66,9 @@ public class IdentityCardActivity extends BaseActivity {
 
     }
 
-    private void initPhoto(String id_photo) {
+    private void initPhoto(String id_photo,String id_number) {
+
+        identityEt.setText(id_number);
         photos.clear();
 
         final String[] split3 = id_photo.split("\\,");
@@ -92,16 +98,16 @@ public class IdentityCardActivity extends BaseActivity {
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     }
-
+                    photos.add(bitmap);
                 }
-                photos.add(bitmap);
             }
         }).start();
     }
 
     private void initData() {
 
-        OkHttpUtils.post()
+        OkHttpUtils
+                .post()
                 .url(Internet.USERINFO)
                 .addParams("user_id", userId)
                 .build()
@@ -119,7 +125,7 @@ public class IdentityCardActivity extends BaseActivity {
                         SchoolInfoBean.DataBean schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
                         String mid_photo = schoolInfo.getMid_photo();
                         String id_number = schoolInfo.getId_number();
-                        initPhoto(mid_photo);
+                        initPhoto(mid_photo,id_number);
                     }
                 });
     }
@@ -130,11 +136,10 @@ public class IdentityCardActivity extends BaseActivity {
     }
 
     private void initView() {
-        multiPickResultView.init(this, MultiPickResultView.ACTION_SELECT, null,0);
         tvTitle.setText("身份认证");
     }
 
-    @OnClick({R.id.rl_back, R.id.identity_tv,R.id.iv_preview,R.id.iv_preview2})
+    @OnClick({R.id.rl_back, R.id.identity_tv, R.id.iv_preview, R.id.iv_preview2})
     public void onViewClicked(View view) {
         Intent intent = new Intent(this, PhotoPickerActivity.class);
         switch (view.getId()) {
@@ -142,6 +147,7 @@ public class IdentityCardActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.identity_tv:
+                changIdentity();
                 break;
             case R.id.iv_preview:
                 startActivityForResult(intent, 1);
@@ -152,21 +158,89 @@ public class IdentityCardActivity extends BaseActivity {
         }
     }
 
+    private void changIdentity() {
+
+        String idNumber = identityEt.getText().toString().trim();
+        if (TextUtils.isEmpty(idNumber)) {
+            Toast.makeText(this, "身份证号码不能为空！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        HashMap<String, String> params = new HashMap<>();
+        final JSONObject jsonObject = new JSONObject();
+        for (int i = 0; i < photos.size(); i++) {
+            try {
+                Log.e("aaa",
+                        "(SellFragment.java:177)" + photos.get(i));
+                Bitmap usericon = photos.get(i);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                usericon.compress(Bitmap.CompressFormat.JPEG, 40, baos);
+                byte[] b = baos.toByteArray();
+                String string = Base64.encodeToString(b, Base64.DEFAULT);
+                jsonObject.put("image" + i, string);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        params.put("mid_photos", jsonObject.toString());
+        params.put("id_numbers", idNumber);
+        params.put("user_id", userId);
+        OkHttpUtils
+                .post()
+                .url(Internet.CHANGE_IDENTITY)
+                .params(params)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(IdentityCardActivity.java:198)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(IdentityCardActivity.java:204)" + response);
+                        try {
+                            JSONObject jsonObject1 = new JSONObject(response);
+                            int result = jsonObject1.getInt("result");
+                            String msg = jsonObject1.getString("msg");
+                            Toast.makeText(IdentityCardActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            if (result==0){
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        multiPickResultView.onActivityResult(requestCode, resultCode, data);
-        ArrayList<String> photos = multiPickResultView.getPhotos();
         // switchPicture(mMultiPickResultView);
         Log.d("aaa", "--photos--->" + photos);
         PhotoPickUtils.onActivityResult(requestCode, resultCode, data, new PhotoPickUtils.PickHandler() {
             @Override
-            public void onPickSuccess(ArrayList<String> photos) {//已经预先做了null或size为0的判断
-                Log.e("aaa", "--photos-ssss-->" + photos);
-                photo.clear();
-                for (int i = 0; i < photos.size(); i++) {
-                    String s = MyUtiles.imageToBase64(photos.get(i));
-                    photo.add(s);
+            public void onPickSuccess(ArrayList<String> photoss) {//已经预先做了null或size为0的判断
+                Log.e("aaa", "--photos-ssss-->" + photoss);
+                if (requestCode == 1) {
+                    Log.e("aaa",
+                            "(IdentityCardActivity.java:161)" + "sadsadsa");
+
+                    Glide.with(IdentityCardActivity.this).load(photoss.get(0)).centerCrop().into(ivPreview);
+                    Bitmap usericon = Compressor.getDefault(IdentityCardActivity.this).compressToBitmap(new File(photoss.get(0)));
+                    photos.add(0, usericon);
+                } else if (requestCode == 2) {
+                    Log.e("aaa",
+                            "(IdentityCardActivity.java:165)" + "dfgdgfdgfd");
+                    Log.e("aaa",
+                            "(IdentityCardActivity.java:172)" + photoss.get(0));
+                    Glide.with(IdentityCardActivity.this).load(photoss.get(0)).centerCrop().into(ivPreview2);
+                    Bitmap usericon = Compressor.getDefault(IdentityCardActivity.this).compressToBitmap(new File(photoss.get(0)));
+                    photos.add(1, usericon);
                 }
             }
 

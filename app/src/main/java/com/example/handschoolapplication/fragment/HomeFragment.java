@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,9 +40,9 @@ import com.example.handschoolapplication.activity.ArtActivity;
 import com.example.handschoolapplication.activity.ChildEduActivity;
 import com.example.handschoolapplication.activity.CurrentCitysActivity;
 import com.example.handschoolapplication.activity.EducationActivity;
-import com.example.handschoolapplication.activity.HomeEduActivity;
 import com.example.handschoolapplication.activity.LoginActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
+import com.example.handschoolapplication.adapter.GalleryAdapter;
 import com.example.handschoolapplication.adapter.HPClassAdapter;
 import com.example.handschoolapplication.adapter.HPCourseAdapter;
 import com.example.handschoolapplication.adapter.HorizontalActivityListViewAdapter;
@@ -56,9 +58,6 @@ import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.utils.SPUtils;
-import com.example.handschoolapplication.view.HorizontalActivityListView;
-import com.example.handschoolapplication.view.HorizontalLearnListView;
-import com.example.handschoolapplication.view.HorizontalListView;
 import com.example.handschoolapplication.view.Marquee;
 import com.example.handschoolapplication.view.MarqueeView;
 import com.google.gson.Gson;
@@ -112,14 +111,14 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
 //    TextView tvTetxs;
     Unbinder unbinder;
     @BindView(R.id.hl_art)
-    HorizontalListView hlArt;
+    RecyclerView hlArt;
 
     @BindView(R.id.hl_learn)
-    HorizontalLearnListView hlLearn;
+    RecyclerView hlLearn;
     @BindView(R.id.lv_learn_name)
     ListView lvLearnName;
     @BindView(R.id.hl_activity)
-    HorizontalActivityListView hlActivity;
+    RecyclerView hlActivity;
     @BindView(R.id.lv_activity_name)
     ListView lvActivityName;
     @BindView(R.id.lv_child_name)
@@ -164,6 +163,9 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     @BindView(R.id.iv)
     ImageView iv;
     private View view;
+    private GalleryAdapter galleryAdapter1;
+    private GalleryAdapter galleryAdapter2;
+    private GalleryAdapter galleryAdapter3;
     HorizontalListViewAdapter mAdapter;
     HorizontalLearnListViewAdapter mLearnAdapter;
     HorizontalActivityListViewAdapter mActivityAdapter;
@@ -200,6 +202,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     private ScaleAnimation sato1 = new ScaleAnimation(0, 1, 1, 1,
             Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0.5f);
     private Animation animation;
+    private String city1 = "";
 
     public HomeFragment() {
         // Required empty public constructor
@@ -221,10 +224,16 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                 case 3:
                     if (null != tvLocation) {
                         tvLocation.setText(city);
+                        city1 = city;
                     }
                     break;
                 case 2:
                     locations = (double[]) msg.obj;
+
+                    //初始化课程类型
+                    initClassType();
+                    //初始化
+                    initOrgan("早教", classBeanList1, classAdapter1, lvChildName);
                     break;
             }
         }
@@ -275,10 +284,6 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         initTeachNews();
         //初始化首页广告位
         initHomeAd();
-        //初始化课程类型
-        initClassType();
-        //初始化
-        initOrgan("早教", classBeanList1, classAdapter1, lvChildName);
 
         //判断签到  后台需要  前台没用
         isSign();
@@ -335,7 +340,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         OkHttpUtils.post()
                 .url(Internet.ORGANLIST)
                 .addParams("mechanism_type", type)
-                .addParams("mechanism_city", city)
+                .addParams("mechanism_city", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -362,9 +367,11 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                             Gson gson = new Gson();
                             if (TextUtils.isEmpty(response)) {
                                 classAdapter.notifyDataSetChanged();
+                                classAdapter.setLocations(locations);
                             } else {
                                 classBeanList.addAll(gson.fromJson(response, ClassBean.class).getData());
                                 classAdapter.notifyDataSetChanged();
+                                classAdapter.setLocations(locations);
                                 MyUtiles.setListViewHeightBasedOnChildren(lv, getActivity());
                             }
 
@@ -498,37 +505,69 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
 
         lvHomelearnName.setAdapter(classAdapter3);
 
+
     }
 
 
     private void initHLLearnData(final ArrayList<String> strings) {
 
-        mLearnAdapter = new HorizontalLearnListViewAdapter(getActivity(), strings);
-        hlLearn.setAdapter(mLearnAdapter);
-        hlLearn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        galleryAdapter2 = new GalleryAdapter(getActivity(),strings);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        hlLearn.setLayoutManager(linearLayoutManager);
+        hlLearn.setAdapter(galleryAdapter2);
+        galleryAdapter2.setOnItemClickListener(new GalleryAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "id=" + strings.get(position), Toast.LENGTH_SHORT).show();
-                mLearnAdapter.setSelectedPosition(position);
-                mLearnAdapter.notifyDataSetChanged();
+            public void onItemClick(View view, int position) {
+                galleryAdapter2.setSelectedPosition(position);
+                galleryAdapter2.notifyDataSetChanged();
                 chooseClassTwoType(strings.get(position), courseBeanList2, courseAdapter2, lvLearnName);
             }
         });
+
+//        mLearnAdapter = new HorizontalLearnListViewAdapter(getActivity(), strings);
+//        hlLearn.setAdapter(mLearnAdapter);
+//        hlLearn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getActivity(), "id=" + strings.get(position), Toast.LENGTH_SHORT).show();
+//                mLearnAdapter.setSelectedPosition(position);
+//                mLearnAdapter.notifyDataSetChanged();
+//                chooseClassTwoType(strings.get(position), courseBeanList2, courseAdapter2, lvLearnName);
+//            }
+//        });
     }
 
     private void initHLActivityData(final ArrayList<String> strings) {
-        mActivityAdapter = new HorizontalActivityListViewAdapter(getActivity(), strings);
-        hlActivity.setAdapter(mActivityAdapter);
+
+        galleryAdapter3 = new GalleryAdapter(getActivity(),strings);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        hlActivity.setLayoutManager(linearLayoutManager);
+        hlActivity.setAdapter(galleryAdapter3);
         initCourseData();
-        hlActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        galleryAdapter3.setOnItemClickListener(new GalleryAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "id=" + strings.get(position), Toast.LENGTH_SHORT).show();
-                mActivityAdapter.setSelectedPosition(position);
-                mActivityAdapter.notifyDataSetChanged();
+            public void onItemClick(View view, int position) {
+                galleryAdapter3.setSelectedPosition(position);
+                galleryAdapter3.notifyDataSetChanged();
                 chooseClassTwoType(strings.get(position), courseBeanList3, courseAdapter3, lvActivityName);
             }
         });
+
+
+//        mActivityAdapter = new HorizontalActivityListViewAdapter(getActivity(), strings);
+//        hlActivity.setAdapter(mActivityAdapter);
+//        initCourseData();
+//        hlActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getActivity(), "id=" + strings.get(position), Toast.LENGTH_SHORT).show();
+//                mActivityAdapter.setSelectedPosition(position);
+//                mActivityAdapter.notifyDataSetChanged();
+//                chooseClassTwoType(strings.get(position), courseBeanList3, courseAdapter3, lvActivityName);
+//            }
+//        });
     }
 
     private void initCourseData() {
@@ -536,7 +575,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
             OkHttpUtils.post()
                     .url(Internet.COURSELIST)
                     .addParams("course_type", typetwolist.get(2).get(0))
-                    .addParams("course_address", city)
+                    .addParams("course_address", city1)
                     .build()
                     .execute(new StringCallback() {
                         @Override
@@ -551,7 +590,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                             Log.e("aaa",
                                     "(HomeFragment.java:542)" + response);
                             Log.e("aaa",
-                                    "(HomeFragment.java:544)city===" + city);
+                                    "(HomeFragment.java:544)city===" + city1);
                             courseBeanList3.clear();
                             Gson gson = new Gson();
                             if (response.contains("没有信息") || TextUtils.isEmpty(response)) {
@@ -568,7 +607,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                 OkHttpUtils.post()
                                         .url(Internet.COURSELIST)
                                         .addParams("course_type", typetwolist.get(1).get(0))
-                                        .addParams("course_address", city)
+                                        .addParams("course_address", city1)
                                         .build()
                                         .execute(new StringCallback() {
                                             @Override
@@ -584,7 +623,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                                         "(HomeFragment.java:573)" + response);
 
                                                 Log.e("aaa",
-                                                        "(HomeFragment.java:577)city==" + city);
+                                                        "(HomeFragment.java:577)city==" + city1);
                                                 courseBeanList2.clear();
                                                 Gson gson = new Gson();
                                                 if (response.contains("没有信息") || TextUtils.isEmpty(response)) {
@@ -600,7 +639,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                                     OkHttpUtils.post()
                                                             .url(Internet.COURSELIST)
                                                             .addParams("course_type", typetwolist.get(0).get(0))
-                                                            .addParams("course_address", city)
+                                                            .addParams("course_address", city1)
                                                             .build()
                                                             .execute(new StringCallback() {
                                                                 @Override
@@ -615,7 +654,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                                                     Log.e("aaa",
                                                                             "(HomeFragment.java:603)" + response);
                                                                     Log.e("aaa",
-                                                                            "(HomeFragment.java:608)city====" + city);
+                                                                            "(HomeFragment.java:608)city====" + city1);
                                                                     courseBeanList1.clear();
                                                                     Gson gson = new Gson();
                                                                     if (response.contains("没有信息") || TextUtils.isEmpty(response)) {
@@ -641,17 +680,29 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
 
     //初始化二小类
     private void initHLArtData(final ArrayList<String> strings) {
-        mAdapter = new HorizontalListViewAdapter(getActivity(), strings);
-        hlArt.setAdapter(mAdapter);
-        hlArt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        galleryAdapter1 = new GalleryAdapter(getActivity(),strings);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        hlArt.setLayoutManager(linearLayoutManager);
+        hlArt.setAdapter(galleryAdapter1);
+        galleryAdapter1.setOnItemClickListener(new GalleryAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "id=" + strings.get(position), Toast.LENGTH_SHORT).show();
-                mAdapter.setSelectedPosition(position);
-                mAdapter.notifyDataSetChanged();
+            public void onItemClick(View view, int position) {
+                galleryAdapter1.setSelectedPosition(position);
+                galleryAdapter1.notifyDataSetChanged();
                 chooseClassTwoType(strings.get(position), courseBeanList1, courseAdapter1, LvCourseName);
             }
         });
+//        hlArt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getActivity(), "id=" + strings.get(position), Toast.LENGTH_SHORT).show();
+//                mAdapter.setSelectedPosition(position);
+//                mAdapter.notifyDataSetChanged();
+//                chooseClassTwoType(strings.get(position), courseBeanList1, courseAdapter1, LvCourseName);
+//            }
+//        });
 
     }
 
@@ -660,7 +711,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", s)
-                .addParams("course_address", city)
+                .addParams("course_address", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -675,7 +726,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                         Log.e("aaa",
                                 "(HomeFragment.java:659)" + response);
                         Log.e("aaa",
-                                "(HomeFragment.java:664)city=====" + city);
+                                "(HomeFragment.java:664)city=====" + city1);
                         list.clear();
                         Gson gson = new Gson();
                         if (response.contains("没有信息") || TextUtils.isEmpty(response)) {
@@ -721,27 +772,27 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                 break;
             case R.id.ll_sign_in://签到
 //                城市根据定位重新调整
-                iv.setVisibility(View.VISIBLE);
-                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha_anim);
-                iv.startAnimation(animation);
-                animation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        iv.setVisibility(View.GONE);
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                ivSign.startAnimation(sato0);
+//                iv.setVisibility(View.VISIBLE);
+//                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha_anim);
+//                iv.startAnimation(animation);
+//                animation.setAnimationListener(new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//                        iv.setVisibility(View.GONE);
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animation animation) {
+//
+//                    }
+//                });
+//                ivSign.startAnimation(sato0);
                 if (isLogin) {
                     OkHttpUtils.post()
                             .url(Internet.SIGN)
@@ -762,7 +813,26 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                                         JSONObject json = new JSONObject(response);
                                         String msg = json.getString("msg");
                                         if (msg.contains("成功")) {
+                                            iv.setVisibility(View.VISIBLE);
+                                            Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.alpha_anim);
+                                            iv.startAnimation(animation);
+                                            animation.setAnimationListener(new Animation.AnimationListener() {
+                                                @Override
+                                                public void onAnimationStart(Animation animation) {
 
+                                                }
+
+                                                @Override
+                                                public void onAnimationEnd(Animation animation) {
+                                                    iv.setVisibility(View.GONE);
+
+                                                }
+
+                                                @Override
+                                                public void onAnimationRepeat(Animation animation) {
+
+                                                }
+                                            });
                                         }
                                         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                     } catch (JSONException e) {
@@ -817,7 +887,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                         .putExtra("longitude", locations[1]));
                 break;
             case R.id.rl_family_edu://家教
-                startActivity(new Intent(getActivity(), HomeEduActivity.class)
+                startActivity(new Intent(getActivity(), ChildEduActivity.class)
                         .putExtra("flag", "家教")
                         .putExtra("city", city)
                         .putExtra("latitude", locations[0])
@@ -862,14 +932,14 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                         .putExtra("longitude", locations[1]));
                 break;
             case R.id.tv_more_home:
-                startActivity(new Intent(getActivity(), HomeEduActivity.class)
+                startActivity(new Intent(getActivity(), ChildEduActivity.class)
                         .putExtra("flag", "家教")
                         .putExtra("city", city)
                         .putExtra("latitude", locations[0])
                         .putExtra("longitude", locations[1]));
                 break;
             case R.id.et_search:
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+                startActivity(new Intent(getActivity(), SearchActivity.class).putExtra("location",locations));
                 break;
             case R.id.ll_address:
                 startActivityForResult(new Intent(getActivity(), CurrentCitysActivity.class).putExtra("city", city),1);
@@ -890,9 +960,10 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode==1&&resultCode==11){
-            city = data.getStringExtra("cityName");
-            tvLocation.setText(city);
+            city1 = data.getStringExtra("cityName");
+            tvLocation.setText(city1);
             initOrgan("早教", classBeanList1, classAdapter1, lvChildName);
+            initClassType();
         }
     }
 
@@ -990,6 +1061,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
             Log.e("描述：", sb.toString());
 
             city = location.getCity();
+            city1 = city;
             SPUtils.put(getActivity(), "city", city);
             double[] locations = new double[2];
             locations[0] = location.getLatitude();//纬度

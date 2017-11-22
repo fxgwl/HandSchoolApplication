@@ -22,8 +22,6 @@ public class HorizontalLearnListViewAdapter extends BaseAdapter {
         this.mContext = mContext;
     }
 
-
-
     @Override
     public int getCount() {
         return mData.size();

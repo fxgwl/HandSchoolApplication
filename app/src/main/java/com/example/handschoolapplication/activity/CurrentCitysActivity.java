@@ -27,6 +27,7 @@ import com.example.handschoolapplication.others.MeituanTopHeaderBean;
 import com.example.handschoolapplication.others.OnItemClickListener;
 import com.example.handschoolapplication.others.ViewHolder;
 import com.example.handschoolapplication.utils.InternetS;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
@@ -94,8 +95,8 @@ public class CurrentCitysActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        city = getIntent().getStringExtra("city");
-        tvTitle.setText("当前城市" + "（" + city + "）");
+        city = (String) SPUtils.get(this, "city", "");
+        tvTitle.setText("当前城市" + "（" + this.city + "）");
         mRv = (RecyclerView) findViewById(R.id.rv);
         mRv.setLayoutManager(mManager = new LinearLayoutManager(this));
 

@@ -12,7 +12,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -55,7 +56,7 @@
 
                 <View style="@style/line"></View>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -67,11 +68,11 @@
                         android:id="@+id/tv_coursetime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginRight="15dp"
                         android:text="周一  10:30-12:30/15:30-16:30\n周二  10:30-12:30" />
-                </RelativeLayout>
+                </LinearLayout>
 
                 <View style="@style/line"></View>
 
@@ -180,29 +181,31 @@
                     <TextView
                         style="@style/nowapplytv1"
                         android:text="优惠折扣抵" />
+
                     <TextView
                         android:id="@+id/tv_user_discount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="不使用优惠券"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="30dp"
-                        android:textColor="#F4640D"
-                        android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:visibility="gone"/>
+                        android:paddingTop="5dp"
+                        android:text="不使用优惠券"
+                        android:textColor="#F4640D"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tv_discount"
                         style="@style/nowapplytv2"
                         android:layout_weight="1"
                         android:text="-¥0.00" />
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/xiayiye"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="20dp"/>
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/xiayiye" />
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -230,55 +233,75 @@
                 </LinearLayout>
 
                 <View
-                    style="@style/line"
-                    android:layout_marginBottom="50dp"></View>
+                    style="@style/line"></View>
+                <LinearLayout
+                    android:id="@+id/ll_student_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="学生姓名" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/tv_student_name"
+                        style="@style/nowapplytv1" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/xiayiye"
+                        android:layout_marginRight="10dp"/>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <View style="@style/line"></View>
 
         <LinearLayout
+
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+            android:background="#ffffff"
+            android:orientation="horizontal">
 
-            <View style="@style/line"></View>
-
-            <LinearLayout
-
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:padding="14dp"
+                android:text="合计:" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right|center_vertical"
-                    android:padding="14dp"
-                    android:text="合计:" />
+            <TextView
+                android:id="@+id/tv_allmoney"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:gravity="center"
+                android:padding="14dp"
+                android:text="¥0000.00"
+                android:textColor="#ff00" />
 
-                <TextView
-                    android:id="@+id/tv_allmoney"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
-                    android:gravity="center"
-                    android:padding="14dp"
-                    android:text="¥0000.00"
-                    android:textColor="#ff00" />
-
-                <TextView
-                    android:id="@+id/tv_nowapply_config"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#F4640D"
-                    android:gravity="center"
-                    android:padding="14dp"
-                    android:text="确认报名"
-                    android:textColor="#ffffff" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_nowapply_config"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#F4640D"
+                android:gravity="center"
+                android:padding="14dp"
+                android:text="确认报名"
+                android:textColor="#ffffff" />
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

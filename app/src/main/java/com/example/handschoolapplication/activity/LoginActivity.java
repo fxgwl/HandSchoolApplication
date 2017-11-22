@@ -1,18 +1,20 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,7 @@ import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 import okhttp3.Call;
 
+
 public class LoginActivity extends BaseActivity implements PlatformActionListener, CommonPopupWindow.ViewInterface, AdapterView.OnItemClickListener {
 
     @BindView(R.id.et_phone_num)
@@ -56,10 +59,12 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     private CommonPopupWindow historyUserPopupwindow;
     private ListDataSave dataSave;
     OnekeyShare oks = new OnekeyShare();
+    private InputMethodManager inputMethodManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         String user_id = (String) SPUtils.get(this, "userId", "");
         String user_type = (String) SPUtils.get(this, "user_type", "");
         dataSave = new ListDataSave(this, "login");
@@ -93,8 +98,14 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
             case R.id.rl_back:
                 break;
             case R.id.iv_history_user:
-
-                showHistoryUser(view);
+                View view1 = getWindow().peekDecorView();
+                if (view1 != null) {
+                    InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputmanger.hideSoftInputFromWindow(view1.getWindowToken(), 0);
+                }
+                if(!isSoftShowing()){
+                    showHistoryUser(view);
+                }
                 break;
             case R.id.btn_login:
                 String phone = etPhoneNum.getText().toString().trim();
@@ -244,9 +255,9 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                 .setAnimationStyle(R.style.AnimDown)
                 .setViewOnclickListener(this)
                 .create();
-        historyUserPopupwindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        historyUserPopupwindow.setSoftInputMode(CommonPopupWindow.INPUT_METHOD_NEEDED);
         historyUserPopupwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        historyUserPopupwindow.showAsDropDown(view);
+        historyUserPopupwindow.showAsDropDown(view,0,0);
     }
 
 
@@ -256,6 +267,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         String name = platform.getName();
         String userIcon = platform.getDb().getUserIcon();
         String userName = platform.getDb().getUserName();
+//        String userName = platform.getDb().getUserIcon();
         String userId = platform.getDb().getUserId();
 
         Log.e("aaa",
@@ -423,5 +435,14 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         finish();
     }
 
+    private boolean isSoftShowing() {
+        //获取当前屏幕内容的高度
+        int screenHeight = getWindow().getDecorView().getHeight();
+        //获取View可见区域的bottom
+        Rect rect = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+
+        return screenHeight - rect.bottom != 0;
+    }
 
 }

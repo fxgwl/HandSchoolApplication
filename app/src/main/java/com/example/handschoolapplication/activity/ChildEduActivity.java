@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,6 +38,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.adapter.GalleryAdapter;
 import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.ClassSortBean;
@@ -46,16 +48,20 @@ import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.RankListUtils;
 import com.example.handschoolapplication.view.CommonPopupWindow;
-import com.example.handschoolapplication.view.HorizontalListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -73,6 +79,8 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
     TextView tvLocation;
     @BindView(R.id.tv_sort)
     TextView tvSort;
+    @BindView(R.id.tv_allrank)
+    TextView tvAllRank;
     @BindView(R.id.iv_img_bg)
     ImageView iv_bg;
     @BindView(R.id.map_view)
@@ -91,7 +99,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
     private MyClassAdapter myClassAdapter;
     private MyThirdAdapter myThirdAdapter;
     private ArrayList types = new ArrayList();//第一级下拉菜单的数据源
-    private List<TimeHourBean> typeThirdList = new ArrayList<>();
+    private List<String> typeThirdList = new ArrayList<>();
     //    public LocationClient mLocationClient = null;
 //    public MyLocationListener myListener = new MyLocationListener();
     private String city;
@@ -117,6 +125,9 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
     private TextView tvSure;
     private TextView tvOrganizationRank;
     private boolean isCourse = false;
+    private TagAdapter<String> tagAdapter;
+    private GalleryAdapter galleryAdapter;
+    private String city1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,21 +153,22 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         types.add("宝坻");
         types.add("汉沽");
 
-        myThirdAdapter = new MyThirdAdapter(this, typeThirdList);
+//        myThirdAdapter = new MyThirdAdapter(this, typeThirdList);
         horizontalListViewAdapter = new HorizontalListViewAdapter(this,types);
         listView.setAdapter(myCourseAdapter);
 
 //        types = (ArrayList) getIntent().getSerializableExtra("types");
         flag = getIntent().getStringExtra("flag");
         city = getIntent().getStringExtra("city");
+        city1 = city;
         double latitude = getIntent().getDoubleExtra("latitude", 0);
         double longitude = getIntent().getDoubleExtra("longitude", 0);
         locations = new double[]{latitude, longitude};
-        tvLocation.setText(city);
+        tvLocation.setText(city1);
         tvTitle.setText(flag);
         initMap();
 //        getSecondList(flag);
-        getOrganizationRank();
+        getOrganizationRank(flag);
 //        startLocate();
         //获取文体艺术的小类
 
@@ -172,7 +184,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                     getCourseRank();
                 } else {
                     isCourse = false;
-                    getOrganizationRank();
+                    getOrganizationRank(flag);
                 }
             }
         });
@@ -210,8 +222,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject jsonObject1 = data.getJSONObject(i);
                                     String type_three_name = jsonObject1.getString("type_three_name");
-                                    TimeHourBean timeHourBean = new TimeHourBean(false, type_three_name);
-                                    typeThirdList.add(timeHourBean);
+                                    typeThirdList.add(type_three_name);
                                 }
                                 myThirdAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
@@ -272,7 +283,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         OkHttpUtils.post()
                 .url(InternetS.ORGANIZATION_RANK)
                 .addParams("mechanism_type", flag)
-                .addParams("mechanism_city", city)
+                .addParams("mechanism_city", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -286,6 +297,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                         Log.e("aaa",
                                 "(ChildEduActivity.java:239)" + response);
                         if (response.contains("没有信息")) {
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
@@ -321,17 +333,22 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ChildEduActivity.java:209)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < data.length(); i++) {
-                                JSONObject jsonObject1 = data.getJSONObject(i);
-                                String type_two_name = jsonObject1.getString("type_two_name");
-                                types.add(type_two_name);
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject jsonObject1 = data.getJSONObject(i);
+                                    String type_two_name = jsonObject1.getString("type_two_name");
+                                    types.add(type_two_name);
+                                }
+                                horizontalListViewAdapter.setList(types);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            horizontalListViewAdapter.setList(types);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
                     }
                 });
@@ -339,29 +356,30 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
 
 
     @OnClick({R.id.rl_back, R.id.iv_menu, R.id.et_search, R.id.iv_search, R.id.tv_sort, R.id.iv_sort, R.id.tv_defaultrank,
-            R.id.tv_allrank, R.id.iv_allrank, R.id.iv_img_bg})
+            R.id.tv_allrank, R.id.iv_allrank, R.id.iv_img_bg,R.id.tv_location})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
+                break;
+            case R.id.tv_location:
+                startActivityForResult(new Intent(this, CurrentCitysActivity.class).putExtra("city", city),1);
                 break;
             case R.id.iv_menu:
                 show(view);
                 break;
             case R.id.et_search:
             case R.id.iv_search://搜索
-                startActivity(new Intent(ChildEduActivity.this, SearchActivity.class));
+                startActivity(new Intent(ChildEduActivity.this, SearchActivity.class).putExtra("location",locations));
                 break;
             case R.id.tv_sort:
                 showCourse(view);
-                iv_bg.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_defaultrank://默认排序
                 initData(flag);
                 break;
             case R.id.tv_allrank://综合排序
                 showSynthesisRankPopupwindow(view);
-                iv_bg.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_img_bg:
                 int visibility = iv_bg.getVisibility();
@@ -384,37 +402,64 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1&&resultCode==11){
+            city1 = data.getStringExtra("cityName");
+            tvLocation.setText(city1);
+//            initOrgan("早教", classBeanList1, classAdapter1, lvChildName);
+            getOrganizationRank(flag);
+        }
+    }
+
+    @Override
     public void getChildView(View view, int layoutResId) {
         switch (layoutResId) {
             case R.layout.popupwindow_sort:
-                HorizontalListView hlvSort = (HorizontalListView) view.findViewById(R.id.hlv_sort);
-                GridView gv = (GridView) view.findViewById(R.id.gv_third);
-                hlvSort.setAdapter(horizontalListViewAdapter);
-                gv.setAdapter(myThirdAdapter);
-                hlvSort.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                RecyclerView hlvSort = (RecyclerView) view.findViewById(R.id.hlv_sort);
+                TagFlowLayout flow = (TagFlowLayout) view.findViewById(R.id.flow_layout);
+//                GridView gv = (GridView) view.findViewById(R.id.gv_third);
+                galleryAdapter = new GalleryAdapter(ChildEduActivity.this, types);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ChildEduActivity.this);
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                hlvSort.setLayoutManager(linearLayoutManager);
+                hlvSort.setAdapter(galleryAdapter);
+//                gv.setAdapter(myThirdAdapter);
+                galleryAdapter.setOnItemClickListener(new GalleryAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        Toast.makeText(ChildEduActivity.this, types.get(position).toString(), Toast.LENGTH_SHORT).show();
-                        horizontalListViewAdapter.setSelectedPosition(position);
-                        horizontalListViewAdapter.notifyDataSetChanged();
+                    public void onItemClick(View view, int position) {
+                        galleryAdapter.setSelectedPosition(position);
+                        galleryAdapter.notifyDataSetChanged();
                         sortPopupwindow.dismiss();
                         iv_bg.setVisibility(View.GONE);
-//                        sortPopupwindow.dismiss();
-//                        iv_bg.setVisibility(View.GONE);
-                        //三级列表没数据
-//                        getThirdList(types.get(position).toString());
-//                        initData(types.get(position).toString());
                     }
                 });
-                gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+                tagAdapter = new TagAdapter<String>((ArrayList<String>) typeThirdList) {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String typeThird = typeThirdList.get(position).getTime();
+                    public View getView(FlowLayout parent, int position, String s) {
+                        TextView textView = (TextView) View.inflate(ChildEduActivity.this, R.layout.textview, null);
+                        textView.setText(s);
+                        return textView;
+                    }
+                };
+                flow.setAdapter(tagAdapter);
+
+                flow.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+                    @Override
+                    public boolean onTagClick(View view, int position, FlowLayout parent) {
+                        String s = typeThirdList.get(position);
+                        Toast.makeText(ChildEduActivity.this, s, Toast.LENGTH_SHORT).show();
                         sortPopupwindow.dismiss();
                         iv_bg.setVisibility(View.GONE);
-                        Toast.makeText(ChildEduActivity.this, typeThird, Toast.LENGTH_SHORT).show();
                         //筛选
-                        initData(typeThird);
+                        if (isCourse){
+                            initData(s);
+                        }else {
+                            getOrganizationRank(s);
+                        }
+                        return true;
                     }
                 });
                 break;
@@ -512,7 +557,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         OkHttpUtils.post()
                 .url(InternetS.COURSE_RANK)
                 .addParams("course_type", flag)
-                .addParams("course_address", city)
+                .addParams("course_address", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -526,17 +571,21 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                         Log.e("aaa",
                                 "(ChildEduActivity.java:148)" + response);
                         Log.e("aaa",
-                                "(ChildEduActivity.java:504) city === " + city);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
+                                "(ChildEduActivity.java:504) city === " + city1);
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
 //                            myCourseAdapter.setLocations(locations);
-                            listView.setAdapter(myCourseAdapter);
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                listView.setAdapter(myCourseAdapter);
+                                myCourseAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -545,12 +594,12 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
     /**
      * 机构排序
      */
-    private void getOrganizationRank() {
+    private void getOrganizationRank(String flag) {
         mClassList.clear();
         OkHttpUtils.post()
                 .url(InternetS.ORGANIZATION_RANK)
                 .addParams("mechanism_type", flag)
-                .addParams("mechanism_city", city)
+                .addParams("mechanism_city", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -564,6 +613,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                         Log.e("aaa",
                                 "(ChildEduActivity.java:239)" + response);
                         if (response.contains("没有信息")) {
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
@@ -603,16 +653,20 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ChildEduActivity.java:238)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
-                            }.getType()));
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mClassList.addAll((Collection<? extends ClassSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<ClassSortBean>>() {
+                                }.getType()));
 //                            myCourseAdapter.setLocations(locations);
-                            myClassAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        myClassAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -637,15 +691,20 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ChildEduActivity.java:238)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
 //                            myCourseAdapter.setLocations(locations);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
                     }
                 });
@@ -672,16 +731,21 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ChildEduActivity.java:272)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
 //                            myCourseAdapter.setLocations(locations);
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        myCourseAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -706,16 +770,21 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ChildEduActivity.java:272)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
 //                            myCourseAdapter.setLocations(locations);
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        myCourseAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -741,17 +810,21 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
 
                         Log.e("aaa",
                                 "(ChildEduActivity.java:305)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
 
 //                            myCourseAdapter.setLocations(locations);
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        myCourseAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -777,22 +850,27 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
 
                         Log.e("aaa",
                                 "(ChildEduActivity.java:305)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            ArrayList<CourseSortBean> list = new ArrayList<CourseSortBean>();
-                            list.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-                            if (list.size() > 0) {
-                                for (int i = 0; i < list.size(); i++) {
-                                    mCourseList.add(list.get((list.size() - 1) - i));
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                ArrayList<CourseSortBean> list = new ArrayList<CourseSortBean>();
+                                list.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+                                if (list.size() > 0) {
+                                    for (int i = 0; i < list.size(); i++) {
+                                        mCourseList.add(list.get((list.size() - 1) - i));
+                                    }
                                 }
-                            }
 //                            myCourseAdapter.setLocations(locations);
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        myCourseAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -802,7 +880,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", flag)
-                .addParams("course_address", city)
+                .addParams("course_address", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -815,18 +893,23 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ChildEduActivity.java:84)" + response);
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-                            if (locations != null)
-                                RankListUtils.rankListsss(mCourseList, new LatLng(locations[0], locations[1]));
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+                                if (locations != null)
+                                    RankListUtils.rankListsss(mCourseList, new LatLng(locations[0], locations[1]));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        myCourseAdapter.notifyDataSetChanged();
+
 
                     }
                 });
@@ -854,6 +937,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                         Log.e("aaa",
                                 "(ChildEduActivity.java:239)" + response);
                         if (response.contains("没有信息")) {
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
@@ -867,7 +951,8 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                                 e.printStackTrace();
                             }
                         }
-
+                        myClassAdapter.notifyDataSetChanged();
+                        
                     }
                 });
 
@@ -878,7 +963,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", flag)
-                .addParams("course_address", city)
+                .addParams("course_address", city1)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -892,18 +977,21 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                         Log.e("aaa",
                                 "(ChildEduActivity.java:84)" + response);
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
-                            }.getType()));
-                            if (locations != null)
-                                RankListUtils.rankList(mCourseList, new LatLng(locations[0], locations[1]));
-                            myCourseAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (response.contains("没有信息")){
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                mCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
+                                }.getType()));
+                                if (locations != null)
+                                    RankListUtils.rankList(mCourseList, new LatLng(locations[0], locations[1]));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-
+                        myCourseAdapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -929,6 +1017,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                         Log.e("aaa",
                                 "(ChildEduActivity.java:239)" + response);
                         if (response.contains("没有信息")) {
+                            Toast.makeText(ChildEduActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
@@ -942,6 +1031,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                                 e.printStackTrace();
                             }
                         }
+                        myClassAdapter.notifyDataSetChanged();
 
                     }
                 });
@@ -967,6 +1057,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("等级推荐");
                 if (isCourse) {
                     getCourseStarOrGradeRank();
                 } else
@@ -987,6 +1078,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由高到低");
                 if (isCourse) {
                     getCourseStarOrGradeRank();
                 } else
@@ -1007,6 +1099,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("人气排行");
                 if (isCourse) {
                     getCoursePopularityRank();
                 } else
@@ -1027,6 +1120,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由高到低");
                 if (isCourse) {
                     getPriceUpRank();
                 } else {
@@ -1048,6 +1142,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由低到高");
                 if (isCourse) {
                     getPriceDownRank();
                 } else {
@@ -1068,6 +1163,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                 tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由近到远");
                 if (isCourse)
                     getDistenceDesc();
                 else
@@ -1088,6 +1184,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
                 tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvNearRank.setTextColor(Color.parseColor("#666666"));
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由远到近");
                 if (isCourse)
                     getDistenceAsc();
                 else
@@ -1154,7 +1251,9 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
 
             if (locations != null) {
                 double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
-                holder.tvDistance.setText((int) distance + "m");
+                distance = (distance / 1000);
+                double v = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                holder.tvDistance.setText("距离：" + v + "km");
             } else {
                 holder.tvDistance.setText("定位失败");
             }
@@ -1275,12 +1374,16 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
             double school_jing = Double.parseDouble(classSortBean.getUser_name());
 
             if (locations != null) {
-                double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
-                holder.tvDistance.setText((int) distance + "m");
+                double latitude = locations[0];//纬度
+                double longitude = locations[1];//经度
+//            DistanceUtil.getDistance(new LatLng(latitude,longitude));
+                double distance = DistanceUtil.getDistance(new LatLng(latitude, longitude), new LatLng(school_wei, school_jing));
+                distance = distance/1000;
+                double v = new BigDecimal(distance).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                holder.tvDistance.setText("距离："+v+"km");
             } else {
                 holder.tvDistance.setText("定位失败");
             }
-
             return view;
         }
 
@@ -1314,7 +1417,11 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
 
     //向下弹出
     public void showCourse(View view) {
-        if (sortPopupwindow != null && sortPopupwindow.isShowing()) return;
+        if (sortPopupwindow != null && sortPopupwindow.isShowing()){
+            sortPopupwindow.dismiss();
+            iv_bg.setVisibility(View.GONE);
+            return;
+        }
         sortPopupwindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popupwindow_sort)
                 .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -1325,11 +1432,16 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         sortPopupwindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         sortPopupwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         sortPopupwindow.showAsDropDown(view, 0, 0);
+        iv_bg.setVisibility(View.VISIBLE);
     }
 
     //向下弹出
     public void showSynthesisRankPopupwindow(View view) {
-        if (synthesisRankPopupwindow != null && synthesisRankPopupwindow.isShowing()) return;
+        if (synthesisRankPopupwindow != null && synthesisRankPopupwindow.isShowing()){
+            synthesisRankPopupwindow.dismiss();
+            iv_bg.setVisibility(View.GONE);
+            return;
+        }
         synthesisRankPopupwindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popupwindow_synthesis_rank)
                 .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -1340,6 +1452,7 @@ public class ChildEduActivity extends BaseActivity implements CommonPopupWindow.
         synthesisRankPopupwindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         synthesisRankPopupwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         synthesisRankPopupwindow.showAsDropDown(view, 0, 0);
+        iv_bg.setVisibility(View.VISIBLE);
     }
 
     class MyThirdAdapter extends BaseAdapter {

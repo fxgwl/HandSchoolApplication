@@ -66,6 +66,7 @@ public class SchoolInfoBean {
          * user_state : 0
          * user_type : 1
          * pingjia
+         * totle_sign
          */
 
         private String data_integrity;
@@ -93,6 +94,7 @@ public class SchoolInfoBean {
         private String user_type;
         private String user_name;
         private String pingjia;
+        private String totle_sign;
 
         public String getUser_name() {
             return user_name;
@@ -292,6 +294,14 @@ public class SchoolInfoBean {
 
         public void setPingjia(String pingjia) {
             this.pingjia = pingjia;
+        }
+
+        public String getTotle_sign() {
+            return totle_sign;
+        }
+
+        public void setTotle_sign(String totle_sign) {
+            this.totle_sign = totle_sign;
         }
     }
 }

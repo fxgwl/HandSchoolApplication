@@ -95,6 +95,7 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
     private SchoolInfoBean.DataBean dataBean;
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
     private String signed_num;
+    private String totle_sign;
 
     public MeComFragment() {
         // Required empty public constructor
@@ -156,6 +157,7 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
                             tvPercent.setText(dataBean.getData_integrity() + "%");
                             tvIntegral.setText(dataBean.getUser_integral());
                             signed_num = dataBean.getSigned_num();
+                            totle_sign = dataBean.getTotle_sign();
 
                             switch (dataBean.getPingjia()) {
                                 case "0":
@@ -217,6 +219,7 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
                         .putExtra("name", dataBean.getMechanism_name()));
                 break;
             case R.id.iv_edit://编辑
+                startActivity(new Intent(getActivity(), SchoolInformationActivity.class));
                 break;
             case R.id.ll_scan://扫一扫
                 startActivity(new Intent(getActivity(), ScanQRCodeActivity.class));
@@ -251,7 +254,9 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
                         .putExtra("flag","com"));
                 break;
             case R.id.rl_sign:
-                startActivity(new Intent(getActivity(), SignActivity.class).putExtra("signed_num",signed_num));
+                startActivity(new Intent(getActivity(), SignActivity.class)
+                        .putExtra("signed_num",signed_num)
+                        .putExtra("total_sign",totle_sign));
                 break;
         }
     }

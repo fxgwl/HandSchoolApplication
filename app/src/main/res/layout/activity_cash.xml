@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="38sp"
-            android:hint="2000.00"
+            android:hint="0.00"
             android:layout_marginLeft="10dp"
             />
     </LinearLayout>
@@ -108,6 +108,29 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorgrey"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付宝账号：" />
+
+        <EditText
+            android:id="@+id/et_alipay"
+            style="@style/MyEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:gravity="right"
+            android:hint="请输入支付宝账号" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/btn_cash"
         android:layout_width="230dp"

@@ -90,10 +90,18 @@
     </style>
 
     <style name="nowapplytv2">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="nowapplytv3">nowapplytv3
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginRight">15dp</item>
         <item name="android:gravity">center_vertical|right</item>
+
     </style>
 
     <style name="line">
@@ -139,4 +147,15 @@
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
     </style>
+
+    <!-- flowLayout文件   textview  的 style   -->
+    <style name="textview_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:background">@drawable/textview_style_background</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+
 </resources>

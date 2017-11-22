@@ -29,4 +29,12 @@ public class ClassType {
     public void setTypetwo(String typetwo) {
         this.typetwo = typetwo;
     }
+
+    @Override
+    public String toString() {
+        return "ClassType{" +
+                "typeOne='" + typeOne + '\'' +
+                ", typetwo='" + typetwo + '\'' +
+                '}';
+    }
 }

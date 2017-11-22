@@ -303,15 +303,18 @@
                     android:layout_height="1dp"
                     android:background="#F2F2F2"></View>
 
-                <Button
+                <TextView
                     android:id="@+id/course_allpingjia_btn"
-                    android:layout_width="106dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:background="@drawable/shape_allpingjia"
                     android:gravity="center"
-                    android:padding="2dp"
                     android:text="查看全部评价"
                     android:textColor="#FF7638"/>
                 <View

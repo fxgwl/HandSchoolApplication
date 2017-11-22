@@ -22,7 +22,7 @@ public class ClassTypeAdapter extends BaseAdapter {
     private Context context;
     private List<ClassType> mlist;
     private int size = 0;
-
+    private OnDelectTypeListener listener;
     public ClassTypeAdapter(Context context, List<ClassType> mlist) {
         this.context = context;
         this.mlist = mlist;
@@ -48,7 +48,7 @@ public class ClassTypeAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
 
         ViewHolder holder = null;
 
@@ -64,6 +64,12 @@ public class ClassTypeAdapter extends BaseAdapter {
         ClassType classType = mlist.get(position);
         holder.tvTypeOne.setText(classType.getTypeOne());
         holder.tvTypeTwo.setText(classType.getTypetwo());
+        holder.tvDelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setDelect(position);
+            }
+        });
         return view;
     }
 
@@ -73,9 +79,19 @@ public class ClassTypeAdapter extends BaseAdapter {
         TextView tvTypeOne;
         @BindView(R.id.tv_type_two)
         TextView tvTypeTwo;
+        @BindView(R.id.tv_delect)
+        TextView tvDelect;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface OnDelectTypeListener{
+        void setDelect(int position);
+    }
+
+    public void setOnDelectType(OnDelectTypeListener listener){
+        this.listener = listener;
     }
 }

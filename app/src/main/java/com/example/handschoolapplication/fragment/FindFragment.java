@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -44,10 +45,11 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.BaiduMapActivity;
 import com.example.handschoolapplication.activity.ClassActivity;
 import com.example.handschoolapplication.activity.CourseHomePagerActivity;
+import com.example.handschoolapplication.activity.CurrentCitysActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
 import com.example.handschoolapplication.adapter.FindClassAdapter;
 import com.example.handschoolapplication.adapter.FindCourseAdapter;
-import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
+import com.example.handschoolapplication.adapter.GalleryAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.ClassSortBean;
 import com.example.handschoolapplication.bean.CourseSortBean;
@@ -58,11 +60,13 @@ import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.RankListUtils;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.CommonPopupWindow;
-import com.example.handschoolapplication.view.HorizontalListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,6 +96,10 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
     TextView tvLocation;
     @BindView(R.id.tv_current_location)
     TextView tvCurrentLocation;
+    @BindView(R.id.tv_allrank)
+    TextView tvAllRank;
+    @BindView(R.id.tv_sort)
+    TextView tvSort;
     @BindView(R.id.lv_ff_course)
     ListView listView;
     @BindView(R.id.map_view)
@@ -109,10 +117,10 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
     private FindClassAdapter findClassAdapter;
 
     private CommonPopupWindow sortPopupwindow, synthesisRankPopupwindow;
-    private HorizontalListViewAdapter horizontalListViewAdapter;
+//    private HorizontalListViewAdapter horizontalListViewAdapter;
     private ArrayList<String> types = new ArrayList();//第二级下拉菜单的数据源
     private MyThirdAdapter myThirdAdapter;
-    private List<TimeHourBean> typeThirdList = new ArrayList<>();
+    private List<String> typeThirdList = new ArrayList<>();
     private MyCourseAdapter myCourseAdapter = new MyCourseAdapter();
     private MyClassAdapter myClassAdapter = new MyClassAdapter();
 
@@ -163,6 +171,8 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
     private ArrayList<ArrayList<String>> typetwolist;
     private String flag;
     private double[] locations;
+    private TagAdapter<String> tagAdapter;
+    private GalleryAdapter galleryAdapter;
 
     public FindFragment() {
         // Required empty public constructor
@@ -198,8 +208,9 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         listView.setOnItemClickListener(this);
         map.setOnMapClickListener(listener);
 
-        horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity());
-        myThirdAdapter = new MyThirdAdapter(getActivity(), typeThirdList);
+//        horizontalListViewAdapter = new HorizontalListViewAdapter(getActivity());
+//        myThirdAdapter = new MyThirdAdapter(getActivity(), typeThirdList);
+
         rbSearchType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -332,7 +343,13 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                                 typetwolist.add(typetwos);
                             }
 
-                            horizontalListViewAdapter.setList(typeones);
+                            Log.e("aaa",
+                                "(FindFragment.java:342)"+"asdsadsadsaddfg");
+
+//                            horizontalListViewAdapter.setList(typeones);
+                            Log.e("aaa",
+                                "(FindFragment.java:346)size ===== "+typeones.size());
+                            galleryAdapter = new GalleryAdapter(getActivity(), typeones);
                         }
                     }
                 });
@@ -426,22 +443,23 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_search, R.id.iv_search, R.id.tv_sort, R.id.tv_defaultrank, R.id.tv_allrank, R.id.iv_img_bg})
+    @OnClick({R.id.tv_search, R.id.iv_search, R.id.tv_sort, R.id.tv_defaultrank, R.id.tv_allrank, R.id.iv_img_bg,R.id.ll_location})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.tv_search:
             case R.id.iv_search:
-                startActivity(new Intent(getActivity(), SearchActivity.class));
+                startActivity(new Intent(getActivity(), SearchActivity.class).putExtra("location",locations));
+                break;
+            case R.id.ll_location:
+                startActivityForResult(new Intent(getActivity(), CurrentCitysActivity.class).putExtra("city", city),1);
                 break;
             case R.id.tv_sort:
                 showCourse(v);
-                iv_bg.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_defaultrank:
                 break;
             case R.id.tv_allrank:
                 showSynthesisRankPopupwindow(v);
-                iv_bg.setVisibility(View.VISIBLE);
                 break;
             case R.id.iv_img_bg:
                 int visibility = iv_bg.getVisibility();
@@ -468,43 +486,56 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
     public void getChildView(View view, int layoutResId) {
         switch (layoutResId) {
             case R.layout.popupwindow_sort:
-                HorizontalListView hlvSort = (HorizontalListView) view.findViewById(R.id.hlv_sort);
-                GridView gv = (GridView) view.findViewById(R.id.gv_third);
-                hlvSort.setAdapter(horizontalListViewAdapter);
-                gv.setAdapter(myThirdAdapter);
-                hlvSort.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                RecyclerView hlvSort = (RecyclerView) view.findViewById(R.id.hlv_sort);
+//                GridView gv = (GridView) view.findViewById(R.id.gv_third);
+                TagFlowLayout flow = (TagFlowLayout) view.findViewById(R.id.flow_layout);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                hlvSort.setLayoutManager(linearLayoutManager);
+                hlvSort.setAdapter(galleryAdapter);
+                galleryAdapter.setOnItemClickListener(new GalleryAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        Toast.makeText(ArtActivity.this, types.get(position).toString(), Toast.LENGTH_SHORT).show();
-                        horizontalListViewAdapter.setSelectedPosition(position);
-                        horizontalListViewAdapter.notifyDataSetChanged();
-//                        sortPopupwindow.dismiss();
-//                        iv_bg.setVisibility(iew.GONE);
+                    public void onItemClick(View view, int position) {
+                        galleryAdapter.setSelectedPosition(position);
+                        galleryAdapter.notifyDataSetChanged();
+
                         flag = typeones.get(position);
                         types.clear();
                         typeThirdList.clear();
                         types.addAll(typetwolist.get(position));
                         for (int i = 0; i < types.size(); i++) {
-                            TimeHourBean timeHourBean = new TimeHourBean(false, types.get(i));
-                            typeThirdList.add(timeHourBean);
+                            typeThirdList.add(types.get(i));
                         }
-                        myThirdAdapter.notifyDataSetChanged();
-//                        initData(types.get(position).toString());
+                        tagAdapter.notifyDataChanged();
                     }
                 });
-                gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+                tagAdapter = new TagAdapter<String>((ArrayList<String>) typeThirdList) {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String typeThird = typeThirdList.get(position).getTime();
+                    public View getView(FlowLayout parent, int position, String s) {
+                        TextView textView = (TextView) View.inflate(getActivity(), R.layout.textview, null);
+                        textView.setText(s);
+                        return textView;
+                    }
+                };
+                flow.setAdapter(tagAdapter);
+
+                flow.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+                    @Override
+                    public boolean onTagClick(View view, int position, FlowLayout parent) {
+                        String s = typeThirdList.get(position);
+                        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+                        tvSort.setText(s);
                         sortPopupwindow.dismiss();
                         iv_bg.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), typeThird, Toast.LENGTH_SHORT).show();
                         //筛选
                         if (isCourse){
-                            initData(typeThird);
+                            initData(s);
                         }else {
-                            getOrganizationRank(typeThird);
+                            getOrganizationRank(s);
                         }
+                        return true;
                     }
                 });
                 break;
@@ -569,7 +600,8 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                                 String type_two_name = jsonObject1.getString("type_two_name");
                                 types.add(type_two_name);
                             }
-                            horizontalListViewAdapter.setList(types);
+                            galleryAdapter.setList(types);
+//                            horizontalListViewAdapter.setList(types);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -595,6 +627,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("等级推荐");
                 if (isCourse) {
                     getCourseStarOrGradeRank();
                 } else
@@ -635,6 +668,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("人气排行");
                 if (isCourse) {
                     getCoursePopularityRank();
                 } else
@@ -655,6 +689,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由低到高");
                 if (isCourse) {
                     getPriceUpRank();
                 } else {
@@ -676,6 +711,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由高到低");
                 if (isCourse) {
                     getPriceDownRank();
                 } else {
@@ -696,6 +732,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvFarRank.setTextColor(Color.parseColor("#666666"));
                 tvFarRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由近到远");
                 if (isCourse)
                     getDistenceDesc();
                 else
@@ -716,6 +753,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                 tvDownRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
                 tvNearRank.setTextColor(Color.parseColor("#666666"));
                 tvNearRank.setBackgroundColor(Color.parseColor("#f0f2f5"));
+                tvAllRank.setText("由远到近");
                 if (isCourse)
                     getDistenceAsc();
                 else
@@ -738,6 +776,19 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         }
     }
 
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        mapView.setVisibility(View.VISIBLE);
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        mapView.onPause();
+        mapView.setVisibility(View.INVISIBLE);
+        super.onPause();
+    }
 
     /**
      * 课程排名
@@ -1057,7 +1108,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                             findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
                             if (locations != null)
-                                RankListUtils.rankListsss(findCourseList, new LatLng(locations[0], locations[1]));
+                                RankListUtils.rankList(findCourseList, new LatLng(locations[0], locations[1]));
                             myCourseAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1097,11 +1148,12 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                                 }.getType()));
 //                            myCourseAdapter.setLocations(locations);
                                 if (locations != null)
-                                    RankListUtils.rankListssss(findClassList, new LatLng(locations[0], locations[1]));
+                                    RankListUtils.rankListss(findClassList, new LatLng(locations[0], locations[1]));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
+                        findClassAdapter.notifyDataSetChanged();
 
                     }
                 });
@@ -1132,8 +1184,9 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                             JSONArray data = jsonObject.getJSONArray("data");
                             findCourseList.addAll((Collection<? extends CourseSortBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<CourseSortBean>>() {
                             }.getType()));
-                            if (locations != null)
-                                RankListUtils.rankList(findCourseList, new LatLng(locations[0], locations[1]));
+                            if (locations != null) {
+                                RankListUtils.rankListsss(findCourseList, new LatLng(locations[0], locations[1]));
+                            }
                             myCourseAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1177,6 +1230,8 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
                                 e.printStackTrace();
                             }
                         }
+                        findClassAdapter.notifyDataSetChanged();
+
 
                     }
                 });
@@ -1402,10 +1457,14 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
 
     //向下弹出
     public void showCourse(View view) {
-        if (sortPopupwindow != null && sortPopupwindow.isShowing()) return;
+        if (sortPopupwindow != null && sortPopupwindow.isShowing()) {
+            sortPopupwindow.dismiss();
+            iv_bg.setVisibility(View.GONE);
+            return;
+        }
         sortPopupwindow = new CommonPopupWindow.Builder(getActivity())
                 .setView(R.layout.popupwindow_sort)
-                .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setAnimationStyle(R.style.AnimDown)
                 .setViewOnclickListener(this)
                 .setOutsideTouchable(false)
@@ -1413,11 +1472,16 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         sortPopupwindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         sortPopupwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         sortPopupwindow.showAsDropDown(view, 0, 0);
+        iv_bg.setVisibility(View.VISIBLE);
     }
 
     //向下弹出
     public void showSynthesisRankPopupwindow(View view) {
-        if (synthesisRankPopupwindow != null && synthesisRankPopupwindow.isShowing()) return;
+        if (synthesisRankPopupwindow != null && synthesisRankPopupwindow.isShowing()) {
+            synthesisRankPopupwindow.dismiss();
+            iv_bg.setVisibility(View.GONE);
+            return;
+        }
         synthesisRankPopupwindow = new CommonPopupWindow.Builder(getActivity())
                 .setView(R.layout.popupwindow_synthesis_rank)
                 .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -1428,6 +1492,7 @@ public class FindFragment extends BaseFragment implements AdapterView.OnItemClic
         synthesisRankPopupwindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         synthesisRankPopupwindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         synthesisRankPopupwindow.showAsDropDown(view, 0, 0);
+        iv_bg.setVisibility(View.VISIBLE);
     }
 
     class MyThirdAdapter extends BaseAdapter {

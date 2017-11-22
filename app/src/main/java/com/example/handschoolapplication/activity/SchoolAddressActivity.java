@@ -44,6 +44,7 @@ public class SchoolAddressActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tvTitle.setText("学堂地址");
         user_id = (String) SPUtils.get(this, "userId", "");
 
         schoolAddressAdapter = new SchoolAddressAdapter(this, addressList, new SchoolAddressAdapter.DeleteClick() {

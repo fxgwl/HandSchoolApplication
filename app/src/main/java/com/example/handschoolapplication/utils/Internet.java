@@ -6,7 +6,7 @@ package com.example.handschoolapplication.utils;
 
 public class Internet {
 
-//    public static final String BASE_URL = "http://axehome.viphk.ngrok.org/PrivateSchool/";
+    //    public static final String BASE_URL = "http://axehome.viphk.ngrok.org/PrivateSchool/";
     public static final String BASE_URL = "http://120.92.44.55/PrivateSchool/";
 
     //注册登录等相关
@@ -169,4 +169,25 @@ public class Internet {
     public static final String ALIPAY = BASE_URL + "alipay/trade/create";
     //微信支付
     public static final String WECHATPAY = BASE_URL + "wechat/weiBuy";
+
+    //提现
+    //支付宝提现
+    public static final String ALIPAY_CASH = BASE_URL + "AccountCash/getMoneyInfo";
+
+
+    //学堂类别
+    //添加学堂类别
+    public static final String ADD_CLASS_TYPE = BASE_URL + "UserInfo/addSchoolType";
+    //修改学堂类别
+    public static final String CHANGE_CLASS_TYPE = BASE_URL + "UserInfo/changeSchoolType";
+    //删除学堂类别
+    public static final String DELECT_CLASS_TYPE = BASE_URL + "UserInfo/delSchoolType";
+
+    //修改身份证信息
+    public static final String CHANGE_IDENTITY = BASE_URL + "UserInfo/changephoto";
+    //修改资质信息
+    public static final String CHANGE_QUALIFICATION = BASE_URL + "UserInfo/changephoto";
+
+    //删除学习计划
+    public static final String DELECT_DELECT_PLAN = BASE_URL + "OrderInfo/deleteOrderInfo";
 }

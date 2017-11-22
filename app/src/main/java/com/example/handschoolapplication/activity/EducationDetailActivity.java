@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -27,6 +28,8 @@ public class EducationDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         tvTitle.setText("教育咨询");
         newsId = getIntent().getStringExtra("newsId");
+        Log.e("aaa",
+            "(EducationDetailActivity.java:31)"+newsId);
         setWebView();
     }
 

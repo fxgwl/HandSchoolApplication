@@ -48,6 +48,7 @@ public class MyAccountActivity extends BaseActivity {
     private List<MyAccountBean> mList;
     private MyAdapter myAdapter;
     private String userId;
+    private double account_money;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +111,7 @@ public class MyAccountActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject data = jsonObject.getJSONObject("data");
-                            double account_money = data.getDouble("account_money");
+                            account_money = data.getDouble("account_money");
                             tvMoney.setText(new DecimalFormat("0.00").format(account_money));
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -135,10 +136,11 @@ public class MyAccountActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.tv_cash://提现
-                startActivity(new Intent(MyAccountActivity.this, CashActivity.class));
+                startActivity(new Intent(MyAccountActivity.this, CashActivity.class).putExtra("money",account_money));
                 break;
             case R.id.ll_account:
                 startActivity(new Intent(MyAccountActivity.this, IncomeRecordActivity.class));
@@ -146,7 +148,13 @@ public class MyAccountActivity extends BaseActivity {
         }
     }
 
-    class MyAdapter extends BaseAdapter {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
+    }
+
+    public class MyAdapter extends BaseAdapter {
 
         int size = 0;
 

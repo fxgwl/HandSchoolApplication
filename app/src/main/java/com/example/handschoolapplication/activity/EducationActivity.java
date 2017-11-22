@@ -67,7 +67,9 @@ public class EducationActivity extends BaseActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String newsId = mList.get(position).getNews_id() + "";
-        startActivity(new Intent(EducationActivity.this, EducationDetailActivity.class).putExtra("newId",newsId));
+        Log.e("aaa",
+            "(EducationActivity.java:71)"+newsId);
+        startActivity(new Intent(EducationActivity.this, EducationDetailActivity.class).putExtra("newsId",newsId));
     }
 
     private void initTeachNews() {

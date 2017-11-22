@@ -2,6 +2,7 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -50,6 +51,10 @@ public class SetIdCodeActivity extends BaseActivity {
                 break;
             case R.id.tv_save:
                 final String idcode = etIdcode.getText().toString().trim();
+                if (TextUtils.isEmpty(idcode)){
+                    Toast.makeText(this, "身份证号不能为空！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 OkHttpUtils.post()
                         .url(Internet.USERIDCARD)
                         .addParams("user_id", user_id)

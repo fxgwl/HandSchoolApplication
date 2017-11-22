@@ -22,7 +22,7 @@ import com.example.handschoolapplication.fragment.ClassInfoFragment;
 import com.example.handschoolapplication.fragment.ClassTeacherFragment;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
-import com.example.handschoolapplication.view.MyPopupWindow;
+import com.example.handschoolapplication.view.MenuPopupWindow;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -258,7 +258,7 @@ public class ClassActivity extends BaseActivity {
                 break;
             case R.id.ll_course:
                 View view1 = View.inflate(this, R.layout.course_type, null);
-                final MyPopupWindow myPopupWindow = new MyPopupWindow(this, view1);
+                final MenuPopupWindow myPopupWindow = new MenuPopupWindow(this, view1);
                 TextView tv_course_finish = (TextView) view1.findViewById(R.id.tv_course_finish);
                 TextView tv_course_baoming = (TextView) view1.findViewById(R.id.tv_course_baoming);
                 int intw = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -267,8 +267,6 @@ public class ClassActivity extends BaseActivity {
                 int hight = view1.getMeasuredHeight();
                 int width = view1.getMeasuredWidth();
                 myPopupWindow.setHeight(hight);
-                Log.e("aaa",
-                        "(ClassActivity.java:166)" + hight);
                 myPopupWindow.setWidth(width);
                 myPopupWindow.showAsDropDown(llCourse);
                 tv_course_finish.setOnClickListener(new View.OnClickListener() {

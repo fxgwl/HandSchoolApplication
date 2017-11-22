@@ -85,11 +85,20 @@ public class RegisterPersonActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_get_code:
+                String phonenum = etPhoneNum.getText().toString().trim();
+//                if (!MyUtiles.isPhone(phonenum)){
+//                    Toast.makeText(this, "请输入正确的手机号！", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 countDownTimerUtils.start();
                 if (isThree){
-                    getThreeCode();
+                    Log.e("aaa",
+                        "(RegisterPersonActivity.java:96)"+"dasdsadsda");
+                    getThreeCode(phonenum);
                 }else {
-                    getRegCode();
+                    Log.e("aaa",
+                        "(RegisterPersonActivity.java:100)"+"fgfgfgfgfgfg");
+                    getRegCode(phonenum);
                 }
                 break;
             case R.id.btn_register:
@@ -117,8 +126,8 @@ public class RegisterPersonActivity extends BaseActivity {
         }
     }
 
-    private void getThreeCode() {
-        String phonenum = etPhoneNum.getText().toString().trim();
+    private void getThreeCode(String phonenum) {
+
         String user_id = getIntent().getStringExtra("user_id");
         OkHttpUtils.post()
                 .url(Internet.GET_CODE_FOR_THREE)
@@ -148,8 +157,9 @@ public class RegisterPersonActivity extends BaseActivity {
                 });
     }
 
-    private void getRegCode() {
-        String phonenum = etPhoneNum.getText().toString().trim();
+    private void getRegCode(final String phonenum) {
+        Log.e("aaa",
+                "(RegisterPersonActivity.java:178)phonenum ==== "+phonenum);
         OkHttpUtils.post()
                 .url(Internet.RE_GETCODE)
                 .addParams("user_phone", phonenum)
@@ -166,6 +176,8 @@ public class RegisterPersonActivity extends BaseActivity {
                         Log.e("aaa",
                                 "(RegisterPersonActivity.java:166)" + response);
 
+                        Log.e("aaa",
+                            "(RegisterPersonActivity.java:178)phonenum ==== "+phonenum);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String msg = jsonObject.getString("msg");

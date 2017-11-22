@@ -16,8 +16,11 @@ import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,11 +60,13 @@ public class ReturnMoneyActivity extends BaseActivity {
     private String ordernum;
     private String course_id;
     private String schooluid;
+    private String user_phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        user_phone = (String) SPUtils.get(this, "user_phone", "");
         Intent intent = getIntent();
         ordernum = intent.getStringExtra("ordernum");
         String courseid = intent.getStringExtra("courseid");
@@ -117,6 +122,7 @@ public class ReturnMoneyActivity extends BaseActivity {
                         .url(Internet.RETURNMONEY)
                         .addParams("order_id", ordernum)
                         .addParams("class_people", class_people)
+                        .addParams("alipay_num", user_phone)
                         .build()
                         .execute(new StringCallback() {
                             @Override
@@ -129,6 +135,7 @@ public class ReturnMoneyActivity extends BaseActivity {
                                 Log.e("aaa",
                                         "(ReturnMoneyActivity.java:108)" + response);
                                 if (response.contains("成功")) {
+                                    EventBus.getDefault().post("refund");
                                     finish();
                                     Toast.makeText(ReturnMoneyActivity.this, "提交退款成功", Toast.LENGTH_SHORT).show();
                                 }

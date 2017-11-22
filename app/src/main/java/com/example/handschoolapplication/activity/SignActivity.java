@@ -4,12 +4,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.utils.ScreenUtils;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.SchoolInfoBean;
 import com.example.handschoolapplication.bean.SignBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.InternetS;
@@ -31,14 +35,14 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-import static com.example.handschoolapplication.R.id.tv_sign_days;
-
 public class SignActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(tv_sign_days)
+    @BindView(R.id.tv_sign_days)
     TextView tvSignDays;
+    @BindView(R.id.tv_all_sign)
+    TextView tvTotalSign;
     @BindView(R.id.tv_sign)
     TextView tvSign;
     @BindView(R.id.tv_date_1)
@@ -107,12 +111,13 @@ public class SignActivity extends BaseActivity {
     LinearLayout llEnd;
     @BindView(R.id.view_end)
     View viewEnd;
+    @BindView(R.id.tv_month)
+    TextView tvMon;
     private String userId;
     private List<SignBean.DataBean> mList = new ArrayList<>();
     private List<String> mData = new ArrayList<>();
     private String city;
     private String[] split;
-    private String signed_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,15 +125,42 @@ public class SignActivity extends BaseActivity {
 
         userId = (String) SPUtils.get(this, "userId", "");
         city = (String) SPUtils.get(this, "city", "");
-        signed_num = getIntent().getStringExtra("signed_num");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         //获取当前时间
         Date curDate = new Date(System.currentTimeMillis());
         String str = formatter.format(curDate);
         //签到
         split = str.split("-");
+        getUserInfo();
         initView();
         initData();
+    }
+
+    private void getUserInfo() {
+
+        OkHttpUtils.post()
+                .url(Internet.USERINFO)
+                .addParams("user_id", userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                            "(SignActivity.java:152)"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                            "(SignActivity.java:158)"+response);
+                        Gson gson = new Gson();
+                        SchoolInfoBean.DataBean schoolInfoBean = gson.fromJson(response, SchoolInfoBean.class).getData();
+                        String signed_num = schoolInfoBean.getSigned_num();
+                        String total_sign = schoolInfoBean.getTotle_sign();
+                        tvSignDays.setText(signed_num);
+                        tvTotalSign.setText("累计签到：\t"+total_sign+"天");
+                    }
+                });
     }
 
     private void initData() {
@@ -268,8 +300,15 @@ public class SignActivity extends BaseActivity {
     }
 
     private void initView() {
+
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        int screenHeight = ScreenUtils.getScreenHeight(this);
+        int v = (int) (screenHeight * 0.11);
+        layoutParams.setMargins(0,v,0,0);
+        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        tvSignDays.setLayoutParams(layoutParams);
         tvTitle.setText("签到");
-        tvSignDays.setText(signed_num);
+        tvMon.setText(split[1]+"月");
         int currentMonthDay = getCurrentMonthDay();//当月天数
         if (currentMonthDay == 28) {
             llEnd.setVisibility(View.GONE);
@@ -306,13 +345,9 @@ public class SignActivity extends BaseActivity {
                             JSONObject json = new JSONObject(response);
                             String msg = json.getString("msg");
                             if (msg.contains("成功")) {
-//                                            llSignIn.setVisibility(View.GONE);
-//                                            llSignIns.setVisibility(View.VISIBLE);
                                 initView2(split[2]);
-//                setTvBg(tvDate1);
-                                int i = Integer.parseInt(signed_num);
-                                i=i+1;
-                                tvSignDays.setText(i+"");
+                                getUserInfo();
+                                tvSign.setText("已签到");
                             }
                             Toast.makeText(SignActivity.this, msg, Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {

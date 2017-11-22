@@ -1,25 +1,21 @@
 package com.example.handschoolapplication.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alipay.sdk.app.PayTask;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.ApplyDetailPayActivity;
 import com.example.handschoolapplication.adapter.LearnPlansAdapter;
 import com.example.handschoolapplication.adapter.ListItemAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
@@ -29,7 +25,6 @@ import com.example.handschoolapplication.bean.ListItemBean;
 import com.example.handschoolapplication.bean.ProductInfo;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
-import com.example.handschoolapplication.view.MyPopupWindow;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -90,6 +85,8 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
     private List<ListItemBean> courseListItemBeanList;
     private String user_id;
     ArrayList<CarListBean.DataBean> carBeans = new ArrayList<>();
+    private List<String> orderIdList;
+    private ArrayList<CarListBean.DataBean> orderBean;
 
     public LearnPlanFragment() {
         // Required empty public constructor
@@ -176,116 +173,6 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
         return R.layout.fragment_plan;
     }
 
-    //初始化支付
-    private void initPayPop(final String allMoney) {
-        View view = View.inflate(getActivity(), R.layout.nowapply_pay_pop, null);
-        TextView close = (TextView) view.findViewById(R.id.pop_close);
-        TextView pop_pay_config = (TextView) view.findViewById(R.id.pop_pay_config);
-        TextView tvMoney = (TextView) view.findViewById(R.id.tv_money);
-        tvMoney.setText(allMoney + "元");
-        LinearLayout pop_pay_ali = (LinearLayout) view.findViewById(R.id.pop_pay_ali);
-        LinearLayout pop_pay_weixin = (LinearLayout) view.findViewById(R.id.pop_pay_weixin);
-        final ImageView pop_state_ali = (ImageView) view.findViewById(R.id.pop_state_ali);
-        final ImageView pop_state_wx = (ImageView) view.findViewById(R.id.pop_state_wx);
-        final MyPopupWindow payPopWindow = new MyPopupWindow(getActivity(), view);
-        payPopWindow.showAtLocation(tvJiesuan, Gravity.BOTTOM, 0, 0);
-        pop_pay_ali.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pop_state_ali.setImageResource(R.drawable.hongquan);
-                pop_state_wx.setImageResource(R.drawable.baiquan);
-            }
-        });
-        pop_pay_weixin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pop_state_wx.setImageResource(R.drawable.hongquan);
-                pop_state_ali.setImageResource(R.drawable.baiquan);
-            }
-        });
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                aliPay();
-//                payPopWindow.dismiss();
-            }
-        });
-        pop_pay_config.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                payPopWindow.dismiss();
-            }
-        });
-        payPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                // 设置背景颜色变暗
-                WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-                lp.alpha = 1f;
-                getActivity().getWindow().setAttributes(lp);
-            }
-        });
-    }
-
-    private void aliPay() {
-//        String money = etRecharge.getText().toString().trim();
-//        if (TextUtils.isEmpty(money)) {
-//            Toast.makeText(this, "还未输入提现金额", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-        HashMap<String, String> params = new HashMap<>();
-        params.put("order_money", "0.01");
-        params.put("is_gold", "0");
-//        params.put("order_id",course_id);
-        params.put("pay_num","15773263911");
-        OkHttpUtils.post()
-                .url(Internet.ALIPAY)
-                .params(params)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        Log.e("aaa",
-                                "(RechargeActivity.java:157)" + e.getMessage());
-                        Toast.makeText(getActivity(), "网络不给力...", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Log.e("aaa",
-                                "(RechargeActivity.java:163)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String data = jsonObject.getString("data");
-                            final String orderInfo = data;
-                            Runnable payRunnable = new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    PayTask alipay = new PayTask(getActivity());
-                                    Map<String, String> stringStringMap = alipay.payV2(orderInfo, true);
-                                    Message msg = new Message();
-                                    msg.what = 1;
-                                    msg.obj = stringStringMap;
-//                                    mHandler.sendMessage(msg);
-                                }
-                            };
-                            // 必须异步调用
-                            Thread payThread = new Thread(payRunnable);
-                            payThread.start();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        // 订单信息
-
-
-                    }
-                });
-
-    }
-
 
     @OnClick(R.id.tv_complete)
     public void onViewClicked() {
@@ -312,7 +199,7 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
     }
 
 
-    @OnClick({R.id.cb_all, R.id.tv_delect})
+    @OnClick({R.id.cb_all, R.id.tv_delect,R.id.tv_jiesuan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cb_all:
@@ -321,7 +208,25 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
             case R.id.tv_delect:
                 doDelete();
                 break;
+            case R.id.tv_jiesuan:
+                doPay();
+                break;
         }
+    }
+
+    private void doPay() {
+        orderBean = new ArrayList<>();
+        for (int i = 0; i < groups.size(); i++) {
+            GroupInfo group = groups.get(i);
+            List<CarListBean.DataBean> childs = children.get(group.getId());
+            for (int j = 0; j < childs.size(); j++) {
+                if (childs.get(j).isChoosed()) {
+                    orderBean.add(childs.get(j));
+                }
+            }
+        }
+
+        startActivity(new Intent(getActivity(),ApplyDetailPayActivity.class).putExtra("orderBean",orderBean));
     }
 
     /**
@@ -330,11 +235,11 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
      * 2.现将要删除的对象放进相应的列表容器中，待遍历完后，以removeAll的方式进行删除
      */
     protected void doDelete() {
+        orderIdList = new ArrayList<>();
         List<GroupInfo> toBeDeleteGroups = new ArrayList<GroupInfo>();// 待删除的组元素列表
         for (int i = 0; i < groups.size(); i++) {
             GroupInfo group = groups.get(i);
             if (group.isChoosed()) {
-
                 toBeDeleteGroups.add(group);
             }
             List<CarListBean.DataBean> toBeDeleteProducts = new ArrayList<CarListBean.DataBean>();// 待删除的子元素列表
@@ -342,13 +247,48 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
             for (int j = 0; j < childs.size(); j++) {
                 if (childs.get(j).isChoosed()) {
                     toBeDeleteProducts.add(childs.get(j));
+                    String order_id = childs.get(j).getOrder_id();
+                    orderIdList.add(order_id);
                 }
             }
             childs.removeAll(toBeDeleteProducts);
 
         }
-
         groups.removeAll(toBeDeleteGroups);
+
+        String orderIdS = "";
+        for (int i = 0; i < orderIdList.size(); i++) {
+            if (i==0){
+                orderIdS = orderIdList.get(i);
+            }else {
+                orderIdS = orderIdS+","+orderIdList.get(i);
+            }
+        }
+        OkHttpUtils
+                .post()
+                .url(Internet.DELECT_DELECT_PLAN)
+                .addParams("order_id",orderIdS)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                            "(LearnPlanFragment.java:255)"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                            "(LearnPlanFragment.java:261)"+response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
         mAdapter.notifyDataSetChanged();
         calculate();
@@ -487,7 +427,7 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
                 CarListBean.DataBean product = childs.get(j);
                 if (product.isChoosed()) {
                     totalCount++;
-                    totalPrice += Integer.parseInt(product.getOrder_money()) * Integer.parseInt(product.getCourse_num());
+                    totalPrice += Double.parseDouble(product.getOrder_money()) * Double.parseDouble(product.getCourse_num());
                 }
             }
         }
@@ -498,6 +438,15 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        cbAll.setChecked(false);
+        tvHeji.setText("合计:  ¥" + "0.00");
+        tvJiesuan.setText("结算(" + 0 + ")");
+        initViewData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         initViewData();
     }
 }

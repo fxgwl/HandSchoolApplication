@@ -16,6 +16,7 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.utils.CountDownTimerUtils;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -41,6 +42,7 @@ public class ForgetPwdActivity extends BaseActivity {
 
     private CountDownTimerUtils countDownTimerUtils;
     private String phoneNum;
+    private String user_phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class ForgetPwdActivity extends BaseActivity {
         tvTitle.setText("忘记密码");
         countDownTimerUtils = new CountDownTimerUtils(tvGetCode, 59000, 1000);
         mBtnNext.setEnabled(false);
+        user_phone = (String) SPUtils.get(this, "user_phone", "");
     }
 
     @Override
@@ -101,7 +104,11 @@ public class ForgetPwdActivity extends BaseActivity {
 
     private void getCode() {
         phoneNum = etPhone.getText().toString().trim();
-
+        if (!phoneNum.equals(user_phone)){
+            Toast.makeText(this, "输入的手机号有误！", Toast.LENGTH_SHORT).show();
+            etPhone.setText("");
+            return;
+        }
         OkHttpUtils.post()
                 .url(Internet.PWD_GETCODE)
                 .addParams("user_phone", phoneNum)

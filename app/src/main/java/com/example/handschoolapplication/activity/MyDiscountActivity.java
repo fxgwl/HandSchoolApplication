@@ -50,8 +50,6 @@ public class MyDiscountActivity extends BaseActivity {
         money = intent.getStringExtra("money");
         school_id = intent.getStringExtra("school_id");
         initView();
-
-
     }
 
     @Override
@@ -69,7 +67,8 @@ public class MyDiscountActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa",
+                            "(MyDiscountActivity.java:72)"+e.getMessage());
                     }
 
                     @Override
@@ -90,7 +89,9 @@ public class MyDiscountActivity extends BaseActivity {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent mIntent = new Intent();
                                 String discount_amount = mlist.get(position).getDiscount_amount();
+                                int coupons_id = mlist.get(position).getCoupons_id();
                                 mIntent.putExtra("discount", Double.parseDouble(discount_amount));
+                                mIntent.putExtra("coupons_id",coupons_id);
                                 // 设置结果，并进行传送
                                 setResult(11, mIntent);
                                 finish();

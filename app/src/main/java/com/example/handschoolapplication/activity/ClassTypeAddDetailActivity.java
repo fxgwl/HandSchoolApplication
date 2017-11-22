@@ -1,26 +1,23 @@
 package com.example.handschoolapplication.activity;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
-import com.example.handschoolapplication.adapter.HorizontalListViewAdapter;
+import com.example.handschoolapplication.adapter.GalleryAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
-import com.example.handschoolapplication.bean.TimeHourBean;
 import com.example.handschoolapplication.utils.Internet;
-import com.example.handschoolapplication.view.HorizontalListView;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,17 +37,25 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.ctad_hl_art)
-    HorizontalListView ctadHlArt;
+    RecyclerView ctadHlArt;
     @BindView(R.id.gv_art_detail)
-    GridView gvArtDetail;
+    TagFlowLayout gvArtDetail;
     @BindView(R.id.tv_type_one)
     TextView tvTypeOne;
+    @BindView(R.id.actad_config)
+    TextView tvOk;
     private List<String> typeTwo = new ArrayList<>();
-    private List<TimeHourBean> typeThree = new ArrayList<>();
+    private ArrayList<String> typeThree = new ArrayList<>();
     private String typeOne;
     private String typeTwoName;
-    private HorizontalListViewAdapter hlvAdapter;
-    private MyThirdAdapter myThirdAdapter;
+    private GalleryAdapter galleryAdapter;
+    private TagAdapter<String> tagAdapter;
+
+    private String threeType = "";
+    private String twoType;
+    private String userId;
+    private Integer[] position;
+    private String flag;
 
 
     @Override
@@ -57,9 +63,11 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         typeOne = getIntent().getStringExtra("type");
+        flag = getIntent().getStringExtra("flag");
+        userId = (String) SPUtils.get(this, "userId", "");
         initView();
         getSecondList(typeOne);
-        getThirdList(typeTwoName);
+//        getThirdList(typeTwoName);
     }
 
     private void getSecondList(final String typeOne) {
@@ -72,13 +80,13 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:203)" + e.getMessage());
+                                "(ClassTypeAddDetailActivity.java:75)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:209)" + response);
+                                "(ClassTypeAddDetailActivity.java:81)" + response);
                         try {
                             if (response.contains("没有信息")){}else {
                                 JSONObject jsonObject = new JSONObject(response);
@@ -86,11 +94,10 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject jsonObject1 = data.getJSONObject(i);
                                     String type_two_name = jsonObject1.getString("type_two_name");
-                                    if (i==0)typeTwoName = type_two_name;
                                     typeTwo.add(type_two_name);
                                 }
-                                hlvAdapter.setList(typeTwo);
-                                hlvAdapter.notifyDataSetChanged();
+                                galleryAdapter.setList(typeTwo);
+                                galleryAdapter.notifyDataSetChanged();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -108,13 +115,13 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:140)" + e.getMessage());
+                                "(ClassTypeAddDetailActivity.java:111)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(ArtActivity.java:146)" + response);
+                                "(ClassTypeAddDetailActivity.java:117)" + response);
                         if (response.contains("没有信息")) {
                             Toast.makeText(ClassTypeAddDetailActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
                         } else {
@@ -124,14 +131,14 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject jsonObject1 = data.getJSONObject(i);
                                     String type_three_name = jsonObject1.getString("type_three_name");
-                                    TimeHourBean timeHourBean = new TimeHourBean(false, type_three_name);
-                                    typeThree.add(timeHourBean);
+                                    typeThree.add(type_three_name);
                                 }
-                                myThirdAdapter.notifyDataSetChanged();
+//                                tagAdapter.notifyDataChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
+                        tagAdapter.notifyDataChanged();
                     }
                 });
 
@@ -145,117 +152,105 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
     private void initView() {
         tvTitle.setText("添加学堂类别");
         tvTypeOne.setText(typeOne);
-        hlvAdapter = new HorizontalListViewAdapter(this, typeTwo);
-        myThirdAdapter = new MyThirdAdapter(this,typeThree);
-        ctadHlArt.setAdapter(hlvAdapter);
-        ctadHlArt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        galleryAdapter = new GalleryAdapter(this, typeTwo);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        ctadHlArt.setLayoutManager(linearLayoutManager);
+        ctadHlArt.setAdapter(galleryAdapter);
+        galleryAdapter.setOnItemClickListener(new GalleryAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                hlvAdapter.setSelectedPosition(position);
-                hlvAdapter.notifyDataSetChanged();
-            }
-        });
-        gvArtDetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
+                twoType = typeTwo.get(position)+":";
                 Log.e("aaa",
-                    "(ClassTypeAddDetailActivity.java:69)"+position);
-//                hlvAdapter2.setSelectedPosition(position);
-//                hlvAdapter2.notifyDataSetChanged();
+                    "(ClassTypeAddDetailActivity.java:168)"+twoType);
+                galleryAdapter.setSelectedPosition(position);
+                galleryAdapter.notifyDataSetChanged();
+                getThirdList(typeTwo.get(position));
             }
         });
+
+        tagAdapter = new TagAdapter<String>((ArrayList<String>) typeThree) {
+            @Override
+            public View getView(FlowLayout parent, int position, String s) {
+                TextView textView = (TextView) View.inflate(ClassTypeAddDetailActivity.this, R.layout.textview, null);
+                textView.setText(s);
+                return textView;
+            }
+        };
+        gvArtDetail.setAdapter(tagAdapter);
+
+        gvArtDetail.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+            @Override
+            public boolean onTagClick(View view, int position, FlowLayout parent) {
+//                threeType = threeType+"/"+typeThree.get(position);//得到三级标签
+                return true;
+            }
+        });
+
+        gvArtDetail.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
+            @Override
+            public void onSelected(Set<Integer> selectPosSet) {
+                int size = selectPosSet.size();
+                position = selectPosSet.toArray(new Integer[size]);
+            }
+        });
+
     }
 
-    @OnClick({R.id.rl_back, R.id.tv_save})
+    @OnClick({R.id.rl_back,R.id.actad_config})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
+            case R.id.actad_config:
+                threeType = "";
+                for (int i = 0; i < position.length; i++) {
+                    threeType = threeType+"/"+typeThree.get(position[i]);
+                }
+                String substring = threeType.substring(1, threeType.length());
+                String string = twoType+substring;
+//                Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+//                addType(string);
+                if ("0".equals(flag)){
+                    addType(typeOne+"//"+string);
+                }else {
+                    addType(";"+typeOne+"//"+string);
+                }
+                break;
         }
     }
 
+    private void addType(String type) {
 
-    class MyThirdAdapter extends BaseAdapter {
-
-        private List<TimeHourBean> mCourseList;
-        private int size = 0;
-        private ArtActivity.ChooseItem chooseItem;
-
-        public MyThirdAdapter(Context context, List<TimeHourBean> mCourseList) {
-            this.mCourseList = mCourseList;
-        }
-
-        public void setChooseItem(ArtActivity.ChooseItem chooseItem) {
-            this.chooseItem = chooseItem;
-        }
-
-        @Override
-        public int getCount() {
-
-            if (mCourseList != null) {
-                size = mCourseList.size();
-            }
-            return mCourseList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mCourseList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View view, final ViewGroup parent) {
-
-            ViewHolder holder = null;
-
-            if (view == null) {
-                view = View.inflate(ClassTypeAddDetailActivity.this, R.layout.sort_item, null);
-                holder = new ViewHolder(view);
-                view.setTag(holder);
-            } else {
-                holder = (ViewHolder) view.getTag();
-            }
-            holder.tvTime.setChecked(mCourseList.get(position).isChecked());
-            holder.tvTime.setText(mCourseList.get(position).getTime());
-            Log.e("aaa",
-                    "(TimeAdapter.java:71)" + mCourseList.toString());
-            holder.tvTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView,
-                                             boolean isChecked) {
-                    // TODO Auto-generated method stub
-                    if (isChecked) {
+        OkHttpUtils
+                .post()
+                .url(Internet.ADD_CLASS_TYPE)
+                .addParams("user_id",userId)
+                .addParams("newType",type)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(TimeAdapter.java:79)" + parent.getTag());
-                        chooseItem.cbCheck(position, Integer.parseInt(parent.getTag() + ""), true);
-                        mCourseList.get(position).setChecked(true);
-                        notifyDataSetChanged();
-                    } else {
-                        chooseItem.cbCheck(position, Integer.parseInt(parent.getTag() + ""), false);
-                        mCourseList.get(position).setChecked(false);
-                        notifyDataSetChanged();
+                            "(ClassTypeAddDetailActivity.java:211)"+e.getMessage());
                     }
-                }
 
-            });
-            return view;
-        }
-
-        class ViewHolder {
-            @BindView(R.id.cb_time)
-            CheckBox tvTime;
-
-            ViewHolder(View view) {
-                ButterKnife.bind(this, view);
-            }
-        }
-
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                            "(ClassTypeAddDetailActivity.java:218)"+response);
+                        if (response.contains("修改成功")){
+                            finish();
+                        }
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String msg = jsonObject.getString("msg");
+                            Toast.makeText(ClassTypeAddDetailActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 }

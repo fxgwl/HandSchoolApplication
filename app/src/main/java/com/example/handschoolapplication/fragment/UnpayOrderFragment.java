@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.NowApplyActivity;
 import com.example.handschoolapplication.activity.PublishEvaluateActivity;
 import com.example.handschoolapplication.activity.ReturnMoneyActivity;
 import com.example.handschoolapplication.adapter.OrderAdapter;
@@ -70,7 +70,49 @@ public class UnpayOrderFragment extends BaseFragment {
 
             @Override
             public void setOnPayOrder(int position) {
-                Toast.makeText(getActivity(), "去支付", Toast.LENGTH_SHORT).show();
+//                /*school_name = intent.getStringExtra("school_name");
+//                school_id = intent.getStringExtra("school_id");
+//                course_name = intent.getStringExtra("course_name");
+//                course_time = intent.getStringExtra("course_time");
+//                enrol_num = intent.getStringExtra("enrol_num");
+//                course_capacity = intent.getStringExtra("course_capacity");
+//                age_range = intent.getStringExtra("age_range");
+//                course_teacher = intent.getStringExtra("course_teacher");
+//                original_price = intent.getStringExtra("original_price");
+//                preferential_price = intent.getStringExtra("preferential_price");
+//                class_money = intent.getStringExtra("class_money");
+//                course_id = intent.getStringExtra("course_id");
+//                order_id = intent.getStringExtra("order_id");*/
+                OrderBean.DataBean dataBean = mOrderList.get(position);
+                String school_id = dataBean.getSchool_id();
+                String school_name = dataBean.getCourseInfo().getSchool_name();
+                String course_name = dataBean.getCourseInfo().getCourse_name();
+                String course_time = dataBean.getOrder_course_time();
+                String enrol_num = dataBean.getCourseInfo().getEnrol_num();
+                String course_capacity = dataBean.getCourseInfo().getCourse_capacity();
+                String age_range = dataBean.getCourseInfo().getAge_range();
+                String course_teacher = dataBean.getCourseInfo().getCourse_teacher();
+                String original_price = dataBean.getCourseInfo().getOriginal_price();
+                String preferential_price = dataBean.getCourseInfo().getPreferential_price();
+                String class_money = dataBean.getClass_money();
+                String course_id = dataBean.getCourseInfo().getCourse_id();
+                String order_id = dataBean.getOrder_id();
+
+                Intent intent1 = new Intent(getActivity(), NowApplyActivity.class);
+                intent1.putExtra("school_id", school_id);
+                intent1.putExtra("school_name", school_name);
+                intent1.putExtra("course_name", course_name);
+                intent1.putExtra("course_time", course_time);
+                intent1.putExtra("enrol_num", enrol_num);
+                intent1.putExtra("course_capacity", course_capacity);
+                intent1.putExtra("age_range", age_range);
+                intent1.putExtra("course_teacher", course_teacher);
+                intent1.putExtra("original_price", original_price);
+                intent1.putExtra("preferential_price", preferential_price);
+                intent1.putExtra("class_money", class_money);
+                intent1.putExtra("course_id", course_id);
+                intent1.putExtra("order_id",order_id);
+                startActivity(intent1);
             }
 
             @Override

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#ffffff">
     <LinearLayout
@@ -13,10 +14,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@drawable/left"/>
-        <com.example.handschoolapplication.view.HorizontalListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/hlv_sort"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"/>
 
@@ -26,13 +27,18 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/right"/>
     </LinearLayout>
-    <GridView
-        android:id="@+id/gv_third"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e6e6e6"/>
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/flow_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnWidth="5dp"
-        android:numColumns="5"
-        android:scrollbars="none"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"/>
+        android:paddingLeft="10dp"
+        zhy:max_select="1"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#ffffff"/>
 </LinearLayout>

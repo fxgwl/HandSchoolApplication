@@ -56,13 +56,14 @@ public class SearchActivity extends BaseActivity {
     private RecommendAdapter recommendAdapter;
     private List<String> history;
     private ListDataSave listDataSave;
+    private double[] locations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        classAdapter = new HPClassAdapter(this, classBeanList);
-        recommendAdapter = new RecommendAdapter(this, recommendBeenList);
 
+        locations = getIntent().getDoubleArrayExtra("location");
+        recommendAdapter = new RecommendAdapter(this, recommendBeenList);
         initViewData();
         lvRecommand.setAdapter(recommendAdapter);
         getRecommand();
@@ -88,6 +89,7 @@ public class SearchActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
                             recommendBeenList.addAll((Collection<? extends RecommendBean>) new Gson().fromJson(data.toString(),new TypeToken<ArrayList<RecommendBean>>(){}.getType()));
+                            recommendAdapter.setLocation(locations);
                             recommendAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -21,7 +21,7 @@
             android:id="@+id/civ_usericon"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/touxiang" />
+             />
 
         <TextView
             android:id="@+id/tv_username"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:text="用户名称"
+            android:text=""
             android:textColor="@color/textcolor"
             android:textSize="14sp" />
     </LinearLayout>
@@ -44,7 +44,7 @@
             android:id="@+id/tv_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+2000.00"
+            android:text=""
             android:textColor="@color/textcolor"
             android:textSize="28sp" />
     </LinearLayout>
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
-            android:text="成龙音乐课堂青少年版钢琴中级课程124课时" />
+            android:text="" />
     </LinearLayout>
 
     <View
@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:text="2017-03-02\t\t19:30" />
+            android:text="" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -122,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:text="123456789" />
+            android:text="" />
     </LinearLayout>
 
 </LinearLayout>

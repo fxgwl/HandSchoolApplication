@@ -21,10 +21,13 @@ import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.SchoolInfoBean;
 import com.example.handschoolapplication.demo.PayResult;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.MyPopupWindow;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -71,6 +74,8 @@ public class NowApplyActivity extends BaseActivity {
     TextView tvAllmoney;
     @BindView(R.id.tv_nowapply_config)
     TextView tvNowapplyConfig;
+    @BindView(R.id.tv_student_name)
+    TextView tvStudentName;
     @BindView(R.id.iv_golddiscount)
     ImageView ivGolddiscount;
     @BindView(R.id.tv_user_discount)
@@ -95,6 +100,8 @@ public class NowApplyActivity extends BaseActivity {
     int tag = 1;
     private double g;
     private double discount = 0;
+    private boolean isWechat = false;
+    private IWXAPI msgApi;
 
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -121,17 +128,20 @@ public class NowApplyActivity extends BaseActivity {
             }
         }
     };
+    private int coupons_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        msgApi = WXAPIFactory.createWXAPI(this, null);
+        msgApi.registerApp("wx433e119bb99f2075");
         intent = getIntent();
         user_id = (String) SPUtils.get(this, "userId", "");
         school_name = intent.getStringExtra("school_name");
         school_id = intent.getStringExtra("school_id");
         course_name = intent.getStringExtra("course_name");
-//        course_time = intent.getStringExtra("course_time");
+        course_time = intent.getStringExtra("course_time");
         enrol_num = intent.getStringExtra("enrol_num");
         course_capacity = intent.getStringExtra("course_capacity");
         age_range = intent.getStringExtra("age_range");
@@ -144,7 +154,8 @@ public class NowApplyActivity extends BaseActivity {
         tvTitle.setText("立即报名");
         tvSchoolname.setText(school_name);
         tvCoursename.setText(course_name);
-        tvPersonnum.setText(enrol_num + "【已报名】 /" + course_capacity + "人【总人数】");
+        tvCoursetime.setText(course_time);
+        tvPersonnum.setText(enrol_num + "【已报名】/" + course_capacity + "人【总人数】");
         tvAge.setText(age_range);
         tvTeacher.setText(course_teacher);
         tvCosttime.setText(class_money);
@@ -163,11 +174,15 @@ public class NowApplyActivity extends BaseActivity {
         return R.layout.activity_now_apply;
     }
 
-    @OnClick({R.id.rl_back, R.id.tv_nowapply_config, R.id.tv_discount, R.id.iv_golddiscount, R.id.tv_user_discount})
+    @OnClick({R.id.rl_back, R.id.iv_menu,R.id.tv_nowapply_config, R.id.tv_discount, R.id.iv_golddiscount, R.id.tv_user_discount,
+                    R.id.ll_student_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
+                break;
+            case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.tv_nowapply_config:
                 String allMoney = tvAllmoney.getText().toString().trim().split("¥")[1];
@@ -198,6 +213,9 @@ public class NowApplyActivity extends BaseActivity {
                     money = money + g;
                     tvAllmoney.setText("¥" + money);
                 }
+                break;
+            case R.id.ll_student_name:
+                startActivityForResult(new Intent(NowApplyActivity.this,SetStudentNameActivity.class),2);
                 break;
         }
     }
@@ -255,6 +273,7 @@ public class NowApplyActivity extends BaseActivity {
         pop_pay_ali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isWechat = false;
                 pop_state_ali.setImageResource(R.drawable.hongquan);
                 pop_state_wx.setImageResource(R.drawable.baiquan);
             }
@@ -262,6 +281,7 @@ public class NowApplyActivity extends BaseActivity {
         pop_pay_weixin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isWechat = true;
                 pop_state_wx.setImageResource(R.drawable.hongquan);
                 pop_state_ali.setImageResource(R.drawable.baiquan);
             }
@@ -275,7 +295,9 @@ public class NowApplyActivity extends BaseActivity {
         pop_pay_config.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                aliPay();
+                if (isWechat){
+                    wechatPay();
+                } else aliPay();
                 payPopWindow.dismiss();
             }
         });
@@ -291,17 +313,21 @@ public class NowApplyActivity extends BaseActivity {
     }
 
     private void aliPay() {
-//        String money = etRecharge.getText().toString().trim();
-//        if (TextUtils.isEmpty(money)) {
-//            Toast.makeText(this, "还未输入提现金额", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+        String studentName = tvStudentName.getText().toString().trim();
+        if (TextUtils.isEmpty(studentName)){
+            Toast.makeText(this, "请填写上课学生姓名！", Toast.LENGTH_SHORT).show();
+            return;
+        }
         HashMap<String, String> params = new HashMap<>();
-        params.put("order_money", "0.01");
-        params.put("is_gold", "0");
-//        params.put("order_id",order_id);
-        params.put("order_id","1510647516852a1510647526728a1510647536703a1510647545388");
-        params.put("pay_num","15773263911");
+        params.put("order_money", money+"");
+        params.put("is_gold", tag+"");
+        params.put("order_id",order_id);
+//        params.put("order_id","1510647516852a1510647526728a1510647536703a1510647545388");
+        params.put("pay_num","1577");
+        params.put("is_coupons",coupons_id+"");
+        params.put("student_name",studentName);
+        params.put("totle_pay","0.01");
+
         OkHttpUtils.post()
                 .url(Internet.ALIPAY)
                 .params(params)
@@ -351,13 +377,23 @@ public class NowApplyActivity extends BaseActivity {
 
     private void wechatPay() {
 
-        HashMap<String, String> params = new HashMap<>();
-        params.put("order_id", order_id);
-        params.put("pay_num", "0.01");
-//        params.put("is_coupons", mon + "");
-        params.put("is_gold","0");
-        params.put("order_money","0.01");
+        String studentName = tvStudentName.getText().toString().trim();
+        if (TextUtils.isEmpty(studentName)){
+            Toast.makeText(this, "请填写上课学生姓名！", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        String ipAddress = MyUtiles.getIPAddress(this);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("order_money", money+"");
+        params.put("is_gold", "0");
+        params.put("order_id",order_id);
+//        params.put("order_id","1510647516852a1510647526728a1510647536703a1510647545388");
+        params.put("pay_num","1577");
+        params.put("is_coupons",coupons_id+"");
+        params.put("student_name",studentName);
+        params.put("totle_pay","0.01");
+        params.put("clientIp",ipAddress);
         OkHttpUtils.post()
                 .url(Internet.WECHATPAY)
                 .params(params)
@@ -366,27 +402,31 @@ public class NowApplyActivity extends BaseActivity {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(RechargeActivity.java:125)" + e.getMessage());
+                                "(NowApplyActivity.java:374)" + e.getMessage());
 //                        Toast.makeText(RechargeActivity.this, "网络不给力...", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(RechargeActivity.java:131)" + response);
+                                "(NowApplyActivity.java:381)" + response);
 //{"appid":"wx36ea87e510cf7c88","noncestr":"253boi8GHBMxRuft","package":"Sign=WXPay",
 // "partnerid":"1485613042","prepayid":"wx2017082513344988a91b94290062893355",
 // "sign":"E2D76ED2B2B46ED0D560D30F262C25B3","timestamp":"1503639289"}
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            JSONObject data = jsonObject.getJSONObject("data");
-                            String appid = data.getString("appid");
-                            String noncestr = data.getString("noncestr");
-                            String signpay = data.getString("package");
-                            String partnerid = data.getString("partnerid");
-                            String prepayid = data.getString("prepayid");
-                            String sign = data.getString("sign");
-                            String timestamp = data.getString("timestamp");
+                            Log.e("aaa",
+                                "(NowApplyActivity.java:391)jsonObject === "+jsonObject);
+                            String appid = jsonObject.getString("appid");
+                            String noncestr = jsonObject.getString("noncestr");
+                            String signpay = jsonObject.getString("package");
+                            String partnerid = jsonObject.getString("partnerid");
+                            String prepayid = jsonObject.getString("prepayid");
+                            String sign = jsonObject.getString("sign");
+                            String timestamp = jsonObject.getString("timestamp");
+
+                            Log.e("aaa",
+                                "(NowApplyActivity.java:402)prepayid ==="+prepayid);
                             PayReq request = new PayReq();
                             request.appId = appid;
                             request.partnerId = partnerid;
@@ -395,7 +435,7 @@ public class NowApplyActivity extends BaseActivity {
                             request.nonceStr = noncestr;
                             request.timeStamp = timestamp;
                             request.sign = sign;
-//                            msgApi.sendReq(request);
+                            msgApi.sendReq(request);
 
 
 //                            EventBus.getDefault().post(this);
@@ -413,14 +453,16 @@ public class NowApplyActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 11) {
             if (discount != 0) {
-                Toast.makeText(this, "discount === " + discount, Toast.LENGTH_SHORT).show();
                 money += discount;
             }
             discount = data.getDoubleExtra("discount", 0);
+            coupons_id = data.getIntExtra("coupons_id", 0);
             tvDiscount.setText("-¥" + discount);
             money = money - discount;
             tvAllmoney.setText("¥" + (money));
             tvUserDiscount.setVisibility(View.VISIBLE);
+        }else if (requestCode==2&&resultCode==22){
+            tvStudentName.setText(data.getStringExtra("student"));
         }
     }
 }

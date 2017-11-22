@@ -9,12 +9,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.bean.RecommendBean;
 import com.example.handschoolapplication.utils.Internet;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,11 +32,15 @@ public class RecommendAdapter extends BaseAdapter{
 
     private Context context;
     private List<RecommendBean> mList;
+    private double[] locations;
     private int size = 0;
 
     public RecommendAdapter(Context context, List<RecommendBean> mList) {
         this.context = context;
         this.mList = mList;
+    }
+    public void setLocation(double[] locations){
+        this.locations = locations;
     }
 
     @Override
@@ -82,7 +90,7 @@ public class RecommendAdapter extends BaseAdapter{
                 .into(holder.ivCourse);
         holder.tvCourse.setText(mList.get(position).getCourse_name());
         holder.tvPrice.setText("价格： ¥" + mList.get(position).getPreferential_price());
-        holder.popularity.setText("(" + mList.get(position).getCourse_name() + "人已报名)");
+        holder.popularity.setText("(" + mList.get(position).getPopularity_num() + "人已报名)");
 
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +102,23 @@ public class RecommendAdapter extends BaseAdapter{
                 context.startActivity(intent);
             }
         });
+
+        if (locations != null) {
+
+            double latitude1 = locations[0];
+            double longitude1 = locations[1];
+            String school_wei = mList.get(position).getSchool_wei();
+            String school_jing = mList.get(position).getSchool_jing();
+
+            double distance = DistanceUtil.getDistance(new LatLng(latitude1, longitude1), new LatLng(Double.parseDouble(school_wei), Double.parseDouble(school_jing)));
+//            Double distance = MyUtiles.Distance(latitude1, longitude1, school_wei, school_jing);
+            distance = (distance / 1000);
+            double v = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            holder.tvDistance.setText("距离：" + v + "km");
+
+        }else {
+            holder.tvDistance.setText("距离：" + "定位失败");
+        }
 
         return convertView;
     }

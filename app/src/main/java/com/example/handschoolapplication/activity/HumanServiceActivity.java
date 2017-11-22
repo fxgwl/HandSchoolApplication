@@ -241,7 +241,6 @@ public class HumanServiceActivity extends BaseActivity {
                                 "(HumanServiceActivity.java:184)" + response);
                         try {
                             JSONObject json = new JSONObject(response);
-                            Toast.makeText(HumanServiceActivity.this, json.getString("msg"), Toast.LENGTH_SHORT).show();
                             if (response.contains("成功")) {
                                 tvContactContent.setText("");
                                 initView();

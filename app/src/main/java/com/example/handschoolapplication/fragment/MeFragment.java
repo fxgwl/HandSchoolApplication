@@ -76,6 +76,7 @@ public class MeFragment extends BaseFragment {
     private String user_id;
     private SchoolInfoBean.DataBean dataBean;
     private String signed_num;
+    private String totle_sign;
 
 
     public MeFragment() {
@@ -139,12 +140,13 @@ public class MeFragment extends BaseFragment {
                             Glide.with(getActivity())
                                     .load(Internet.BASE_URL + dataBean.getHead_photo())
                                     .centerCrop()
-                                    .error(R.drawable.touxiang)
+                                    .error(R.drawable.morentouxiang)
                                     .into(civUsericon);
                             tvPercent.setText(dataBean.getData_integrity() + "%");
                             tvDays.setText(dataBean.getSigned_num());
                             tvGoldNum.setText(dataBean.getUser_gold());
                             signed_num = dataBean.getSigned_num();
+                            totle_sign = dataBean.getTotle_sign();
                             switch (dataBean.getUser_dengji()) {
                                 case "0":
                                     break;
@@ -198,7 +200,9 @@ public class MeFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), AllCourseActivity.class));
                 break;
             case R.id.rl_sign:
-                startActivity(new Intent(getActivity(), SignActivity.class).putExtra("signed_num",signed_num));
+                startActivity(new Intent(getActivity(), SignActivity.class)
+                        .putExtra("total_sign",totle_sign)
+                        .putExtra("signed_num",signed_num));
                 break;
             case R.id.ll_islearning://学习中
                 startActivity(new Intent(getActivity(), LearningActivity.class));

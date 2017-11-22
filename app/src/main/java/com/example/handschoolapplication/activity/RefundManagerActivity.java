@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -99,8 +98,6 @@ public class RefundManagerActivity extends BaseActivity {
         mList.clear();
         HashMap<String, String> params = new HashMap<>();
         params.put("school_id", school_id);
-        Log.e("aaa",
-            "(RefundManagerActivity.java:103)params === "+params);
         OkHttpUtils.post()
                 .url(InternetS.CLASS_ORDER_INFOR)
                 .params(params)

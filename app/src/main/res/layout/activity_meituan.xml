@@ -17,7 +17,8 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_home_etsearch_bg"
-        android:layout_below="@+id/tv_title_sss">
+        android:layout_below="@+id/tv_title_sss"
+        android:visibility="invisible">
 
         <EditText
             android:layout_width="0dp"
@@ -51,12 +52,13 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:layout_marginBottom="10dp"
-        android:layout_below="@+id/ll_search">
+        android:layout_below="@+id/ll_search"
+        android:layout_marginRight="20dp">
     </android.support.v7.widget.RecyclerView>
 
     <com.mcxtzhang.indexlib.IndexBar.widget.IndexBar
         android:id="@+id/indexBar"
-        android:layout_width="24dp"
+        android:layout_width="20dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:paddingTop="105dp"

@@ -2,7 +2,6 @@ package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,8 @@ import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.bean.CourseBean;
 import com.example.handschoolapplication.utils.Internet;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import butterknife.BindView;
@@ -95,10 +96,13 @@ public class HPCourseAdapter extends BaseAdapter {
 
             double distance = DistanceUtil.getDistance(new LatLng(latitude1, longitude1), new LatLng(school_wei, school_jing));
 //            Double distance = MyUtiles.Distance(latitude1, longitude1, school_wei, school_jing);
-            holder.tvDistance.setText(((int)distance) + "m");
+            distance = (distance / 1000);
+            double v = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            holder.tvDistance.setText("距离：" + v + "km");
 
-        }else Log.e("aaa",
-                "(HPCourseAdapter.java:84)"+"locations == null");
+        }else {
+            holder.tvDistance.setText("距离：" + "定位失败");
+        }
 
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override

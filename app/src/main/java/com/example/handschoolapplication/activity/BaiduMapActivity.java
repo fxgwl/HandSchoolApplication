@@ -15,12 +15,12 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
@@ -37,7 +37,7 @@ public class BaiduMapActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    private TextureMapView mapView;
+    private MapView mapView;
     private BaiduMap map;
     private double mCurrentLat = 0.0;
     private double mCurrentLon = 0.0;
@@ -53,7 +53,7 @@ public class BaiduMapActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tvTitle.setText("地址显示");
-        mapView = (TextureMapView) findViewById(R.id.map_view);
+        mapView = (MapView) findViewById(R.id.map_view);
         map = mapView.getMap();
         map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         map.setMyLocationEnabled(true);
@@ -70,19 +70,23 @@ public class BaiduMapActivity extends BaseActivity {
         map.clear();
         if ("1".equals(getIntent().getStringExtra("isCourse"))) {
             ArrayList<ClassSortBean> classList = (ArrayList<ClassSortBean>) getIntent().getSerializableExtra("findCourseList");
-            for (int i = 0; i < classList.size(); i++) {
-                ClassSortBean classSortBean = classList.get(i);
-                Log.e("aaa",
-                        "(BaiduMapActivity.java:77)" + classSortBean.toString());
-                addInfosOverlay(new Info(Double.parseDouble(classSortBean.getUser_area()), Double.parseDouble(classSortBean.getUser_name()), null, classSortBean));
+            if (null!=classList){
+                for (int i = 0; i < classList.size(); i++) {
+                    ClassSortBean classSortBean = classList.get(i);
+                    Log.e("aaa",
+                            "(BaiduMapActivity.java:77)" + classSortBean.toString());
+                    addInfosOverlay(new Info(Double.parseDouble(classSortBean.getUser_area()), Double.parseDouble(classSortBean.getUser_name()), null, classSortBean));
+                }
             }
         } else {
             ArrayList<CourseSortBean> courseList = (ArrayList<CourseSortBean>) getIntent().getSerializableExtra("findCourseList");
-            for (int i = 0; i < courseList.size(); i++) {
-                CourseSortBean courseSortBean = courseList.get(i);
-                Log.e("aaa",
-                        "(BaiduMapActivity.java:86)" + courseSortBean.toString());
-                addInfosOverlay(new Info(Double.parseDouble(courseSortBean.getSchool_wei()), Double.parseDouble(courseSortBean.getSchool_jing()), courseSortBean, null));
+            if (null!=courseList){
+                for (int i = 0; i < courseList.size(); i++) {
+                    CourseSortBean courseSortBean = courseList.get(i);
+                    Log.e("aaa",
+                            "(BaiduMapActivity.java:86)" + courseSortBean.toString());
+                    addInfosOverlay(new Info(Double.parseDouble(courseSortBean.getSchool_wei()), Double.parseDouble(courseSortBean.getSchool_jing()), courseSortBean, null));
+                }
             }
         }
 //        map.getUiSettings().setScrollGesturesEnabled(true);
@@ -218,18 +222,24 @@ public class BaiduMapActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mapView!=null)
         mapView.onDestroy();
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
         mapView.onResume();
+        mapView.setVisibility(View.VISIBLE);
+
+        super.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mapView.onPause();
+        mapView.setVisibility(View.INVISIBLE);
+        mapView.onDestroy();
     }
+
 }

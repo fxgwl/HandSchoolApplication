@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.example.handschoolapplication.activity.ClassTypeActivity">
 
-    <include layout="@layout/title_bar_blue_erji"></include>
+    <include layout="@layout/title_bar_blue"></include>
 
     <ScrollView
         android:layout_width="match_parent"
