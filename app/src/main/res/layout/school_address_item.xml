@@ -13,22 +13,41 @@
 
     <TextView
         android:id="@+id/tv_address"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="江苏省南京市玄武区\nxx街道xx号"/>
+        android:text="江苏省南京市玄武区\nxx街道xx号"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"/>
 
     <TextView
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="15dp"
-        android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
         android:background="#E7E7E7"/>
 
     <TextView
-        android:id="@+id/tv_address_delete"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_address_edit"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="删除"/>
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="编辑"/>
+    <TextView
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:background="#E7E7E7"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/tv_address_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="删除"
+        android:visibility="gone"/>
 </LinearLayout>

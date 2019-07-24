@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class CourseDetailActivity extends BaseActivity {
     @BindView(R.id.tv2)
     TextView tv2;
     @BindView(R.id.content)
-    LinearLayout content;
+    FrameLayout content;
     private int mIndex;
     private Fragment[] fragments;
     private String courseId;
@@ -45,7 +46,6 @@ public class CourseDetailActivity extends BaseActivity {
 
     private void initView() {
 
-//        getIntent().get
         CdDetailFragment cdDetailFragment = new CdDetailFragment();
         CdPingJiaFragment cdPingJiaFragment = new CdPingJiaFragment();
         Bundle bundle = new Bundle();
@@ -57,7 +57,6 @@ public class CourseDetailActivity extends BaseActivity {
         fragments = new Fragment[]{cdDetailFragment, cdPingJiaFragment};
 
         //开启事务
-
         FragmentTransaction ft =
                 getSupportFragmentManager().beginTransaction();
         //添加首页

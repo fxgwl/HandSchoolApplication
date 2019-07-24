@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -60,6 +62,17 @@ public class HelpActivity extends BaseActivity {
         });
         initList();
 
+        etQuestion.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId== EditorInfo.IME_ACTION_SEARCH){
+                    //筛选问题列表
+                    searchQuestion();
+                }
+                return false;
+            }
+        });
+
     }
 
     //全部问题列表
@@ -77,10 +90,13 @@ public class HelpActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(HelpActivity.java:61)" + response);
-                        Gson gson = new Gson();
-                        infoList.clear();
-                        infoList.addAll(gson.fromJson(response, InfoBean.class).getData());
-                        mAdapter.notifyDataSetChanged();
+
+                        if (response.contains("没有信息")||TextUtils.isEmpty(response)){}else{
+                            Gson gson = new Gson();
+                            infoList.clear();
+                            infoList.addAll(gson.fromJson(response, InfoBean.class).getData());
+                            mAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
     }
@@ -97,7 +113,7 @@ public class HelpActivity extends BaseActivity {
         switch (view.getId()) {
             //联系客服
             case R.id.ll_help_service:
-                Intent intent = new Intent(HelpActivity.this, HumanServiceActivity.class);
+                Intent intent = new Intent(HelpActivity.this, HumanServiceSActivity.class);
                 intent.putExtra("type", "2");
                 startActivity(intent);
                 break;
@@ -108,7 +124,8 @@ public class HelpActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.iv_search:
                 //筛选问题列表
@@ -137,12 +154,14 @@ public class HelpActivity extends BaseActivity {
                         Log.e("aaa",
                                 "(HelpActivity.java:137)" + response);
 
-                        if (response.contains("没有信息")){}else {
+                        if (response.contains("没有信息")){
+                            Toast.makeText(HelpActivity.this, "暂无搜索帮助信息", Toast.LENGTH_SHORT).show();
+                        }else {
                             Gson gson = new Gson();
                             infoList.clear();
                             infoList.addAll(gson.fromJson(response, InfoBean.class).getData());
-                            mAdapter.notifyDataSetChanged();
                         }
+                        mAdapter.notifyDataSetChanged();
                     }
                 });
     }

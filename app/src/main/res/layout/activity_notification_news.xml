@@ -11,10 +11,10 @@
         android:id="@+id/title"
         layout="@layout/title_bar_blue" />
 
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/lv_notification_news"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/title"
         android:divider="@color/white"/>
 </RelativeLayout>

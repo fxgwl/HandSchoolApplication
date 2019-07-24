@@ -31,7 +31,8 @@
             android:layout_marginRight="10dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="@color/t333333"/>
+            android:textColor="@color/t333333"
+            android:gravity="right"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,6 +45,7 @@
         android:layout_height="1dp"
         android:background="@color/e6"/>
     <LinearLayout
+        android:id="@+id/ll_address_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -56,18 +58,26 @@
             android:text="详细地址:"
             android:textSize="15sp"
             android:textColor="@color/t333333" />
-        <EditText
+
+        <TextView
             android:id="@+id/et_address_detail"
-            app:theme="@style/MyEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:hint="街道，楼牌"
-            android:textColorHint="@color/t999999"
-            android:textColor="@color/t333333"
-            android:textSize="14sp"
             android:background="@null"
-            />
+            android:textColor="@color/t333333"
+            android:textColorHint="@color/t999999"
+            android:textSize="14sp"
+            app:theme="@style/MyEditText"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:layout_marginRight="10dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/xiayiye"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_vertical"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

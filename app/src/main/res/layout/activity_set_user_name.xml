@@ -6,21 +6,59 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.handschoolapplication.activity.SetUserNameActivity">
-    <include layout="@layout/title_bar_blue_erji"/>
-    <EditText
-        android:id="@+id/et_username"
-        app:theme="@style/MyEditText"
+    <include layout="@layout/title_bar_blue"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="请输入真实的姓名，填写过后是不可更改的哟~"
-        android:textSize="14sp"
-        android:background="@null"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:paddingLeft="20dp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/et_username"
+            app:theme="@style/MyEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入真实的姓名，填写过后是不可更改的哟~"
+            android:textSize="14sp"
+            android:background="@null"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_del_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="30dp"
+            android:src="@drawable/guanbi"/>
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#e6e6e6"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/shape_rect_blue"
+        android:gravity="center"
+        android:text="保存并返回"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 </LinearLayout>

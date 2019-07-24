@@ -2,6 +2,7 @@ package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,16 +74,9 @@ public class OrderAdapter extends BaseAdapter {
         }
         final OrderBean.DataBean dataBean = mlist.get(position);
         holder.tvOrganization.setText(dataBean.getSchool_name());
-        String class_photo = dataBean.getClass_photo();
-        String photo = "";
-        if (class_photo.contains(",")){
-            String[] split = class_photo.split(",");
-            photo= split[0];
-        }else {
-            photo = class_photo;
-        }
+        String class_photo = dataBean.getCourseInfo().getPicture_one();
         Glide.with(context)
-                .load(Internet.BASE_URL + photo)
+                .load(Internet.BASE_URL + class_photo)
                 .centerCrop()
                 .error(R.drawable.kecheng)
                 .into(holder.ivCourse);
@@ -90,6 +84,10 @@ public class OrderAdapter extends BaseAdapter {
         holder.tvPrice.setText("价格：¥" + dataBean.getOrder_money());
         holder.tvRealmoney.setText("¥" + dataBean.getOrder_money());
         holder.tvNum.setText("x" + dataBean.getCourse_num());
+        holder.tvStudentName.setText(dataBean.getStudent_name());
+        holder.tvStudentSex.setText(dataBean.getStudent_sex());
+        String pay_type = dataBean.getPay_type();
+
 //        0待付款 1待确认 2待评价 3评价后 4退款中 5取消订单 6已退款
         switch (dataBean.getOrder_state()) {
             case "0":
@@ -163,6 +161,10 @@ public class OrderAdapter extends BaseAdapter {
                 holder.llYituikuan.setVisibility(View.VISIBLE);
                 break;
         }
+
+        if (!TextUtils.isEmpty(pay_type) && pay_type.equals("2")) {
+            holder.tvRefund.setVisibility(View.INVISIBLE);
+        }
         holder.tvMake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//去评价
@@ -195,7 +197,7 @@ public class OrderAdapter extends BaseAdapter {
         holder.rlCourseInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dataBean.getOrder_state().equals("4")){
+                if (dataBean.getOrder_state().equals("4")) {
                     Intent intent = new Intent(context, RefundDetailActivity.class);
                     intent.putExtra("order_id", dataBean.getOrder_id());
                     intent.putExtra("courseid", dataBean.getCourse_id());
@@ -204,13 +206,13 @@ public class OrderAdapter extends BaseAdapter {
                     intent.putExtra("money", dataBean.getOrder_money());
                     intent.putExtra("coursenum", dataBean.getCourse_num());
                     intent.putExtra("tuimoney", dataBean.getOrder_money());
-                    intent.putExtra("course_id",dataBean.getCourse_id());
-                    intent.putExtra("schooluid",dataBean.getUser_id());
+                    intent.putExtra("course_id", dataBean.getCourse_id());
+                    intent.putExtra("schooluid", dataBean.getUser_id());
                     context.startActivity(intent);
-                }else {
+                } else {
                     Log.e("aaa",
-                        "(OrderAdapter.java:211)orderId === "+dataBean.getOrder_id());
-                    context.startActivity(new Intent(context, OrderDetailActivity.class).putExtra("order_id",dataBean.getOrder_id()));
+                            "(OrderAdapter.java:211)orderId === " + dataBean.getOrder_id());
+                    context.startActivity(new Intent(context, OrderDetailActivity.class).putExtra("order_id", dataBean.getOrder_id()));
                 }
             }
         });
@@ -228,6 +230,27 @@ public class OrderAdapter extends BaseAdapter {
         });
 
         return view;
+    }
+
+    public void setOnMakeOrderListener(OnMakeOrderListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnMakeOrderListener {
+        //取消订单的方法
+        void setOnCancelOrder(int position);
+
+        //确认支付的方法
+        void setOnPayOrder(int position);
+
+        //退款的方法
+        void setOnRefund(int position);
+
+        //学习确认的方法
+        void setOnVertify(int position);
+
+        //评价的方法
+        void setEvaluate(int position);
     }
 
     static class ViewHolder {
@@ -271,32 +294,19 @@ public class OrderAdapter extends BaseAdapter {
         LinearLayout llWaitconfig;
         @BindView(R.id.tv_refund2)
         TextView tvRefund2;
+        @BindView(R.id.tv_student_name)
+        TextView tvStudentName;
         @BindView(R.id.ll_tuikuan)
         LinearLayout llTuikuan;
         @BindView(R.id.ll_class_info)
         LinearLayout llClassInfo;
         @BindView(R.id.rl_course_info)
         RelativeLayout rlCourseInfo;
+        @BindView(R.id.tv_student_sex)
+        TextView tvStudentSex;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-    }
-
-    public interface OnMakeOrderListener{
-        //取消订单的方法
-        void setOnCancelOrder(int position);
-        //确认支付的方法
-        void setOnPayOrder(int position);
-        //退款的方法
-        void setOnRefund(int position);
-        //学习确认的方法
-        void setOnVertify(int position);
-        //评价的方法
-        void setEvaluate(int position);
-    }
-
-    public void setOnMakeOrderListener(OnMakeOrderListener listener){
-        this.listener = listener;
     }
 }

@@ -67,16 +67,17 @@ public class RefundDetailLvAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         OrderInfoBean orderInfoBean = mList.get(position);
-        Glide.with(mContext).load(Internet.BASE_URL+orderInfoBean.getClass_photo()).centerCrop().into(holder.ivClasslogo);
-        double money = Double.parseDouble(orderInfoBean.getOrder_money());
-        double num = Double.parseDouble(orderInfoBean.getCourse_num());
+        String picture_one = orderInfoBean.getData().getCourseInfo().getPicture_one();
+        Glide.with(mContext).load(Internet.BASE_URL+picture_one).centerCrop().into(holder.ivClasslogo);
+        double money = Double.parseDouble(orderInfoBean.getData().getOrder_money());
+        double num = Double.parseDouble(orderInfoBean.getData().getCourse_num());
         double totalMon = money * num;
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         String format = decimalFormat.format(totalMon);
-        holder.mTvClassId.setText(orderInfoBean.getCourse_id());
-        holder.mTvClassName.setText(orderInfoBean.getClass_name());
-        holder.mTvClassprice.setText("价格：¥" + orderInfoBean.getOrder_money());
-        holder.mTvNum.setText("数量：x" + orderInfoBean.getCourse_num());
+        holder.mTvClassId.setText(orderInfoBean.getData().getCourse_id());
+        holder.mTvClassName.setText(orderInfoBean.getData().getClass_name());
+        holder.mTvClassprice.setText("价格：¥" + orderInfoBean.getData().getOrder_money());
+        holder.mTvNum.setText("数量：x" + orderInfoBean.getData().getCourse_num());
         holder.mTvRefundPrice.setText(format + "元");
         return convertView;
     }

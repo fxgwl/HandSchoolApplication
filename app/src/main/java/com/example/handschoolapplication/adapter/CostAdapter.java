@@ -19,14 +19,16 @@ import butterknife.ButterKnife;
  */
 
 public class CostAdapter extends BaseAdapter {
+    HashMap<String, Boolean> states = new HashMap<String, Boolean>();
     private Context context;
     private List<String> mlist;
-    HashMap<String, Boolean> states = new HashMap<String, Boolean>();
     private CbClick cbClick;
+    private String class_money;
 
-    public CostAdapter(Context context, List<String> mlist) {
+    public CostAdapter(Context context, List<String> mlist, String class_money) {
         this.context = context;
         this.mlist = mlist;
+        this.class_money = class_money;
     }
 
     public void setCbClick(CbClick cbClick) {
@@ -61,39 +63,38 @@ public class CostAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         final ViewHolder finalHolder = holder;
-//        holder.tvTime.setOnClickListener(new View.OnClickListener() {
-//
-//            public void onClick(View v) {
-////                // 重置，确保最多只有一项被选中
-////                for (String key : states.keySet()) {
-////                    states.put(key, false);
-////                }
-////                states.put(String.valueOf(position), finalHolder.tvTime.isChecked());
-////                notifyDataSetChanged();
-//            }
-//        });
 
         boolean res = false;
+        if (mlist.get(position).equals(class_money)) {
+            states.put(String.valueOf(position), true);
+        }
         if (states.get(String.valueOf(position)) == null
                 || states.get(String.valueOf(position)) == false) {
             res = false;
             states.put(String.valueOf(position), false);
-        } else
+        } else {
             res = true;
+        }
         holder.tvTime.setText(mlist.get(position));
         holder.tvTime.setChecked(res);
         holder.tvTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                class_money="";
                 for (String key : states.keySet()) {
                     states.put(key, false);
                 }
+                notifyDataSetChanged();
                 states.put(String.valueOf(position), finalHolder.tvTime.isChecked());
                 notifyDataSetChanged();
                 cbClick.onCBClick(position);
             }
         });
         return view;
+    }
+
+    public interface CbClick {
+        void onCBClick(int postion);
     }
 
     static class ViewHolder {
@@ -103,9 +104,5 @@ public class CostAdapter extends BaseAdapter {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-    }
-
-    public interface CbClick {
-        void onCBClick(int postion);
     }
 }

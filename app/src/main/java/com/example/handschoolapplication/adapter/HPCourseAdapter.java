@@ -2,6 +2,7 @@ package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.bumptech.glide.Glide.with;
 
 /**
  * Created by Administrator on 2017/7/24.
@@ -63,7 +66,9 @@ public class HPCourseAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
         ViewHolder holder = null;
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_hf_course_lv, null);
             holder = new ViewHolder(convertView);
@@ -71,22 +76,31 @@ public class HPCourseAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        String course_photo = courseBeanList.get(position).getCourse_photo();
-        String url= "";
-        if (course_photo.contains(",")){
-            String[] split = course_photo.split(",");
-             url = split[0];
-        }else {
-            url = course_photo;
+
+        String picture_one = courseBeanList.get(position).getPicture_one();
+        if (picture_one != null && !TextUtils.isEmpty(picture_one)) {
+            with(context)
+                    .load(Internet.BASE_URL + picture_one)
+                    .centerCrop()
+                    .error(R.drawable.kecheng)
+                    .into(holder.ivCourse);
         }
-        Glide.with(context)
-                .load(Internet.BASE_URL + url)
-                .centerCrop()
-                .error(R.drawable.kecheng)
-                .into(holder.ivCourse);
+
+//        String course_photo = courseBeanList.get(position).getCourse_photo();
+//        if (!TextUtils.isEmpty(course_photo)) {
+//            String url = "";
+//            if (course_photo.contains(",")) {
+//                String[] split = course_photo.split(",");
+//                url = split[0];
+//            } else {
+//                url = course_photo;
+//            }
+//
+//        }
+
         holder.tvCourse.setText(courseBeanList.get(position).getCourse_name());
         holder.tvPrice.setText("价格： ¥" + courseBeanList.get(position).getPreferential_price());
-        holder.popularity.setText("(" + courseBeanList.get(position).getPopularity_num() + "人已报名)");
+        holder.popularity.setText("" + courseBeanList.get(position).getPopularity_num() + "人");
         if (locations != null) {
 
             double latitude1 = locations[0];
@@ -100,7 +114,7 @@ public class HPCourseAdapter extends BaseAdapter {
             double v = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP).doubleValue();
             holder.tvDistance.setText("距离：" + v + "km");
 
-        }else {
+        } else {
             holder.tvDistance.setText("距离：" + "定位失败");
         }
 
@@ -111,6 +125,10 @@ public class HPCourseAdapter extends BaseAdapter {
                 intent.putExtra("school_id", courseBeanList.get(position).getSchool_id());
                 intent.putExtra("course_id", courseBeanList.get(position).getCourse_id());
                 intent.putExtra("schooluid", courseBeanList.get(position).getUser_id());
+
+                int popularity_num = courseBeanList.get(position).getPopularity_num();
+                courseBeanList.get(position).setPopularity_num(popularity_num + 1);
+                notifyDataSetChanged();
                 context.startActivity(intent);
             }
         });

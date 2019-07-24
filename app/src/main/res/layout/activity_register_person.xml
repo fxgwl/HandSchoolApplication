@@ -48,12 +48,18 @@
             android:id="@+id/et_phone_num"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:background="@null"
             android:hint="请输入手机号"
+            android:imeOptions="actionDone"
+            android:inputType="phone"
             android:paddingLeft="10dp"
+            android:singleLine="true"
             android:textColorHint="#333333"
-            app:theme="@style/MyEditText"
-            android:inputType="phone"/>
+            android:textSize="14sp"
+            app:theme="@style/MyEditText" />
 
         <View
             android:id="@+id/view1"
@@ -75,9 +81,14 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:background="@null"
+                android:hint="请输入验证码"
+                android:imeOptions="actionDone"
+                android:inputType="number"
                 android:paddingLeft="10dp"
                 android:textColorHint="#333333"
-                app:theme="@style/MyEditText" />
+                android:textSize="14sp"
+                app:theme="@style/MyEditText"
+                android:singleLine="true"/>
 
             <View
                 android:layout_width="2dp"
@@ -102,37 +113,75 @@
             android:layout_height="1dp"
             android:layout_below="@+id/ll_phone_code"
             android:background="#e6e6e6" />
-
-        <EditText
-            android:id="@+id/et_pwd"
+        <LinearLayout
+            android:id="@+id/ll_pwd"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/view2"
-            android:background="@null"
-            android:hint="输入密码"
-            android:paddingLeft="10dp"
-            android:textColorHint="#333333"
-            app:theme="@style/MyEditText"
-            android:inputType="textPassword"/>
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/et_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:hint="请输入密码"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp"
+                android:textColorHint="#333333"
+                android:textSize="14sp"
+                app:theme="@style/MyEditText"
+                android:layout_weight="1"
+                />
+
+            <ImageView
+                android:id="@+id/iv_is_see"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/mimabukejian"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+
+        </LinearLayout>
 
         <View
             android:id="@+id/view3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/et_pwd"
+            android:layout_below="@+id/ll_pwd"
             android:background="#e6e6e6" />
 
-        <EditText
-            android:id="@+id/et_pwds"
+        <LinearLayout
+            android:id="@+id/ll_pwds"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_below="@+id/view3"
-            android:background="@null"
-            android:hint="再次输入密码"
-            android:paddingLeft="10dp"
-            android:textColorHint="#333333"
-            app:theme="@style/MyEditText"
-            android:inputType="textPassword"/>
+            >
+            <EditText
+                android:id="@+id/et_pwds"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:hint="请再次输入密码"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:paddingLeft="10dp"
+                android:textColorHint="#333333"
+                android:textSize="14sp"
+                app:theme="@style/MyEditText"
+                android:layout_weight="1"/>
+            <ImageView
+                android:id="@+id/iv_is_sees"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/mimabukejian"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                />
+        </LinearLayout>
+
+
     </RelativeLayout>
 
     <Button
@@ -159,13 +208,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/checkbox" />
+            android:src="@drawable/checkboxs" />
 
         <TextView
+            android:id="@+id/tv_xieyi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="我已看过并接受《用户协议》" />
+            android:text="我已看过并接受《用户协议》"
+            android:textSize="14sp"/>
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"

@@ -4,12 +4,28 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:text="用户追评"
-        android:textColor="#FF9552"/>
+        android:orientation="horizontal"
+        android:layout_margin="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户追评"
+            android:textColor="#FF9552"
+            android:textSize="15sp"/>
+        <View
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/tv_course_reply_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_yhzp"

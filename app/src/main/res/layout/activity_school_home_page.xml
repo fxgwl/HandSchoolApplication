@@ -51,7 +51,7 @@
                     android:layout_marginLeft="7dp"
                     android:layout_marginStart="7dp"
 
-                    android:text="学堂名称"
+                    android:text="机构名称"
                     android:textColor="#2a2a2a"
                     android:textSize="16sp" />
             </LinearLayout>

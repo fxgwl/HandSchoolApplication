@@ -75,16 +75,17 @@ public class RecommendAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        String course_photo = mList.get(position).getCourse_photo();
-        String photo = "";
-        if (course_photo.contains(",")){
-            String[] split = course_photo.split(",");
-            photo = split[0];
-        }else {
-            photo = course_photo;
-        }
+//        String course_photo = mList.get(position).getCourse_photo();
+        String picture_one = mList.get(position).getPicture_one();
+//        String photo = "";
+//        if (course_photo.contains(",")){
+//            String[] split = course_photo.split(",");
+//            photo = split[0];
+//        }else {
+//            photo = course_photo;
+//        }
         Glide.with(context)
-                .load(Internet.BASE_URL + photo)
+                .load(Internet.BASE_URL + picture_one)
                 .centerCrop()
                 .error(R.drawable.kecheng)
                 .into(holder.ivCourse);

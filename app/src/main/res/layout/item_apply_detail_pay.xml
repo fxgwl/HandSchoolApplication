@@ -5,33 +5,39 @@
     android:paddingLeft="20dp">
 
     <LinearLayout
+        android:id="@+id/ll_school"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:paddingTop="5dp"
+        android:gravity="center_vertical"
         android:paddingBottom="5dp"
-        android:gravity="center_vertical">
+        android:paddingTop="5dp">
+
         <ImageView
             android:id="@+id/iv_school_icon"
             android:layout_width="30dp"
             android:layout_height="30dp" />
+
         <TextView
             android:id="@+id/tv_school_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:text="" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/xuetang"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/xuetang" />
     </LinearLayout>
-<View
+
+    <View
     android:layout_width="match_parent"
     android:layout_height="1dp"
     android:background="@color/e6"/>
         <LinearLayout
+            android:id="@+id/ll_course"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.bean.ClassType;
+import com.example.handschoolapplication.view.MyListView;
 
 import java.util.List;
 
@@ -63,11 +64,26 @@ public class ClassTypeAdapter extends BaseAdapter {
 //        holder.typeLv.setAdapter(classTypelittleAdapter);
         ClassType classType = mlist.get(position);
         holder.tvTypeOne.setText(classType.getTypeOne());
-        holder.tvTypeTwo.setText(classType.getTypetwo());
+        List<String> typetwo = classType.getTypetwo();
+//        holder.tvTypeTwo.setText(classType.getTypetwo());
+        TypeTwoAdapter typeTwoAdapter = new TypeTwoAdapter(context, typetwo);
+        holder.tvTypeTwo.setAdapter(typeTwoAdapter);
+        if (typetwo.size()==0){
+            holder.tvEdit.setVisibility(View.GONE);
+        }else {
+            holder.tvEdit.setVisibility(View.VISIBLE);
+        }
         holder.tvDelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.setDelect(position);
+            }
+        });
+
+        holder.tvEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setEdit(position);
             }
         });
         return view;
@@ -77,10 +93,12 @@ public class ClassTypeAdapter extends BaseAdapter {
     static class ViewHolder {
         @BindView(R.id.tv_type_one)
         TextView tvTypeOne;
-        @BindView(R.id.tv_type_two)
-        TextView tvTypeTwo;
+        @BindView(R.id.lv_two_type_lsit)
+        MyListView tvTypeTwo;
         @BindView(R.id.tv_delect)
         TextView tvDelect;
+        @BindView(R.id.tv_edit)
+        TextView tvEdit;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
@@ -89,6 +107,7 @@ public class ClassTypeAdapter extends BaseAdapter {
 
     public interface OnDelectTypeListener{
         void setDelect(int position);
+        void setEdit(int position);
     }
 
     public void setOnDelectType(OnDelectTypeListener listener){

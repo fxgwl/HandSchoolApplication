@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,15 +43,16 @@
             android:id="@+id/tv_grade_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/textview_bgsss"
             android:text="等级推荐"
             android:textColor="@color/test"
-            android:background="@drawable/textview_bgsss"
             android:textSize="13sp" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" />
+
         <TextView
             android:id="@+id/tv_popularity_rank"
             android:layout_width="wrap_content"
@@ -76,7 +77,8 @@
             android:text="星级排行"
             android:textColor="#666666"
             android:textSize="13sp"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
@@ -86,149 +88,174 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e6e6e6"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:background="#e6e6e6" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_bgsss"
             android:text="价格"
-            android:textSize="13sp"
-            android:textColor="#3db1f6"/>
+            android:textColor="#3db1f6"
+            android:textSize="13sp" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="0.7"/>
+            android:layout_weight="0.7" />
+
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="#cccccc" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="0.7"/>
+            android:layout_weight="0.7" />
+
         <TextView
             android:id="@+id/tv_up_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_bgsss"
             android:text="由高到低"
-            android:textSize="13sp"
-            android:textColor="#666666"/>
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <TextView
             android:id="@+id/tv_down_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_bgsss"
             android:text="由低到高"
-            android:textSize="13sp"
-            android:textColor="#666666"/>
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_bgsss"
             android:text="人气排行"
-            android:textSize="13sp"
             android:textColor="#666666"
-            android:visibility="invisible"/>
+            android:textSize="13sp"
+            android:visibility="invisible" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e6e6e6"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:background="#e6e6e6" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_bgsss"
             android:text="距离"
-            android:textSize="13sp"
-            android:textColor="#3db1f6"/>
+            android:textColor="#3db1f6"
+            android:textSize="13sp" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="0.7"/>
+            android:layout_weight="0.7" />
+
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="#cccccc" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="0.7"/>
+            android:layout_weight="0.7" />
+
         <TextView
             android:id="@+id/tv_near_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_bgsss"
             android:text="由近到远"
-            android:textSize="13sp"
-            android:textColor="#666666"/>
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <TextView
             android:id="@+id/tv_far_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_bgsss"
             android:text="由远到近"
-            android:textSize="13sp"
-            android:textColor="#666666"/>
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
+
         <TextView
             android:id="@+id/tv_sure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_bgsssss"
-            android:text="   确定   "
-            android:textSize="13sp"
+            android:text="由远到近"
             android:textColor="#ffffff"
-            android:visibility="visible"/>
+            android:textSize="13sp"
+            android:visibility="invisible"/>
+
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e6e6e6"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
-
+        android:background="#e6e6e6" />
 </LinearLayout>

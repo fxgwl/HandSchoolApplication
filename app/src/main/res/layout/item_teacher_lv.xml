@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,7 +12,7 @@
         android:layout_width="90dp"
         android:layout_height="110dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/meinv" />
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,14 +25,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="姓"
+                android:textSize="14sp"
+                android:textColor="@color/t333333"
+                android:visibility="invisible"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="姓名："
                 android:textSize="14sp"
                 android:textColor="@color/t333333"/>
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="刘向红"
+                android:text=""
+                android:layout_marginRight="20px"
                 android:textSize="14sp"
                 android:textColor="@color/t333333"/>
         </LinearLayout>
@@ -40,6 +49,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="姓"
+                android:textSize="14sp"
+                android:textColor="@color/t333333"
+                android:visibility="invisible"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,9 +64,10 @@
                 android:textColor="@color/t333333"/>
             <TextView
                 android:id="@+id/tv_edu_bg"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="本科"
+                android:text=""
+                android:layout_marginRight="20px"
                 android:textSize="14sp"
                 android:textColor="@color/t333333"/>
         </LinearLayout>
@@ -62,14 +79,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="姓"
+                android:textSize="14sp"
+                android:textColor="@color/t333333"
+                android:visibility="invisible"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="资历："
                 android:textSize="14sp"
                 android:textColor="@color/t333333"/>
             <TextView
                 android:id="@+id/tv_profession"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="讲师"
+                android:text=""
+                android:layout_marginRight="20px"
                 android:textSize="14sp"
                 android:textColor="@color/t333333"/>
         </LinearLayout>
@@ -82,16 +107,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="姓"
+                android:textSize="14sp"
+                android:textColor="@color/t333333"
+                android:visibility="invisible"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="经历："
                 android:textSize="14sp"
                 android:textColor="@color/t333333"/>
             <TextView
                 android:id="@+id/tv_experience"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textSize="14sp"
-                android:textColor="@color/t333333"/>
+                android:textColor="@color/t333333"
+                android:layout_marginRight="20px"/>
         </LinearLayout>
         <View
             android:layout_width="0dp"
@@ -109,11 +142,12 @@
                 android:textColor="@color/t333333"/>
             <TextView
                 android:id="@+id/tv_say"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="活到老学到老"
+                android:text=""
                 android:textSize="14sp"
-                android:textColor="@color/t333333"/>
+                android:textColor="@color/t333333"
+                android:layout_marginRight="20px"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

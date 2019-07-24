@@ -18,13 +18,26 @@
             android:layout_height="wrap_content"
             android:text="订单编号："
             android:textColor="#999999"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_itemrefundmanager_orderid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="123456789" />
+            android:text="123456789"
+            android:textSize="12sp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12px"
+            android:layout_marginRight="20dp"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -39,7 +52,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="30dp"
-            android:src="@drawable/touxiang" />
+             />
 
         <TextView
             android:id="@+id/tv_itemrefundmanager_nickname"
@@ -47,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="12dp"
-            android:text="昵称"
+
             android:textColor="#999999"
             android:textSize="14sp" />
     </LinearLayout>
@@ -66,7 +79,7 @@
             android:layout_height="45dp"
             android:layout_marginTop="8dp"
             android:scaleType="fitXY"
-            android:src="@drawable/beijing" />
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -46,7 +46,10 @@ public class MyBroswerActivity extends BaseActivity {
         broswerAdapter.setOnShareListener(new BroswerAdapter.ShareListener() {
             @Override
             public void setOnShare(int postion) {
-                showShare("我是标题","我是分享文本","","");
+                String footprint_name = mlist.get(postion).getPicture_one();
+                String course_id = mlist.get(postion).getCourse_id();
+                String course_name = mlist.get(postion).getCourse_name();
+                showShare(course_name, course_name, Internet.BASE_URL + footprint_name, Internet.BASE_URL + "head/tel_zsss/kczy.jsp?course_id=" + course_id);
             }
         });
     }
@@ -62,7 +65,8 @@ public class MyBroswerActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa",
+                                "(MyBroswerActivity.java:76)<--aaaa-->" + e.getMessage());
                     }
 
                     @Override
@@ -101,7 +105,8 @@ public class MyBroswerActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
         }
     }

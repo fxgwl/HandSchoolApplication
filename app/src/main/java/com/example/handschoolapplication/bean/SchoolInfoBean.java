@@ -67,6 +67,8 @@ public class SchoolInfoBean {
          * user_type : 1
          * pingjia
          * totle_sign
+         * glmoney
+         * change_state
          */
 
         private String data_integrity;
@@ -78,6 +80,7 @@ public class SchoolInfoBean {
         private String mechanism_name;
         private String mechanism_type;
         private String mid_photo;
+        private String mid_photos;
         private String qualification_prove;
         private String school_id;
         private String signed_num;
@@ -95,17 +98,14 @@ public class SchoolInfoBean {
         private String user_name;
         private String pingjia;
         private String totle_sign;
-
-        public String getUser_name() {
-            return user_name;
-        }
-
-        public void setUser_name(String user_name) {
-            this.user_name = user_name;
-        }
+        private String glmoney;
+        private RatiosBean ratios;
+        private String change_state;
+        private String qualiprove_state;
+        private String midphoto_state;
 
         public String getData_integrity() {
-            return data_integrity;
+            return data_integrity == null ? "" : data_integrity;
         }
 
         public void setData_integrity(String data_integrity) {
@@ -113,7 +113,7 @@ public class SchoolInfoBean {
         }
 
         public String getHead_photo() {
-            return head_photo;
+            return head_photo == null ? "" : head_photo;
         }
 
         public void setHead_photo(String head_photo) {
@@ -121,7 +121,7 @@ public class SchoolInfoBean {
         }
 
         public String getId_number() {
-            return id_number;
+            return id_number == null ? "" : id_number;
         }
 
         public void setId_number(String id_number) {
@@ -129,7 +129,7 @@ public class SchoolInfoBean {
         }
 
         public String getMechanism_address() {
-            return mechanism_address;
+            return mechanism_address == null ? "" : mechanism_address;
         }
 
         public void setMechanism_address(String mechanism_address) {
@@ -137,7 +137,7 @@ public class SchoolInfoBean {
         }
 
         public String getMechanism_city() {
-            return mechanism_city;
+            return mechanism_city == null ? "" : mechanism_city;
         }
 
         public void setMechanism_city(String mechanism_city) {
@@ -145,7 +145,7 @@ public class SchoolInfoBean {
         }
 
         public String getMechanism_ctime() {
-            return mechanism_ctime;
+            return mechanism_ctime == null ? "" : mechanism_ctime;
         }
 
         public void setMechanism_ctime(String mechanism_ctime) {
@@ -153,7 +153,7 @@ public class SchoolInfoBean {
         }
 
         public String getMechanism_name() {
-            return mechanism_name;
+            return mechanism_name == null ? "" : mechanism_name;
         }
 
         public void setMechanism_name(String mechanism_name) {
@@ -161,7 +161,7 @@ public class SchoolInfoBean {
         }
 
         public String getMechanism_type() {
-            return mechanism_type;
+            return mechanism_type == null ? "" : mechanism_type;
         }
 
         public void setMechanism_type(String mechanism_type) {
@@ -169,15 +169,23 @@ public class SchoolInfoBean {
         }
 
         public String getMid_photo() {
-            return mid_photo;
+            return mid_photo == null ? "" : mid_photo;
         }
 
         public void setMid_photo(String mid_photo) {
             this.mid_photo = mid_photo;
         }
 
+        public String getMid_photos() {
+            return mid_photos == null ? "" : mid_photos;
+        }
+
+        public void setMid_photos(String mid_photos) {
+            this.mid_photos = mid_photos;
+        }
+
         public String getQualification_prove() {
-            return qualification_prove;
+            return qualification_prove == null ? "" : qualification_prove;
         }
 
         public void setQualification_prove(String qualification_prove) {
@@ -185,7 +193,7 @@ public class SchoolInfoBean {
         }
 
         public String getSchool_id() {
-            return school_id;
+            return school_id == null ? "" : school_id;
         }
 
         public void setSchool_id(String school_id) {
@@ -193,7 +201,7 @@ public class SchoolInfoBean {
         }
 
         public String getSigned_num() {
-            return signed_num;
+            return signed_num == null ? "" : signed_num;
         }
 
         public void setSigned_num(String signed_num) {
@@ -201,7 +209,7 @@ public class SchoolInfoBean {
         }
 
         public String getUser_code() {
-            return user_code;
+            return user_code == null ? "" : user_code;
         }
 
         public void setUser_code(String user_code) {
@@ -209,7 +217,7 @@ public class SchoolInfoBean {
         }
 
         public String getUser_create_time() {
-            return user_create_time;
+            return user_create_time == null ? "" : user_create_time;
         }
 
         public void setUser_create_time(String user_create_time) {
@@ -217,7 +225,7 @@ public class SchoolInfoBean {
         }
 
         public String getUser_dengji() {
-            return user_dengji;
+            return user_dengji == null ? "" : user_dengji;
         }
 
         public void setUser_dengji(String user_dengji) {
@@ -225,7 +233,7 @@ public class SchoolInfoBean {
         }
 
         public String getUser_gold() {
-            return user_gold;
+            return user_gold == null ? "" : user_gold;
         }
 
         public void setUser_gold(String user_gold) {
@@ -233,7 +241,7 @@ public class SchoolInfoBean {
         }
 
         public String getUser_id() {
-            return user_id;
+            return user_id == null ? "" : user_id;
         }
 
         public void setUser_id(String user_id) {
@@ -241,7 +249,7 @@ public class SchoolInfoBean {
         }
 
         public String getUser_integral() {
-            return user_integral;
+            return user_integral == null ? "" : user_integral;
         }
 
         public void setUser_integral(String user_integral) {
@@ -249,7 +257,7 @@ public class SchoolInfoBean {
         }
 
         public String getUser_password() {
-            return user_password;
+            return user_password == null ? "" : user_password;
         }
 
         public void setUser_password(String user_password) {
@@ -257,7 +265,7 @@ public class SchoolInfoBean {
         }
 
         public String getUser_phone() {
-            return user_phone;
+            return user_phone == null ? "" : user_phone;
         }
 
         public void setUser_phone(String user_phone) {
@@ -265,7 +273,7 @@ public class SchoolInfoBean {
         }
 
         public String getUser_renqi() {
-            return user_renqi;
+            return user_renqi == null ? "" : user_renqi;
         }
 
         public void setUser_renqi(String user_renqi) {
@@ -273,7 +281,7 @@ public class SchoolInfoBean {
         }
 
         public String getUser_state() {
-            return user_state;
+            return user_state == null ? "" : user_state;
         }
 
         public void setUser_state(String user_state) {
@@ -281,15 +289,23 @@ public class SchoolInfoBean {
         }
 
         public String getUser_type() {
-            return user_type;
+            return user_type == null ? "" : user_type;
         }
 
         public void setUser_type(String user_type) {
             this.user_type = user_type;
         }
 
+        public String getUser_name() {
+            return user_name == null ? "" : user_name;
+        }
+
+        public void setUser_name(String user_name) {
+            this.user_name = user_name;
+        }
+
         public String getPingjia() {
-            return pingjia;
+            return pingjia == null ? "" : pingjia;
         }
 
         public void setPingjia(String pingjia) {
@@ -297,11 +313,88 @@ public class SchoolInfoBean {
         }
 
         public String getTotle_sign() {
-            return totle_sign;
+            return totle_sign == null ? "" : totle_sign;
         }
 
         public void setTotle_sign(String totle_sign) {
             this.totle_sign = totle_sign;
+        }
+
+        public String getGlmoney() {
+            return glmoney == null ? "" : glmoney;
+        }
+
+        public void setGlmoney(String glmoney) {
+            this.glmoney = glmoney;
+        }
+
+        public RatiosBean getRatios() {
+            return ratios;
+        }
+
+        public void setRatios(RatiosBean ratios) {
+            this.ratios = ratios;
+        }
+
+        public String getChange_state() {
+            return change_state == null ? "" : change_state;
+        }
+
+        public void setChange_state(String change_state) {
+            this.change_state = change_state;
+        }
+
+        public String getQualiprove_state() {
+            return qualiprove_state == null ? "" : qualiprove_state;
+        }
+
+        public void setQualiprove_state(String qualiprove_state) {
+            this.qualiprove_state = qualiprove_state;
+        }
+
+        public String getMidphoto_state() {
+            return midphoto_state == null ? "" : midphoto_state;
+        }
+
+        public void setMidphoto_state(String midphoto_state) {
+            this.midphoto_state = midphoto_state;
+        }
+
+        public class RatiosBean{
+
+            /**
+             * goldnum : 100
+             * ratio_id : 888
+             * updated : 2018-03-22 12:01:51
+             */
+
+            private String goldnum;
+            private String ratio_id;
+            private String updated;
+
+            public String getGoldnum() {
+                return goldnum;
+            }
+
+            public void setGoldnum(String goldnum) {
+                this.goldnum = goldnum;
+            }
+
+            public String getRatio_id() {
+                return ratio_id;
+            }
+
+            public void setRatio_id(String ratio_id) {
+                this.ratio_id = ratio_id;
+            }
+
+            public String getUpdated() {
+                return updated;
+            }
+
+            public void setUpdated(String updated) {
+                this.updated = updated;
+            }
         }
     }
 }

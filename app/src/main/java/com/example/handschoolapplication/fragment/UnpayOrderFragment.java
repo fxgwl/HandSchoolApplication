@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.NowApplyActivity;
@@ -65,7 +66,7 @@ public class UnpayOrderFragment extends BaseFragment {
             @Override
             public void setOnCancelOrder(int position) {
                 OrderBean.DataBean dataBean = mOrderList.get(position);
-                showCashDialog(dataBean,position);
+                showCashDialog(dataBean, position);
             }
 
             @Override
@@ -88,8 +89,9 @@ public class UnpayOrderFragment extends BaseFragment {
                 String school_name = dataBean.getCourseInfo().getSchool_name();
                 String course_name = dataBean.getCourseInfo().getCourse_name();
                 String course_time = dataBean.getOrder_course_time();
-                String enrol_num = dataBean.getCourseInfo().getEnrol_num();
-                String course_capacity = dataBean.getCourseInfo().getCourse_capacity();
+                String course_state = dataBean.getCourseInfo().getCourse_state();
+                int enrol_num = dataBean.getCourseInfo().getEnrol_num();
+                int course_capacity = dataBean.getCourseInfo().getCourse_capacity();
                 String age_range = dataBean.getCourseInfo().getAge_range();
                 String course_teacher = dataBean.getCourseInfo().getCourse_teacher();
                 String original_price = dataBean.getCourseInfo().getOriginal_price();
@@ -97,22 +99,35 @@ public class UnpayOrderFragment extends BaseFragment {
                 String class_money = dataBean.getClass_money();
                 String course_id = dataBean.getCourseInfo().getCourse_id();
                 String order_id = dataBean.getOrder_id();
+                String course_num = dataBean.getCourse_num();
+                String is_golds = dataBean.getCourseInfo().getIs_golds();
+                String student_name = dataBean.getStudent_name();
+                String student_sex = dataBean.getStudent_sex();
 
-                Intent intent1 = new Intent(getActivity(), NowApplyActivity.class);
-                intent1.putExtra("school_id", school_id);
-                intent1.putExtra("school_name", school_name);
-                intent1.putExtra("course_name", course_name);
-                intent1.putExtra("course_time", course_time);
-                intent1.putExtra("enrol_num", enrol_num);
-                intent1.putExtra("course_capacity", course_capacity);
-                intent1.putExtra("age_range", age_range);
-                intent1.putExtra("course_teacher", course_teacher);
-                intent1.putExtra("original_price", original_price);
-                intent1.putExtra("preferential_price", preferential_price);
-                intent1.putExtra("class_money", class_money);
-                intent1.putExtra("course_id", course_id);
-                intent1.putExtra("order_id",order_id);
-                startActivity(intent1);
+                if ("2".equals(course_state) || enrol_num >= course_capacity) {
+                    Toast.makeText(activity, course_name + "已停止报名", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent1 = new Intent(getActivity(), NowApplyActivity.class);
+                    intent1.putExtra("school_id", school_id);
+                    intent1.putExtra("school_name", school_name);
+                    intent1.putExtra("course_name", course_name);
+                    intent1.putExtra("course_time", course_time);
+                    intent1.putExtra("enrol_num", enrol_num);
+                    intent1.putExtra("course_capacity", course_capacity);
+                    intent1.putExtra("age_range", age_range);
+                    intent1.putExtra("course_teacher", course_teacher);
+                    intent1.putExtra("original_price", original_price);
+                    intent1.putExtra("preferential_price", preferential_price);
+                    intent1.putExtra("class_money", class_money);
+                    intent1.putExtra("course_id", course_id);
+                    intent1.putExtra("order_id", order_id);
+                    intent1.putExtra("course_num", course_num);
+                    intent1.putExtra("is_golds", is_golds);
+                    intent1.putExtra("student_name", student_name);
+                    intent1.putExtra("student_sex", student_sex);
+                    startActivityForResult(intent1, 0);
+                }
+
             }
 
             @Override
@@ -126,8 +141,8 @@ public class UnpayOrderFragment extends BaseFragment {
                 intent.putExtra("money", dataBean.getOrder_money());
                 intent.putExtra("coursenum", dataBean.getCourse_num());
                 intent.putExtra("tuimoney", dataBean.getOrder_money());
-                intent.putExtra("course_id",dataBean.getCourse_id());
-                intent.putExtra("schooluid",dataBean.getUser_id());
+                intent.putExtra("course_id", dataBean.getCourse_id());
+                intent.putExtra("schooluid", dataBean.getUser_id());
                 startActivity(intent);
             }
 
@@ -142,12 +157,24 @@ public class UnpayOrderFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), PublishEvaluateActivity.class)
                         .putExtra("order_id", dataBean.getCourse_id())
                         .putExtra("school_name", dataBean.getSchool_name())
-                        .putExtra("class_photo", dataBean.getClass_photo()
+                        .putExtra("class_photo", dataBean.getSchool_logo()
                         );
                 startActivity(intent);
             }
         });
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        initDataView();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        initDataView();
     }
 
     private void initDataView() {
@@ -159,7 +186,8 @@ public class UnpayOrderFragment extends BaseFragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa",
+                                "(UnpayOrderFragment.java:190)<---->" + e.getMessage());
                     }
 
                     @Override

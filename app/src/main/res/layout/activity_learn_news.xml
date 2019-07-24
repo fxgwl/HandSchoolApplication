@@ -7,9 +7,9 @@
     tools:context="com.example.handschoolapplication.activity.LearnNewsActivity">
     <include layout="@layout/title_bar_blue"
         android:id="@+id/title"/>
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/lv_learn_news"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/title"/>
 </RelativeLayout>

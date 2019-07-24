@@ -32,6 +32,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+import static com.zhy.http.okhttp.OkHttpUtils.post;
+
 public class ClassTypeAddDetailActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
@@ -107,7 +109,7 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
     }
     private void getThirdList(String flag) {
         typeThree.clear();
-        OkHttpUtils.post()
+        post()
                 .url(Internet.GET_THIRD)
                 .addParams("two_name", flag)
                 .build()
@@ -150,7 +152,7 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
     }
 
     private void initView() {
-        tvTitle.setText("添加学堂类别");
+        tvTitle.setText("添加机构类别");
         tvTypeOne.setText(typeOne);
         galleryAdapter = new GalleryAdapter(this, typeTwo);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -223,6 +225,11 @@ public class ClassTypeAddDetailActivity extends BaseActivity {
 
     private void addType(String type) {
 
+        Log.e("aaa",
+            "(ClassTypeAddDetailActivity.java:229)----userId---"+userId);
+
+        Log.e("aaa",
+            "(ClassTypeAddDetailActivity.java:232)---type----"+type);
         OkHttpUtils
                 .post()
                 .url(Internet.ADD_CLASS_TYPE)

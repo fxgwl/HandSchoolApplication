@@ -3,6 +3,7 @@ package com.example.handschoolapplication.activity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -24,39 +25,47 @@ import com.blankj.utilcode.utils.ScreenUtils;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.InternetS;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import okhttp3.Call;
 import util.DownloadAppUtils;
-
 
 
 public class SplashActivity extends BaseActivity {
 
 
     private static final int DOWNLOAD_SUCCESS = 6;
+    private static final int REQUEST_CALL_PHONE = 400;
+    private static final int sleepTime = 2000;
     private final int UPDATE_NO_NEED = 0;
     private final int UPDATE_CLIENT = 3;
     private final int GET_UPDATE_INFO_ERROR = 2;
     private final int DOWN_ERROR = 4;
-    private static final int REQUEST_CALL_PHONE = 400;
-    private String type;
-
+    private String type = "0";
     private String localVersion;
     private File file = null;
     private ProgressDialog pd;
-
     private String[] permissions = new String[]{
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.CALL_PHONE
-            ,Manifest.permission.READ_PHONE_STATE
-            ,Manifest.permission.ACCESS_FINE_LOCATION
-            ,Manifest.permission.READ_EXTERNAL_STORAGE
+            , Manifest.permission.READ_PHONE_STATE
+            , Manifest.permission.ACCESS_FINE_LOCATION
+            , Manifest.permission.READ_EXTERNAL_STORAGE
     };
-
     private ArrayList<String> mPermission = new ArrayList<>();
-
+    private long startTime;
+    private String versions;
+    private int REQUEST_CODE_ACCESS_COARSE_LOCATION;
+    private boolean isFirst;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -85,15 +94,9 @@ public class SplashActivity extends BaseActivity {
         }
     };// 进度条对话框
 
-    private static final int sleepTime = 2000;
-    private long startTime;
-    private String versions;
-    private int REQUEST_CODE_ACCESS_COARSE_LOCATION;
-
     @Override
     protected void onCreate(Bundle arg0) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-
             ScreenUtils.setTransparentStatusBar(SplashActivity.this);
         }
         super.onCreate(arg0);
@@ -103,7 +106,7 @@ public class SplashActivity extends BaseActivity {
 //                getVersionInfo();//获取当前版本是否为最新
             }
         }, 300);
-
+        isFirst = getSharedPreferences("isFirst", Context.MODE_PRIVATE).getBoolean("first", true);
         startTime = System.currentTimeMillis();
         RelativeLayout rootLayout = (RelativeLayout) findViewById(R.id.splash_root);
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
@@ -115,7 +118,6 @@ public class SplashActivity extends BaseActivity {
     private void requestPermission() {
         //判断Android版本是否大于23
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
             mPermission.clear();
             for (int i = 0; i < permissions.length; i++) {
                 if (ContextCompat.checkSelfPermission(SplashActivity.this, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
@@ -123,14 +125,13 @@ public class SplashActivity extends BaseActivity {
                 }
             }
             if (mPermission.isEmpty()) {//未授予的权限为空，表示都授予了
-                Toast.makeText(SplashActivity.this,"已经授权",Toast.LENGTH_LONG).show();
+//                Toast.makeText(SplashActivity.this, "已经授权", Toast.LENGTH_LONG).show();
+                checkWebEnvironment();
+//                getVersionInfo();
             } else {//请求权限方法
                 String[] permissions = mPermission.toArray(new String[mPermission.size()]);//将List转为数组
                 ActivityCompat.requestPermissions(SplashActivity.this, permissions, REQUEST_CODE_ACCESS_COARSE_LOCATION);
             }
-
-
-
 //            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
 //            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
 //                ActivityCompat.requestPermissions(this, new String[]{
@@ -150,18 +151,79 @@ public class SplashActivity extends BaseActivity {
 //            }
         } else {
             Log.e("aaa",
-                    "(SplashActivity.java:111)"+"不用获取权限");
+                    "(SplashActivity.java:111)" + "不用获取权限");
             //API 版本在23以下
-            checkAutoLogin();
+            getVersionInfo();
+//            checkWebEnvironment();
         }
+    }
+
+    //获取服务器和本地版本信息进行对比
+    public void getVersionInfo() {
+
+        OkHttpUtils.post()
+                .url(InternetS.APK)
+                .params(new HashMap<String, String>())
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(SplashActivity.java:105)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(SplashActivity.java:112)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            versions = data.getString("version_num");
+                            type = data.getString("is_coercion");
+                            try {
+                                if (versions.equals(getVersionName())) {
+                                    Message msg = new Message();
+                                    msg.what = UPDATE_NO_NEED;
+                                    handler.sendMessage(msg);
+                                } else {
+                                    String url = Internet.BASE_URL + data.getString("apk_url");
+                                    Message msg = new Message();
+                                    msg.what = UPDATE_CLIENT;
+                                    msg.obj = url;
+                                    handler.sendMessage(msg);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    // 获取应用当前版本信息
+    private String getVersionName() throws Exception {
+        PackageManager packageManager = getPackageManager();
+        PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(), 0);
+        return packInfo.versionName;
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_splash;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE_ACCESS_COARSE_LOCATION) {
 
-            Log.e("aaa",
-                "(SplashActivity.java:136)grantResults.length   "+grantResults.length);
             for (int i = 0; i < grantResults.length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     //判断是否勾选禁止后不再询问
@@ -172,105 +234,52 @@ public class SplashActivity extends BaseActivity {
                     }
                 }
             }
+
+            Log.e("aaa",
+                    "(SplashActivity.java:176)<--运行自动登录-->");
             checkAutoLogin();
         }
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_splash;
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void checkAutoLogin() {
-        new Thread(new Runnable() {
-            public void run() {
-                long costTime = System.currentTimeMillis() - startTime;
-                //wait
-                if (sleepTime - costTime > 0) {
-                    try {
-                        Thread.sleep(sleepTime - costTime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        if (isFirst) {
+            startActivity(new Intent(SplashActivity.this, LeadActivity.class));
+            finish();
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        } else {
+            startActivity(new Intent(SplashActivity.this, AdvertisementActivity.class));
+            finish();
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+
+//        checkWebEnvironment();
+    }
+
+    private void checkWebEnvironment() {
+        Log.e("aaa",
+                "(SplashActivity.java:222)<--测试网络环境-->");
+        OkHttpUtils.post()
+                .url(Internet.HOMEAD)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(SplashActivity.java:227)<---->" + e.getMessage());
+                        startActivity(new Intent(SplashActivity.this, NoWebServiceActivity.class));
                     }
-                }
 
-                // boolean is_before_login = (boolean) SPUtils.get(Constants.IS_BEFORE_LOGIN, true);
-                //if (false) {
-                //enter main screen
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                finish();
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-//                } else {
-//                    if ("true".equals(SPUtils.get(SpConstant.IS_FIRST_LOGIN, "true"))) {
-//                        startActivity(new Intent(SplashActivity.this, NavigateActivity.class));
-//                    } else {
-//                        startActivity(new Intent(SplashActivity.this, LloginActivity.class));
-//                    }
-//                    finish();
-//                }
-            }
-        }).start();
-    }
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(SplashActivity.java:228)" + response);
 
+                        getVersionInfo();
 
-    //获取服务器和本地版本信息进行对比
-    public void getVersionInfo() {
+                    }
+                });
 
-//        OkHttpUtils.post()
-//                .url(Internet.UPDATEVERSION)
-//                .params(new HashMap<String, String>())
-//                .build()
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onError(Call call, Exception e, int id) {
-//                        Log.e("aaa",
-//                                "(SettingsFragment.java:105)" + e.getMessage());
-//                    }
-//
-//                    @Override
-//                    public void onResponse(String response, int id) {
-//                        Log.e("aaa",
-//                                "(SettingsFragment.java:112)" + response);
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response);
-//                            JSONObject data = jsonObject.getJSONObject("data");
-//                            String versions = data.getString("versions");
-//                            type = data.getString("type");
-//                            try {
-//                                if (versions.equals(getVersionName())) {
-//                                    Message msg = new Message();
-//                                    msg.what = UPDATE_NO_NEED;
-//                                    handler.sendMessage(msg);
-//                                } else {
-//                                    String url = data.getString("url");
-//                                    Message msg = new Message();
-//                                    msg.what = UPDATE_CLIENT;
-//                                    msg.obj = url;
-//                                    handler.sendMessage(msg);
-//                                }
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-    }
-
-
-    // 获取应用当前版本信息
-    private String getVersionName() throws Exception {
-        PackageManager packageManager = getPackageManager();
-        PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(), 0);
-        return packInfo.versionName;
     }
 
     //显示更新dialog
@@ -287,12 +296,11 @@ public class SplashActivity extends BaseActivity {
         });
         builer.setNegativeButton("暂不", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent;
                 dialog.dismiss();
-                if (type.equals("1")){
-                    Toast.makeText(SplashActivity.this, "msg", Toast.LENGTH_SHORT).show();
-                }else
-                checkAutoLogin();
+                if (type.equals("1")) {
+                    Toast.makeText(SplashActivity.this, "更新已取消", Toast.LENGTH_SHORT).show();
+                } else
+                    checkAutoLogin();
 //                if (isFirstIn) {
 //                    // start guideactivity1
 //                    intent = new Intent(LoginActivity.this,
@@ -324,25 +332,31 @@ public class SplashActivity extends BaseActivity {
      * 从服务器中下载APK
      */
     protected void downLoadApk(final String url) {
-        pd = new ProgressDialog(this);
-        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pd.setMessage("正在下载更新");
-        pd.setCanceledOnTouchOutside(false);
-        pd.show();
-
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    DownloadAppUtils.downloadForAutoInstall(SplashActivity.this, Internet.BASE_URL + url, "UD.apk", versions);
-                } catch (Exception e) {
-                    Message msg = new Message();
-                    msg.what = DOWN_ERROR;
-                    handler.sendMessage(msg);
-                    e.printStackTrace();
-                }
-            }
-        }.start();
+        Log.e("aaa", "(SplashActivity.java:332)<---->" + url);
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri uri = Uri.parse(url);
+        intent.setData(uri);
+        startActivity(intent);
+//        pd = new ProgressDialog(this);
+//        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        pd.setMessage("正在下载更新");
+//        pd.setCanceledOnTouchOutside(false);
+//        pd.show();
+//
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    DownloadAppUtils.downloadForAutoInstall(SplashActivity.this, Internet.BASE_URL + url, "handSchool.apk", "掌上私塾"+versions);
+//                } catch (Exception e) {
+//                    Message msg = new Message();
+//                    msg.what = DOWN_ERROR;
+//                    handler.sendMessage(msg);
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.start();
 
     }
 

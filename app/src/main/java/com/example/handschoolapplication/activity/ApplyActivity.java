@@ -1,21 +1,29 @@
 package com.example.handschoolapplication.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.adapter.ApplyMessageAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.ApplyDetail;
 import com.example.handschoolapplication.bean.ApplyMessage;
+import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
+import com.example.handschoolapplication.view.SelfDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -183,7 +191,8 @@ public class ApplyActivity extends BaseActivity implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(this, TimeChooseActivity.class)
+
+        startActivity(new Intent(this, ApplyDetailActivity.class)
                 .putExtra("course_id", mList.get(position).getCourse_id()));
     }
 
@@ -191,22 +200,27 @@ public class ApplyActivity extends BaseActivity implements AdapterView.OnItemCli
     @Override
     public void onStart(int position) {
         String course_id = mList.get(position).getCourse_id();
-        startCourse(course_id);
+        showDialog("是否开课？", "start", course_id);
+
     }
 
     @Override
     public void onCancel(int position) {
-
+        String course_id = mList.get(position).getCourse_id();
+        showDialog("取消课程？", "end", course_id);
     }
 
+    //结束
     @Override
     public void onEnd(int position) {
         String course_id = mList.get(position).getCourse_id();
-        endCourse(course_id);
+        showDialog("结束课程？", "end", course_id);
+
     }
 
 
     private void startCourse(String course_id) {
+        Log.e("aaa","(ApplyActivity.java:221)<---->" + course_id);
         OkHttpUtils.post()
                 .url(InternetS.BEGINCOURSE)
                 .addParams("course_id", course_id)
@@ -222,11 +236,18 @@ public class ApplyActivity extends BaseActivity implements AdapterView.OnItemCli
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ApplyActivity.java:218)" + response);
+
+                        if (response.contains("成功")) {
+                            initData(state);
+                            Toast.makeText(ApplyActivity.this, "开课成功", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
 
     private void endCourse(String course_id) {
+
+        Log.e("aaa","(ApplyActivity.java:248)<---->" + course_id);
         OkHttpUtils.post()
                 .url(InternetS.ENDCOURSE)
                 .addParams("course_id", course_id)
@@ -243,7 +264,124 @@ public class ApplyActivity extends BaseActivity implements AdapterView.OnItemCli
 
                         Log.e("aaa",
                                 "(ApplyActivity.java:244)" + response);
+
+                        if (response.contains("成功")) {
+                            initData(state);
+                            Toast.makeText(ApplyActivity.this, "结束成功", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
+    }
+
+    private void isCanEnd(final String course_id) {
+        OkHttpUtils.post()
+                .url(Internet.BMINFO)
+                .addParams("course_id", course_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ApplyActivity.java:282)<---->" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ApplyActivity.java:288)报名信息" + response);
+                        boolean canEnd = false;
+                        if (TextUtils.isEmpty(response) || response.contains("没有信息")) {
+                            Toast.makeText(ApplyActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Gson gson = new Gson();
+                            ArrayList<ApplyDetail.DataBean> dataBeens = (ArrayList<ApplyDetail.DataBean>) gson.fromJson(response, ApplyDetail.class).getData();
+                            if (dataBeens != null && dataBeens.size() > 0) {
+                                for (int i = 0; i < dataBeens.size(); i++) {
+                                    String all_class = dataBeens.get(i).getAll_class();
+                                    int all = Integer.parseInt(all_class);
+                                    String study_class = dataBeens.get(i).getStudy_class();
+                                    int study = Integer.parseInt(study_class);
+                                    if (study < all) {
+                                        canEnd = false;
+                                        break;
+                                    } else {
+                                        canEnd = true;
+                                    }
+                                }
+
+                                if (canEnd){
+                                    endCourse(course_id);
+                                }else {
+                                    Toast.makeText(ApplyActivity.this, "还有未完成的课程，不能结课", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(ApplyActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    }
+                });
+
+
+    }
+
+
+    private void showDialog(String title, final String flag, final String course_id) {
+        final SelfDialog selfDialog = new SelfDialog(this);
+
+        selfDialog.setMessage(title);
+        selfDialog.setYesOnclickListener("确定", new SelfDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+
+                if (flag.equals("start")) {
+                    startCourse(course_id);
+                } else {
+                    isCanEnd(course_id);
+//                    endCourse(course_id);
+                }
+                selfDialog.dismiss();
+            }
+        });
+
+
+        selfDialog.setNoOnclickListener("取消", new SelfDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+
+                selfDialog.dismiss();
+            }
+        });
+        backgroundAlpha(0.6f);
+        selfDialog.setOnDismissListener(new poponDismissListener());
+        selfDialog.show();
+    }
+
+
+    /**
+     * 添加弹出的dialog关闭的事件，主要是为了将背景透明度改回来
+     *
+     * @author cg
+     */
+    class poponDismissListener implements Dialog.OnDismissListener {
+
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+            backgroundAlpha(1f);
+        }
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
     }
 }

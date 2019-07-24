@@ -24,6 +24,8 @@ public class SetNameActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         tvTitle.setText("会员昵称");
 
+        String name = getIntent().getStringExtra("name");
+        etName.setText(name);
     }
 
     @Override
@@ -31,13 +33,17 @@ public class SetNameActivity extends BaseActivity {
         return R.layout.activity_set_name;
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_menu,R.id.tv_save})
+    @OnClick({R.id.rl_back, R.id.iv_menu,R.id.tv_save,R.id.iv_del_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
+                break;
+            case R.id.iv_del_name:
+                etName.setText("");
                 break;
             case R.id.tv_save:
                 String name = etName.getText().toString().trim();

@@ -55,14 +55,28 @@ public class CourseSortBean implements Serializable {
     private String original_price;
     private String popularity_num;
     private String preferential_price;
+    private String picture_one;
+    private String picture_two;
+    private String picture_three;
+    private String picture_four;
+    private String picture_five;
     private String school_id;
     private String school_jing;
     private String school_name;
     private String school_wei;
     private String study_num;
+    private String study_code;
     private String user_id;
     private String hot_time;
     private double distance;
+
+    public String getStudy_code() {
+        return study_code == null ? "" : study_code;
+    }
+
+    public void setStudy_code(String study_code) {
+        this.study_code = study_code;
+    }
 
     public String getAge_range() {
         return age_range;
@@ -254,6 +268,46 @@ public class CourseSortBean implements Serializable {
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public String getPicture_one() {
+        return picture_one;
+    }
+
+    public void setPicture_one(String picture_one) {
+        this.picture_one = picture_one;
+    }
+
+    public String getPicture_two() {
+        return picture_two;
+    }
+
+    public void setPicture_two(String picture_two) {
+        this.picture_two = picture_two;
+    }
+
+    public String getPicture_three() {
+        return picture_three;
+    }
+
+    public void setPicture_three(String picture_three) {
+        this.picture_three = picture_three;
+    }
+
+    public String getPicture_four() {
+        return picture_four;
+    }
+
+    public void setPicture_four(String picture_four) {
+        this.picture_four = picture_four;
+    }
+
+    public String getPicture_five() {
+        return picture_five;
+    }
+
+    public void setPicture_five(String picture_five) {
+        this.picture_five = picture_five;
     }
 
     @Override

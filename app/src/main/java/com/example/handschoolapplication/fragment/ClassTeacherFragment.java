@@ -14,7 +14,6 @@ import com.example.handschoolapplication.adapter.TeacherAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.Teacher;
 import com.example.handschoolapplication.utils.Internet;
-import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -46,7 +45,8 @@ public class ClassTeacherFragment extends BaseFragment {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
         lvTeacher = (ListView) view.findViewById(R.id.lv_teacher);
-        school_id = (String) SPUtils.get(getActivity(), "school_id", "");
+//        school_id = (String) SPUtils.get(getActivity(), "school_id", "");
+        school_id = getArguments().getString("school_id");
         mAdapter = new TeacherAdapter(getActivity(), mList);
         lvTeacher.setAdapter(mAdapter);
         initViewData();

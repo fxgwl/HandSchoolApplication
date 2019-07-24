@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.handschoolapplication.activity.NoWebServiceActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/wangluobujia">
+
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="100dp">
+            <View
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/btn_try_again"
+                android:layout_width="1px"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_web_not_ok"
+                android:text="重新加载"
+                android:textColor="@color/white"
+                android:layout_weight="3"/>
+
+            <View
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="网络好像不太给力哦，请稍后再试！"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:layout_above="@+id/ll_bottom"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"/>
+
+
+    </RelativeLayout>
+</RelativeLayout>

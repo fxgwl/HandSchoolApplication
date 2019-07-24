@@ -10,63 +10,71 @@ public class LearningCourseBean {
 
 
     /**
-     * class_money : 800元/4节
-     * class_name : 音乐
-     * class_people :
-     * class_photo : images/head.jpg
-     * class_size :
-     * class_teacher : 1506153404911
-     * class_time :
-     * courseInfo : {"age_range":"2-6岁","course_address":"天津市北京市","course_capacity":"28","course_id":"1506153404911","course_info":"bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg","course_money":"800元/4节","course_name":"音乐","course_photo":"images/head.jpg","course_state":"1","course_teacher":"1","course_time":"2017-09-23 15:56:44","course_type":"文体艺术/书画,学习辅导/中小学教育","dengji":"5","enrol_num":"35","hot_time":"2017-09-20 14:15:50","original_price":"660","popularity_num":"537","preferential_price":"330","school_id":"1505805630236","school_jing":"119.40403592998626","school_name":"我的小学堂a","school_wei":"39.91386028193478","study_num":"1506153404911","user_id":"8841f54f7b574f06a470ee9002043f8d"}
-     * courseTimeInfo : [{"course_id":"1506153404911","create_time":"2017-10-20 17:30:05","ctime_id":7,"ctime_times":"8:30-10:00,10:30-12:00,13:30-15:00,15:30-17:00","ctime_week":"周一"},{"course_id":"1506153404911","create_time":"2017-10-20 17:30:05","ctime_id":8,"ctime_times":"8:30-10:00,10:30-12:00,13:30-15:00,15:30-17:00","ctime_week":"周二"}]
-     * course_id : 1506153404911
-     * course_num : 2
-     * is_coupons : 0
+     * classSign : {"all_class":"7","course_id":"1529564813858","created":"2018-06-22","csign_id":2,"order_id":"1529650802208","study_class":"1","user_head":"head/initial.jpg","user_id":"d56c00390a77475a84f67c68a675c243","user_name":"117.22191725292298"}
+     * class_money : 1200元/7节
+     * class_name : 马飘飘
+     * class_photo : 2018/06/21/1529564813826.png
+     * class_teacher : 1529564813858
+     * class_time : 2018-06-22 15:00:10
+     * courseInfo : {"age_range":"120","course_address":"天津市河西区浦口道70号-增1好好的好的","course_capacity":"10","course_id":"1529564813858","course_info":"","course_money":"1200元/7节","course_name":"马飘飘","course_photo":"2018/06/21/1529564813826.png","course_state":"1","course_teacher":"马飘飘","course_time":"2018-06-22 14:30:41","course_type":"文体艺术//书画:书法,球类:足球/篮球/排球/台球","enrol_num":"12","is_coups":"1","is_golds":"1","original_price":"100","popularity_num":"28","preferential_price":"100","school_id":"1529562005537","school_jing":"117.22191725292298","school_name":"学堂zhw","school_wei":"39.11746826637447","study_num":"1529564813858","user_id":"e2d00b6a83994f83ad6322bd5cd2bdff"}
+     * courseTimeInfo : [{"course_id":"1529564813858","create_time":"2018-06-22 14:30:41","ctime_id":97,"ctime_times":"14:00-16:00","ctime_type":"0","ctime_week":"2018-06-21,2018-06-29"}]
+     * course_id : 1529564813858
+     * course_num : 1
+     * hongdian : 0
      * is_gold : 0
-     * order_course_time : 周一8:30-10:00,10:30-12:00,13:30-15:00,15:30-17:00
-     周二8:30-10:00,10:30-12:00,13:30-15:00,15:30-17:00
-     * order_id : 1507541019423
-     * order_money : 330
-     * order_state : 3
-     * order_type :
-     * ordre_time : 2017-10-09 17:23:39
-     * pay_num :
-     * pay_type :
-     * school_id : 1505805630236
-     * school_logo : bicths/4c975ad7eeb646f7b0e06cabc8290ddd/1506565555092.jpg
-     * school_name : 我的小学堂a
-     * user_id : 772d42a5a0014faa8706f7cd3f6e8828
-     * user_name : chuan
-     * user_phone : 13930989708
+     * order_course_time : 2018-06-21,2018-06-2914:00-16:00
+     * order_id : 1529650802208
+     * order_money : 0.01
+     * order_state : 2
+     * ordre_time : 2018-06-22 15:00:02
+     * pay_num : 1577
+     * pay_type : 0
+     * read_state : 0
+     * school_id : 1529562005537
+     * school_logo : head/initial.jpg
+     * school_name : 学堂zhw
+     * student_name : dfd
+     * student_name : dfd
+     * user_id : d56c00390a77475a84f67c68a675c243
+     * user_phone : 11
      */
 
+    private ClassSignBean classSign;
     private String class_money;
     private String class_name;
-    private String class_people;
     private String class_photo;
-    private String class_size;
     private String class_teacher;
     private String class_time;
     private CourseInfoBean courseInfo;
     private String course_id;
     private String course_num;
-    private int is_coupons;
+    private String hongdian;
     private String is_gold;
     private String order_course_time;
     private String order_id;
     private String order_money;
     private String order_state;
-    private String order_type;
     private String ordre_time;
     private String pay_num;
     private String pay_type;
+    private String read_state;
     private String school_id;
     private String school_logo;
     private String school_name;
+    private String student_name;
+    private String student_sex;
     private String user_id;
-    private String user_name;
     private String user_phone;
     private List<CourseTimeInfoBean> courseTimeInfo;
+    private boolean isLastSign;
+
+    public ClassSignBean getClassSign() {
+        return classSign;
+    }
+
+    public void setClassSign(ClassSignBean classSign) {
+        this.classSign = classSign;
+    }
 
     public String getClass_money() {
         return class_money;
@@ -84,28 +92,12 @@ public class LearningCourseBean {
         this.class_name = class_name;
     }
 
-    public String getClass_people() {
-        return class_people;
-    }
-
-    public void setClass_people(String class_people) {
-        this.class_people = class_people;
-    }
-
     public String getClass_photo() {
         return class_photo;
     }
 
     public void setClass_photo(String class_photo) {
         this.class_photo = class_photo;
-    }
-
-    public String getClass_size() {
-        return class_size;
-    }
-
-    public void setClass_size(String class_size) {
-        this.class_size = class_size;
     }
 
     public String getClass_teacher() {
@@ -148,12 +140,12 @@ public class LearningCourseBean {
         this.course_num = course_num;
     }
 
-    public int getIs_coupons() {
-        return is_coupons;
+    public String getHongdian() {
+        return hongdian;
     }
 
-    public void setIs_coupons(int is_coupons) {
-        this.is_coupons = is_coupons;
+    public void setHongdian(String hongdian) {
+        this.hongdian = hongdian;
     }
 
     public String getIs_gold() {
@@ -196,14 +188,6 @@ public class LearningCourseBean {
         this.order_state = order_state;
     }
 
-    public String getOrder_type() {
-        return order_type;
-    }
-
-    public void setOrder_type(String order_type) {
-        this.order_type = order_type;
-    }
-
     public String getOrdre_time() {
         return ordre_time;
     }
@@ -226,6 +210,14 @@ public class LearningCourseBean {
 
     public void setPay_type(String pay_type) {
         this.pay_type = pay_type;
+    }
+
+    public String getRead_state() {
+        return read_state;
+    }
+
+    public void setRead_state(String read_state) {
+        this.read_state = read_state;
     }
 
     public String getSchool_id() {
@@ -252,20 +244,28 @@ public class LearningCourseBean {
         this.school_name = school_name;
     }
 
+    public String getStudent_name() {
+        return student_name;
+    }
+
+    public void setStudent_name(String student_name) {
+        this.student_name = student_name;
+    }
+
+    public String getStudent_sex() {
+        return student_sex;
+    }
+
+    public void setStudent_sex(String student_sex) {
+        this.student_sex = student_sex;
+    }
+
     public String getUser_id() {
         return user_id;
     }
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
-    }
-
-    public String getUser_name() {
-        return user_name;
-    }
-
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
     }
 
     public String getUser_phone() {
@@ -284,32 +284,185 @@ public class LearningCourseBean {
         this.courseTimeInfo = courseTimeInfo;
     }
 
+    public boolean isLastSign() {
+        return isLastSign;
+    }
+
+    public void setLastSign(boolean lastSign) {
+        isLastSign = lastSign;
+    }
+
+    @Override
+    public String toString() {
+        return "LearningCourseBean{" +
+                "classSign=" + classSign +
+                ", class_money='" + class_money + '\'' +
+                ", class_name='" + class_name + '\'' +
+                ", class_photo='" + class_photo + '\'' +
+                ", class_teacher='" + class_teacher + '\'' +
+                ", class_time='" + class_time + '\'' +
+                ", courseInfo=" + courseInfo +
+                ", course_id='" + course_id + '\'' +
+                ", course_num='" + course_num + '\'' +
+                ", hongdian='" + hongdian + '\'' +
+                ", is_gold='" + is_gold + '\'' +
+                ", order_course_time='" + order_course_time + '\'' +
+                ", order_id='" + order_id + '\'' +
+                ", order_money='" + order_money + '\'' +
+                ", order_state='" + order_state + '\'' +
+                ", ordre_time='" + ordre_time + '\'' +
+                ", pay_num='" + pay_num + '\'' +
+                ", pay_type='" + pay_type + '\'' +
+                ", read_state='" + read_state + '\'' +
+                ", school_id='" + school_id + '\'' +
+                ", school_logo='" + school_logo + '\'' +
+                ", school_name='" + school_name + '\'' +
+                ", student_name='" + student_name + '\'' +
+                ", student_sex='" + student_sex + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", user_phone='" + user_phone + '\'' +
+                ", courseTimeInfo=" + courseTimeInfo +
+                '}';
+    }
+
+    public static class ClassSignBean {
+        /**
+         * all_class : 7
+         * course_id : 1529564813858
+         * created : 2018-06-22
+         * csign_id : 2
+         * order_id : 1529650802208
+         * study_class : 1
+         * user_head : head/initial.jpg
+         * user_id : d56c00390a77475a84f67c68a675c243
+         * user_name : 117.22191725292298
+         */
+
+        private String all_class;
+        private String course_id;
+        private String created;
+        private int csign_id;
+        private String order_id;
+        private int study_class;
+        private String user_head;
+        private String user_id;
+        private String user_name;
+
+        public String getAll_class() {
+            return all_class;
+        }
+
+        public void setAll_class(String all_class) {
+            this.all_class = all_class;
+        }
+
+        public String getCourse_id() {
+            return course_id;
+        }
+
+        public void setCourse_id(String course_id) {
+            this.course_id = course_id;
+        }
+
+        public String getCreated() {
+            return created;
+        }
+
+        public void setCreated(String created) {
+            this.created = created;
+        }
+
+        public int getCsign_id() {
+            return csign_id;
+        }
+
+        public void setCsign_id(int csign_id) {
+            this.csign_id = csign_id;
+        }
+
+        public String getOrder_id() {
+            return order_id;
+        }
+
+        public void setOrder_id(String order_id) {
+            this.order_id = order_id;
+        }
+
+        public int getStudy_class() {
+            return study_class;
+        }
+
+        public void setStudy_class(int study_class) {
+            this.study_class = study_class;
+        }
+
+        public String getUser_head() {
+            return user_head;
+        }
+
+        public void setUser_head(String user_head) {
+            this.user_head = user_head;
+        }
+
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
+        }
+
+        public String getUser_name() {
+            return user_name;
+        }
+
+        public void setUser_name(String user_name) {
+            this.user_name = user_name;
+        }
+
+        @Override
+        public String toString() {
+            return "ClassSignBean{" +
+                    "all_class='" + all_class + '\'' +
+                    ", course_id='" + course_id + '\'' +
+                    ", created='" + created + '\'' +
+                    ", csign_id=" + csign_id +
+                    ", order_id='" + order_id + '\'' +
+                    ", study_class=" + study_class +
+                    ", user_head='" + user_head + '\'' +
+                    ", user_id='" + user_id + '\'' +
+                    ", user_name='" + user_name + '\'' +
+                    '}';
+        }
+    }
+
     public static class CourseInfoBean {
         /**
-         * age_range : 2-6岁
-         * course_address : 天津市北京市
-         * course_capacity : 28
-         * course_id : 1506153404911
-         * course_info : bicths/1584b04562a84667bd9068d6d2dd09c0/1505809601513.jpg
-         * course_money : 800元/4节
-         * course_name : 音乐
-         * course_photo : images/head.jpg
+         * age_range : 120
+         * course_address : 天津市河西区浦口道70号-增1好好的好的
+         * course_capacity : 10
+         * course_id : 1529564813858
+         * course_info :
+         * course_money : 1200元/7节
+         * course_name : 马飘飘
+         * course_photo : 2018/06/21/1529564813826.png
          * course_state : 1
-         * course_teacher : 1
-         * course_time : 2017-09-23 15:56:44
-         * course_type : 文体艺术/书画,学习辅导/中小学教育
-         * dengji : 5
-         * enrol_num : 35
-         * hot_time : 2017-09-20 14:15:50
-         * original_price : 660
-         * popularity_num : 537
-         * preferential_price : 330
-         * school_id : 1505805630236
-         * school_jing : 119.40403592998626
-         * school_name : 我的小学堂a
-         * school_wei : 39.91386028193478
-         * study_num : 1506153404911
-         * user_id : 8841f54f7b574f06a470ee9002043f8d
+         * course_teacher : 马飘飘
+         * course_time : 2018-06-22 14:30:41
+         * course_type : 文体艺术//书画:书法,球类:足球/篮球/排球/台球
+         * enrol_num : 12
+         * is_coups : 1
+         * is_golds : 1
+         * original_price : 100
+         * popularity_num : 28
+         * preferential_price : 100
+         * school_id : 1529562005537
+         * school_jing : 117.22191725292298
+         * school_name : 学堂zhw
+         * school_wei : 39.11746826637447
+         * study_num : 1529564813858
+         * user_id : e2d00b6a83994f83ad6322bd5cd2bdff
+         * study_class
          */
 
         private String age_range;
@@ -324,9 +477,9 @@ public class LearningCourseBean {
         private String course_teacher;
         private String course_time;
         private String course_type;
-        private String dengji;
         private String enrol_num;
-        private String hot_time;
+        private String is_coups;
+        private String is_golds;
         private String original_price;
         private String popularity_num;
         private String preferential_price;
@@ -335,7 +488,9 @@ public class LearningCourseBean {
         private String school_name;
         private String school_wei;
         private String study_num;
+        private String study_code;
         private String user_id;
+        private int study_class;
 
         public String getAge_range() {
             return age_range;
@@ -433,14 +588,6 @@ public class LearningCourseBean {
             this.course_type = course_type;
         }
 
-        public String getDengji() {
-            return dengji;
-        }
-
-        public void setDengji(String dengji) {
-            this.dengji = dengji;
-        }
-
         public String getEnrol_num() {
             return enrol_num;
         }
@@ -449,12 +596,20 @@ public class LearningCourseBean {
             this.enrol_num = enrol_num;
         }
 
-        public String getHot_time() {
-            return hot_time;
+        public String getIs_coups() {
+            return is_coups;
         }
 
-        public void setHot_time(String hot_time) {
-            this.hot_time = hot_time;
+        public void setIs_coups(String is_coups) {
+            this.is_coups = is_coups;
+        }
+
+        public String getIs_golds() {
+            return is_golds;
+        }
+
+        public void setIs_golds(String is_golds) {
+            this.is_golds = is_golds;
         }
 
         public String getOriginal_price() {
@@ -521,6 +676,14 @@ public class LearningCourseBean {
             this.study_num = study_num;
         }
 
+        public String getStudy_code() {
+            return study_code == null ? "" : study_code;
+        }
+
+        public void setStudy_code(String study_code) {
+            this.study_code = study_code;
+        }
+
         public String getUser_id() {
             return user_id;
         }
@@ -528,21 +691,63 @@ public class LearningCourseBean {
         public void setUser_id(String user_id) {
             this.user_id = user_id;
         }
+
+        public int getStudy_class() {
+            return study_class;
+        }
+
+        public void setStudy_class(int study_class) {
+            this.study_class = study_class;
+        }
+
+
+        @Override
+        public String toString() {
+            return "CourseInfoBean{" +
+                    "age_range='" + age_range + '\'' +
+                    ", course_address='" + course_address + '\'' +
+                    ", course_capacity='" + course_capacity + '\'' +
+                    ", course_id='" + course_id + '\'' +
+                    ", course_info='" + course_info + '\'' +
+                    ", course_money='" + course_money + '\'' +
+                    ", course_name='" + course_name + '\'' +
+                    ", course_photo='" + course_photo + '\'' +
+                    ", course_state='" + course_state + '\'' +
+                    ", course_teacher='" + course_teacher + '\'' +
+                    ", course_time='" + course_time + '\'' +
+                    ", course_type='" + course_type + '\'' +
+                    ", enrol_num='" + enrol_num + '\'' +
+                    ", is_coups='" + is_coups + '\'' +
+                    ", is_golds='" + is_golds + '\'' +
+                    ", original_price='" + original_price + '\'' +
+                    ", popularity_num='" + popularity_num + '\'' +
+                    ", preferential_price='" + preferential_price + '\'' +
+                    ", school_id='" + school_id + '\'' +
+                    ", school_jing='" + school_jing + '\'' +
+                    ", school_name='" + school_name + '\'' +
+                    ", school_wei='" + school_wei + '\'' +
+                    ", study_num='" + study_num + '\'' +
+                    ", user_id='" + user_id + '\'' +
+                    ", study_class=" + study_class +
+                    '}';
+        }
     }
 
     public static class CourseTimeInfoBean {
         /**
-         * course_id : 1506153404911
-         * create_time : 2017-10-20 17:30:05
-         * ctime_id : 7
-         * ctime_times : 8:30-10:00,10:30-12:00,13:30-15:00,15:30-17:00
-         * ctime_week : 周一
+         * course_id : 1529564813858
+         * create_time : 2018-06-22 14:30:41
+         * ctime_id : 97
+         * ctime_times : 14:00-16:00
+         * ctime_type : 0
+         * ctime_week : 2018-06-21,2018-06-29
          */
 
         private String course_id;
         private String create_time;
         private int ctime_id;
         private String ctime_times;
+        private String ctime_type;
         private String ctime_week;
 
         public String getCourse_id() {
@@ -577,12 +782,32 @@ public class LearningCourseBean {
             this.ctime_times = ctime_times;
         }
 
+        public String getCtime_type() {
+            return ctime_type;
+        }
+
+        public void setCtime_type(String ctime_type) {
+            this.ctime_type = ctime_type;
+        }
+
         public String getCtime_week() {
             return ctime_week;
         }
 
         public void setCtime_week(String ctime_week) {
             this.ctime_week = ctime_week;
+        }
+
+        @Override
+        public String toString() {
+            return "CourseTimeInfoBean{" +
+                    "course_id='" + course_id + '\'' +
+                    ", create_time='" + create_time + '\'' +
+                    ", ctime_id=" + ctime_id +
+                    ", ctime_times='" + ctime_times + '\'' +
+                    ", ctime_type='" + ctime_type + '\'' +
+                    ", ctime_week='" + ctime_week + '\'' +
+                    '}';
         }
     }
 }

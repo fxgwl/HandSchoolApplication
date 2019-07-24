@@ -49,7 +49,6 @@
         android:layout_width="110dp"
         android:layout_height="76dp"
         android:scaleType="fitXY"
-        android:src="@drawable/beijing"
         android:layout_marginRight="10dp"/>
 
 

@@ -99,6 +99,11 @@ public class CourseBean {
         private String course_id;
         private String course_info;
         private String course_name;
+        private String picture_one;
+        private String picture_two;
+        private String picture_three;
+        private String picture_four;
+        private String picture_five;
         private String course_photo;
         private String course_state;
         private String course_teacher;
@@ -106,17 +111,26 @@ public class CourseBean {
         private String course_type;
         private String enrol_num;
         private String original_price;
-        private String popularity_num;
+        private int popularity_num;
         private String preferential_price;
         private String school_id;
         private String school_name;
         private String study_num;
+        private String study_code;
         private String user_id;
         private double school_wei;
         private double school_jing;
 
+        public String getStudy_code() {
+            return study_code == null ? "" : study_code;
+        }
+
+        public void setStudy_code(String study_code) {
+            this.study_code = study_code;
+        }
+
         public String getAge_range() {
-            return age_range;
+            return age_range == null ? "" : age_range;
         }
 
         public void setAge_range(String age_range) {
@@ -124,7 +138,7 @@ public class CourseBean {
         }
 
         public String getCourse_address() {
-            return course_address;
+            return course_address == null ? "" : course_address;
         }
 
         public void setCourse_address(String course_address) {
@@ -132,7 +146,7 @@ public class CourseBean {
         }
 
         public String getCourse_capacity() {
-            return course_capacity;
+            return course_capacity == null ? "" : course_capacity;
         }
 
         public void setCourse_capacity(String course_capacity) {
@@ -140,7 +154,7 @@ public class CourseBean {
         }
 
         public String getCourse_id() {
-            return course_id;
+            return course_id == null ? "" : course_id;
         }
 
         public void setCourse_id(String course_id) {
@@ -148,7 +162,7 @@ public class CourseBean {
         }
 
         public String getCourse_info() {
-            return course_info;
+            return course_info == null ? "" : course_info;
         }
 
         public void setCourse_info(String course_info) {
@@ -156,15 +170,55 @@ public class CourseBean {
         }
 
         public String getCourse_name() {
-            return course_name;
+            return course_name == null ? "" : course_name;
         }
 
         public void setCourse_name(String course_name) {
             this.course_name = course_name;
         }
 
+        public String getPicture_one() {
+            return picture_one == null ? "" : picture_one;
+        }
+
+        public void setPicture_one(String picture_one) {
+            this.picture_one = picture_one;
+        }
+
+        public String getPicture_two() {
+            return picture_two == null ? "" : picture_two;
+        }
+
+        public void setPicture_two(String picture_two) {
+            this.picture_two = picture_two;
+        }
+
+        public String getPicture_three() {
+            return picture_three == null ? "" : picture_three;
+        }
+
+        public void setPicture_three(String picture_three) {
+            this.picture_three = picture_three;
+        }
+
+        public String getPicture_four() {
+            return picture_four == null ? "" : picture_four;
+        }
+
+        public void setPicture_four(String picture_four) {
+            this.picture_four = picture_four;
+        }
+
+        public String getPicture_five() {
+            return picture_five == null ? "" : picture_five;
+        }
+
+        public void setPicture_five(String picture_five) {
+            this.picture_five = picture_five;
+        }
+
         public String getCourse_photo() {
-            return course_photo;
+            return course_photo == null ? "" : course_photo;
         }
 
         public void setCourse_photo(String course_photo) {
@@ -172,7 +226,7 @@ public class CourseBean {
         }
 
         public String getCourse_state() {
-            return course_state;
+            return course_state == null ? "" : course_state;
         }
 
         public void setCourse_state(String course_state) {
@@ -180,7 +234,7 @@ public class CourseBean {
         }
 
         public String getCourse_teacher() {
-            return course_teacher;
+            return course_teacher == null ? "" : course_teacher;
         }
 
         public void setCourse_teacher(String course_teacher) {
@@ -188,7 +242,7 @@ public class CourseBean {
         }
 
         public String getCourse_time() {
-            return course_time;
+            return course_time == null ? "" : course_time;
         }
 
         public void setCourse_time(String course_time) {
@@ -196,7 +250,7 @@ public class CourseBean {
         }
 
         public String getCourse_type() {
-            return course_type;
+            return course_type == null ? "" : course_type;
         }
 
         public void setCourse_type(String course_type) {
@@ -204,7 +258,7 @@ public class CourseBean {
         }
 
         public String getEnrol_num() {
-            return enrol_num;
+            return enrol_num == null ? "" : enrol_num;
         }
 
         public void setEnrol_num(String enrol_num) {
@@ -212,23 +266,23 @@ public class CourseBean {
         }
 
         public String getOriginal_price() {
-            return original_price;
+            return original_price == null ? "" : original_price;
         }
 
         public void setOriginal_price(String original_price) {
             this.original_price = original_price;
         }
 
-        public String getPopularity_num() {
+        public int getPopularity_num() {
             return popularity_num;
         }
 
-        public void setPopularity_num(String popularity_num) {
+        public void setPopularity_num(int popularity_num) {
             this.popularity_num = popularity_num;
         }
 
         public String getPreferential_price() {
-            return preferential_price;
+            return preferential_price == null ? "" : preferential_price;
         }
 
         public void setPreferential_price(String preferential_price) {
@@ -236,7 +290,7 @@ public class CourseBean {
         }
 
         public String getSchool_id() {
-            return school_id;
+            return school_id == null ? "" : school_id;
         }
 
         public void setSchool_id(String school_id) {
@@ -244,7 +298,7 @@ public class CourseBean {
         }
 
         public String getSchool_name() {
-            return school_name;
+            return school_name == null ? "" : school_name;
         }
 
         public void setSchool_name(String school_name) {
@@ -252,7 +306,7 @@ public class CourseBean {
         }
 
         public String getStudy_num() {
-            return study_num;
+            return study_num == null ? "" : study_num;
         }
 
         public void setStudy_num(String study_num) {
@@ -260,7 +314,7 @@ public class CourseBean {
         }
 
         public String getUser_id() {
-            return user_id;
+            return user_id == null ? "" : user_id;
         }
 
         public void setUser_id(String user_id) {

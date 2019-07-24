@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/juxingbg">
+
+        <LinearLayout
+            android:id="@+id/rl_test"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="25dp">
+            
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/tv_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="¥"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#3a89b6"/>
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5"
+                    android:textSize="25sp"
+                    android:layout_toRightOf="@+id/tv_text"
+                    android:layout_alignBaseline="@+id/tv_text"
+                    android:textColor="#3a89b6"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="2"/>
+            <TextView
+                android:id="@+id/tv_requirement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="满使用"
+                android:textSize="10sp"
+                android:textColor="#3a89b6"
+                />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:id="@+id/tv_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="有效期："
+                android:textSize="10sp"
+                android:textColor="#3a89b6"/>
+            
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#8fcbee"/>
+
+        <TextView
+            android:id="@+id/tv_receiver"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="立即领取"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:textColor="#3a89b6"
+            android:textSize="13sp"/>
+    </LinearLayout>
+
+</LinearLayout>

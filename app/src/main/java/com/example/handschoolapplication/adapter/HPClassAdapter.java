@@ -76,7 +76,7 @@ public class HPClassAdapter extends BaseAdapter {
                 .error(R.drawable.kecheng)
                 .into(holder.ivCourse);
         holder.tvCourse.setText(classBean.getMechanism_name());
-        holder.popularity.setText("(" + classBean.getUser_renqi() + "人已报名)");
+        holder.popularity.setText("(" + classBean.getUser_renqi() + "人)");
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,58 +85,80 @@ public class HPClassAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-        String user_dengji = classBean.getUser_dengji();
-        if (TextUtils.isEmpty(user_dengji)){
+        String user_dengji = classBean.getPingjia();
+        if (TextUtils.isEmpty(user_dengji)) {
 
+        } else {
+            switch (user_dengji) {
+                case "1":
+                    holder.star1.setImageResource(R.drawable.wujiaoxing);
+                    holder.star2.setImageResource(R.drawable.wujiaoxinghuise);
+                    holder.star3.setImageResource(R.drawable.wujiaoxinghuise);
+                    holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
+                    holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                    break;
+                case "2":
+                    holder.star1.setImageResource(R.drawable.wujiaoxing);
+                    holder.star2.setImageResource(R.drawable.wujiaoxing);
+                    holder.star3.setImageResource(R.drawable.wujiaoxinghuise);
+                    holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
+                    holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                    break;
+                case "3":
+                    holder.star1.setImageResource(R.drawable.wujiaoxing);
+                    holder.star2.setImageResource(R.drawable.wujiaoxing);
+                    holder.star3.setImageResource(R.drawable.wujiaoxing);
+                    holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
+                    holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                    break;
+                case "4":
+                    holder.star1.setImageResource(R.drawable.wujiaoxing);
+                    holder.star2.setImageResource(R.drawable.wujiaoxing);
+                    holder.star3.setImageResource(R.drawable.wujiaoxing);
+                    holder.star4.setImageResource(R.drawable.wujiaoxing);
+                    holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                    break;
+                case "5":
+                    holder.star1.setImageResource(R.drawable.wujiaoxing);
+                    holder.star2.setImageResource(R.drawable.wujiaoxing);
+                    holder.star3.setImageResource(R.drawable.wujiaoxing);
+                    holder.star4.setImageResource(R.drawable.wujiaoxing);
+                    holder.star5.setImageResource(R.drawable.wujiaoxing);
+                    break;
+                default:
+                    holder.star1.setImageResource(R.drawable.wujiaoxinghuise);
+                    holder.star2.setImageResource(R.drawable.wujiaoxinghuise);
+                    holder.star3.setImageResource(R.drawable.wujiaoxinghuise);
+                    holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
+                    holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
+                    break;
+            }
         }
-        switch (user_dengji){
-            case "1":
-                holder.star1.setImageResource(R.drawable.wujiaoxing);
-                holder.star2.setImageResource(R.drawable.wujiaoxinghuise);
-                holder.star3.setImageResource(R.drawable.wujiaoxinghuise);
-                holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
-                holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
-                break;
-            case "2":
-                holder.star1.setImageResource(R.drawable.wujiaoxing);
-                holder.star2.setImageResource(R.drawable.wujiaoxing);
-                holder.star3.setImageResource(R.drawable.wujiaoxinghuise);
-                holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
-                holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
-                break;
-            case "3":
-                holder.star1.setImageResource(R.drawable.wujiaoxing);
-                holder.star2.setImageResource(R.drawable.wujiaoxing);
-                holder.star3.setImageResource(R.drawable.wujiaoxing);
-                holder.star4.setImageResource(R.drawable.wujiaoxinghuise);
-                holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
-                break;
-            case "4":
-                holder.star1.setImageResource(R.drawable.wujiaoxing);
-                holder.star2.setImageResource(R.drawable.wujiaoxing);
-                holder.star3.setImageResource(R.drawable.wujiaoxing);
-                holder.star4.setImageResource(R.drawable.wujiaoxing);
-                holder.star5.setImageResource(R.drawable.wujiaoxinghuise);
-                break;
-            case "5":
-                holder.star1.setImageResource(R.drawable.wujiaoxing);
-                holder.star2.setImageResource(R.drawable.wujiaoxing);
-                holder.star3.setImageResource(R.drawable.wujiaoxing);
-                holder.star4.setImageResource(R.drawable.wujiaoxing);
-                holder.star5.setImageResource(R.drawable.wujiaoxing);
-                break;
-        }
-        String user_area = classBean.getUser_area();
-        String user_name = classBean.getUser_name();
-        if (locations != null) {
-            double latitude = locations[0];//纬度
-            double longitude = locations[1];//经度
+
+//
+//        double school_wei = classBean.getSchool_wei();
+//        double school_jing = classBean.getSchool_jing();
+
+        List<ClassBean.DataBean.SchoolAddressesBean> schoolAddresses = classBean.getSchoolAddresses();
+        String school_jing1 = classBean.getSchool_jing();
+        String school_wei1 = classBean.getSchool_wei();
+        if (!TextUtils.isEmpty(classBean.getSchool_jing())&& !TextUtils.isEmpty(classBean.getSchool_wei())) {
+
+            double school_wei = Double.parseDouble(school_wei1);
+            double school_jing = Double.parseDouble(school_jing1);
+            if (locations != null) {
+                double latitude = locations[0];//纬度
+                double longitude = locations[1];//经度
 //            DistanceUtil.getDistance(new LatLng(latitude,longitude));
-            double distance = DistanceUtil.getDistance(new LatLng(latitude, longitude), new LatLng(Double.parseDouble(user_area), Double.parseDouble(user_name)));
-            distance = distance/1000;
-            double v = new BigDecimal(distance).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            holder.tvDistance.setText("距离："+v+"km");
+                double distance = DistanceUtil.getDistance(new LatLng(latitude, longitude), new LatLng(school_wei, school_jing));
+                distance = distance / 1000;
+                double v = new BigDecimal(distance).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                holder.tvDistance.setText("距离：" + v + "km");
+            }
+        } else {
+            holder.tvDistance.setText("距离：" + "不可计算");
         }
+
 
         return view;
     }

@@ -69,6 +69,7 @@ public class RefundManagerLvAdapter extends BaseAdapter {
             holder.mTvClassprice = ((TextView) convertView.findViewById(R.id.tv_itemrefundmanager_classprice));//课程价格
             holder.mTvNum = ((TextView) convertView.findViewById(R.id.tv_itemrefundmanager_num));//课程数量
             holder.mTvContemt = ((TextView) convertView.findViewById(R.id.tv_itemrefundmanager_contemt));//退款状态
+            holder.tvTime = ((TextView) convertView.findViewById(R.id.tv_time));//退款状态
             holder.civHeadImage = ((CircleImageView) convertView.findViewById(R.id.civ_itemrefundmanager_usericon));//用户头像
             holder.ivClasslogo = ((ImageView) convertView.findViewById(R.id.iv_itemrefundmanager_classlogo));//课程图片
             holder.btnDetail = ((Button) convertView.findViewById(R.id.btn_itemrefundmanager_detail));
@@ -81,17 +82,22 @@ public class RefundManagerLvAdapter extends BaseAdapter {
         final ClassDealManagerBean classDealManagerBean = mList.get(position);
         final String order_id = classDealManagerBean.getOrder_id();
         holder.mTvOrderId.setText(order_id);
+        if (null!=classDealManagerBean.getUserInfo())
         holder.mTvNickName.setText(classDealManagerBean.getUserInfo().getUser_name());
         holder.mTvClassName.setText(classDealManagerBean.getClass_name());
         holder.mTvClassprice.setText("价格：¥"+classDealManagerBean.getOrder_money());
         holder.mTvNum.setText("数量：x"+classDealManagerBean.getCourse_num());
+        holder.tvTime.setText(classDealManagerBean.getOrdre_time());
         if ("4".equals(classDealManagerBean.getOrder_state())){
             holder.mTvContemt.setText("退款中");
         }else {
             holder.mTvContemt.setText("已退款");
         }
+        if (null!=classDealManagerBean.getUserInfo())
         Glide.with(mContext).load(Internet.BASE_URL+classDealManagerBean.getUserInfo().getHead_photo()).centerCrop().into(holder.civHeadImage);
-        Glide.with(mContext).load(Internet.BASE_URL+classDealManagerBean.getClass_photo()).centerCrop().into(holder.ivClasslogo);
+
+        String picture_one = classDealManagerBean.getCourseInfo().getPicture_one();
+        Glide.with(mContext).load(Internet.BASE_URL+picture_one).centerCrop().into(holder.ivClasslogo);
         //查看详情
         holder.btnDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +124,7 @@ public class RefundManagerLvAdapter extends BaseAdapter {
 
 
     class ViewHolder {
-        TextView mTvOrderId, mTvNickName, mTvClassName, mTvClassprice, mTvNum, mTvContemt;
+        TextView mTvOrderId, mTvNickName, mTvClassName, mTvClassprice, mTvNum, mTvContemt,tvTime;
         ImageView ivClasslogo;
         CircleImageView civHeadImage;
         LinearLayout llUser,llCourse;

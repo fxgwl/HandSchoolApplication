@@ -66,16 +66,10 @@ public class BroswerAdapter extends BaseAdapter {
         }
         MyBroswerBean.DataBean dataBean = mList.get(position);
         holder.tvTime.setText(dataBean.getFootprint_time());
-        String footprint_name = dataBean.getFootprint_name();
-        String photo = "";
-        if (footprint_name.contains(",")){
-            String[] split = footprint_name.split(",");
-            photo = split[0];
-        }else {
-            photo = footprint_name;
-        }
+        String footprint_name = dataBean.getPicture_one();
+
         Glide.with(context)
-                .load(Internet.BASE_URL + photo)
+                .load(Internet.BASE_URL + footprint_name)
                 .centerCrop()
                 .error(R.drawable.kecheng)
                 .into(holder.ivCourse);

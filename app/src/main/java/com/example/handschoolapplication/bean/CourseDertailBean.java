@@ -67,22 +67,28 @@ public class CourseDertailBean {
          * school_wei : 39.91386028193478
          * study_num : 1506153404911
          * user_id : 8841f54f7b574f06a470ee9002043f8d
+         * is_collect
          */
 
         private String age_range;
         private String course_address;
-        private String course_capacity;
+        private int course_capacity;
         private String course_id;
         private String course_info;
         private String course_money;
         private String course_name;
         private String course_photo;
+        private String picture_one;
+        private String picture_two;
+        private String picture_three;
+        private String picture_four;
+        private String picture_five;
         private String course_state;
         private String course_teacher;
         private String course_time;
         private String course_type;
         private String dengji;
-        private String enrol_num;
+        private int enrol_num;
         private String hot_time;
         private String original_price;
         private String popularity_num;
@@ -92,7 +98,11 @@ public class CourseDertailBean {
         private String school_name;
         private String school_wei;
         private String study_num;
+        private String study_code;
         private String user_id;
+        private String is_collect;
+        private String is_golds;
+        private String is_coups;
 
         public String getAge_range() {
             return age_range;
@@ -110,11 +120,11 @@ public class CourseDertailBean {
             this.course_address = course_address;
         }
 
-        public String getCourse_capacity() {
+        public int getCourse_capacity() {
             return course_capacity;
         }
 
-        public void setCourse_capacity(String course_capacity) {
+        public void setCourse_capacity(int course_capacity) {
             this.course_capacity = course_capacity;
         }
 
@@ -158,6 +168,46 @@ public class CourseDertailBean {
             this.course_photo = course_photo;
         }
 
+        public String getPicture_one() {
+            return picture_one == null ? "" : picture_one;
+        }
+
+        public void setPicture_one(String picture_one) {
+            this.picture_one = picture_one;
+        }
+
+        public String getPicture_two() {
+            return picture_two == null ? "" : picture_two;
+        }
+
+        public void setPicture_two(String picture_two) {
+            this.picture_two = picture_two;
+        }
+
+        public String getPicture_three() {
+            return picture_three == null ? "" : picture_three;
+        }
+
+        public void setPicture_three(String picture_three) {
+            this.picture_three = picture_three;
+        }
+
+        public String getPicture_four() {
+            return picture_four == null ? "" : picture_four;
+        }
+
+        public void setPicture_four(String picture_four) {
+            this.picture_four = picture_four;
+        }
+
+        public String getPicture_five() {
+            return picture_five == null ? "" : picture_five;
+        }
+
+        public void setPicture_five(String picture_five) {
+            this.picture_five = picture_five;
+        }
+
         public String getCourse_state() {
             return course_state;
         }
@@ -198,11 +248,11 @@ public class CourseDertailBean {
             this.dengji = dengji;
         }
 
-        public String getEnrol_num() {
+        public int getEnrol_num() {
             return enrol_num;
         }
 
-        public void setEnrol_num(String enrol_num) {
+        public void setEnrol_num(int enrol_num) {
             this.enrol_num = enrol_num;
         }
 
@@ -284,6 +334,62 @@ public class CourseDertailBean {
 
         public void setUser_id(String user_id) {
             this.user_id = user_id;
+        }
+
+        public String getIs_collect() {
+            return is_collect;
+        }
+
+        public void setIs_collect(String is_collect) {
+            this.is_collect = is_collect;
+        }
+
+        public String getIs_golds() {
+            return is_golds;
+        }
+
+        public void setIs_golds(String is_golds) {
+            this.is_golds = is_golds;
+        }
+
+        public String getIs_coups() {
+            return is_coups;
+        }
+
+        public void setIs_coups(String is_coups) {
+            this.is_coups = is_coups;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "age_range='" + age_range + '\'' +
+                    ", course_address='" + course_address + '\'' +
+                    ", course_capacity='" + course_capacity + '\'' +
+                    ", course_id='" + course_id + '\'' +
+                    ", course_info='" + course_info + '\'' +
+                    ", course_money='" + course_money + '\'' +
+                    ", course_name='" + course_name + '\'' +
+                    ", course_photo='" + course_photo + '\'' +
+                    ", course_state='" + course_state + '\'' +
+                    ", course_teacher='" + course_teacher + '\'' +
+                    ", course_time='" + course_time + '\'' +
+                    ", course_type='" + course_type + '\'' +
+                    ", dengji='" + dengji + '\'' +
+                    ", enrol_num='" + enrol_num + '\'' +
+                    ", hot_time='" + hot_time + '\'' +
+                    ", original_price='" + original_price + '\'' +
+                    ", popularity_num='" + popularity_num + '\'' +
+                    ", preferential_price='" + preferential_price + '\'' +
+                    ", school_id='" + school_id + '\'' +
+                    ", school_jing='" + school_jing + '\'' +
+                    ", school_name='" + school_name + '\'' +
+                    ", school_wei='" + school_wei + '\'' +
+                    ", study_num='" + study_num + '\'' +
+                    ", user_id='" + user_id + '\'' +
+                    ", is_collect='" + is_collect + '\'' +
+                    ", is_golds='" + is_golds + '\'' +
+                    '}';
         }
     }
 }

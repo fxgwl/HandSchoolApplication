@@ -1,8 +1,11 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -43,13 +46,16 @@ public class SearchResultActivity extends BaseActivity {
     private List<ClassBean.DataBean> classBeanList = new ArrayList<>();
     private HPCourseAdapter courseAdapter;
     private HPClassAdapter classAdapter;
+    private double[] locations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         search = getIntent().getStringExtra("search");
+        locations = getIntent().getDoubleArrayExtra("location");
         courseAdapter = new HPCourseAdapter(courseBeanList, this);
         classAdapter = new HPClassAdapter(this, classBeanList);
+
         initView();
 
         rbSearchType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -60,6 +66,18 @@ public class SearchResultActivity extends BaseActivity {
                 }else {
                     setViewSchoolData();
                 }
+            }
+        });
+
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId== EditorInfo.IME_ACTION_SEARCH){
+                    tvSearchTitle.setText("当前搜索：  "+etSearch.getText().toString().trim());
+                    if (rbSearchType.isChecked())setViewCourseData();//课堂
+                    else setViewSchoolData();//机构
+                }
+                return false;
             }
         });
     }
@@ -85,15 +103,20 @@ public class SearchResultActivity extends BaseActivity {
             case R.id.iv_search:
                 tvSearchTitle.setText("当前搜索：  "+etSearch.getText().toString().trim());
                 if (rbSearchType.isChecked())setViewCourseData();//课堂
-                else setViewSchoolData();//学堂
+                else setViewSchoolData();//机构
                 break;
         }
     }
 
     private void setViewSchoolData() {
+        String search = etSearch.getText().toString().trim();
+        if (TextUtils.isEmpty(search)){
+            Toast.makeText(this, "搜索内容不能为空！", Toast.LENGTH_SHORT).show();
+            return;
+        }
         OkHttpUtils.post()
                 .url(Internet.SCHOOLSEARCH)
-                .addParams("mechanism_name", etSearch.getText().toString().trim())
+                .addParams("mechanism_name", search)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -109,10 +132,12 @@ public class SearchResultActivity extends BaseActivity {
                         classBeanList.clear();
                         lvSearch.setAdapter(classAdapter);
                         if (response.contains("没有信息")) {
-                            Toast.makeText(SearchResultActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SearchResultActivity.this, "暂无搜索结果", Toast.LENGTH_SHORT).show();
                         } else {
                             classBeanList.addAll(gson.fromJson(response, ClassBean.class).getData());
+
                         }
+                        classAdapter.setLocations(locations);
                         classAdapter.notifyDataSetChanged();
                     }
                 });
@@ -121,14 +146,20 @@ public class SearchResultActivity extends BaseActivity {
 
     private void setViewCourseData() {
 
+        String search = etSearch.getText().toString().trim();
+        if (TextUtils.isEmpty(search)){
+            Toast.makeText(this, "搜索内容不能为空！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         OkHttpUtils.post()
                 .url(Internet.COURSESEARCH)
-                .addParams("course_name", etSearch.getText().toString().trim())
+                .addParams("course_name", search)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa","(SearchResultActivity.java:162)<---->" + e.getMessage());
                     }
 
                     @Override
@@ -139,10 +170,12 @@ public class SearchResultActivity extends BaseActivity {
                         courseBeanList.clear();
                         lvSearch.setAdapter(courseAdapter);
                         if (response.contains("没有信息")) {
-                            Toast.makeText(SearchResultActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SearchResultActivity.this, "暂无搜索结果", Toast.LENGTH_SHORT).show();
                         } else {
                             courseBeanList.addAll(gson.fromJson(response, CourseBean.class).getData());
+
                         }
+                        courseAdapter.setLocation(locations);
                         courseAdapter.notifyDataSetChanged();
                     }
                 });

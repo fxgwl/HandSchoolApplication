@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.example.handschoolapplication.activity.CourseDetailActivity">
 
     <RelativeLayout
@@ -13,7 +14,7 @@
         android:background="@color/white"
         android:paddingBottom="15dp"
         android:paddingTop="15dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="15dp">
 
         <RelativeLayout
             android:id="@+id/rl_back"
@@ -70,7 +71,7 @@
         <ImageView
             android:id="@+id/iv_cd_more"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
@@ -102,11 +103,9 @@
             android:visibility="invisible"/>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-    </LinearLayout>
+        android:background="@color/white"/>
 </LinearLayout>

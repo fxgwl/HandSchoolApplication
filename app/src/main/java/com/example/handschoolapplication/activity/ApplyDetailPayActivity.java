@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -39,6 +42,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +51,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
+
+import static com.bumptech.glide.Glide.with;
 
 public class ApplyDetailPayActivity extends BaseActivity {
 
@@ -62,11 +68,15 @@ public class ApplyDetailPayActivity extends BaseActivity {
     ImageView ivGolddiscount;
     @BindView(R.id.tv_moneydi)
     TextView tvMoneydi;
-    @BindView(R.id.tv_money_num)
+    @BindView(R.id.tv_gold_discount_money)
     TextView tvMoneyNum;
+    @BindView(R.id.et_input_gold_num)
+    EditText etInputGoldNum;
+    @BindView(R.id.ll_gold)
+    LinearLayout llGolds;
 
     private IWXAPI msgApi;
-    private boolean isWechat;
+    private String payWay = "0";
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
         public void handleMessage(Message msg) {
@@ -85,10 +95,14 @@ public class ApplyDetailPayActivity extends BaseActivity {
             if (TextUtils.equals(resultStatus, "9000")) {
                 // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                 Toast.makeText(ApplyDetailPayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ApplyDetailPayActivity.this, MyOrderActivity.class).putExtra("flag", "all"));
+                finish();
 //
             } else {
                 // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                 Toast.makeText(ApplyDetailPayActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ApplyDetailPayActivity.this, MyOrderActivity.class).putExtra("flag", "pay"));
+                finish();
             }
         }
     };
@@ -119,8 +133,12 @@ public class ApplyDetailPayActivity extends BaseActivity {
     private int couponsIds[];
     private double[] unitPrice;
     private double totalPrice;
-    private int tag = 3;
+    private int tag = 1;
     private double g = 0.0;
+    private double rate;
+    private double n;
+    private String disMoney;
+    private double d;
 
 
     @Override
@@ -138,7 +156,100 @@ public class ApplyDetailPayActivity extends BaseActivity {
         unitPrice = new double[orderBean.size()];
         calculate();
         initView();
-        initGold();
+
+        String isGolds = "0";
+        for (int i = 0; i < orderBean.size(); i++) {
+            String is_golds = orderBean.get(i).getCourseInfo().getIs_golds();
+            if ("1".equals(is_golds)) {
+                isGolds = "1";
+                break;
+            }
+        }
+
+        if (isGolds.equals("1")) {
+            llGolds.setVisibility(View.VISIBLE);
+            initGold();
+        } else {
+            llGolds.setVisibility(View.GONE);
+        }
+
+
+        etInputGoldNum.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (tag == 0) {
+                    ivGolddiscount.setImageResource(R.drawable.baiquan);
+                    totalPrice = totalPrice + g;
+                    tag = 1;
+                }else{
+                    totalPrice=totalPrice+d;
+                }
+                disMoney = etInputGoldNum.getText().toString().trim();
+                if (TextUtils.isEmpty(disMoney)) {
+                    disMoney = "0";
+                }
+                double v = Double.parseDouble(disMoney);
+                if (v > n) {
+                    Toast.makeText(ApplyDetailPayActivity.this, "您的金币数量不足", Toast.LENGTH_SHORT).show();
+                    d=0;
+                    etInputGoldNum.setText("");
+                } else if (v == n) {
+                    d = (v / rate);
+
+                    if (totalPrice - d <= 0) {
+                        Toast.makeText(ApplyDetailPayActivity.this, "抵扣超出金额上限", Toast.LENGTH_SHORT).show();
+                        etInputGoldNum.setText("");
+                    } else {
+                        ivGolddiscount.setImageResource(R.drawable.hongquan);
+                        tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(d));
+                        totalPrice = totalPrice - d;
+                        tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice));
+                        d=0;
+                        tag = 0;
+                    }
+                    /*if (totalPrice-d>0){
+                        ivGolddiscount.setImageResource(R.drawable.hongquan);
+                        tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(d));
+                        totalPrice = totalPrice - d;
+                        tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice));
+                        tag = 0;
+                    }else {
+                        Toast.makeText(ApplyDetailPayActivity.this, "抵扣超出金额上限", Toast.LENGTH_SHORT).show();
+                        etInputGoldNum.setText("");
+                    }*/
+                    
+                } else {
+                    d = (v / rate);
+                    if (totalPrice - d <= 0) {
+                        Toast.makeText(ApplyDetailPayActivity.this, "抵扣超出金额上限", Toast.LENGTH_SHORT).show();
+                        etInputGoldNum.setText("");
+                    } else {
+                        totalPrice = totalPrice - d;
+                        tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(d));
+                        tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice));
+                    }
+                    /*if (totalPrice-d>0){
+                        tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(d));
+                        tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice - d));
+                    }else {
+                        Toast.makeText(ApplyDetailPayActivity.this, "抵扣超出金额上限", Toast.LENGTH_SHORT).show();
+                        etInputGoldNum.setText("");
+                    }*/
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
     @Override
@@ -148,7 +259,7 @@ public class ApplyDetailPayActivity extends BaseActivity {
 
     private void initView() {
         tvTitle.setText("立即报名");
-        mAdapter =new MyApplyDetailAdapter();
+        mAdapter = new MyApplyDetailAdapter();
         lvApplyDetail.setAdapter(mAdapter);
     }
 
@@ -156,14 +267,20 @@ public class ApplyDetailPayActivity extends BaseActivity {
         totalPrice = 0.00;
         for (int i = 0; i < orderBean.size(); i++) {
             String class_money = orderBean.get(i).getClass_money();
-            int money = Integer.parseInt(class_money.split("元")[0]);
+            double money = 0;
+            if (class_money.contains("元")) {
+                money = Double.parseDouble(class_money.split("元")[0]);
+            } else {
+                money = Double.parseDouble(class_money.split("/")[0]);
+            }
+
             int courseNum = Integer.parseInt(orderBean.get(i).getCourse_num());
-            totalPrice = totalPrice + (money*courseNum);
+            totalPrice = totalPrice + (money * courseNum);
             orderIds[i] = orderBean.get(i).getOrder_id();
             couponsIds[i] = 0;
-            unitPrice[i] = (money*courseNum);
+            unitPrice[i] = (money * courseNum);
         }
-        tvAllmoney.setText("￥"+totalPrice);
+        tvAllmoney.setText("¥" + totalPrice);
     }
 
     private void initGold() {
@@ -191,19 +308,21 @@ public class ApplyDetailPayActivity extends BaseActivity {
                             Gson gson = new Gson();
                             try {
                                 dataBean = gson.fromJson(response, SchoolInfoBean.class).getData();
-                                g = Double.parseDouble(dataBean.getUser_gold());
+                                rate = Double.parseDouble(dataBean.getRatios().getGoldnum());
+                                n = Double.parseDouble(dataBean.getUser_gold());
+                                g = n / rate;
                             } catch (Exception e) {
 
                             }
                             tvMoneydi.setText(dataBean.getUser_gold() + "金币");
-                            tvMoneyNum.setText("-¥" +dataBean.getUser_gold());
+                            //tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(g));
                         }
 
                     }
                 });
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_menu,R.id.tv_nowapply_config,R.id.iv_golddiscount})
+    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.tv_nowapply_config, R.id.iv_golddiscount})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
@@ -213,25 +332,42 @@ public class ApplyDetailPayActivity extends BaseActivity {
                 show(view);
                 break;
             case R.id.tv_nowapply_config:
-                initPayPop(totalPrice+"");
+                Log.e("aaa",
+                        "(ApplyDetailPayActivity.java:272)----------" + tvAllmoney.getText().toString().trim());
+                String totalMoney = tvAllmoney.getText().toString().trim().split("¥")[1];
+                initPayPop(totalMoney);
                 break;
             case R.id.iv_golddiscount:
+                if (totalPrice-g<=0){
+                    Toast.makeText(this, "不能全部抵扣", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (tag == 1) {
                     ivGolddiscount.setImageResource(R.drawable.hongquan);
                     tag = 0;
-                    totalPrice = totalPrice - g;
+                    totalPrice = totalPrice - g+d;
                     tvAllmoney.setText("¥" + totalPrice);
-                } else if (tag==0){
+                    tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(g));
+                } else {
+                    ivGolddiscount.setImageResource(R.drawable.baiquan);
+                    tag = 1;
+                    totalPrice = totalPrice + g-d;
+                    tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice));
+                    tvMoneyNum.setText("¥0.00");
+                }
+                /*else if (tag == 0) {
                     ivGolddiscount.setImageResource(R.drawable.baiquan);
                     tag = 1;
                     totalPrice = totalPrice + g;
                     tvAllmoney.setText("¥" + totalPrice);
-                }else {
+                    tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(0));
+                } else {
                     ivGolddiscount.setImageResource(R.drawable.hongquan);
                     tag = 0;
                     totalPrice = totalPrice - g;
                     tvAllmoney.setText("¥" + totalPrice);
-                }
+                    tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(g));
+                }*/
                 break;
         }
     }
@@ -246,24 +382,38 @@ public class ApplyDetailPayActivity extends BaseActivity {
         tvMoney.setText(allMoney + "元");
         LinearLayout pop_pay_ali = (LinearLayout) view.findViewById(R.id.pop_pay_ali);
         LinearLayout pop_pay_weixin = (LinearLayout) view.findViewById(R.id.pop_pay_weixin);
+        LinearLayout pop_pay_cash = (LinearLayout) view.findViewById(R.id.pop_pay_cash);
         final ImageView pop_state_ali = (ImageView) view.findViewById(R.id.pop_state_ali);
         final ImageView pop_state_wx = (ImageView) view.findViewById(R.id.pop_state_wx);
+        final ImageView pop_state_cash = (ImageView) view.findViewById(R.id.pop_state_cash);
         final MyPopupWindow payPopWindow = new MyPopupWindow(this, view);
         payPopWindow.showAtLocation(tvTitle, Gravity.BOTTOM, 0, 0);
+        payWay ="0";
         pop_pay_ali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isWechat = false;
+                payWay = "0";
                 pop_state_ali.setImageResource(R.drawable.hongquan);
                 pop_state_wx.setImageResource(R.drawable.baiquan);
+                pop_state_cash.setImageResource(R.drawable.baiquan);
             }
         });
         pop_pay_weixin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isWechat = true;
+                payWay = "1";
                 pop_state_wx.setImageResource(R.drawable.hongquan);
                 pop_state_ali.setImageResource(R.drawable.baiquan);
+                pop_state_cash.setImageResource(R.drawable.baiquan);
+            }
+        });
+        pop_pay_cash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                payWay = "2";
+                pop_state_cash.setImageResource(R.drawable.hongquan);
+                pop_state_ali.setImageResource(R.drawable.baiquan);
+                pop_state_wx.setImageResource(R.drawable.baiquan);
             }
         });
         close.setOnClickListener(new View.OnClickListener() {
@@ -275,9 +425,17 @@ public class ApplyDetailPayActivity extends BaseActivity {
         pop_pay_config.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isWechat) {
-                    wechatPay();
-                } else aliPay();
+                switch (payWay){
+                    case "0":
+                        aliPay();
+                        break;
+                    case "1":
+                        wechatPay();
+                        break;
+                    case "2":
+                        cashPay();
+                        break;
+                }
                 payPopWindow.dismiss();
             }
         });
@@ -293,45 +451,53 @@ public class ApplyDetailPayActivity extends BaseActivity {
     }
 
     private void aliPay() {
+        String trim = etInputGoldNum.getText().toString().trim();
+        String totalMoney = tvAllmoney.getText().toString().trim().split("¥")[1];
+        if (TextUtils.isEmpty(trim)) {
+            trim = "0";
+        }
         String orderIdItem = "";
         String studentItem = "";
         String couponsIdItem = "";
         String unitPriceItem = "";
+        String payNumItem = "";
         for (int i = 0; i < orderBean.size(); i++) {
-            if (TextUtils.isEmpty(studentsName[i])){
+            if (TextUtils.isEmpty(studentsName[i])) {
                 Toast.makeText(this, "请确认所有订单都填写是上课学生姓名！", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (i==0){
+            if (i == 0) {
                 orderIdItem = orderIdItem + orderIds[i];
                 studentItem = studentItem + studentsName[i];
                 couponsIdItem = couponsIdItem + couponsIds[i];
-                unitPriceItem = unitPriceItem + (unitPrice[i]+"");
-            }else {
-                orderIdItem = orderIdItem+"a"+orderIds[i];
-                studentItem = studentItem+","+studentsName[i];
-                couponsIdItem = couponsIdItem +","+ couponsIds[i];
-                unitPriceItem = unitPriceItem +","+ (unitPrice[i]+"");
+                unitPriceItem = unitPriceItem + (unitPrice[i] + "");
+                payNumItem = payNumItem + "1";
+            } else {
+                orderIdItem = orderIdItem + "a" + orderIds[i];
+                studentItem = studentItem + "," + studentsName[i];
+                couponsIdItem = couponsIdItem + "," + couponsIds[i];
+                unitPriceItem = unitPriceItem + "," + (unitPrice[i] + "");
+                payNumItem = payNumItem + ",1";
             }
         }
 
         Log.e("aaa",
-                "(ApplyDetailPayActivity.java:307)订单的id-----"+orderIdItem);
+                "(ApplyDetailPayActivity.java:307)订单的id-----" + orderIdItem);
         Log.e("aaa",
-                "(ApplyDetailPayActivity.java:309)上课学生的姓名-----"+studentItem);
+                "(ApplyDetailPayActivity.java:309)上课学生的姓名-----" + studentItem);
         Log.e("aaa",
-                "(ApplyDetailPayActivity.java:311)优惠券的id-------"+couponsIdItem);
+                "(ApplyDetailPayActivity.java:311)优惠券的id-------" + couponsIdItem);
         Log.e("aaa",
-                "(ApplyDetailPayActivity.java:318)每个列表的价格-------"+unitPriceItem);
+                "(ApplyDetailPayActivity.java:318)每个列表的价格-------" + unitPriceItem);
 
         HashMap<String, String> params = new HashMap<>();
         params.put("order_id", orderIdItem);
-        params.put("pay_num", "1");
-        params.put("is_coupons",couponsIdItem);
-        params.put("is_gold", tag+"");
+        params.put("pay_num", payNumItem);
+        params.put("is_coupons", couponsIdItem);
+        params.put("is_gold", trim + "");
         params.put("student_name", studentItem);
-        params.put("order_money",unitPriceItem);
-        params.put("totle_pay", "0.01");
+        params.put("order_money", unitPriceItem);
+        params.put("totle_pay", totalMoney);
 
         OkHttpUtils.post()
                 .url(Internet.ALIPAY)
@@ -371,57 +537,62 @@ public class ApplyDetailPayActivity extends BaseActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                         // 订单信息
-
-
                     }
                 });
 
     }
 
     private void wechatPay() {
+        String trim = etInputGoldNum.getText().toString().trim();
+        String totalMoney = tvAllmoney.getText().toString().trim().split("¥")[1];
+        if (TextUtils.isEmpty(trim)) {
+            trim = "0";
+        }
         String orderIdItem = "";
         String studentItem = "";
         String couponsIdItem = "";
         String unitPriceItem = "";
+        String payNumItem = "";
         for (int i = 0; i < orderBean.size(); i++) {
-            if (TextUtils.isEmpty(studentsName[i])){
+            if (TextUtils.isEmpty(studentsName[i])) {
                 Toast.makeText(this, "请确认所有订单都填写是上课学生姓名！", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (i==0){
+            if (i == 0) {
                 orderIdItem = orderIdItem + orderIds[i];
                 studentItem = studentItem + studentsName[i];
                 couponsIdItem = couponsIdItem + couponsIds[i];
-                unitPriceItem = unitPriceItem + (unitPrice[i]+"");
-            }else {
-                orderIdItem = orderIdItem+"a"+orderIds[i];
-                studentItem = studentItem+","+studentsName[i];
-                couponsIdItem = couponsIdItem +","+ couponsIds[i];
-                unitPriceItem = unitPriceItem +","+ (unitPrice[i]+"");
+                unitPriceItem = unitPriceItem + (unitPrice[i] + "");
+                payNumItem = payNumItem + "1";
+            } else {
+                orderIdItem = orderIdItem + "a" + orderIds[i];
+                studentItem = studentItem + "," + studentsName[i];
+                couponsIdItem = couponsIdItem + "," + couponsIds[i];
+                unitPriceItem = unitPriceItem + "," + (unitPrice[i] + "");
+                payNumItem = payNumItem + ",1";
             }
         }
 
         Log.e("aaa",
-            "(ApplyDetailPayActivity.java:307)订单的id-----"+orderIdItem);
+                "(ApplyDetailPayActivity.java:307)订单的id-----" + orderIdItem);
         Log.e("aaa",
-            "(ApplyDetailPayActivity.java:309)上课学生的姓名-----"+studentItem);
+                "(ApplyDetailPayActivity.java:309)上课学生的姓名-----" + studentItem);
         Log.e("aaa",
-            "(ApplyDetailPayActivity.java:311)优惠券的id-------"+couponsIdItem);
+                "(ApplyDetailPayActivity.java:311)优惠券的id-------" + couponsIdItem);
         Log.e("aaa",
-            "(ApplyDetailPayActivity.java:318)每个列表的价格-------"+unitPriceItem);
+                "(ApplyDetailPayActivity.java:318)每个列表的价格-------" + unitPriceItem);
 
         String ipAddress = MyUtiles.getIPAddress(this);
 
         HashMap<String, String> params = new HashMap<>();
         params.put("order_id", orderIdItem);
-        params.put("pay_num", "1");
-        params.put("is_coupons",couponsIdItem);
-        params.put("is_gold", tag+"");
+        params.put("pay_num", payNumItem);
+        params.put("is_coupons", couponsIdItem);
+        params.put("is_gold", trim + "");
         params.put("student_name", studentItem);
-        params.put("order_money",unitPriceItem);
-        params.put("totle_pay", "0.01");
+        params.put("order_money", unitPriceItem);
+        params.put("totle_pay", totalMoney);
         params.put("clientIp", ipAddress);
 
         OkHttpUtils.post()
@@ -465,6 +636,8 @@ public class ApplyDetailPayActivity extends BaseActivity {
                             request.nonceStr = noncestr;
                             request.timeStamp = timestamp;
                             request.sign = sign;
+
+
                             msgApi.sendReq(request);
 
 
@@ -478,24 +651,113 @@ public class ApplyDetailPayActivity extends BaseActivity {
                 });
     }
 
+    private void cashPay() {
+
+        String orderIdItem = "";
+        String studentItem = "";
+        String couponsIdItem = "";
+        String unitPriceItem = "";
+        String payNumItem = "";
+        for (int i = 0; i < orderBean.size(); i++) {
+            if (TextUtils.isEmpty(studentsName[i])) {
+                Toast.makeText(this, "请确认所有订单都填写是上课学生姓名！", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (i == 0) {
+                orderIdItem = orderIdItem + orderIds[i];
+                studentItem = studentItem + studentsName[i];
+                couponsIdItem = couponsIdItem + couponsIds[i];
+                unitPriceItem = unitPriceItem + (unitPrice[i] + "");
+                payNumItem = payNumItem + "1";
+            } else {
+                orderIdItem = orderIdItem + "a" + orderIds[i];
+                studentItem = studentItem + "," + studentsName[i];
+                couponsIdItem = couponsIdItem + "," + couponsIds[i];
+                unitPriceItem = unitPriceItem + "," + (unitPrice[i] + "");
+                payNumItem = payNumItem + ",1";
+            }
+        }
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("order_id", orderIdItem);
+        params.put("order_state", "1");
+        params.put("pay_type", "2");
+        OkHttpUtils.post()
+                .url(Internet.PAY_CASH)
+                .params(params)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa", "(NowApplyActivity.java:724)<---->" + e.getMessage());
+                        Toast.makeText(ApplyDetailPayActivity.this, "网络不给力", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa", "(NowApplyActivity.java:729)<---->" + response);
+                        if (TextUtils.isEmpty(response)) {
+                            Toast.makeText(ApplyDetailPayActivity.this, "网络不给力", Toast.LENGTH_SHORT).show();
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                int code = jsonObject.getInt("result");
+                                if (code == 0) {
+                                    startActivity(new Intent(ApplyDetailPayActivity.this, MyOrderActivity.class).putExtra("flag", "all"));
+                                    finish();
+                                } else {
+                                    String msg = jsonObject.getString("msg");
+                                    Toast.makeText(ApplyDetailPayActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1&&resultCode==22){
+        if (requestCode == 1 && resultCode == 22) {
             if (discount != 0) {
                 totalPrice += discount;
             }
+
             String student = data.getStringExtra("student");
             int coupons_id = data.getIntExtra("coupons_id", 0);
+            Log.e("aaa",
+                    "(ApplyDetailPayActivity.java:588)<--coupons_id-->"+coupons_id);
             discount = data.getDoubleExtra("discount", 0);
+            Log.e("aaa",
+                    "(ApplyDetailPayActivity.java:593)<--discount-->"+discount);
             double hasDiscount = data.getDoubleExtra("hasDiscount", 0);
-            totalPrice = totalPrice - discount;
-            tvAllmoney.setText("¥" + (totalPrice));
+            Log.e("aaa",
+                    "(ApplyDetailPayActivity.java:596)<--hasDiscount-->"+hasDiscount);
+
             studentsName[position] = student;
             couponsIds[position] = coupons_id;
             unitPrice[position] = hasDiscount;
             mAdapter.setPositon(position);
             mAdapter.notifyDataSetChanged();
+
+            totalPrice = 0;
+            for (int i = 0; i < unitPrice.length; i++) {
+                totalPrice += unitPrice[i];
+            }
+
+            if (tag==0){
+                double nowManey = Double.parseDouble(tvMoneyNum.getText().toString().trim().split("¥")[1]);
+                if (nowManey > 0) {
+                    totalPrice -= nowManey;
+                }
+            }else {
+
+            }
+            tvAllmoney.setText("¥" + (totalPrice));
         }
     }
 
@@ -511,7 +773,7 @@ public class ApplyDetailPayActivity extends BaseActivity {
             return size;
         }
 
-        private void setPositon(int positon){
+        private void setPositon(int positon) {
             this.selectPosition = positon;
         }
 
@@ -532,48 +794,76 @@ public class ApplyDetailPayActivity extends BaseActivity {
                 convertView = View.inflate(ApplyDetailPayActivity.this, R.layout.item_apply_detail_pay, null);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
-            }else {
+            } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            CarListBean.DataBean dataBean = orderBean.get(position);
+            final CarListBean.DataBean dataBean = orderBean.get(position);
 
-            Glide.with(ApplyDetailPayActivity.this).load(Internet.BASE_URL+dataBean.getSchool_logo()).centerCrop().into(holder.ivSchoolIcon);
+            with(ApplyDetailPayActivity.this).load(Internet.BASE_URL + dataBean.getSchool_logo()).centerCrop().into(holder.ivSchoolIcon);
             holder.tvSchoolName.setText(dataBean.getSchool_name());
-            String photo = "";
-            if (dataBean.getClass_photo().contains(",")){
-                photo = dataBean.getClass_photo().split(",")[0];
-            }else {
-                photo = dataBean.getClass_photo();
-            }
-            Glide.with(ApplyDetailPayActivity.this).load(Internet.BASE_URL+photo).centerCrop().into(holder.ivCourseIcon);
+//            String photo = "";
+//            if (dataBean.getClass_photo().contains(",")) {
+//                photo = dataBean.getClass_photo().split(",")[0];
+//            } else {
+//                photo = dataBean.getClass_photo();
+//            }
+            String picture_one = dataBean.getCourseInfo().getPicture_one();
+            with(ApplyDetailPayActivity.this).load(Internet.BASE_URL + picture_one).centerCrop().into(holder.ivCourseIcon);
             holder.tvCourse.setText(dataBean.getClass_name());
             String string = dataBean.getClass_money().split("/")[1].split("节")[0];
             String money = dataBean.getClass_money().split("元")[0];
-            holder.tvCourseNum.setText("x"+dataBean.getCourse_num());
-            int uCourseNum = Integer.parseInt(string);
+            holder.tvCourseNum.setText("x" + dataBean.getCourse_num());
+            double uCourseNum = Double.parseDouble(string);
             int tCourseNum = Integer.parseInt(dataBean.getCourse_num());
-            int mon = Integer.parseInt(money);
-            int tCourse = uCourseNum*tCourseNum;
-            holder.tvCourseNumAll.setText(tCourse+"");
+            double mon = Double.parseDouble(money);
+            double tCourse = uCourseNum * tCourseNum;
+            holder.tvCourseNumAll.setText((int)tCourse+ "");
             double anInt = mon * tCourseNum;
-            holder.tvAllMoney.setText("¥"+ unitPrice[position] +"");
+            holder.tvAllMoney.setText("¥" + unitPrice[position] + "");
 
             holder.llCourseDetail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivityForResult(new Intent(ApplyDetailPayActivity.this,ApplyDetailsActivity.class).putExtra("order",orderBean.get(position)),1);
+                    startActivityForResult(new Intent(ApplyDetailPayActivity.this, ApplyDetailsActivity.class)
+                            .putExtra("order", orderBean.get(position))
+                            .putExtra("student", studentsName[position]), 1);
                     ApplyDetailPayActivity.this.position = position;
                 }
             });
 
-            if (position==selectPosition){
+            holder.llSchool.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Toast.makeText(ApplyDetailPayActivity.this, "跳转到学堂主页", Toast.LENGTH_SHORT).show();
+
+                    Intent intent2 = new Intent(ApplyDetailPayActivity.this, ClassActivity.class);
+                    intent2.putExtra("school_id", dataBean.getSchool_id());
+                    ApplyDetailPayActivity.this.startActivity(intent2);
+                }
+            });
+
+            holder.llCourse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Toast.makeText(ApplyDetailPayActivity.this, "跳转到课程主页", Toast.LENGTH_SHORT).show();
+
+                    String course_id = dataBean.getCourse_id();
+                    String schooluid = dataBean.getUser_id();
+                    Intent intent = new Intent(ApplyDetailPayActivity.this, CourseHomePagerActivity.class);
+                    intent.putExtra("course_id",course_id);
+                    intent.putExtra("schooluid",schooluid);
+                    startActivity(intent);
+                }
+            });
+
+            if (position == selectPosition) {
                 double v = anInt - discount;
-                holder.tvAllMoney.setText("¥"+ v +"");
+                holder.tvAllMoney.setText("¥" + v + "");
             }
             return convertView;
         }
 
-         class ViewHolder {
+        class ViewHolder {
             @BindView(R.id.iv_school_icon)
             ImageView ivSchoolIcon;
             @BindView(R.id.tv_school_name)
@@ -590,6 +880,10 @@ public class ApplyDetailPayActivity extends BaseActivity {
             TextView tvCourseNumAll;
             @BindView(R.id.tv_all_money)
             TextView tvAllMoney;
+            @BindView(R.id.ll_school)
+            LinearLayout llSchool;
+            @BindView(R.id.ll_course)
+            LinearLayout llCourse;
 
             ViewHolder(View view) {
                 ButterKnife.bind(this, view);

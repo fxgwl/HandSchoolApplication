@@ -1,15 +1,18 @@
 package com.example.handschoolapplication.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.PJDetailActivity;
 import com.example.handschoolapplication.adapter.HasEvaAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.HasEvaBean;
@@ -53,6 +56,16 @@ public class HasEvaFragment extends BaseFragment {
         mAdapter = new HasEvaAdapter(getActivity(), mList);
         lvHasEva.setAdapter(mAdapter);
         initDataView();
+
+        lvHasEva.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String interact_id = mList.get(position).getInteract_id();
+                Intent intent = new Intent(getActivity(), PJDetailActivity.class);
+                intent.putExtra("interact_id", interact_id);
+                getActivity().startActivity(intent);
+            }
+        });
         return view;
     }
 

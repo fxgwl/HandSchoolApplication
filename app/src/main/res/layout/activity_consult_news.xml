@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.example.handschoolapplication.activity.ConsultNewsActivity">
     <include layout="@layout/title_bar_blue"/>
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/lv_consult_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

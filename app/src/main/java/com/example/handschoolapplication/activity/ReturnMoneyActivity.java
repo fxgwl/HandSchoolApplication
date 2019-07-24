@@ -27,6 +27,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+import static com.bumptech.glide.Glide.with;
+
 public class ReturnMoneyActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
@@ -57,10 +59,14 @@ public class ReturnMoneyActivity extends BaseActivity {
     TextView tvSubmit;
     @BindView(R.id.rl_course)
     RelativeLayout rlCourse;
+    @BindView(R.id.et_account)
+    EditText etAccount;
     private String ordernum;
     private String course_id;
     private String schooluid;
     private String user_phone;
+    private String account;
+    private double v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,16 +85,19 @@ public class ReturnMoneyActivity extends BaseActivity {
         schooluid = intent.getStringExtra("schooluid");
         tvTitle.setText("订单详情");
         tvOrdernum.setText(ordernum);
-        Glide.with(this)
-                .load(Internet.BASE_URL + ivcourse)
+
+        String img = TextUtils.isEmpty(ivcourse) ? "" : ivcourse;
+        with(this)
+                .load(Internet.BASE_URL + img)
                 .centerCrop()
-                .error(R.drawable.kecheng)
                 .into(ivCourse);
         tvCourse.setText(coursename);
         tvPrice.setText("价格：¥" + money);
         tvCoursenum.setText(courseid);
         tvNum.setText("x" + coursenum);
-        tvTuimoney.setText(tuimoney);
+        v = Double.parseDouble(tuimoney);
+        tvTuimoney.setText(v + "元");
+
     }
 
     @Override
@@ -96,7 +105,7 @@ public class ReturnMoneyActivity extends BaseActivity {
         return R.layout.activity_return_money;
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_submit, R.id.rl_back, R.id.iv_menu,R.id.rl_course})
+    @OnClick({R.id.iv_back, R.id.tv_submit, R.id.rl_back, R.id.iv_menu, R.id.rl_course})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -108,26 +117,33 @@ public class ReturnMoneyActivity extends BaseActivity {
                 break;
             case R.id.rl_course:
                 Intent intent = new Intent(this, CourseHomePagerActivity.class);
-                intent.putExtra("course_id",course_id);
-                intent.putExtra("schooluid",schooluid);
+                intent.putExtra("course_id", course_id);
+                intent.putExtra("schooluid", schooluid);
                 startActivity(intent);
                 break;
             case R.id.tv_submit:
                 String class_people = tvTuireason.getText().toString();
+                account = etAccount.getText().toString().trim();//用户填写的退款账号
                 if (TextUtils.isEmpty(class_people)) {
                     Toast.makeText(this, "请填写退款原因", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(account)) {
+                    Toast.makeText(this, "请输入退款账号！", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 OkHttpUtils.post()
                         .url(Internet.RETURNMONEY)
                         .addParams("order_id", ordernum)
                         .addParams("class_people", class_people)
-                        .addParams("alipay_num", user_phone)
+                        .addParams("alipay_num", account)
+                        .addParams("order_money", String.valueOf(v))
                         .build()
                         .execute(new StringCallback() {
                             @Override
                             public void onError(Call call, Exception e, int id) {
-
+                                Log.e("aaa", "(ReturnMoneyActivity.java:146)<---->" + e.getMessage());
                             }
 
                             @Override

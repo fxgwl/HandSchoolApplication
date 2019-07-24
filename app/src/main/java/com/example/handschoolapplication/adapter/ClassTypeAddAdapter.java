@@ -31,7 +31,7 @@ public class ClassTypeAddAdapter extends BaseAdapter {
     public int getCount() {
 
         if (mlist != null) {
-            size = mlist.size();
+            size = mlist.size()-1;
         }
         return size;
     }
@@ -58,7 +58,6 @@ public class ClassTypeAddAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-
         holder.tvContent.setText(mlist.get(position));
         return view;
     }

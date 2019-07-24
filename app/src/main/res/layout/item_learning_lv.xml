@@ -14,19 +14,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/xuexizhong"/>
+
         <TextView
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="学习状态："
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:text="学习状态："
+            android:textSize="12sp" />
+
         <TextView
             android:id="@+id/tv_learn_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="学习中"
             android:layout_marginLeft="5dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:textSize="12sp"/>
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
@@ -35,8 +40,9 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2011-02-02"
-            android:layout_gravity="bottom"/>
+            android:text=""
+            android:layout_gravity="center_vertical"
+            android:textSize="12sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -58,14 +64,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:paddingLeft="10dp"
-                android:text="您所选的学堂：" />
+                android:text="您所选的机构：" />
 
             <TextView
                 android:id="@+id/tv_class_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="成龙音乐学堂" />
+                android:text=""
+                android:maxLines="2"
+                android:ellipsize="end" />
         </LinearLayout>
 
         <View
@@ -90,7 +98,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="钢琴成人课程" />
+                android:text=""
+                android:maxLines="2"
+                android:ellipsize="end"/>
         </LinearLayout>
 
         <View
@@ -105,8 +115,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center_vertical">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="44dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -115,12 +126,11 @@
                     android:paddingLeft="10dp"
                     android:text="上课时间：" />
 
-                <TextView
-                    android:id="@+id/tv_learn_time"
+                <com.example.handschoolapplication.view.MyListView
+                    android:id="@+id/lv_learn_time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="周五\t16:30-18:30" />
+                    android:layout_weight="6" />
             </LinearLayout>
 
             <LinearLayout
@@ -129,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="15dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <View
                     android:layout_width="0dp"
@@ -147,7 +157,34 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="5dp"
-                    android:text="即将学习！"
+                    android:text="学习中"
+                    android:textColor="#fff" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="10dp"
+                android:visibility="visible">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_tosign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/blue"
+                    android:maxLines="1"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:text="签到！"
                     android:textColor="#fff" />
             </LinearLayout>
 
@@ -175,7 +212,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="易中天" />
+                android:text=""
+                android:maxLines="2"
+                android:ellipsize="end"/>
         </LinearLayout>
 
         <View
@@ -184,6 +223,7 @@
             android:background="#e6e6e6" />
 
         <LinearLayout
+            android:id="@+id/ll_school_address"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:gravity="center_vertical">
@@ -193,14 +233,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:paddingLeft="10dp"
-                android:text="学堂地址：" />
+                android:text="机构地址：" />
 
             <TextView
                 android:id="@+id/tv_address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="北京市廊坊大兴区65号" />
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
         </LinearLayout>
 
         <View
@@ -225,7 +267,36 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="6"
-                android:text="共20学时" />
+                android:text=""
+                android:maxLines="2"
+                android:ellipsize="end" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e6e6e6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:paddingLeft="10dp"
+                android:text="学生姓名：" />
+
+            <TextView
+                android:id="@+id/tv_student_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:text=""
+                android:maxLines="2"
+                android:ellipsize="end"/>
         </LinearLayout>
 
         <View
@@ -261,7 +332,9 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:text="123456789" />
+                    android:text=""
+                    android:maxLines="1"
+                    android:ellipsize="end" />
 
                 <ImageView
                     android:layout_width="wrap_content"

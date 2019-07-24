@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,12 +30,13 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="您所选择的学堂" />
+                        android:text="您所选择的机构" />
 
                     <TextView
                         android:id="@+id/tv_schoolname"
                         style="@style/nowapplytv2"
-                        android:text="名家讲坛" />
+                        android:text=""
+                        android:layout_gravity="center_vertical"/>
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -51,7 +52,8 @@
                     <TextView
                         android:id="@+id/tv_coursename"
                         style="@style/nowapplytv2"
-                        android:text="名家讲坛" />
+                        android:text=""
+                        android:layout_gravity="center_vertical"/>
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -64,14 +66,14 @@
                         style="@style/nowapplytv1"
                         android:text="上课时间" />
 
-                    <TextView
-                        android:id="@+id/tv_coursetime"
-                        android:layout_width="wrap_content"
+                    <com.example.handschoolapplication.view.MyListView
+                        android:id="@+id/lv_coursetime"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="15dp"
-                        android:text="周一  10:30-12:30/15:30-16:30\n周二  10:30-12:30" />
+                        />
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -87,7 +89,8 @@
                     <TextView
                         android:id="@+id/tv_personnum"
                         style="@style/nowapplytv2"
-                        android:text="12【已报名】 /20人【总人数】" />
+                        android:text=""
+                        android:layout_gravity="center_vertical"/>
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -103,7 +106,8 @@
                     <TextView
                         android:id="@+id/tv_age"
                         style="@style/nowapplytv2"
-                        android:text="0-3岁" />
+                        android:text=""
+                        android:layout_gravity="center_vertical" />
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -119,7 +123,8 @@
                     <TextView
                         android:id="@+id/tv_teacher"
                         style="@style/nowapplytv2"
-                        android:text="易中天" />
+                        android:text=""
+                        android:layout_gravity="center_vertical" />
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -135,12 +140,13 @@
                     <TextView
                         android:id="@+id/tv_costtime"
                         style="@style/nowapplytv2"
-                        android:text="800元/10节课" />
+                        android:text=""
+                        android:layout_gravity="center_vertical"/>
                 </LinearLayout>
 
                 <View
                     style="@style/line"
-                    android:layout_height="10dp"></View>
+                    android:layout_height="1dp"></View>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -156,7 +162,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="15dp"
                         android:gravity="center_vertical|right"
-                        android:text="20节"
+                        android:text="0节"
                         android:textColor="#000"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -167,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
                     android:gravity="center_vertical|right"
-                    android:text="共N节课       小计: ¥000.00"
+                    android:text="共0节课       小计: ¥0.00"
                     android:textColor="#000" />
 
                 <View
@@ -190,7 +196,7 @@
                         android:layout_marginLeft="30dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
-                        android:text="不使用优惠券"
+                        android:text="取消使用优惠券"
                         android:textColor="#F4640D"
                         android:visibility="gone" />
 
@@ -198,7 +204,8 @@
                         android:id="@+id/tv_discount"
                         style="@style/nowapplytv2"
                         android:layout_weight="1"
-                        android:text="-¥0.00" />
+                        android:text="-¥0.00"
+                        android:layout_gravity="center_vertical"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -211,9 +218,11 @@
                 <View style="@style/line"></View>
 
                 <LinearLayout
+                    android:id="@+id/ll_is_golds"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/nowapplytv1"
@@ -223,13 +232,40 @@
                         android:id="@+id/iv_golddiscount"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_marginLeft="40dp"
+                        android:layout_marginLeft="30dp"
                         android:src="@drawable/baiquan" />
 
                     <TextView
                         android:id="@+id/tv_moneydi"
                         style="@style/nowapplytv2"
-                        android:text="0金币            -¥0.00" />
+                        android:text="0金币" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"/>
+                    <EditText
+                        android:id="@+id/et_input_gold_num"
+                        android:layout_width="50dp"
+                        android:layout_height="20dp"
+                        android:inputType="number"
+                        android:hint=""
+                        android:textSize="12sp"
+                        android:background="@drawable/bg_edittext"
+                        android:gravity="center_horizontal"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"/>
+                    <TextView
+                        android:id="@+id/tv_gold_discount_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¥0.00"
+                        android:layout_marginRight="15dp"/>
                 </LinearLayout>
 
                 <View
@@ -254,11 +290,33 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/xiayiye"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="20dp"/>
+                </LinearLayout>
+                <View
+                    style="@style/line"></View>
+                <LinearLayout
+                    android:id="@+id/ll_student_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="学生性别" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/tv_student_sex"
+                        style="@style/nowapplytv1" />
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -286,10 +344,10 @@
                 android:id="@+id/tv_allmoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:padding="14dp"
-                android:text="¥0000.00"
+                android:maxLines="1"
+                android:text="¥0.00"
                 android:textColor="#ff00" />
 
             <TextView

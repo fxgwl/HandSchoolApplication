@@ -17,16 +17,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp" />
+            android:layout_marginLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"/>
 
         <ImageView
             android:id="@+id/iv_imag"
             android:layout_width="77dp"
             android:layout_height="77dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="17dp"
             android:scaleType="fitXY"
-            android:src="@drawable/kecheng" />
+            />
 
         <LinearLayout
             android:layout_width="120dp"
@@ -80,7 +81,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/jia"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_sub"

@@ -29,9 +29,9 @@
             android:id="@+id/tv_allmoney"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
+            android:layout_weight="1.1"
             android:gravity="center"
-            android:padding="14dp"
+            android:padding="10dp"
             android:text="¥0.00"
             android:textColor="#ff00" />
 
@@ -56,7 +56,6 @@
         android:layout_alignParentStart="true">
 
         <TextView
-            android:id="@+id/textView5"
             style="@style/nowapplytv1"
             android:text="金币抵扣" />
 
@@ -64,17 +63,41 @@
             android:id="@+id/iv_golddiscount"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="30dp"
             android:src="@drawable/baiquan" />
 
         <TextView
             android:id="@+id/tv_moneydi"
             style="@style/nowapplytv2"
-            android:text="0金币"/>
+            android:text="0金币" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+        <EditText
+            android:id="@+id/et_input_gold_num"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:inputType="number"
+            android:hint=""
+            app:theme="@style/MyEditText"
+            android:textSize="12sp"
+            android:background="@drawable/bg_edittext"
+            android:gravity="center_horizontal"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
         <TextView
-            android:id="@+id/tv_money_num"
-            style="@style/nowapplytv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"/>
+        <TextView
+            android:id="@+id/tv_gold_discount_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="￥0.00"
+            android:layout_marginRight="15dp"/>
             />
     </LinearLayout>
     <ListView

@@ -20,4 +20,12 @@
     <color name="b3b3b3">#b3b3b3</color>
     <color name="normal" >#eae8e8</color>
     <color name="partTranslucent">#39000000</color>
+    <color name="f7">#f7f7f7</color>
+    <color name="shen_lan">#4b96cd</color>
+    <color name="a32">#323232</color>
+    <color name="a97f5ef">#97f5ef</color>
+    <color name="ffa407">#ffa407</color>
+    <color name="c6c6c6">#c6c6c6</color>
+    <color name="efefef">#efefef</color>
+    <color name="green">#008000</color>
 </resources>

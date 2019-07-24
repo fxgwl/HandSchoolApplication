@@ -23,16 +23,35 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp">
-        <ImageView
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/learnnews"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical">
+            <ImageView
+                android:id="@+id/iv_img1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/learnnews"
+                />
+            <TextView
+                android:id="@+id/tv_learn_num"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_toRightOf="@+id/iv_img1"
+                android:text="1"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@drawable/textview_red_bg"
+                android:visibility="invisible"
+                android:layout_marginLeft="-5dp"/>
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="22dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="20dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,7 +70,8 @@
                     android:id="@+id/tv_learn_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10:25"/>
+                    android:text=""
+                    android:textSize="12sp"/>
             </LinearLayout>
 
             <TextView
@@ -61,71 +81,131 @@
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="您还没有学习消息" />
+                android:text="暂无新消息" />
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorgrey"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="80dp"/>
+
     <LinearLayout
         android:id="@+id/ll_notification_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp">
-        <ImageView
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/tongzhixiaoxi"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/iv_img2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/tongzhixiaoxi" />
+
+            <TextView
+                android:id="@+id/tv_notification_num"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_toRightOf="@+id/iv_img2"
+                android:background="@drawable/textview_red_bg"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="invisible"
+                android:layout_marginLeft="-5dp" />
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="通知消息"
-                    android:textSize="16sp"
-                    android:textColor="#4c4c4c"/>
+                    android:textColor="#4c4c4c"
+                    android:textSize="16sp" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/tv_notification_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10:25"/>
+                    android:text=""
+                    android:textSize="12sp" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/tv_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="您还没有通知消息"
-                android:maxLines="1"
                 android:layout_marginTop="10dp"
-                android:ellipsize="end"/>
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="暂无新消息" />
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorgrey"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="80dp"/>
     <LinearLayout
         android:id="@+id/ll_interaction_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp">
-        <ImageView
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/hudongxiaoxi"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical">
+            <ImageView
+                android:id="@+id/iv_img3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/hudongxiaoxi"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/tv_interaction_num"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_toRightOf="@+id/iv_img3"
+                android:text="1"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@drawable/textview_red_bg"
+                android:visibility="invisible"
+                android:layout_marginLeft="-5dp"/>
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="22dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="20dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -144,13 +224,14 @@
                     android:id="@+id/tv_interact_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10:25"/>
+                    android:text=""
+                    android:textSize="12sp"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/tv_interact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="您还没有互动消息"
+                android:text="暂无新消息"
                 android:maxLines="1"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"/>
@@ -167,7 +248,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        android:paddingLeft="20dp"/>
+        android:paddingLeft="20dp"
+        android:dividerHeight="1dp"
+        android:divider="#c6c6c6"
+        />
 
 
 </LinearLayout>

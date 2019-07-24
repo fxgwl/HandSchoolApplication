@@ -6,8 +6,10 @@ package com.example.handschoolapplication.utils;
 
 public class Internet {
 
-    //    public static final String BASE_URL = "http://axehome.viphk.ngrok.org/PrivateSchool/";
-    public static final String BASE_URL = "http://120.92.44.55/PrivateSchool/";
+        public static final String BASE_URL = "http://m.xczsss.com/PrivateSchool/";//正式域名
+//    public static final String BASE_URL = "http://47.93.31.94/PrivateSchool/";//测试域名
+
+//    public static final String BASE_URL = "http://157.10.1.36/PrivateSchool/";//本地服务器
 
     //注册登录等相关
 
@@ -19,6 +21,8 @@ public class Internet {
     public static final String LOGIN = BASE_URL + "UserInfo/login";
     //企业资料填写
     public static final String COMMITINFO = BASE_URL + "UserInfo/company";
+    //驳回企业资料填写
+    public static final String COMMITINFOS = BASE_URL + "UserInfo/companys";
     //忘记密码获取验证码
     public static final String PWD_GETCODE = BASE_URL + "UserInfo/getPwdcode";
     //忘记密码
@@ -28,7 +32,7 @@ public class Internet {
     public static final String WECHAT_LOGIN = BASE_URL + "UserInfo/weixin";
     public static final String SINA_WEIBO_LOGIN = BASE_URL + "UserInfo/weibo";
     public static final String QQ_LOGIN = BASE_URL + "UserInfo/qq";
-    //三房登录获取验证码
+    //三方登录获取验证码
     public static final String GET_CODE_FOR_THREE = BASE_URL + "UserInfo/getThreecode";
 
 
@@ -68,15 +72,16 @@ public class Internet {
     public static final String TEACHNEWS = BASE_URL + "NewsInfo/listNewsInfo";
     //首页广告位：
     public static final String HOMEAD = BASE_URL + "AdvertisingInfo/listAdvertisingInfo";
-    //学堂简介 环境：
+    public static final String HOMEADs = BASE_URL + "AdvertisingInfo/listType";
+    //机构简介 环境：
     public static final String SCHOOLINTO = BASE_URL + "UserInfo/selectSchool";
     //师资
     public static final String SHIZI = BASE_URL + "TeacherInfo/listbySchool";
     //课程
     public static final String COURSEINFO = BASE_URL + "CourseInfo/listbySchool";
     //课程类型选择
-    public static final String COURSESTATE = BASE_URL + "CourseInfo/listbyState";
-    //收藏/取消收藏 学堂：
+    public static final String COURSESTATE = BASE_URL + "CourseInfo/listState";
+    //收藏/取消收藏 机构：
     public static final String SAVECLASS = BASE_URL + "CollectSchool/insertCollectSchool";
     //课程类型：
     public static final String CLASSTYPE = BASE_URL + "TypeOneInfo/listOneTwo";
@@ -96,13 +101,13 @@ public class Internet {
     public static final String SAVECOURSELIST = BASE_URL + "CollectInfo/getmyCollect";
     //课程收藏删除
     public static final String DELETECOLLECT = BASE_URL + "CollectInfo/deleteCollectInfo";
-    //学堂收藏列表
+    //机构收藏列表
     public static final String SCHOOLCOLLECT = BASE_URL + "CollectSchool/getmySchool";
-    //学堂收藏删除
+    //机构收藏删除
     public static final String DELETESCHOOLCOLLECT = BASE_URL + "CollectSchool/deleteCollectSchool";
     //课程(模糊)搜索
     public static final String COURSESEARCH = BASE_URL + "CourseInfo/listbyname";
-    //学堂(模糊)搜索
+    //机构(模糊)搜索
     public static final String SCHOOLSEARCH = BASE_URL + "UserInfo/selectschool";
     //签到
     public static final String SIGN = BASE_URL + "SignInfo/insertSignInfo";
@@ -116,7 +121,7 @@ public class Internet {
     public static final String CONTACTLIST = BASE_URL + "ConsultMessage/getConsult";
     //立即报名/加入购物车
     public static final String SINGUP = BASE_URL + "OrderInfo/insertOrderInfo";
-    //购物车--根据学堂分类
+    //购物车--根据机构分类
     public static final String SHOPCAR = BASE_URL + "OrderInfo/listBySchool";
     //购物车--改变数量
     public static final String CHANGENUM = BASE_URL + "OrderInfo/updateOrderInfo";
@@ -136,15 +141,18 @@ public class Internet {
     //金币信息
     public static final String GOLDDISCOUNT = BASE_URL + "OrderInfo/ins";
     //发表评价
-    public static final String COMMENT = BASE_URL + "InteractMessage/insertInteractMessage";
+    public static final String COMMENT = BASE_URL + "InteractMessage/save";
     //评价回复
-    public static final String REPLAYCOMMENT = BASE_URL + "ReplyInfo/insertReplyInfo";
+    public static final String REPLAYCOMMENT = BASE_URL + "ReplyInfo/save";
     //评价详情
     public static final String COMMENTDETAIL = BASE_URL + "InteractMessage/getInteractInfo";
     //优惠券列表
     public static final String DISCOUNTLIST = BASE_URL + "UserCoupons/getUCoupons";
     //评价管理:已评价
     public static final String HASCOMMENT = BASE_URL + "InteractMessage/getByUser";
+    public static final String HASCOMMENT_s = BASE_URL + "InteractMessage/listInteract";
+
+    public static final String INTERACT_MESSAGE_SCHOOL = BASE_URL + "InteractMessage/listSchoolInteract";
     //个人对话列表
     public static final String PERSONDIALOG = BASE_URL + "ConsultMessage/getforMe";
 
@@ -156,7 +164,7 @@ public class Internet {
     public static final String GET_THIRD = BASE_URL + "TypeThreeInfo/listTypeOne";
 
 
-    //---------------------------------------cc
+    //---------------------------------------cc-----------------------
     //报名信息详情
     public static final String BMINFO = BASE_URL + "ClassSign/listsign";
     //发消息单发
@@ -169,18 +177,20 @@ public class Internet {
     public static final String ALIPAY = BASE_URL + "alipay/trade/create";
     //微信支付
     public static final String WECHATPAY = BASE_URL + "wechat/weiBuy";
+    //线下支付
+    public static final String PAY_CASH = BASE_URL + "OrderInfo/offline";
 
     //提现
     //支付宝提现
     public static final String ALIPAY_CASH = BASE_URL + "AccountCash/getMoneyInfo";
 
 
-    //学堂类别
-    //添加学堂类别
+    //机构类别
+    //添加机构类别
     public static final String ADD_CLASS_TYPE = BASE_URL + "UserInfo/addSchoolType";
-    //修改学堂类别
+    //修改机构类别
     public static final String CHANGE_CLASS_TYPE = BASE_URL + "UserInfo/changeSchoolType";
-    //删除学堂类别
+    //删除机构类别
     public static final String DELECT_CLASS_TYPE = BASE_URL + "UserInfo/delSchoolType";
 
     //修改身份证信息
@@ -190,4 +200,57 @@ public class Internet {
 
     //删除学习计划
     public static final String DELECT_DELECT_PLAN = BASE_URL + "OrderInfo/deleteOrderInfo";
+
+    //消息未读个数
+    public static final String UNREAD_NEWS_NUM = BASE_URL + "MessageInfo/information";
+
+    //学习消息阅读接口
+    public static final String READ_NEWS = BASE_URL + "StudyMessage/byid";
+
+    public static final String READ_EDU = BASE_URL + "NewsInfo/getNewsInfo";
+
+    //学堂粉丝接口
+    public static final String GET_SCHOOL_FAN = BASE_URL + "CollectSchool/getCollector";
+    //修改学堂地址接口
+    public static final String CHANGE_SCHOOL_ADDRESS = BASE_URL + "SchoolAddress/updateSchoolAddress";
+    //根据学堂Id查询第一个课程的Id
+    public static final String GET_COURSE_ID = BASE_URL + "CourseInfo/getCurriculum";
+
+    //刷新通知消息的未读状态
+    public static final String UPDATE_NOTIFICATION = BASE_URL + "InformMessage/alterInformMessage";
+
+    //学习码页面确认按钮
+    public static final String AFFIRM_ORDER = BASE_URL + "OrderInfo/getOrder";
+    //课程主页店铺优惠券列表
+    public static final String DISCOUNT_PAGE_LIST = BASE_URL + "CouponsInfo/school";
+
+    //资料审核失败的重新填写的接口
+    public static final String EDIT_AND_ADD = BASE_URL + "UserInfo/byUser";
+    //学堂扫描二维码获取课程信息
+    public static final String SCAN_RESULT = BASE_URL + "OrderInfo/getOrderDetails";
+    //添加学生姓名
+    public static final String STUDENT_NAME = BASE_URL + "OrderInfo/saveStudent";
+    //根据省市区获取小学列表
+    public static final String GET_SCHOOL_BY_ADDRESS = BASE_URL + "gakuen/vague";
+    //获取该机构添加的小学列表
+    public static final String GET_SCHOOL_BY_CLASS = BASE_URL + "bind/list";
+    //添加该机构附近的小学
+    public static final String ADD_SCHOOL_NEAR_CLASS = BASE_URL + "bind/save";
+    //删除该机构附近的小学
+    public static final String DELECT_CLASS_SCHOOL = BASE_URL + "bind/delReplace";
+    //根据小学查询所在地区的机构
+    public static final String GET_CLASS_LSIT_BY_SCHOOL = BASE_URL + "bind/gather";
+    //获取六大类广告
+    public static final String GET_BANNER_ADVERTISING = BASE_URL + "AdvertisingInfo/listType";
+    //新加的评论接口
+    public static final String COMMENT_NEW = BASE_URL + "criticOthers/save";
+    //新加的评论接口列表
+    public static final String COMMENT_NEW_LIST = BASE_URL + "criticOthers/listByOthers";
+    //新加的机构的课程
+    public static final String NEWS_COM_COURSE = BASE_URL + "CourseInfo/getCurriculum";
+    //新加的课程咨询消息
+    public static final String COURSE_NEWS = BASE_URL + "StudyMessage/queryList";
+    //新加的提现手续费接口
+    public static final String CASH_TIP = BASE_URL + "charge/detail";
+
 }

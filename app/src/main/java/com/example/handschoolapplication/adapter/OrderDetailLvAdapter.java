@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,10 @@ import java.util.List;
 
 public class OrderDetailLvAdapter extends BaseAdapter {
     private Context mContext;
-    private List<OrderInfoBean> mList;
+    private List<OrderInfoBean.DataBean> mList;
     private int size = 0;
 
-    public OrderDetailLvAdapter(Context mContext, List<OrderInfoBean> mList) {
+    public OrderDetailLvAdapter(Context mContext, List<OrderInfoBean.DataBean> mList) {
         this.mContext = mContext;
         this.mList = mList;
     }
@@ -62,22 +63,20 @@ public class OrderDetailLvAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        OrderInfoBean dataBean = mList.get(position);
-        String class_photo = dataBean.getClass_photo();
-        String photo = "";
+        OrderInfoBean.DataBean dataBean = mList.get(position);
 
-        if (class_photo.contains(",")){
-            String[] split = class_photo.split(",");
-            photo = split[0];
-        }else {
-            photo = class_photo;
-        }
+        Log.e("aaa",
+                "(OrderDetailLvAdapter.java:69)<--dataBean-->"+dataBean);
+        String class_photo = dataBean.getCourseInfo().getPicture_one();
+
         Glide.with(mContext)
-                .load(Internet.BASE_URL + photo)
+                .load(Internet.BASE_URL + class_photo)
                 .centerCrop()
                 .into(holder.ivClasslogo);
         holder.mTvClassName.setText(dataBean.getClass_name());
-        holder.mTvClassprice.setText(dataBean.getOrder_money());
+        String class_money = dataBean.getClass_money();
+        String yuan = class_money.split("元")[0];
+        holder.mTvClassprice.setText("价格：¥"+yuan);
         holder.mTvNum.setText("数量：" + dataBean.getCourse_num());
 
         return convertView;

@@ -10,6 +10,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
@@ -48,6 +49,9 @@ public class BaiduMapActivity extends BaseActivity {
     // 定位相关
     LocationClient mLocClient;
     public MyLocationListenner myListener = new MyLocationListenner();
+    private BMapManager bMapManager;
+    private double pointW;
+    private double pointJ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,10 @@ public class BaiduMapActivity extends BaseActivity {
         option.setScanSpan(0);
         mLocClient.setLocOption(option);
         mLocClient.start();
-        initMap();
+//        pointW = getIntent().getDoubleExtra("pointW", 0);
+//        pointJ = getIntent().getDoubleExtra("pointJ", 0);
+//        initMap();
+//        bMapManager = new BMapManager();
         map.clear();
         if ("1".equals(getIntent().getStringExtra("isCourse"))) {
             ArrayList<ClassSortBean> classList = (ArrayList<ClassSortBean>) getIntent().getSerializableExtra("findCourseList");
@@ -75,7 +82,7 @@ public class BaiduMapActivity extends BaseActivity {
                     ClassSortBean classSortBean = classList.get(i);
                     Log.e("aaa",
                             "(BaiduMapActivity.java:77)" + classSortBean.toString());
-                    addInfosOverlay(new Info(Double.parseDouble(classSortBean.getUser_area()), Double.parseDouble(classSortBean.getUser_name()), null, classSortBean));
+                    addInfosOverlay(new Info(Double.parseDouble(classSortBean.getSchool_wei()), Double.parseDouble(classSortBean.getSchool_jing()), null, classSortBean));
                 }
             }
         } else {
@@ -103,6 +110,7 @@ public class BaiduMapActivity extends BaseActivity {
         map.setMyLocationConfiguration(new MyLocationConfiguration(
                 MyLocationConfiguration.LocationMode.FOLLOWING, true, null));
         MapStatus.Builder builder = new MapStatus.Builder();
+
         builder.overlook(0);
         map.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
     }
@@ -122,7 +130,7 @@ public class BaiduMapActivity extends BaseActivity {
     /**
      * 定位SDK监听函数
      */
-    public class MyLocationListenner implements BDLocationListener {
+    private class MyLocationListenner implements BDLocationListener {
 
 
         @Override
@@ -141,12 +149,24 @@ public class BaiduMapActivity extends BaseActivity {
                     .direction(mCurrentDirection).latitude(location.getLatitude())
                     .longitude(location.getLongitude()).build();
             map.setMyLocationData(locData);
+//
+//            BitmapDescriptor bitmap = BitmapDescriptorFactory
+//                    .fromResource(R.drawable.dingweilan);
+//            //构建MarkerOption，用于在地图上添加Marker
+//            OverlayOptions option = new MarkerOptions()
+//                    .position(new LatLng(location.getLatitude(),location.getLongitude()))
+//                    .icon(bitmap);
+//
+//            map.addOverlay(option);
+//
             if (isFirstLoc) {
                 isFirstLoc = false;
                 LatLng ll = new LatLng(location.getLatitude(),
                         location.getLongitude());
                 MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll).zoom(18.0f);
+//                Log.e("aaa",
+//                        "(MyLocationListenner.java:168)<--传过来的经纬度-->"+pointW+"   经度=="+pointJ);
+                builder.target(ll).zoom(9f);
                 map.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
             }
 
@@ -169,7 +189,7 @@ public class BaiduMapActivity extends BaseActivity {
         latLng = new LatLng(infos.getLatitude(), infos.getLongitude());
         // 图标
         overlayOptions = new MarkerOptions().position(latLng)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.dingweis)).zIndex(5);
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.dingwei_hong_xiao)).zIndex(5);
         marker = (Marker) (map.addOverlay(overlayOptions));
         Bundle bundle = new Bundle();
         bundle.putSerializable("info", infos);
@@ -221,25 +241,26 @@ public class BaiduMapActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+
         if (mapView!=null)
         mapView.onDestroy();
+
+        super.onDestroy();
     }
 
     @Override
     protected void onResume() {
         mapView.onResume();
-        mapView.setVisibility(View.VISIBLE);
-
+//        mapView.setVisibility(View.VISIBLE);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
         mapView.onPause();
-        mapView.setVisibility(View.INVISIBLE);
-        mapView.onDestroy();
+        super.onPause();
+//        mapView.setVisibility(View.INVISIBLE);
+//        mapView.onDestroy();
     }
 
 }

@@ -42,7 +42,7 @@ public class MyPopupWindow extends PopupWindow {
         this.setAnimationStyle(R.style.AnimationPreview);
         // 设置背景颜色变暗
         WindowManager.LayoutParams lp = context.getWindow().getAttributes();
-        lp.alpha = 0.7f;
+        lp.alpha = 0.5f;
         context.getWindow().setAttributes(lp);
     }
 }

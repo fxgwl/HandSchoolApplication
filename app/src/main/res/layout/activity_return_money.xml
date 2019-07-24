@@ -176,7 +176,32 @@
                     android:text=""
                     android:textColor="@color/t999999"
                     android:textSize="14sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="#fff"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="退款账户："
+                        android:textColor="@color/t333333"
+                        android:textSize="15sp"/>
+
+                    <EditText
+                        android:id="@+id/et_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/t333333"
+                        android:textSize="15sp"
+                        android:background="#f7f7f7"/>
+                </LinearLayout>
             </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/tv_submit"

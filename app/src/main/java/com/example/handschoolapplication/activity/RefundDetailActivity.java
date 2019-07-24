@@ -92,11 +92,11 @@ public class RefundDetailActivity extends BaseActivity {
                             if (response.contains("没有信息")){
 
                             }else {
-                                OrderInfoBean orderInfoBean = new Gson().fromJson(data.toString(), OrderInfoBean.class);
+                                OrderInfoBean orderInfoBean = new Gson().fromJson(response, OrderInfoBean.class);
                                 mList.add(orderInfoBean);
-                                tvOrderId.setText(orderInfoBean.getOrder_id());
-                                tvTime.setText("申请时间："+orderInfoBean.getOrdre_time());
-                                tvReason.setText(orderInfoBean.getClass_people()+"");
+                                tvOrderId.setText(order_id);
+                                tvTime.setText("申请时间："+orderInfoBean.getData().getOrdre_time());
+                                tvReason.setText(orderInfoBean.getData().getClass_people()+"");
                                 tvState.setText("退款中");
                                 mAdapter.notifyDataSetChanged();
                             }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +65,7 @@ public class UnEvaluateOrderFragment extends BaseFragment {
             @Override
             public void setOnCancelOrder(int position) {
                 OrderBean.DataBean dataBean = mOrderList.get(position);
-                showCashDialog(dataBean,position);
+                showCashDialog(dataBean, position);
             }
 
             @Override
@@ -83,8 +84,8 @@ public class UnEvaluateOrderFragment extends BaseFragment {
                 intent.putExtra("money", dataBean.getOrder_money());
                 intent.putExtra("coursenum", dataBean.getCourse_num());
                 intent.putExtra("tuimoney", dataBean.getOrder_money());
-                intent.putExtra("course_id",dataBean.getCourse_id());
-                intent.putExtra("schooluid",dataBean.getUser_id());
+                intent.putExtra("course_id", dataBean.getCourse_id());
+                intent.putExtra("schooluid", dataBean.getUser_id());
                 startActivity(intent);
             }
 
@@ -99,12 +100,18 @@ public class UnEvaluateOrderFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), PublishEvaluateActivity.class)
                         .putExtra("order_id", dataBean.getOrder_id())
                         .putExtra("school_name", dataBean.getSchool_name())
-                        .putExtra("class_photo", dataBean.getClass_photo()
+                        .putExtra("class_photo", dataBean.getSchool_logo()
                         );
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        initDataView();
     }
 
     private void initDataView() {
@@ -116,19 +123,25 @@ public class UnEvaluateOrderFragment extends BaseFragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa",
+                                "(UnEvaluateOrderFragment.java:127)<---->" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(AllOrderFragment.java:73待评价)" + response);
-                        Gson gson = new Gson();
-                        mOrderList.clear();
-                        try {
-                            mOrderList.addAll(gson.fromJson(response, OrderBean.class).getData());
+                                "(UnEvaluateOrderFragment.java:131)<---->" + response);
+                        if (response.contains("没有信息") || TextUtils.isEmpty(response)) {
+                            mOrderList.clear();
                             orderAdapter.notifyDataSetChanged();
-                        } catch (Exception e) {
+                        } else {
+                            Gson gson = new Gson();
+                            mOrderList.clear();
+                            try {
+                                mOrderList.addAll(gson.fromJson(response, OrderBean.class).getData());
+                                orderAdapter.notifyDataSetChanged();
+                            } catch (Exception e) {
+                            }
                         }
 
                     }
@@ -215,6 +228,14 @@ public class UnEvaluateOrderFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+//        initDataView();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("aaa",
+                "(UnEvaluateOrderFragment.java:231)<--待评价的界面的  activityforresult-->");
         initDataView();
     }
 }

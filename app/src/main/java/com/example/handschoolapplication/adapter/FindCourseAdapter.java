@@ -75,16 +75,13 @@ public class FindCourseAdapter extends BaseAdapter {
         }
         CourseSortBean courseSortBean = mlist.get(position);
         String photo = "";
-        if (courseSortBean.getCourse_photo().contains(",")) {
-            String[] split = courseSortBean.getCourse_photo().split(",");
-            photo = split[0];
-        } else {
-            photo = courseSortBean.getCourse_photo();
-        }
-        Glide.with(context).load(Internet.BASE_URL + photo).centerCrop().into(holder.ivCourse);
+
+        String picture_one = courseSortBean.getPicture_one();
+
+        Glide.with(context).load(Internet.BASE_URL + picture_one).centerCrop().into(holder.ivCourse);
         holder.tvCourse.setText(courseSortBean.getCourse_name());
         holder.tvPrice.setText("¥" + courseSortBean.getPreferential_price());//价格是放的优惠价
-        holder.popularity.setText("（" + courseSortBean.getPopularity_num() + "人已报名）");
+        holder.popularity.setText("（" + courseSortBean.getPopularity_num() + "人）");
 
         double school_wei = Double.parseDouble(courseSortBean.getSchool_wei());
         double school_jing = Double.parseDouble(courseSortBean.getSchool_jing());

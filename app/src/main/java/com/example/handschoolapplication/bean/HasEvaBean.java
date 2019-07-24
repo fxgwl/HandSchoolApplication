@@ -65,6 +65,7 @@ public class HasEvaBean {
          */
 
         private String anonymous;
+        private int browse_num;
         private String class_score;
         private String contents;
         private int contents_num;
@@ -73,6 +74,11 @@ public class HasEvaBean {
         private String course_name;
         private String course_num;
         private String course_photo;
+        private String picture_one;
+        private String picture_two;
+        private String picture_three;
+        private String picture_four;
+        private String picture_five;
         private String interact_id;
         private String interact_time;
         private String order_id;
@@ -82,6 +88,7 @@ public class HasEvaBean {
         private String send_uid;
         private String user_id;
         private List<ReplyInfoBean> replyInfo;
+        private int unread;
 
         public String getAnonymous() {
             return anonymous;
@@ -155,6 +162,46 @@ public class HasEvaBean {
             this.course_photo = course_photo;
         }
 
+        public String getPicture_one() {
+            return picture_one;
+        }
+
+        public void setPicture_one(String picture_one) {
+            this.picture_one = picture_one;
+        }
+
+        public String getPicture_two() {
+            return picture_two;
+        }
+
+        public void setPicture_two(String picture_two) {
+            this.picture_two = picture_two;
+        }
+
+        public String getPicture_three() {
+            return picture_three;
+        }
+
+        public void setPicture_three(String picture_three) {
+            this.picture_three = picture_three;
+        }
+
+        public String getPicture_four() {
+            return picture_four;
+        }
+
+        public void setPicture_four(String picture_four) {
+            this.picture_four = picture_four;
+        }
+
+        public String getPicture_five() {
+            return picture_five;
+        }
+
+        public void setPicture_five(String picture_five) {
+            this.picture_five = picture_five;
+        }
+
         public String getInteract_id() {
             return interact_id;
         }
@@ -219,12 +266,28 @@ public class HasEvaBean {
             this.user_id = user_id;
         }
 
+        public int getBrowse_num() {
+            return browse_num;
+        }
+
+        public void setBrowse_num(int browse_num) {
+            this.browse_num = browse_num;
+        }
+
         public List<ReplyInfoBean> getReplyInfo() {
             return replyInfo;
         }
 
         public void setReplyInfo(List<ReplyInfoBean> replyInfo) {
             this.replyInfo = replyInfo;
+        }
+
+        public int getUnread() {
+            return unread;
+        }
+
+        public void setUnread(int unread) {
+            this.unread = unread;
         }
 
         public static class ReplyInfoBean {

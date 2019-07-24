@@ -1,16 +1,22 @@
 package com.example.handschoolapplication.activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,6 +32,9 @@ import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.utils.Utils;
 import com.google.gson.Gson;
+import com.yuyh.library.imgsel.ISNav;
+import com.yuyh.library.imgsel.common.ImageLoader;
+import com.yuyh.library.imgsel.config.ISListConfig;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -34,10 +43,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 import okhttp3.Call;
+
+import static com.bumptech.glide.Glide.with;
 
 public class SchoolInformationActivity extends BaseActivity {
 
@@ -45,6 +60,9 @@ public class SchoolInformationActivity extends BaseActivity {
     protected static final int CHOOSE_PICTURE = 0;
     protected static final int TAKE_PICTURE = 1;
     private static final int CROP_SMALL_PICTURE = 2;
+    //    @BindView(R.id.btn_schoolinfo_save)
+//    Button btnSchoolinfoSave;
+    private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 0;
     protected static Uri tempUri;
     @BindView(R.id.rl_back)
     RelativeLayout rlBack;
@@ -55,7 +73,7 @@ public class SchoolInformationActivity extends BaseActivity {
     @BindView(R.id.tv_edit)
     TextView tvEdit;
     @BindView(R.id.iv_schoolinfo_usericon)
-    ImageView ivUsericon;
+    CircleImageView ivUsericon;
     @BindView(R.id.ll_schoolinfo_logo)
     LinearLayout llSchoolinfoLogo;
     @BindView(R.id.tv_schoolinfo_schoolname)
@@ -72,26 +90,70 @@ public class SchoolInformationActivity extends BaseActivity {
     LinearLayout llSchoolinfoShenfenrenzheng;
     @BindView(R.id.tv_schoolinfo_qualification)
     TextView tvSchoolinfoQualification;
+    @BindView(R.id.tv_is_add)
+    TextView tvIsAdd;
+    @BindView(R.id.tv_logo_add)
+    TextView tvLogoAdd;
+    @BindView(R.id.tv_qua_add)
+    TextView tvQuaAdd;
     @BindView(R.id.ll_schoolinfo_qualification)
     LinearLayout llSchoolinfoQualification;
     @BindView(R.id.tv_schoolinfo_schooladdress)
     TextView tvSchoolinfoSchooladdress;
     @BindView(R.id.ll_schoolinfo_schooladdress)
     LinearLayout llSchoolinfoSchooladdress;
-    @BindView(R.id.btn_schoolinfo_save)
-    Button btnSchoolinfoSave;
+    // 声明一个集合，在后面的代码中用来存储用户拒绝授权的权
+    List<String> mPermissionList = new ArrayList<>();
+    String[] permissions = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+
+    };
     private ImageView iv_personal_icon;
+    private String change_state, midphoto_state, qualiprove_state;
     private String user_id;
     private SchoolInfoBean.DataBean schoolInfo;
+    private String mechanism_type = "";
+    private int REQUEST_LIST_CODE = 1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         user_id = (String) SPUtils.get(this, "userId", "");
-        tvTitle.setText("学堂资料");
+        change_state = (String) SPUtils.get(this, "change_state", "");
+        midphoto_state = (String) SPUtils.get(this, "midphoto_state", "");
+        qualiprove_state = (String) SPUtils.get(this, "qualiprove_state", "");
+        tvTitle.setText("机构资料");
         ivMenu.setVisibility(View.VISIBLE);
+        requestPermission();
+
+        ISNav.getInstance().init(new ImageLoader() {
+            @Override
+            public void displayImage(Context context, String path, ImageView imageView) {
+                with(context).load(path).into(imageView);
+            }
+        });
+
         initView();
+
+    }
+
+    private void requestPermission() {
+        mPermissionList.clear();
+        for (int i = 0; i < permissions.length; i++) {
+            if (ContextCompat.checkSelfPermission(this, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+                mPermissionList.add(permissions[i]);
+            }
+        }
+        if (mPermissionList.isEmpty()) {//未授予的权限为空，表示都授予了
+//            Toast.makeText(this,"已经授权",Toast.LENGTH_LONG).show();
+        } else {//请求权限方法
+            String[] permissions = mPermissionList.toArray(new String[mPermissionList.size()]);//将List转为数组
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+        }
+
     }
 
     //初始化数据
@@ -103,24 +165,63 @@ public class SchoolInformationActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa", "(SchoolInformationActivity.java:185)<---->" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(SchoolInformationActivity.java:102)" + response);
-                        Gson gson = new Gson();
-                        schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
-                        Glide.with(SchoolInformationActivity.this)
-                                .load(Internet.BASE_URL + schoolInfo.getHead_photo())
-                                .error(R.drawable.touxiang)
-                                .centerCrop()
-                                .into(ivUsericon);
-                        tvSchoolinfoSchoolname.setText(schoolInfo.getMechanism_name());
+                        if (TextUtils.isEmpty(response)) {
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                int result = jsonObject.getInt("code");
+                                if (result == 0) {
+                                    Gson gson = new Gson();
+                                    schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
+                                    with(SchoolInformationActivity.this)
+                                            .load(Internet.BASE_URL + schoolInfo.getHead_photo())
+                                            .centerCrop()
+                                            .into(ivUsericon);
+                                    tvSchoolinfoSchoolname.setText(schoolInfo.getMechanism_name());
 //                        tvSchoolinfoSchoolclass.setText(schoolInfo.getMechanism_type());
-                        tvSchoolinfoShenfenrenzheng.setText(schoolInfo.getId_number());
+                                    tvSchoolinfoShenfenrenzheng.setText(schoolInfo.getId_number());
 //                        tvSchoolinfoQualification.setText(schoolInfo.getQualification_prove());
+                                    mechanism_type = schoolInfo.getMechanism_type();
+                                    if (TextUtils.isEmpty(schoolInfo.getId_number()) || TextUtils.isEmpty(schoolInfo.getMid_photo())
+                                            || TextUtils.isEmpty(schoolInfo.getMid_photos())) {
+                                        tvIsAdd.setVisibility(View.VISIBLE);
+                                    } else {
+                                        tvIsAdd.setVisibility(View.GONE);
+                                    }
+                                    if (TextUtils.isEmpty(schoolInfo.getQualification_prove())) {
+                                        tvQuaAdd.setVisibility(View.VISIBLE);
+                                    } else {
+                                        tvQuaAdd.setVisibility(View.GONE);
+                                    }
+                                    if (TextUtils.isEmpty(schoolInfo.getHead_photo())) {
+                                        tvLogoAdd.setVisibility(View.VISIBLE);
+                                    } else {
+                                        tvLogoAdd.setVisibility(View.GONE);
+                                    }
+
+                                    qualiprove_state = schoolInfo.getQualiprove_state();
+                                    midphoto_state = schoolInfo.getMidphoto_state();
+
+                                    if ("0".equals(qualiprove_state)) {
+                                        tvSchoolinfoQualification.setText("审核中");
+                                    }
+                                    if ("0".equals(SchoolInformationActivity.this.midphoto_state)) {
+                                        tvSchoolinfoShenfenrenzheng.setText("审核中");
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
                     }
                 });
     }
@@ -129,7 +230,6 @@ public class SchoolInformationActivity extends BaseActivity {
     public int getContentViewId() {
         return R.layout.activity_school_information;
     }
-
 
     /**
      * 显示修改头像的对话框
@@ -165,44 +265,74 @@ public class SchoolInformationActivity extends BaseActivity {
         builder.create().show();
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 1 && resultCode == 11) {
-//            String sex = data.getStringExtra("sex");
-//            tvSex.setText(sex);
-//        }
-//        if (requestCode == 1 && resultCode == 22) {
-//            String username = data.getStringExtra("username");
-//            tvUsername.setText(username);
-//        }
-//        if (requestCode == 1 && resultCode == 33) {
-//            String idcode = data.getStringExtra("idcode");
-//            tvIdcode.setText(idcode);
-//        }
-//        if (requestCode == 1 && resultCode == 44) {
-//            String name = data.getStringExtra("name");
-//            tvName.setText(name);
-//        }
 
-        if (resultCode == RESULT_OK) { // 如果返回码是可以用的
-            switch (requestCode) {
-                case TAKE_PICTURE:
-                    startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
-                    break;
-                case CHOOSE_PICTURE:
-                    Uri newUri = Uri.parse("file:///" + Utils.getPath(this, data.getData()));
-                    startPhotoZoom(newUri); // 开始对图片进行裁剪处理
-                    break;
-                case CROP_SMALL_PICTURE:
-                    if (data != null) {
-                        setImageToView(data); // 让刚才选择裁剪得到的图片显示在界面上
-                    }
-                    break;
+        if (resultCode == RESULT_OK && requestCode == REQUEST_LIST_CODE) {
+            List<String> pathList = data.getStringArrayListExtra("result");
+            for (String path : pathList) {
+                with(this).load(path).centerCrop().into(ivUsericon);
+                Bitmap usericon = Compressor.getDefault(SchoolInformationActivity.this).compressToBitmap(new File(path));
+                Bitmap usericon1 = Utils.toRoundBitmap(usericon, tempUri); // 这个时候的图片已经被处理成圆形的了
+                ivUsericon.setImageBitmap(usericon1);
+                uploadPic(usericon);
             }
+        } else if (requestCode == 1) {
+            Log.e("aaa", "(SchoolInformationActivity.java:279)<---->" + "45454545");
+            initView();
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if (requestCode == MY_PERMISSIONS_REQUEST_CALL_PHONE) {
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    //判断是否勾选禁止后不再询问
+                    boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
+                    if (showRequestPermission) {
+//                        showToast("权限未申请");
+                        Toast.makeText(this, "权限未获得不能上传照片！", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void uploadPic(Bitmap bitmap) {
+        // 上传至服务器
+        // ... 可以在这里把Bitmap转换成file，然后得到file的url，做文件上传操作
+        // 注意这里得到的图片已经是圆形图片了
+        // bitmap是没有做个圆形处理的，但已经被裁剪了
+        String icon64 = MyUtiles.bitmapToBase64(bitmap);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("icon", icon64);
+            OkHttpUtils.post()
+                    .url(Internet.CHANGEHEAD)
+                    .addParams("user_id", user_id)
+                    .addParams("url", json.toString())
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            Log.e("aaa",
+                                    "(SchoolInformationActivity.java:301)<---->" + e.getMessage());
+                        }
+
+                        @Override
+                        public void onResponse(String response, int id) {
+                            Log.e("aaa",
+                                    "(SchoolInformationActivity.java:307)" + response);
+                        }
+                    });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -229,57 +359,10 @@ public class SchoolInformationActivity extends BaseActivity {
         startActivityForResult(intent, CROP_SMALL_PICTURE);
     }
 
-    /**
-     * 保存裁剪之后的图片数据
-     *
-     * @param
-     * @param
-     */
-    protected void setImageToView(Intent data) {
-        Bundle extras = data.getExtras();
-        if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-//            photo = Utils.toRoundBitmap(photo, tempUri); // 这个时候的图片已经被处理成圆形的了
-            ivUsericon.setImageBitmap(photo);
-            uploadPic(photo);
-        }
-    }
-
-    private void uploadPic(Bitmap bitmap) {
-        // 上传至服务器
-        // ... 可以在这里把Bitmap转换成file，然后得到file的url，做文件上传操作
-        // 注意这里得到的图片已经是圆形图片了
-        // bitmap是没有做个圆形处理的，但已经被裁剪了
-//        asdf
-        String icon64 = MyUtiles.bitmapToBase64(bitmap);
-        JSONObject json = new JSONObject();
-        try {
-            json.put("icon", icon64);
-            OkHttpUtils.post()
-                    .url(Internet.CHANGEHEAD)
-                    .addParams("user_id", user_id)
-                    .addParams("url", json.toString())
-                    .build()
-                    .execute(new StringCallback() {
-                        @Override
-                        public void onError(Call call, Exception e, int id) {
-
-                        }
-
-                        @Override
-                        public void onResponse(String response, int id) {
-                            Log.e("aaa",
-                                    "(SchoolInformationActivity.java:270)" + response);
-                        }
-                    });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_schoolinfo_logo, R.id.ll_schoolinfo_schoolclass,
             R.id.ll_schoolinfo_shenfenrenzheng, R.id.ll_schoolinfo_qualification,
-            R.id.ll_schoolinfo_schooladdress, R.id.btn_schoolinfo_save,R.id.ll_change_phone})
+            R.id.ll_schoolinfo_schooladdress, R.id.btn_schoolinfo_save, R.id.ll_change_phone, R.id.ll_near_school})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
@@ -290,7 +373,8 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             //学堂logo
             case R.id.ll_schoolinfo_logo:
-                showChoosePicDialog();
+//                showChoosePicDialog();
+                single(REQUEST_LIST_CODE);
                 break;
             //学堂类别
             case R.id.ll_schoolinfo_schoolclass:
@@ -298,11 +382,11 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             //身份认证
             case R.id.ll_schoolinfo_shenfenrenzheng:
-                startActivity(new Intent(this, IdentityCardActivity.class));
+                startActivityForResult(new Intent(this, IdentityCardActivity.class), 1);
                 break;
             //资质认证
             case R.id.ll_schoolinfo_qualification:
-                startActivity(new Intent(this,QualificationActivity.class));
+                startActivityForResult(new Intent(this, QualificationActivity.class), 1);
                 break;
             //学堂地址
             case R.id.ll_schoolinfo_schooladdress:
@@ -315,9 +399,45 @@ public class SchoolInformationActivity extends BaseActivity {
                 EventBus.getDefault().post("save");
                 finish();
                 break;
+            case R.id.ll_near_school:
+                //附近小学
+                // TODO: 2018/7/12 需先判断是否包含托教类别
+                if (mechanism_type.contains("托教")) {
+                    startActivity(new Intent(this, NearLittleSchoolActivity.class));
+                } else {
+                    Toast.makeText(this, "请先在机构类别内添加托教类别", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
             case R.id.ll_change_phone:
                 startActivity(new Intent(SchoolInformationActivity.this, ChangePhoneActivity.class));
                 break;
         }
+    }
+
+
+    public void single(int flag) {
+        ISListConfig config = new ISListConfig.Builder()
+                // 是否多选
+                .multiSelect(false)
+                .btnText("Confirm")
+                // 确定按钮背景色
+                //.btnBgColor(Color.parseColor(""))
+                // 确定按钮文字颜色
+                .btnTextColor(Color.WHITE)
+                // 使用沉浸式状态栏
+                .statusBarColor(Color.parseColor("#3F51B5"))
+                // 返回图标ResId
+                .title("Images")
+                .titleColor(Color.WHITE)
+                .titleBgColor(Color.parseColor("#3F51B5"))
+                .allImagesText("All Images")
+                .needCrop(false)
+                // 第一个是否显示相机
+                .needCamera(true)
+                // 最大选择图片数量
+                .maxNum(1)
+                .build();
+        ISNav.getInstance().toListActivity(this, config, flag);
     }
 }

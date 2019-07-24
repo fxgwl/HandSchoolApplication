@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class CarListBean implements Serializable {
     private List<DataBean> data;
 
     public String getMsg() {
-        return msg;
+        return msg == null ? "" : msg;
     }
 
     public void setMsg(String msg) {
@@ -36,6 +37,9 @@ public class CarListBean implements Serializable {
     }
 
     public List<DataBean> getData() {
+        if (data == null) {
+            return new ArrayList<>();
+        }
         return data;
     }
 
@@ -55,6 +59,7 @@ public class CarListBean implements Serializable {
          * course_id : 1510387217467
          * course_num : 2
          * is_gold : 1
+         * is_coup : 1
          * order_course_time : 周日12:00-14:00
          * order_id : 1510826156289
          * order_money : 399.60
@@ -79,11 +84,13 @@ public class CarListBean implements Serializable {
         private String course_id;
         private String course_num;
         private String is_gold;
+        private String is_coup;
         private String order_course_time;
         private String order_id;
         private String order_money;
         private String order_state;
         private String ordre_time;
+        private int price_id;
         private String pay_num;
         private String pay_type;
         private String school_id;
@@ -95,7 +102,7 @@ public class CarListBean implements Serializable {
         private List<CourseTimeInfoBean> courseTimeInfo;
 
         public String getClass_money() {
-            return class_money;
+            return class_money == null ? "" : class_money;
         }
 
         public void setClass_money(String class_money) {
@@ -103,7 +110,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getClass_name() {
-            return class_name;
+            return class_name == null ? "" : class_name;
         }
 
         public void setClass_name(String class_name) {
@@ -111,7 +118,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getClass_photo() {
-            return class_photo;
+            return class_photo == null ? "" : class_photo;
         }
 
         public void setClass_photo(String class_photo) {
@@ -119,7 +126,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getClass_teacher() {
-            return class_teacher;
+            return class_teacher == null ? "" : class_teacher;
         }
 
         public void setClass_teacher(String class_teacher) {
@@ -127,7 +134,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getClass_time() {
-            return class_time;
+            return class_time == null ? "" : class_time;
         }
 
         public void setClass_time(String class_time) {
@@ -143,7 +150,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getCourse_id() {
-            return course_id;
+            return course_id == null ? "" : course_id;
         }
 
         public void setCourse_id(String course_id) {
@@ -151,7 +158,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getCourse_num() {
-            return course_num;
+            return course_num == null ? "" : course_num;
         }
 
         public void setCourse_num(String course_num) {
@@ -159,15 +166,23 @@ public class CarListBean implements Serializable {
         }
 
         public String getIs_gold() {
-            return is_gold;
+            return is_gold == null ? "" : is_gold;
         }
 
         public void setIs_gold(String is_gold) {
             this.is_gold = is_gold;
         }
 
+        public String getIs_coup() {
+            return is_coup == null ? "" : is_coup;
+        }
+
+        public void setIs_coup(String is_coup) {
+            this.is_coup = is_coup;
+        }
+
         public String getOrder_course_time() {
-            return order_course_time;
+            return order_course_time == null ? "" : order_course_time;
         }
 
         public void setOrder_course_time(String order_course_time) {
@@ -175,7 +190,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getOrder_id() {
-            return order_id;
+            return order_id == null ? "" : order_id;
         }
 
         public void setOrder_id(String order_id) {
@@ -183,7 +198,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getOrder_money() {
-            return order_money;
+            return order_money == null ? "" : order_money;
         }
 
         public void setOrder_money(String order_money) {
@@ -191,7 +206,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getOrder_state() {
-            return order_state;
+            return order_state == null ? "" : order_state;
         }
 
         public void setOrder_state(String order_state) {
@@ -199,15 +214,23 @@ public class CarListBean implements Serializable {
         }
 
         public String getOrdre_time() {
-            return ordre_time;
+            return ordre_time == null ? "" : ordre_time;
         }
 
         public void setOrdre_time(String ordre_time) {
             this.ordre_time = ordre_time;
         }
 
+        public int getPrice_id() {
+            return price_id == 0 ? 0 : price_id;
+        }
+
+        public void setPrice_id(int price_id) {
+            this.price_id = price_id;
+        }
+
         public String getPay_num() {
-            return pay_num;
+            return pay_num == null ? "" : pay_num;
         }
 
         public void setPay_num(String pay_num) {
@@ -215,7 +238,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getPay_type() {
-            return pay_type;
+            return pay_type == null ? "" : pay_type;
         }
 
         public void setPay_type(String pay_type) {
@@ -223,7 +246,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getSchool_id() {
-            return school_id;
+            return school_id == null ? "" : school_id;
         }
 
         public void setSchool_id(String school_id) {
@@ -231,7 +254,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getSchool_logo() {
-            return school_logo;
+            return school_logo == null ? "" : school_logo;
         }
 
         public void setSchool_logo(String school_logo) {
@@ -239,7 +262,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getSchool_name() {
-            return school_name;
+            return school_name == null ? "" : school_name;
         }
 
         public void setSchool_name(String school_name) {
@@ -247,7 +270,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getUser_id() {
-            return user_id;
+            return user_id == null ? "" : user_id;
         }
 
         public void setUser_id(String user_id) {
@@ -255,7 +278,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getUser_phone() {
-            return user_phone;
+            return user_phone == null ? "" : user_phone;
         }
 
         public void setUser_phone(String user_phone) {
@@ -263,7 +286,7 @@ public class CarListBean implements Serializable {
         }
 
         public String getStudent_name() {
-            return student_name;
+            return student_name == null ? "" : student_name;
         }
 
         public void setStudent_name(String student_name) {
@@ -271,6 +294,9 @@ public class CarListBean implements Serializable {
         }
 
         public List<CourseTimeInfoBean> getCourseTimeInfo() {
+            if (courseTimeInfo == null) {
+                return new ArrayList<>();
+            }
             return courseTimeInfo;
         }
 
@@ -306,17 +332,22 @@ public class CarListBean implements Serializable {
 
             private String age_range;
             private String course_address;
-            private String course_capacity;
+            private int course_capacity;
             private String course_id;
             private String course_info;
             private String course_money;
             private String course_name;
             private String course_photo;
+            private String picture_one;
+            private String picture_two;
+            private String picture_three;
+            private String picture_four;
+            private String picture_five;
             private String course_state;
             private String course_teacher;
             private String course_time;
             private String course_type;
-            private String enrol_num;
+            private int enrol_num;
             private String original_price;
             private String popularity_num;
             private String preferential_price;
@@ -325,10 +356,20 @@ public class CarListBean implements Serializable {
             private String school_name;
             private String school_wei;
             private String study_num;
+            private String study_code;
             private String user_id;
+            private String is_golds;
+
+            public String getStudy_code() {
+                return study_code == null ? "" : study_code;
+            }
+
+            public void setStudy_code(String study_code) {
+                this.study_code = study_code;
+            }
 
             public String getAge_range() {
-                return age_range;
+                return age_range == null ? "" : age_range;
             }
 
             public void setAge_range(String age_range) {
@@ -336,23 +377,23 @@ public class CarListBean implements Serializable {
             }
 
             public String getCourse_address() {
-                return course_address;
+                return course_address == null ? "" : course_address;
             }
 
             public void setCourse_address(String course_address) {
                 this.course_address = course_address;
             }
 
-            public String getCourse_capacity() {
+            public int getCourse_capacity() {
                 return course_capacity;
             }
 
-            public void setCourse_capacity(String course_capacity) {
+            public void setCourse_capacity(int course_capacity) {
                 this.course_capacity = course_capacity;
             }
 
             public String getCourse_id() {
-                return course_id;
+                return course_id == null ? "" : course_id;
             }
 
             public void setCourse_id(String course_id) {
@@ -360,7 +401,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getCourse_info() {
-                return course_info;
+                return course_info == null ? "" : course_info;
             }
 
             public void setCourse_info(String course_info) {
@@ -368,7 +409,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getCourse_money() {
-                return course_money;
+                return course_money == null ? "" : course_money;
             }
 
             public void setCourse_money(String course_money) {
@@ -376,7 +417,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getCourse_name() {
-                return course_name;
+                return course_name == null ? "" : course_name;
             }
 
             public void setCourse_name(String course_name) {
@@ -384,15 +425,55 @@ public class CarListBean implements Serializable {
             }
 
             public String getCourse_photo() {
-                return course_photo;
+                return course_photo == null ? "" : course_photo;
             }
 
             public void setCourse_photo(String course_photo) {
                 this.course_photo = course_photo;
             }
 
+            public String getPicture_one() {
+                return picture_one == null ? "" : picture_one;
+            }
+
+            public void setPicture_one(String picture_one) {
+                this.picture_one = picture_one;
+            }
+
+            public String getPicture_two() {
+                return picture_two == null ? "" : picture_two;
+            }
+
+            public void setPicture_two(String picture_two) {
+                this.picture_two = picture_two;
+            }
+
+            public String getPicture_three() {
+                return picture_three == null ? "" : picture_three;
+            }
+
+            public void setPicture_three(String picture_three) {
+                this.picture_three = picture_three;
+            }
+
+            public String getPicture_four() {
+                return picture_four == null ? "" : picture_four;
+            }
+
+            public void setPicture_four(String picture_four) {
+                this.picture_four = picture_four;
+            }
+
+            public String getPicture_five() {
+                return picture_five == null ? "" : picture_five;
+            }
+
+            public void setPicture_five(String picture_five) {
+                this.picture_five = picture_five;
+            }
+
             public String getCourse_state() {
-                return course_state;
+                return course_state == null ? "" : course_state;
             }
 
             public void setCourse_state(String course_state) {
@@ -400,7 +481,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getCourse_teacher() {
-                return course_teacher;
+                return course_teacher == null ? "" : course_teacher;
             }
 
             public void setCourse_teacher(String course_teacher) {
@@ -408,7 +489,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getCourse_time() {
-                return course_time;
+                return course_time == null ? "" : course_time;
             }
 
             public void setCourse_time(String course_time) {
@@ -416,23 +497,23 @@ public class CarListBean implements Serializable {
             }
 
             public String getCourse_type() {
-                return course_type;
+                return course_type == null ? "" : course_type;
             }
 
             public void setCourse_type(String course_type) {
                 this.course_type = course_type;
             }
 
-            public String getEnrol_num() {
+            public int getEnrol_num() {
                 return enrol_num;
             }
 
-            public void setEnrol_num(String enrol_num) {
+            public void setEnrol_num(int enrol_num) {
                 this.enrol_num = enrol_num;
             }
 
             public String getOriginal_price() {
-                return original_price;
+                return original_price == null ? "" : original_price;
             }
 
             public void setOriginal_price(String original_price) {
@@ -440,7 +521,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getPopularity_num() {
-                return popularity_num;
+                return popularity_num == null ? "" : popularity_num;
             }
 
             public void setPopularity_num(String popularity_num) {
@@ -448,7 +529,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getPreferential_price() {
-                return preferential_price;
+                return preferential_price == null ? "" : preferential_price;
             }
 
             public void setPreferential_price(String preferential_price) {
@@ -456,7 +537,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getSchool_id() {
-                return school_id;
+                return school_id == null ? "" : school_id;
             }
 
             public void setSchool_id(String school_id) {
@@ -464,7 +545,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getSchool_jing() {
-                return school_jing;
+                return school_jing == null ? "" : school_jing;
             }
 
             public void setSchool_jing(String school_jing) {
@@ -472,7 +553,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getSchool_name() {
-                return school_name;
+                return school_name == null ? "" : school_name;
             }
 
             public void setSchool_name(String school_name) {
@@ -480,7 +561,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getSchool_wei() {
-                return school_wei;
+                return school_wei == null ? "" : school_wei;
             }
 
             public void setSchool_wei(String school_wei) {
@@ -488,7 +569,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getStudy_num() {
-                return study_num;
+                return study_num == null ? "" : study_num;
             }
 
             public void setStudy_num(String study_num) {
@@ -496,11 +577,19 @@ public class CarListBean implements Serializable {
             }
 
             public String getUser_id() {
-                return user_id;
+                return user_id == null ? "" : user_id;
             }
 
             public void setUser_id(String user_id) {
                 this.user_id = user_id;
+            }
+
+            public String getIs_golds() {
+                return is_golds == null ? "" : is_golds;
+            }
+
+            public void setIs_golds(String is_golds) {
+                this.is_golds = is_golds;
             }
         }
 
@@ -520,7 +609,7 @@ public class CarListBean implements Serializable {
             private String ctime_week;
 
             public String getCourse_id() {
-                return course_id;
+                return course_id == null ? "" : course_id;
             }
 
             public void setCourse_id(String course_id) {
@@ -528,7 +617,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getCreate_time() {
-                return create_time;
+                return create_time == null ? "" : create_time;
             }
 
             public void setCreate_time(String create_time) {
@@ -544,7 +633,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getCtime_times() {
-                return ctime_times;
+                return ctime_times == null ? "" : ctime_times;
             }
 
             public void setCtime_times(String ctime_times) {
@@ -552,7 +641,7 @@ public class CarListBean implements Serializable {
             }
 
             public String getCtime_week() {
-                return ctime_week;
+                return ctime_week == null ? "" : ctime_week;
             }
 
             public void setCtime_week(String ctime_week) {

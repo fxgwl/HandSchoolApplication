@@ -62,7 +62,7 @@ public class SchoolAddressAdapter extends BaseAdapter {
         }
         AddressBean.DataBean addressBean = mList.get(position);
         holder.tvAddress.setText(addressBean.getSd_city() + "\n" + addressBean.getSd_content());
-        holder.tv.setText("地址" + (position + 1) + ":");
+        holder.tv.setText("地址" + ":");
         holder.tvAddressDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,8 +71,23 @@ public class SchoolAddressAdapter extends BaseAdapter {
                 }
             }
         });
+
+        holder.tvEditAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (deleteClick != null) {
+                    deleteClick.edit(position);
+                }
+            }
+        });
         return view;
 
+    }
+
+    public interface DeleteClick {
+        void delet(int position);
+
+        void edit(int pisition);
     }
 
     static class ViewHolder {
@@ -82,13 +97,11 @@ public class SchoolAddressAdapter extends BaseAdapter {
         TextView tvAddress;
         @BindView(R.id.tv_address_delete)
         TextView tvAddressDelete;
+        @BindView(R.id.tv_address_edit)
+        TextView tvEditAddress;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-    }
-
-    public interface DeleteClick {
-        void delet(int position);
     }
 }

@@ -27,7 +27,8 @@
         android:layout_marginTop="20dp"
         android:background="#fff"
         android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/et_new_pwd"
@@ -35,9 +36,19 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:hint="请输入新的密码"
-            android:inputType="number"
             android:paddingLeft="10dp"
-            app:theme="@style/MyEditText" />
+            app:theme="@style/MyEditText"
+            android:textSize="16sp"
+            android:textColor="@color/t333333"
+            android:inputType="textPassword"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/iv_is_see"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/mimabukejian"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -59,7 +70,18 @@
             android:background="@null"
             android:hint="请再次输入新的密码"
             android:paddingLeft="10dp"
-            app:theme="@style/MyEditText" />
+            app:theme="@style/MyEditText"
+            android:textSize="16sp"
+            android:textColor="@color/t333333"
+            android:inputType="textPassword"
+            />
+        <ImageView
+            android:id="@+id/iv_is_sees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/mimabukejian"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
     </LinearLayout>
 
     <Button

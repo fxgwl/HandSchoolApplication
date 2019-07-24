@@ -61,7 +61,6 @@ public class TeacherAdapter extends BaseAdapter {
         Glide.with(context)
                 .load(Internet.BASE_URL + teachBean.getTeacher_photo())
                 .centerCrop()
-                .error(R.drawable.meinv)
                 .into(holder.ivTeacher);
         holder.tvName.setText(teachBean.getTeacher_name());
         holder.tvEduBg.setText(teachBean.getTeacher_education());

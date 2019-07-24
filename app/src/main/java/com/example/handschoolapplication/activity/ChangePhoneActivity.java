@@ -2,10 +2,12 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,10 +39,16 @@ public class ChangePhoneActivity extends BaseActivity {
     EditText etChangephoneNewphone;
     @BindView(R.id.et_changephone_code)
     EditText etChangephoneCode;
+    @BindView(R.id.iv_del_phone)
+    ImageView ivDelPhone;
     @BindView(R.id.tv_changephone_obtaincode)
     TextView tvChangephoneObtaincode;
     @BindView(R.id.tv_changephone_submit)
     TextView tvChangephoneSubmit;
+    @BindView(R.id.iv_pwd_visible)
+    ImageView ivPwdVisible;
+    private boolean isVisible = false;
+
     private String user_id;
     private CountDownTimerUtils countDownTimerUtils;
 
@@ -57,13 +65,14 @@ public class ChangePhoneActivity extends BaseActivity {
         return R.layout.activity_change_phone;
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.tv_changephone_obtaincode, R.id.tv_changephone_submit})
+    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.tv_changephone_obtaincode, R.id.tv_changephone_submit,R.id.iv_pwd_visible})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             //获取验证码
             case R.id.tv_changephone_obtaincode:
@@ -72,6 +81,20 @@ public class ChangePhoneActivity extends BaseActivity {
             //提交
             case R.id.tv_changephone_submit:
                 changePhone();
+                break;
+            case R.id.iv_pwd_visible:
+                if (isVisible){
+                    isVisible = false;
+                    etChangephonePwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);//设置密码可见，如果只设置TYPE_TEXT_VARIATION_PASSWORD则无效
+                    ivPwdVisible.setImageResource(R.drawable.mimabukejian);
+                }else {
+                    isVisible = true;
+                    etChangephonePwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);//设置密码不可见
+                    ivPwdVisible.setImageResource(R.drawable.mimakejian);
+                }
+                break;
+            case R.id.iv_del_phone:
+                etChangephoneNewphone.setText("");
                 break;
         }
     }
@@ -114,6 +137,14 @@ public class ChangePhoneActivity extends BaseActivity {
                             Toast.makeText(ChangePhoneActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(ChangePhoneActivity.this, LoginActivity.class));
                             finish();
+                        }else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                String msg = jsonObject.getString("msg");
+                                Toast.makeText(ChangePhoneActivity.this, msg, Toast.LENGTH_SHORT).show();
+                             } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });

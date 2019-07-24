@@ -17,6 +17,7 @@ public class LearnNewsBean implements Serializable{
      * school_id : 1505805630235
      * school_name : 我的小学堂b
      * smessage_id : 18
+     * message_state ：0/1
      * user_id : 772d42a5a0014faa8706f7cd3f6e8828
      */
 
@@ -28,6 +29,9 @@ public class LearnNewsBean implements Serializable{
     private String school_name;
     private int smessage_id;
     private String user_id;
+    private String message_state;
+    private String head_photo;
+
 
     public String getMessage_content() {
         return message_content;
@@ -92,4 +96,21 @@ public class LearnNewsBean implements Serializable{
     public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
+
+    public String getMessage_state() {
+        return message_state;
+    }
+
+    public void setMessage_state(String message_state) {
+        this.message_state = message_state;
+    }
+
+    public String getHead_photo() {
+        return head_photo == null ? "" : head_photo;
+    }
+
+    public void setHead_photo(String head_photo) {
+        this.head_photo = head_photo;
+    }
+
 }

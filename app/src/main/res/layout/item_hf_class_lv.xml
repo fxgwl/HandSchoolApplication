@@ -25,7 +25,7 @@
 
         <LinearLayout
             android:id="@+id/ll_1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
@@ -34,11 +34,14 @@
 
             <TextView
                 android:id="@+id/tv_course"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="机构名称"
                 android:textColor="@color/textcolor"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginRight="20dp"/>
             <!--<TextView-->
                 <!--android:id="@+id/tv_distance"-->
                 <!--android:layout_width="wrap_content"-->
@@ -123,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:text="(0人已报名)"
+                android:text="(0人)"
                 android:textColor="#666666"
                 android:textSize="12sp" />
         </LinearLayout>

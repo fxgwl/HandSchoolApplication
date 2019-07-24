@@ -3,6 +3,7 @@ package com.example.handschoolapplication.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,15 +58,23 @@ public class CdDetailFragment extends BaseFragment {
         wvCourseInfo.getSettings().setBuiltInZoomControls(true);
         //自适应屏幕
         wvCourseInfo.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+//        wvCourseInfo.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         wvCourseInfo.getSettings().setLoadWithOverviewMode(true);
         wvCourseInfo.getSettings().setSupportZoom(true);
         wvCourseInfo.getSettings().setDomStorageEnabled(true);
-//        wvCourseInfo.getSettings().setUseWideViewPort(true);
+        wvCourseInfo.getSettings().setUseWideViewPort(true);
+        wvCourseInfo.getSettings().setLoadWithOverviewMode(true);
         wvCourseInfo.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         wvCourseInfo.getSettings().setBlockNetworkImage(false);
+
         //去掉放大缩小按钮
         wvCourseInfo.getSettings().setDisplayZoomControls(false);
+        Log.e("aaa",
+                "(CdDetailFragment.java:72)<--课程fragment-->"+courseId);
         wvCourseInfo.loadUrl(Internet.BASE_URL+"School-Backstage/Course-Information/Course-Detailss.jsp?course_id="+courseId);
+        Log.e("aaa",
+                "(CdDetailFragment.java:76)<---->"+Internet.BASE_URL+"School-Backstage/Course-Information/Course-Detailss.jsp?course_id="+courseId);
+//        wvCourseInfo.loadUrl("http://157.10.1.101:8020/Vehicle_cleaning/invite_friends.html");
         //设置Web视图
         wvCourseInfo.setWebViewClient(new webViewClient());
         //clearWebViewCache();

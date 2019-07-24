@@ -174,8 +174,9 @@ public class SignActivity extends BaseActivity {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(SignActivity.java:116)" + e.getMessage()
-                        );
+                                "(SignActivity.java:116)" + e.getMessage());
+
+                        Toast.makeText(SignActivity.this, "网络不给力......", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

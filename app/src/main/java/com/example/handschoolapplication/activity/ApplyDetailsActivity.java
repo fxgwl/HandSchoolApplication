@@ -10,11 +10,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.adapter.NowPayCourseTimeAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.CarListBean;
+import com.example.handschoolapplication.bean.CourseTimeBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.view.MyListView;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.Call;
 
 public class ApplyDetailsActivity extends BaseActivity {
 
@@ -27,7 +38,7 @@ public class ApplyDetailsActivity extends BaseActivity {
     @BindView(R.id.tv_coursename)
     TextView tvCoursename;
     @BindView(R.id.tv_coursetime)
-    TextView tvCoursetime;
+    MyListView tvCoursetime;
     @BindView(R.id.tv_personnum)
     TextView tvPersonnum;
     @BindView(R.id.tv_age)
@@ -46,22 +57,29 @@ public class ApplyDetailsActivity extends BaseActivity {
     TextView tvDiscount;
     @BindView(R.id.tv_student_name)
     TextView tvStudentName;
+    @BindView(R.id.tv_student_sex)
+    TextView tvStudentSex;
     private CarListBean.DataBean order;
     private String school_id;
-    private int aDouble;
+    private double aDouble;
     private double discount;
     private int coupons_id;
     private double hasDiscount;
+    private String is_coup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         order = (CarListBean.DataBean) getIntent().getSerializableExtra("order");
+        String studentName = getIntent().getStringExtra("student");
+        if (!TextUtils.isEmpty(studentName))
+        tvStudentName.setText(studentName);
         school_id = order.getSchool_id();
-        Log.e("aaa",
-            "(ApplyDetailsActivity.java:61)school_id===="+school_id);
         initView();
+
+        initClassTime();
+
     }
 
     private void initView() {
@@ -69,11 +87,12 @@ public class ApplyDetailsActivity extends BaseActivity {
         ivMenu.setVisibility(View.INVISIBLE);
         tvSchoolname.setText(order.getSchool_name());
         tvCoursename.setText(order.getClass_name());
-        tvCoursetime.setText(order.getOrder_course_time());
+//        tvCoursetime.setText(order.getOrder_course_time());
         tvPersonnum.setText(order.getCourseInfo().getEnrol_num() + "【已报名】/" + order.getCourseInfo().getCourse_capacity() + "人【总人数】");
         tvAge.setText(order.getCourseInfo().getAge_range());
         tvTeacher.setText(order.getCourseInfo().getCourse_teacher());
         tvCosttime.setText(order.getClass_money());
+        is_coup = order.getIs_coup();
 
         String class_money = order.getClass_money();
         String yuan = class_money.split("元")[0];
@@ -84,8 +103,42 @@ public class ApplyDetailsActivity extends BaseActivity {
         double uCoursePrice = Double.parseDouble(yuan);
 
         tvCoursenum.setText((uCourseNum*CourseNum)+"节");
-        aDouble = (int) (uCoursePrice * CourseNum);
-        tvCoursemoney.setText("共"+(uCourseNum*CourseNum)+"节课时\t\t\t"+"小计：￥"+ aDouble +"元");
+        aDouble =  (uCoursePrice * CourseNum);
+        hasDiscount = aDouble;
+        tvCoursemoney.setText("共"+(uCourseNum*CourseNum)+"节课时\t\t\t"+"小计：¥"+ aDouble +"元");
+    }
+
+    //课程时间的选择
+    private void initClassTime() {
+
+        String course_id = order.getCourse_id();
+        OkHttpUtils.post()
+                .url(Internet.COURSETIME)
+                .addParams("course_id", course_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(NowApplyActivity.java:303)<---->"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(NowApplyActivity.java:310)<---->"+response);
+                        if (TextUtils.isEmpty(response)){
+                            Toast.makeText(ApplyDetailsActivity.this, "没有信息", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Gson gson = new Gson();
+                            CourseTimeBean courseTime = gson.fromJson(response, CourseTimeBean.class);
+                            List<CourseTimeBean.DataBean> data = courseTime.getData();
+                            new ArrayList<>();
+                            NowPayCourseTimeAdapter myCourseTimeAdapter = new NowPayCourseTimeAdapter(data, ApplyDetailsActivity.this);
+                            tvCoursetime.setAdapter(myCourseTimeAdapter);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -93,16 +146,22 @@ public class ApplyDetailsActivity extends BaseActivity {
         return R.layout.activity_apply_details;
     }
 
-    @OnClick({R.id.rl_back, R.id.ll_student_name, R.id.tv_nowapply_config,R.id.ll_discountcoupon})
+    @OnClick({R.id.rl_back, R.id.ll_student_name, R.id.tv_nowapply_config,R.id.tv_discount,
+            R.id.tv_user_discount,R.id.ll_student_sex})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
             case R.id.ll_student_name:
-                startActivityForResult(new Intent(ApplyDetailsActivity.this,SetStudentNameActivity.class),2);
+                startActivityForResult(new Intent(ApplyDetailsActivity.this,SetStudentNameActivity.class)
+                        .putExtra("order_id",order.getOrder_id()),2);
+                break;
+            case R.id.ll_student_sex:
                 break;
             case R.id.tv_nowapply_config:
+                Log.e("aaa",
+                        "(ApplyDetailsActivity.java:142)"+hasDiscount);
                 String studentName = tvStudentName.getText().toString().trim();
                 if (TextUtils.isEmpty(studentName)){
                     Toast.makeText(this, "请设置上课学生姓名", Toast.LENGTH_SHORT).show();
@@ -115,11 +174,19 @@ public class ApplyDetailsActivity extends BaseActivity {
                         .putExtra("discount",discount));
                 finish();
                 break;
-            case R.id.ll_discountcoupon:
+            case R.id.tv_discount:
+//                if (TextUtils.isEmpty(is_coup))
                 Intent intent1 = new Intent(this, MyDiscountActivity.class);
                 intent1.putExtra("school_id", school_id);
                 intent1.putExtra("money", aDouble+"");
                 startActivityForResult(intent1, 1);
+                break;
+            case R.id.tv_user_discount:
+                hasDiscount= aDouble+discount;
+                discount = 0;
+                coupons_id = 0;
+                tvDiscount.setText("¥" + "0.00");
+                tvUserDiscount.setVisibility(View.GONE);
                 break;
         }
     }
@@ -134,6 +201,7 @@ public class ApplyDetailsActivity extends BaseActivity {
             tvDiscount.setText("-￥"+ discount);
         }else if (requestCode==2&&resultCode==22){
             tvStudentName.setText(data.getStringExtra("student"));
+            tvStudentSex.setText(data.getStringExtra("sex"));
         }
     }
 }

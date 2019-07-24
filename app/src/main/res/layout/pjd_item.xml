@@ -10,7 +10,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_hfhead"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -22,7 +22,7 @@
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="名字"
-            android:maxLines="1"
+            android:singleLine="true"
             android:ellipsize="middle"
             android:textColor="#000"
             android:textSize="14sp"/>
@@ -32,7 +32,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_margin="10dp"
-            android:src="@mipmap/ic_launcher"/>
+            />
 
         <TextView
             android:id="@+id/tv_time"
@@ -44,12 +44,34 @@
             android:textSize="12sp"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_replycontent"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="老师讲解很细心,老师很喜欢!"
-        android:textColor="#000"
-        android:textSize="14sp"/>
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/tv_huifu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="回复："/>
+
+        <TextView
+            android:id="@+id/tv_be_reply"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="middle"
+            android:textColor="@color/blue"/>
+        <TextView
+            android:id="@+id/tv_replycontent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:layout_marginRight="20dp"/>
+    </LinearLayout>
+
+
 </LinearLayout>

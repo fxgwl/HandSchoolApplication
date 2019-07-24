@@ -71,17 +71,31 @@ public class ClassCourseAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         ClassCourse.DataBean classCourse = mList.get(position);
-        String course_photo = classCourse.getCourse_photo();
+//        String course_photo = classCourse.getCourse_photo();
         String photo = "";
-        if (course_photo.contains(",")){
-            String[] split = course_photo.split(",");
-            photo = split[0];
-        }else {
-            photo = course_photo;
+//        if (course_photo!=null){
+//            if (course_photo.contains(",")){
+//                String[] split = course_photo.split(",");
+//                photo = split[0];
+//            }else {
+//                photo = course_photo;
+//            }
+//        }
+
+        photo = classCourse.getPicture_one();
+
+
+        String classLat = classCourse.getSchool_wei();
+        String classLon = classCourse.getSchool_jing();
+        if (classLat.contains(",")){
+            classLat = classLat.substring(0, classLat.length() - 1);
+        }
+        if (classLon.contains(",")){
+            classLon = classLon.substring(0,classLon.length()-1);
         }
 
-        double school_wei = Double.parseDouble(classCourse.getSchool_wei());
-        double school_jing = Double.parseDouble(classCourse.getSchool_jing());
+        double school_wei = Double.parseDouble(classLat);
+        double school_jing = Double.parseDouble(classLon);
 
         if (locations != null) {
             double distance = DistanceUtil.getDistance(new LatLng(locations[0], locations[1]), new LatLng(school_wei, school_jing));
@@ -99,7 +113,7 @@ public class ClassCourseAdapter extends BaseAdapter {
         holder.tvCourse.setText(classCourse.getCourse_name());
 //        holder.tvXianshi.setText();
         holder.tvPrice.setText("价格： ¥" + classCourse.getPreferential_price());
-        holder.popularity.setText("(" + classCourse.getPopularity_num() + "人已报名)");
+        holder.popularity.setText("(" + classCourse.getPopularity_num() + "人)");
         return view;
     }
 

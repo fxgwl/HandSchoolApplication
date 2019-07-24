@@ -41,6 +41,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+import static com.bumptech.glide.Glide.with;
+
 public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow.ViewInterface, View.OnClickListener {
 
     @BindView(R.id.tv_title)
@@ -81,6 +83,7 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", sort)
+                .addParams("course_province", "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -476,7 +479,7 @@ public class LearnHelpActivity extends BaseActivity implements CommonPopupWindow
                 holder = (ViewHolder) convertView.getTag();
             }
             CourseSortBean courseSortBean = mlist.get(position);
-            Glide.with(LearnHelpActivity.this).load(Internet.BASE_URL + courseSortBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
+            with(LearnHelpActivity.this).load(Internet.BASE_URL + courseSortBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
             holder.tvCourse.setText(courseSortBean.getCourse_name());
             holder.tvPrice.setText("¥" + courseSortBean.getPreferential_price());//价格是放的优惠价
             holder.popularity.setText("（" + courseSortBean.getPopularity_num() + "人已报名）");

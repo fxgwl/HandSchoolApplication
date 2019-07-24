@@ -62,6 +62,7 @@ public class OrderBean implements Serializable{
          * school_logo : bicths/8841f54f7b574f06a470ee9002043f8d/1510304373559.jpg
          * school_name : 我的小学堂a
          * user_id : e0abbd527e6845fbb8ea80c841e0ca96
+         * student_name:33333
          * user_phone : 15773263911
          */
 
@@ -77,11 +78,15 @@ public class OrderBean implements Serializable{
         private String order_money;
         private String order_state;
         private String ordre_time;
+        private String pay_type;
         private String school_id;
         private String school_logo;
         private String school_name;
         private String user_id;
         private String user_phone;
+        private String student_name;
+        private String student_sex;
+        private String is_golds;
         private List<CourseTimeInfoBean> courseTimeInfo;
 
         public String getClass_money() {
@@ -180,6 +185,14 @@ public class OrderBean implements Serializable{
             this.ordre_time = ordre_time;
         }
 
+        public String getPay_type() {
+            return pay_type == null ? "" : pay_type;
+        }
+
+        public void setPay_type(String pay_type) {
+            this.pay_type = pay_type;
+        }
+
         public String getSchool_id() {
             return school_id;
         }
@@ -228,6 +241,30 @@ public class OrderBean implements Serializable{
             this.courseTimeInfo = courseTimeInfo;
         }
 
+        public String getStudent_name() {
+            return student_name;
+        }
+
+        public void setStudent_name(String student_name) {
+            this.student_name = student_name;
+        }
+
+        public String getStudent_sex() {
+            return student_sex;
+        }
+
+        public void setStudent_sex(String student_sex) {
+            this.student_sex = student_sex;
+        }
+
+        public String getIs_golds() {
+            return is_golds;
+        }
+
+        public void setIs_golds(String is_golds) {
+            this.is_golds = is_golds;
+        }
+
         public static class CourseInfoBean {
             /**
              * age_range : 2-6岁
@@ -258,18 +295,23 @@ public class OrderBean implements Serializable{
 
             private String age_range;
             private String course_address;
-            private String course_capacity;
+            private int course_capacity;
             private String course_id;
             private String course_info;
             private String course_money;
             private String course_name;
             private String course_photo;
+            private String picture_one;
+            private String picture_two;
+            private String picture_three;
+            private String picture_four;
+            private String picture_five;
             private String course_state;
             private String course_teacher;
             private String course_time;
             private String course_type;
             private String dengji;
-            private String enrol_num;
+            private int enrol_num;
             private String hot_time;
             private String original_price;
             private String popularity_num;
@@ -279,7 +321,34 @@ public class OrderBean implements Serializable{
             private String school_name;
             private String school_wei;
             private String study_num;
+            private String study_code;
             private String user_id;
+            private String is_golds;
+            private String is_coups;
+
+            public String getStudy_code() {
+                return study_code == null ? "" : study_code;
+            }
+
+            public void setStudy_code(String study_code) {
+                this.study_code = study_code;
+            }
+
+            public String getIs_golds() {
+                return is_golds;
+            }
+
+            public void setIs_golds(String is_golds) {
+                this.is_golds = is_golds;
+            }
+
+            public String getIs_coups() {
+                return is_coups == null ? "" : is_coups;
+            }
+
+            public void setIs_coups(String is_coups) {
+                this.is_coups = is_coups;
+            }
 
             public String getAge_range() {
                 return age_range;
@@ -297,11 +366,11 @@ public class OrderBean implements Serializable{
                 this.course_address = course_address;
             }
 
-            public String getCourse_capacity() {
+            public int getCourse_capacity() {
                 return course_capacity;
             }
 
-            public void setCourse_capacity(String course_capacity) {
+            public void setCourse_capacity(int course_capacity) {
                 this.course_capacity = course_capacity;
             }
 
@@ -345,6 +414,46 @@ public class OrderBean implements Serializable{
                 this.course_photo = course_photo;
             }
 
+            public String getPicture_one() {
+                return picture_one == null ? "" : picture_one;
+            }
+
+            public void setPicture_one(String picture_one) {
+                this.picture_one = picture_one;
+            }
+
+            public String getPicture_two() {
+                return picture_two == null ? "" : picture_two;
+            }
+
+            public void setPicture_two(String picture_two) {
+                this.picture_two = picture_two;
+            }
+
+            public String getPicture_three() {
+                return picture_three == null ? "" : picture_three;
+            }
+
+            public void setPicture_three(String picture_three) {
+                this.picture_three = picture_three;
+            }
+
+            public String getPicture_four() {
+                return picture_four == null ? "" : picture_four;
+            }
+
+            public void setPicture_four(String picture_four) {
+                this.picture_four = picture_four;
+            }
+
+            public String getPicture_five() {
+                return picture_five == null ? "" : picture_five;
+            }
+
+            public void setPicture_five(String picture_five) {
+                this.picture_five = picture_five;
+            }
+
             public String getCourse_state() {
                 return course_state;
             }
@@ -385,11 +494,11 @@ public class OrderBean implements Serializable{
                 this.dengji = dengji;
             }
 
-            public String getEnrol_num() {
+            public int getEnrol_num() {
                 return enrol_num;
             }
 
-            public void setEnrol_num(String enrol_num) {
+            public void setEnrol_num(int enrol_num) {
                 this.enrol_num = enrol_num;
             }
 

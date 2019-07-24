@@ -91,22 +91,36 @@ public class TimeChooseActivity extends BaseActivity implements AdapterView.OnIt
                         Gson gson = new Gson();
                         TimeChooseBean tcBean = gson.fromJson(response, TimeChooseBean.class);
                         dataBeanList.addAll(tcBean.getData());
-                        Log.e("aaa",
-                                "(TimeChooseActivity.java:95)" + dataBeanList.get(0).getCtime_times());
                         for (int i = 0; i < dataBeanList.size(); i++) {
-                            mHourList2.clear();
-                            tvs[i].setText(dataBeanList.get(i).getCtime_week());
-                            tvs[i].setVisibility(View.VISIBLE);
-                            for (int m = 0; m < dataBeanList.get(i).getCtime_times().split(",").length; m++) {
-                                TimeHourBean time = new TimeHourBean();
-                                time.setTime(dataBeanList.get(i).getCtime_times().split(",")[m]);
-                                time.setChecked(false);
-                                mHourList2.add(time);
+                            if (dataBeanList.get(i).getCtime_week().contains("星期")) {
+                                tvs[i].setText(dataBeanList.get(i).getCtime_week());
+                            } else {
+                                String[] split = dataBeanList.get(i).getCtime_week().split(",");
+                                StringBuilder sb = new StringBuilder(split[0]);
+                                StringBuilder sb2 = new StringBuilder(split[1]);
+                                String string = sb.replace(0, 5, "").toString();
+                                String string2 = sb2.replace(0, 5, "").toString();
+                                tvs[i].setText(string + "至" + string2);
                             }
-                            timeList.add(mHourList2);
+
+                            tvs[i].setVisibility(View.VISIBLE);
+
+                            String ctime_times = dataBeanList.get(i).getCtime_times();
+                            Log.e("aaa",
+                                    "(TimeChooseActivity.java:111)<---->" + ctime_times);
+                            TimeHourBean time = new TimeHourBean();
+                            time.setTime(dataBeanList.get(i).getCtime_times());
+                            time.setChecked(false);
+                            mHourList2.add(time);
+                        }
+
+                        for (int i = 0; i < mHourList2.size(); i++) {
+                            Log.e("aaa",
+                                    "(TimeChooseActivity.java:120)<---->"+mHourList2.get(i).getTime());
                         }
                         mHourList.clear();
-                        mHourList.addAll(timeList.get(0));
+//                        mHourList.addAll(timeList.get(0));
+                        mHourList.add(mHourList2.get(0));
                         mAdapter.notifyDataSetChanged();
                     }
                 });
@@ -137,7 +151,11 @@ public class TimeChooseActivity extends BaseActivity implements AdapterView.OnIt
                 tvSat.setBackgroundColor(Color.parseColor("#f2f2f2"));
                 tvSun.setBackgroundColor(Color.parseColor("#f2f2f2"));
                 mHourList.clear();
-                mHourList.addAll(timeList.get(0));
+                mHourList.add(mHourList2.get(0));
+//                Log.e("aaa",
+//                        "(TimeChooseActivity.java:150)<---->"+)
+                Log.e("aaa",
+                        "(TimeChooseActivity.java:154)<--timeList.get(0)-->" + mHourList2.get(0).getTime());
                 mAdapter.notifyDataSetChanged();
                 break;
             case R.id.tv_Tue:
@@ -150,7 +168,9 @@ public class TimeChooseActivity extends BaseActivity implements AdapterView.OnIt
                 tvSat.setBackgroundColor(Color.parseColor("#f2f2f2"));
                 tvSun.setBackgroundColor(Color.parseColor("#f2f2f2"));
                 mHourList.clear();
-                mHourList.addAll(timeList.get(1));
+                mHourList.add(mHourList2.get(1));
+                Log.e("aaa",
+                        "(TimeChooseActivity.java:169)<--timeList.get(1)-->" + mHourList2.get(1).getTime());
                 mAdapter.notifyDataSetChanged();
                 break;
             case R.id.tv_Wed:
@@ -163,7 +183,9 @@ public class TimeChooseActivity extends BaseActivity implements AdapterView.OnIt
                 tvSat.setBackgroundColor(Color.parseColor("#f2f2f2"));
                 tvSun.setBackgroundColor(Color.parseColor("#f2f2f2"));
                 mHourList.clear();
-                mHourList.addAll(timeList.get(2));
+                mHourList.add(mHourList2.get(2));
+                Log.e("aaa",
+                        "(TimeChooseActivity.java:184)<--timeList.get(2)-->" + mHourList2.get(2).getTime());
                 mAdapter.notifyDataSetChanged();
                 break;
             case R.id.tv_Thu:
@@ -176,13 +198,15 @@ public class TimeChooseActivity extends BaseActivity implements AdapterView.OnIt
                 tvSat.setBackgroundColor(Color.parseColor("#f2f2f2"));
                 tvSun.setBackgroundColor(Color.parseColor("#f2f2f2"));
                 mHourList.clear();
-                mHourList.addAll(timeList.get(3));
+                mHourList.add(mHourList2.get(3));
+                Log.e("aaa",
+                        "(TimeChooseActivity.java:199)<--timeList.get(3)-->" + mHourList2.get(3).getTime());
                 mAdapter.notifyDataSetChanged();
                 break;
             case R.id.tv_Fri:
                 week = "5";
                 mHourList.clear();
-                mHourList.addAll(timeList.get(4));
+                mHourList.add(mHourList2.get(4));
                 mAdapter.notifyDataSetChanged();
                 tvFri.setBackgroundColor(Color.parseColor("#e6e6e6"));
                 tvMon.setBackgroundColor(Color.parseColor("#f2f2f2"));
@@ -195,7 +219,7 @@ public class TimeChooseActivity extends BaseActivity implements AdapterView.OnIt
             case R.id.tv_Sat:
                 week = "6";
                 mHourList.clear();
-                mHourList.addAll(timeList.get(5));
+                mHourList.add(mHourList2.get(5));
                 mAdapter.notifyDataSetChanged();
                 tvSat.setBackgroundColor(Color.parseColor("#e6e6e6"));
                 tvMon.setBackgroundColor(Color.parseColor("#f2f2f2"));
@@ -208,7 +232,7 @@ public class TimeChooseActivity extends BaseActivity implements AdapterView.OnIt
             case R.id.tv_Sun:
                 week = "7";
                 mHourList.clear();
-                mHourList.addAll(timeList.get(6));
+                mHourList.add(mHourList2.get(6));
                 mAdapter.notifyDataSetChanged();
                 tvSun.setBackgroundColor(Color.parseColor("#e6e6e6"));
                 tvMon.setBackgroundColor(Color.parseColor("#f2f2f2"));

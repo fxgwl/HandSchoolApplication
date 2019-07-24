@@ -8,14 +8,14 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="30dp"
         android:background="#fff" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
-        android:paddingBottom="10dp">
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:id="@+id/ll_location"
@@ -56,11 +56,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
-                android:hint="搜索您想学的课程或课堂"
+                android:hint="搜索您想学的课程或机构"
                 android:paddingLeft="20dp"
                 android:textSize="12sp"
                 app:theme="@style/MyEditText"
                 android:gravity="center_vertical"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="15dp"
+                android:background="#999999"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <ImageView
                 android:id="@+id/iv_search"
@@ -180,7 +187,8 @@
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:text="综合排序" />
+            android:text="综合排序"
+            />
 
         <ImageView
             android:id="@+id/iv_allrank"
@@ -191,6 +199,10 @@
             android:layout_marginRight="20dp"
             android:src="@drawable/xiangxiasanjiao" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f2f2f3" />
 
     <RelativeLayout
         android:layout_width="match_parent"

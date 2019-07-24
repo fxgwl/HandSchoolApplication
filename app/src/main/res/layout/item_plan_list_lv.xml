@@ -18,15 +18,19 @@
             android:id="@+id/cb_select_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            style="@style/cb_select"/>
+            style="@style/cb_select"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"/>
 
         <TextView
             android:id="@+id/tv_listname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="新东方拓展训练营"
+
+            android:text="化浪自营旗舰店"
             android:textColor="@color/textcolor"
             android:textSize="14sp" />
 

@@ -74,13 +74,18 @@ public class HasEvaAdapter extends BaseAdapter {
         holder.tvTime.setText(dataBean.getInteract_time());
         holder.tvComment.setText(dataBean.getContents());
         holder.tvUsername.setText(dataBean.getSend_name());
+
+        String picture_one = dataBean.getPicture_one();
+
         Glide.with(context)
-                .load(Internet.BASE_URL + dataBean.getCourse_photo())
+                .load(Internet.BASE_URL + picture_one)
                 .centerCrop()
                 .into(holder.ivCourse);
         holder.tvCourse.setText(dataBean.getCourse_name());
         holder.tvPrice.setText(TextUtils.isEmpty(dataBean.getCourse_money()) ? "¥" + 0.00 : "¥" + dataBean.getCourse_money());
-        holder.tvCommentNum.setText("  浏览20次     评价20次");
+        int size = dataBean.getReplyInfo() != null ? dataBean.getReplyInfo().size() : 0;
+        int browse_num = dataBean.getBrowse_num();
+        holder.tvCommentNum.setText("  浏览" + browse_num + "次     评价" + size + "次");
         return view;
     }
 

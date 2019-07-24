@@ -2,6 +2,7 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
@@ -36,6 +38,8 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 
+import static com.bumptech.glide.Glide.with;
+
 public class IncomeRecordActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     @BindView(R.id.tv_title)
@@ -43,7 +47,7 @@ public class IncomeRecordActivity extends BaseActivity implements AdapterView.On
     @BindView(R.id.lv_income)
     ListView lvIncome;
 
-    private List<MyAccountBean> mList;
+    private List<MyAccountBean.DataBean> mList;
     private MyAdapter myAdapter;
     private String userId;
 
@@ -52,7 +56,7 @@ public class IncomeRecordActivity extends BaseActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         tvTitle.setText("收入记录");
         userId = (String) SPUtils.get(this, "userId", "");
-        myAdapter=new MyAdapter();
+        myAdapter = new MyAdapter();
         lvIncome.setAdapter(myAdapter);
         getAccuntList();
         lvIncome.setOnItemClickListener(this);
@@ -69,20 +73,36 @@ public class IncomeRecordActivity extends BaseActivity implements AdapterView.On
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
                                 "(IncomeRecordActivity.java:71)" + e.getMessage());
+                        Toast.makeText(IncomeRecordActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(IncomeRecordActivity.java:77)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mList.addAll((Collection<? extends MyAccountBean>) new Gson().fromJson(data.toString(),new TypeToken<ArrayList<MyAccountBean>>(){}.getType()));
-                            myAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (TextUtils.isEmpty(response)) {
+                            Toast.makeText(IncomeRecordActivity.this, "暂无数据", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                int result = jsonObject.getInt("result");
+                                if (result == 0) {
+                                    MyAccountBean myAccountBean = new Gson().fromJson(response, MyAccountBean.class);
+                                    mList.addAll(myAccountBean.getData());
+                                    myAdapter.notifyDataSetChanged();
+                                } else {
+                                    Toast.makeText(IncomeRecordActivity.this, "暂无数据", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(IncomeRecordActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
+                            }
+
                         }
+
                     }
                 });
     }
@@ -98,7 +118,8 @@ public class IncomeRecordActivity extends BaseActivity implements AdapterView.On
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
         }
     }
@@ -106,7 +127,7 @@ public class IncomeRecordActivity extends BaseActivity implements AdapterView.On
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        startActivity(new Intent(IncomeRecordActivity.this,DealDetailActivity.class).putExtra("myAccountBean",mList.get(position)));
+        startActivity(new Intent(IncomeRecordActivity.this, DealDetailActivity.class).putExtra("myAccountBean", mList.get(position)));
     }
 
     public class MyAdapter extends BaseAdapter {
@@ -146,12 +167,12 @@ public class IncomeRecordActivity extends BaseActivity implements AdapterView.On
                 holder = (ViewHolder) view.getTag();
             }
 
-            MyAccountBean myAccountBean = mList.get(position);
+            MyAccountBean.DataBean myAccountBean = mList.get(position);
             holder.tvHour.setText(myAccountBean.getRecord_time());
             holder.tvDay.setText(myAccountBean.getRecord_date());
             holder.tvNum.setText(myAccountBean.getMoney_info());
-            holder.tvContent.setText(myAccountBean.getUser_name());
-            Glide.with(IncomeRecordActivity.this).load(Internet.BASE_URL+myAccountBean.getUser_photo()).centerCrop().into(holder.civUsericon);
+            holder.tvContent.setText(myAccountBean.getUserInfo().getUser_name());
+            with(IncomeRecordActivity.this).load(Internet.BASE_URL + myAccountBean.getUserInfo().getHead_photo()).centerCrop().into(holder.civUsericon);
             return view;
         }
 

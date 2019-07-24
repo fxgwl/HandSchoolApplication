@@ -56,7 +56,7 @@ public class HomeAdBean {
         private int advertising_id;
         private String advertising_link;
         private String advertising_name;
-        private String advertising_phone;
+        private String advertising_content;
         private String advertising_photo;
         private String advertising_time;
         private String advertising_type;
@@ -86,11 +86,11 @@ public class HomeAdBean {
         }
 
         public String getAdvertising_phone() {
-            return advertising_phone;
+            return advertising_content;
         }
 
-        public void setAdvertising_phone(String advertising_phone) {
-            this.advertising_phone = advertising_phone;
+        public void setAdvertising_phone(String advertising_content) {
+            this.advertising_content = advertising_content;
         }
 
         public String getAdvertising_photo() {
@@ -115,6 +115,14 @@ public class HomeAdBean {
 
         public void setAdvertising_type(String advertising_type) {
             this.advertising_type = advertising_type;
+        }
+
+        public String getAdvertising_content() {
+            return advertising_content;
+        }
+
+        public void setAdvertising_content(String advertising_content) {
+            this.advertising_content = advertising_content;
         }
     }
 }

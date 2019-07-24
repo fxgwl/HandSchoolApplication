@@ -1,16 +1,24 @@
 package com.example.handschoolapplication.activity;
 
+import android.Manifest;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,12 +26,17 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.RefreshData;
 import com.example.handschoolapplication.bean.UserInfoBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.utils.Utils;
+import com.example.handschoolapplication.view.SelfDialog;
 import com.google.gson.Gson;
+import com.yuyh.library.imgsel.ISNav;
+import com.yuyh.library.imgsel.common.ImageLoader;
+import com.yuyh.library.imgsel.config.ISListConfig;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -32,18 +45,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 import okhttp3.Call;
+
+import static com.bumptech.glide.Glide.with;
 
 public class MyInformationActivity extends BaseActivity {
 
+    protected static final int CHOOSE_PICTURE = 0;
+    protected static final int TAKE_PICTURE = 1;
+    private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 0;
+    private static final int CROP_SMALL_PICTURE = 2;
+    protected static Uri tempUri;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-
     @BindView(R.id.iv_usericon)
-    ImageView ivUsericon;
+    CircleImageView ivUsericon;
     @BindView(R.id.tv_username)
     TextView tvUsername;
     @BindView(R.id.tv_name)
@@ -54,14 +77,27 @@ public class MyInformationActivity extends BaseActivity {
     TextView tvIdcode;
     @BindView(R.id.tv_myaddress)
     TextView tvMyaddress;
+    @BindView(R.id.tv_logo_add)
+    TextView tvLogoAdd;
+    @BindView(R.id.tv_sex_add)
+    TextView tvSexAdd;
+    @BindView(R.id.tv_id_add)
+    TextView tvIdAdd;
+    @BindView(R.id.tv_address_add)
+    TextView tvAddressAdd;
+    // 声明一个集合，在后面的代码中用来存储用户拒绝授权的权
+    List<String> mPermissionList = new ArrayList<>();
+    String[] permissions = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
 
-    protected static final int CHOOSE_PICTURE = 0;
-    protected static final int TAKE_PICTURE = 1;
-    private static final int CROP_SMALL_PICTURE = 2;
-    protected static Uri tempUri;
+    };
     private ImageView iv_personal_icon;
     private String image64;
     private String userId;
+    private UserInfoBean.DataBean user;
+    private int REQUEST_LIST_CODE = 3;
 
 
     @Override
@@ -70,6 +106,14 @@ public class MyInformationActivity extends BaseActivity {
         userId = (String) SPUtils.get(MyInformationActivity.this, "userId", "");
         tvTitle.setText("个人资料");
         initView();
+        requestPermission();
+
+        ISNav.getInstance().init(new ImageLoader() {
+            @Override
+            public void displayImage(Context context, String path, ImageView imageView) {
+                with(context).load(path).into(imageView);
+            }
+        });
     }
 
     private void initView() {
@@ -87,23 +131,66 @@ public class MyInformationActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(MyInformationActivity.java:87)" + response);
-                        Gson gson = new Gson();
-                        try {
-                            UserInfoBean.DataBean user = gson.fromJson(response, UserInfoBean.class).getData();
-                            Glide.with(MyInformationActivity.this)
-                                    .load(Internet.BASE_URL + user.getHead_photo())
-                                    .error(R.drawable.morentouxiang)
-                                    .centerCrop()
-                                    .into(ivUsericon);
-                            tvUsername.setText(user.getMember_name());
-                            tvName.setText(user.getUser_name());
-                            tvSex.setText(user.getUser_sex());
-                            tvIdcode.setText(user.getId_number());
-                            tvMyaddress.setText(user.getUser_area());
-                        } catch (Exception e) {
+                        if (TextUtils.isEmpty(response) || response.contains("没有信息")) {
+                            Toast.makeText(MyInformationActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Gson gson = new Gson();
+                            try {
+                                user = gson.fromJson(response, UserInfoBean.class).getData();
+                                with(MyInformationActivity.this)
+                                        .load(Internet.BASE_URL + user.getHead_photo())
+                                        .error(R.drawable.morentouxiang)
+                                        .centerCrop()
+                                        .into(ivUsericon);
+                                tvUsername.setText(user.getMember_name());
+                                tvName.setText(user.getUser_name());
+                                tvSex.setText(user.getUser_sex());
+                                tvIdcode.setText(user.getId_number());
+                                tvMyaddress.setText(user.getUser_area());
+                                if (TextUtils.isEmpty(user.getHead_photo())) {
+                                    tvLogoAdd.setVisibility(View.VISIBLE);
+                                } else {
+                                    tvLogoAdd.setVisibility(View.GONE);
+                                }
+
+                                if (TextUtils.isEmpty(user.getUser_sex())) {
+                                    tvSexAdd.setVisibility(View.VISIBLE);
+                                } else {
+                                    tvSexAdd.setVisibility(View.GONE);
+                                }
+
+                                if (TextUtils.isEmpty(user.getId_number())) {
+                                    tvIdAdd.setVisibility(View.VISIBLE);
+                                } else {
+                                    tvIdAdd.setVisibility(View.GONE);
+                                }
+                                if (TextUtils.isEmpty(user.getUser_area())) {
+                                    tvAddressAdd.setVisibility(View.VISIBLE);
+                                } else {
+                                    tvAddressAdd.setVisibility(View.GONE);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
+    }
+
+    private void requestPermission() {
+        mPermissionList.clear();
+        for (int i = 0; i < permissions.length; i++) {
+            if (ContextCompat.checkSelfPermission(this, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+                mPermissionList.add(permissions[i]);
+            }
+        }
+        if (mPermissionList.isEmpty()) {//未授予的权限为空，表示都授予了
+//            Toast.makeText(this,"已经授权",Toast.LENGTH_LONG).show();
+        } else {//请求权限方法
+            String[] permissions = mPermissionList.toArray(new String[mPermissionList.size()]);//将List转为数组
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+        }
+
     }
 
     @Override
@@ -112,7 +199,7 @@ public class MyInformationActivity extends BaseActivity {
     }
 
     @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_icon, R.id.ll_username, R.id.ll_name, R.id.ll_sex, R.id.ll_idcode,
-            R.id.ll_myaddress, R.id.btn_save,R.id.ll_change_phone})
+            R.id.ll_myaddress, R.id.btn_save, R.id.ll_change_phone})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
@@ -123,45 +210,114 @@ public class MyInformationActivity extends BaseActivity {
                 show(view);
                 break;
             case R.id.ll_icon:
-                showChoosePicDialog();
+//                showChoosePicDialog();
+                single(REQUEST_LIST_CODE);
                 break;
             //修改手机号
             case R.id.ll_change_phone:
-                startActivity(new Intent(MyInformationActivity.this, ChangePhoneActivity.class));
-                break;
-            case R.id.ll_username:
-                if (TextUtils.isEmpty(tvUsername.getText().toString().trim())){
-                    startActivityForResult(new Intent(this, SetUserNameActivity.class), 1);
-                }else {
-                    if ("会员名称".equals(tvUsername.getText().toString())) {
-                        startActivityForResult(new Intent(this, SetUserNameActivity.class), 1);
-                    } else {
-                        Toast.makeText(this, "会员名称只能修改一次", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                break;
-            case R.id.ll_name:
-                startActivityForResult(new Intent(this, SetNameActivity.class), 1);
-                break;
-            case R.id.ll_sex:
-                startActivityForResult(new Intent(this, SelectSexActivity.class), 1);
-                break;
-            case R.id.ll_idcode:
-                if (TextUtils.isEmpty(tvIdcode.getText().toString())) {
-                    startActivityForResult(new Intent(this, SetIdCodeActivity.class), 1);
+                String user_phone = (String) SPUtils.get(this, "user_phone", "");
+                if (TextUtils.isEmpty(user_phone)) {
+                    showUnLoginDialog();
                 } else {
-                    Toast.makeText(this, "身份证号只能修改一次", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MyInformationActivity.this, ChangePhoneActivity.class));
                 }
 
                 break;
+            case R.id.ll_username:
+
+                String userName = tvUsername.getText().toString().trim();
+                if (user != null) {
+                    startActivityForResult(new Intent(this, SetUserNameActivity.class)
+                            .putExtra("userName", userName), 1);
+                } else {
+                    Toast.makeText(this, "信息有误，请重新登录", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.ll_name:
+                String name = tvName.getText().toString().trim();
+                if (user != null) {
+                    startActivityForResult(new Intent(this, SetNameActivity.class)
+                            .putExtra("name", name), 1);
+                } else {
+                    Toast.makeText(this, "信息有误，请重新登录", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.ll_sex:
+                String sex = tvSex.getText().toString().trim();
+                if (user != null) {
+                    startActivityForResult(new Intent(this, SelectSexActivity.class)
+                            .putExtra("sex", sex), 1);
+                } else {
+                    Toast.makeText(this, "信息有误，请重新登录", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.ll_idcode:
+                if (TextUtils.isEmpty(tvIdcode.getText().toString()))
+                    startActivityForResult(new Intent(this, SetIdCodeActivity.class), 1);
+                else
+                    Toast.makeText(this, "身份证号码只能修改一次", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.ll_myaddress:
-                startActivityForResult(new Intent(this, CurrentCitysActivity.class), 1);
+                startActivityForResult(new Intent(this, CurrentCitysActivity.class), 2);
                 break;
             case R.id.btn_save:
                 //保存资料
                 saveInfo();
                 break;
         }
+    }
+
+    public void single(int flag) {
+        ISListConfig config = new ISListConfig.Builder()
+                // 是否多选
+                .multiSelect(false)
+                .btnText("Confirm")
+                // 确定按钮背景色
+                //.btnBgColor(Color.parseColor(""))
+                // 确定按钮文字颜色
+                .btnTextColor(Color.WHITE)
+                // 使用沉浸式状态栏
+                .statusBarColor(Color.parseColor("#3F51B5"))
+                // 返回图标ResId
+                .title("Images")
+                .titleColor(Color.WHITE)
+                .titleBgColor(Color.parseColor("#3F51B5"))
+                .allImagesText("All Images")
+                .needCrop(false)
+                // 第一个是否显示相机
+                .needCamera(true)
+                // 最大选择图片数量
+                .maxNum(1)
+                .build();
+
+        ISNav.getInstance().toListActivity(this, config, flag);
+    }
+
+    private void showUnLoginDialog() {
+        final SelfDialog selfDialog = new SelfDialog(MyInformationActivity.this);
+
+        selfDialog.setMessage("是否绑定手机号?");
+        selfDialog.setYesOnclickListener("确定", new SelfDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                startActivity(new Intent(MyInformationActivity.this, RegisterPersonActivity.class)
+                        .putExtra("flag", "true")
+                        .putExtra("type", "0"));
+//                finish();
+                selfDialog.dismiss();
+            }
+        });
+
+
+        selfDialog.setNoOnclickListener("取消", new SelfDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                selfDialog.dismiss();
+            }
+        });
+        backgroundAlpha(0.6f);
+        selfDialog.setOnDismissListener(new poponDismissListener());
+        selfDialog.show();
     }
 
     private void saveInfo() {
@@ -192,6 +348,7 @@ public class MyInformationActivity extends BaseActivity {
                             JSONObject json = new JSONObject(response);
                             if (response.contains("成功")) {
                                 EventBus.getDefault().post("save");
+                                EventBus.getDefault().post(new RefreshData(888));
                                 finish();
                             }
                             Toast.makeText(MyInformationActivity.this, json.getString("msg"), Toast.LENGTH_SHORT).show();
@@ -204,39 +361,15 @@ public class MyInformationActivity extends BaseActivity {
     }
 
     /**
-     * 显示修改头像的对话框
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
      */
-    protected void showChoosePicDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("设置头像");
-        String[] items = {"选择本地照片", "拍照"};
-        builder.setNegativeButton("取消", null);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case CHOOSE_PICTURE: // 选择本地照片
-                        Intent openAlbumIntent = new Intent(
-                                Intent.ACTION_GET_CONTENT);
-                        openAlbumIntent.setType("image/*");
-                        startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
-                        break;
-                    case TAKE_PICTURE: // 拍照
-                        Intent openCameraIntent = new Intent(
-                                MediaStore.ACTION_IMAGE_CAPTURE);
-                        tempUri = Uri.fromFile(new File(Environment
-                                .getExternalStorageDirectory(), "image.jpg"));
-                        // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
-                        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-                        startActivityForResult(openCameraIntent, TAKE_PICTURE);
-                        break;
-                }
-            }
-        });
-        builder.create().show();
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -257,81 +390,49 @@ public class MyInformationActivity extends BaseActivity {
             String name = data.getStringExtra("name");
             tvName.setText(name);
         }
+        if (requestCode == 2 && resultCode == 11) {
+            tvMyaddress.setText(data.getStringExtra("cityName"));
+        }
 
-        if (resultCode == RESULT_OK) { // 如果返回码是可以用的
-            switch (requestCode) {
-                case TAKE_PICTURE:
-                    startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
-                    break;
-                case CHOOSE_PICTURE:
-                    Uri newUri = Uri.parse("file:///" + Utils.getPath(this, data.getData()));
-                    startPhotoZoom(newUri); // 开始对图片进行裁剪处理
-                    break;
-                case CROP_SMALL_PICTURE:
-                    if (data != null) {
-                        setImageToView(data); // 让刚才选择裁剪得到的图片显示在界面上
-                    }
-                    break;
+        if (resultCode == RESULT_OK && requestCode == REQUEST_LIST_CODE) {
+
+            List<String> pathList = data.getStringArrayListExtra("result");
+            for (String path : pathList) {
+                Log.e("aaa",
+                        "(AddDataActivity.java:183)" + path + "\n");
+                with(this).load(path).centerCrop().into(ivUsericon);
+                Bitmap usericon = Compressor.getDefault(MyInformationActivity.this).compressToBitmap(new File(path));
+                Bitmap usericon1 = Utils.toRoundBitmap(usericon, tempUri); // 这个时候的图片已经被处理成圆形的了
+                Log.e("aaa",
+                        "(MyInformationActivity.java:206)" + usericon);
+                ivUsericon.setImageBitmap(usericon1);
+                uploadPic(usericon);
             }
         }
 
     }
 
-    /**
-     * 裁剪图片方法实现
-     *
-     * @param uri
-     */
-    protected void startPhotoZoom(Uri uri) {
-        if (uri == null) {
-            Log.i("tag", "The uri is not exist.");
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if (requestCode == MY_PERMISSIONS_REQUEST_CALL_PHONE) {
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    //判断是否勾选禁止后不再询问
+                    boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
+                    if (showRequestPermission) {
+//                        showToast("权限未申请");
+                        Toast.makeText(this, "权限未获得不能上传照片！", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
         }
-        tempUri = uri;
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // 设置裁剪
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, CROP_SMALL_PICTURE);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    /**
-     * 保存裁剪之后的图片数据
-     *
-     * @param
-     * @param
-     */
-    protected void setImageToView(Intent data) {
-        Bundle extras = data.getExtras();
-        if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-            photo = Utils.toRoundBitmap(photo, tempUri); // 这个时候的图片已经被处理成圆形的了
-            Log.e("aaa",
-                    "(MyInformationActivity.java:206)" + photo);
-            ivUsericon.setImageBitmap(photo);
-            uploadPic(photo);
-        }
-    }
 
     private void uploadPic(Bitmap bitmap) {
         // 上传至服务器
-        // ... 可以在这里把Bitmap转换成file，然后得到file的url，做文件上传操作
-        // 注意这里得到的图片已经是圆形图片了
-        // bitmap是没有做个圆形处理的，但已经被裁剪了
-//        String imagePath = Utils.savePhoto(bitmap, Environment
-//                .getExternalStorageDirectory().getAbsolutePath(), String
-//                .valueOf(System.currentTimeMillis()));
-//        Log.e("imagePath", imagePath + "");
-//        if (imagePath != null) {
-//            // 拿着imagePath上传了
-//        }
-
         image64 = MyUtiles.bitmapToBase64(bitmap);
         Log.e("aaa",
                 "(MyInformationActivity.java:230)" + image64);
@@ -349,7 +450,7 @@ public class MyInformationActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa", "(MyInformationActivity.java:421)<---->" + e.getMessage());
                     }
 
                     @Override
@@ -358,5 +459,20 @@ public class MyInformationActivity extends BaseActivity {
                                 "(MyInformationActivity.java:260保存头像返回)" + response);
                     }
                 });
+    }
+
+    /**
+     * 添加弹出的dialog关闭的事件，主要是为了将背景透明度改回来
+     *
+     * @author cg
+     */
+    class poponDismissListener implements Dialog.OnDismissListener {
+
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+            backgroundAlpha(1f);
+        }
     }
 }

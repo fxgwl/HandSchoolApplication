@@ -23,9 +23,9 @@ public class InternetS {
     public static final String ALLEVALUATE = BASE_URL + "InteractMessage/listAlls";
 
     //78学习消息
-    public static final String LEARNNEWS = BASE_URL + "StudyMessage/listbyUser";
+    public static final String LEARNNEWS = BASE_URL + "StudyMessage/listStudy";
     //56联系客服--学堂的对话列表
-    public static final String CONSULT_NEWS = BASE_URL + "ConsultMessage/getforSchool";
+    public static final String CONSULT_NEWS = BASE_URL + "ConsultMessage/listConsult";
     //79报名信息
     public static final String APPLYINFOR = BASE_URL + "CourseInfo/listCourseState";
     //80开课
@@ -65,7 +65,8 @@ public class InternetS {
     //95评价详情信息
     public static final String EVALUATION_INFORMINAGER = BASE_URL + "InteractMessage/getBySchoolInfo";
     //96通知消息详情信息
-    public static final String NOTIFATION_NEWS_INFORMINAGER = BASE_URL + "InformMessage/getByUserInformMessage";
+//    public static final String NOTIFATION_NEWS_INFORMINAGER = BASE_URL + "InformMessage/getByUserInformMessage";
+    public static final String NOTIFATION_NEWS_INFORMINAGER = BASE_URL + "InformMessage/listInform";
     //97学堂订单详情信息
     public static final String CLASS_ORDER_INFOR = BASE_URL + "OrderInfo/getSchoolOrder";
     //98热门地址信息
@@ -73,7 +74,7 @@ public class InternetS {
     //99用户评价管理
     public static final String USER_EVALUATE_MANAGER = BASE_URL + "InteractMessage/getByUser";
     //101扫码确认订单
-    public static final String SCAN_ORDER = BASE_URL + "OrderInfo/getYesOrder";
+    public static final String SCAN_ORDER = BASE_URL + "OrderInfo/confirm";
     //102安装包：
     public static final String APK = BASE_URL + "ApkVersion/getApkVersion";
     //103课程主页  学堂信息

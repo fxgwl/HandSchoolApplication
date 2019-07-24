@@ -30,49 +30,30 @@
                 android:textSize="14sp" />
 
             <ImageView
-                android:id="@+id/iv_jewel1"
+                android:id="@+id/iv_class_grade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:src="@drawable/xuetangdengji_tong_zheng"/>
+            <LinearLayout
+                android:id="@+id/ll_dengji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_text2"
                 android:layout_marginLeft="5dp"
-                android:src="@drawable/zuanshi"
-                android:visibility="gone"/>
+                android:layout_toRightOf="@+id/tv_text2"
+                android:background="@drawable/ll_dengji"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
 
-            <ImageView
-                android:id="@+id/iv_jewel2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/zuanshi"
-                android:visibility="gone"/>
-
-            <ImageView
-                android:id="@+id/iv_jewel3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/zuanshi"
-                android:visibility="gone"/>
-
-            <ImageView
-                android:id="@+id/iv_jewel4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/zuanshi"
-                android:visibility="gone"/>
-
-            <ImageView
-                android:id="@+id/iv_jewel5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/zuanshi"
-                android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/tv_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lv.1"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -96,10 +77,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_grade_rule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,7 +95,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -145,8 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/xiayiye" />
+            android:layout_marginRight="20dp" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"

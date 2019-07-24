@@ -37,7 +37,11 @@
             android:hint="请输入手机号码"
             android:inputType="number"
             android:paddingLeft="10dp"
-            app:theme="@style/MyEditText" />
+            app:theme="@style/MyEditText"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:textColor="@color/t333333" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,7 +63,12 @@
             android:background="@null"
             android:hint="请输入验证码"
             android:paddingLeft="10dp"
-            app:theme="@style/MyEditText" />
+            app:theme="@style/MyEditText"
+            android:textSize="16sp"
+            android:inputType="number"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:textColor="@color/t333333"/>
 
         <View
             android:layout_width="1dp"

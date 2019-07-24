@@ -102,9 +102,9 @@ public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.Evalu
     public void onEvaluate(int position) {
         OrderBean.DataBean dataBean = mlist.get(position);
         Intent intent = new Intent(getActivity(), PublishEvaluateActivity.class)
-                .putExtra("order_id", dataBean.getCourse_id())
+                .putExtra("order_id", dataBean.getOrder_id())
                 .putExtra("school_name", dataBean.getSchool_name())
-                .putExtra("class_photo", dataBean.getClass_photo()
+                .putExtra("class_photo", dataBean.getSchool_logo()
                 );
         startActivity(intent);
     }
@@ -133,9 +133,9 @@ public class UnEvaFragment extends BaseFragment implements AllOrderAdapter.Evalu
     public void setEvaluate(int position) {
         OrderBean.DataBean dataBean = mlist.get(position);
         Intent intent = new Intent(getActivity(), PublishEvaluateActivity.class)
-                .putExtra("order_id", dataBean.getCourse_id())
+                .putExtra("order_id", dataBean.getOrder_id())
                 .putExtra("school_name", dataBean.getSchool_name())
-                .putExtra("class_photo", dataBean.getClass_photo()
+                .putExtra("class_photo", dataBean.getSchool_logo()
                 );
         startActivity(intent);
     }

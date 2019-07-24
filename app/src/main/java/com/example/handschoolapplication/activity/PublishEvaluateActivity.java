@@ -1,6 +1,8 @@
 package com.example.handschoolapplication.activity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,8 @@ import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.OrderBean;
+import com.example.handschoolapplication.utils.EmojiFilter;
+import com.example.handschoolapplication.utils.FilterEmojiTextWatcher;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -27,6 +31,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
+
+import static com.bumptech.glide.Glide.with;
 
 public class PublishEvaluateActivity extends BaseActivity {
 
@@ -52,8 +58,8 @@ public class PublishEvaluateActivity extends BaseActivity {
     CircleImageView civClassIcon;
     private String user_id;
     private String order_id;
-    private String classscore = "5.0";
-    private String schoolscore = "5.0";
+    private String classscore = "5";
+    private String schoolscore = "5";
     private OrderBean.DataBean dataBean;
     private String school_name;
     private String class_photo;
@@ -65,6 +71,7 @@ public class PublishEvaluateActivity extends BaseActivity {
         user_id = (String) SPUtils.get(this, "userId", "");
 //        dataBean = (OrderBean.DataBean) getIntent().getSerializableExtra("dataBean");
         order_id = getIntent().getStringExtra("order_id");
+        Log.e("aaa", "(PublishEvaluateActivity.java:72)<--传过来的OrderId-->" + order_id);
         school_name = getIntent().getStringExtra("school_name");
         class_photo = getIntent().getStringExtra("class_photo");
         initView();
@@ -73,7 +80,7 @@ public class PublishEvaluateActivity extends BaseActivity {
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 Log.e("aaa",
                         "(PublishEvaluateActivity.java:42)" + rating);
-                classscore = (int)rating + "";
+                classscore = (int) rating + "";
                 tvClassscore.setText(rating + "分");
             }
         });
@@ -82,8 +89,25 @@ public class PublishEvaluateActivity extends BaseActivity {
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 Log.e("aaa",
                         "(PublishEvaluateActivity.java:42)" + rating);
-                schoolscore = (int)rating + "";
+                schoolscore = (int) rating + "";
                 tvShcoolscore.setText(rating + "分");
+            }
+        });
+
+        etClasscomment.addTextChangedListener(new FilterEmojiTextWatcher(PublishEvaluateActivity.this){
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+                super.beforeTextChanged(charSequence, start, count, after);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                super.onTextChanged(charSequence, start, before, count);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                super.afterTextChanged(editable);
             }
         });
 
@@ -91,15 +115,9 @@ public class PublishEvaluateActivity extends BaseActivity {
 
     private void initView() {
         tvClassName.setText(school_name);
-        String photo = "";
-        if (class_photo.contains(",")){
-            String[] split = class_photo.split(",");
-            photo = split[0];
-        }else {
-            photo = class_photo;
-        }
-        Glide.with(this)
-                .load(Internet.BASE_URL+photo)
+
+        with(this)
+                .load(Internet.BASE_URL + class_photo)
                 .centerCrop()
                 .into(civClassIcon);
     }
@@ -121,12 +139,12 @@ public class PublishEvaluateActivity extends BaseActivity {
                     Toast.makeText(this, "请输入评价", Toast.LENGTH_SHORT).show();
                     return;
                 }
-//                send_uid
-//                        order_id
-//                class_score
-//                        school_score
-//                contents
-//                        anonymous
+//                etClasscomment.setFilters(new InputFilter[]{new EmojiFilter()});
+
+                Log.e("aaa",
+                        "(PublishEvaluateActivity.java:132)<--classscore-->" + classscore);
+                Log.e("aaa",
+                        "(PublishEvaluateActivity.java:132)<--schoolscore-->" + schoolscore);
                 HashMap<String, String> params = new HashMap<>();
                 params.put("send_uid", user_id);
                 params.put("order_id", order_id);
@@ -136,6 +154,10 @@ public class PublishEvaluateActivity extends BaseActivity {
                 if (cbIdni.isChecked()) {
                     params.put("anonymous", "1");
                 }
+
+                Log.e("aaa",
+                        "(PublishEvaluateActivity.java:146)<--params.toString()-->" + params.toString());
+
                 OkHttpUtils.post()
                         .url(Internet.COMMENT)
                         .params(params)
@@ -143,7 +165,9 @@ public class PublishEvaluateActivity extends BaseActivity {
                         .execute(new StringCallback() {
                             @Override
                             public void onError(Call call, Exception e, int id) {
-
+                                Log.e("aaa",
+                                        "(PublishEvaluateActivity.java:147)<---->" + e.getMessage());
+                                Toast.makeText(PublishEvaluateActivity.this, "网络不给力！", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override

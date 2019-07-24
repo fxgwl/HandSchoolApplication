@@ -38,6 +38,11 @@ public class ApplyMessage {
     private String course_money;
     private String course_name;
     private String course_photo;
+    private String picture_one;
+    private String picture_two;
+    private String picture_three;
+    private String picture_four;
+    private String picture_five;
     private String course_state;
     private String course_time;
     private String enrol_num;
@@ -108,6 +113,46 @@ public class ApplyMessage {
 
     public void setCourse_photo(String course_photo) {
         this.course_photo = course_photo;
+    }
+
+    public String getPicture_one() {
+        return picture_one == null ? "" : picture_one;
+    }
+
+    public void setPicture_one(String picture_one) {
+        this.picture_one = picture_one;
+    }
+
+    public String getPicture_two() {
+        return picture_two == null ? "" : picture_two;
+    }
+
+    public void setPicture_two(String picture_two) {
+        this.picture_two = picture_two;
+    }
+
+    public String getPicture_three() {
+        return picture_three == null ? "" : picture_three;
+    }
+
+    public void setPicture_three(String picture_three) {
+        this.picture_three = picture_three;
+    }
+
+    public String getPicture_four() {
+        return picture_four == null ? "" : picture_four;
+    }
+
+    public void setPicture_four(String picture_four) {
+        this.picture_four = picture_four;
+    }
+
+    public String getPicture_five() {
+        return picture_five == null ? "" : picture_five;
+    }
+
+    public void setPicture_five(String picture_five) {
+        this.picture_five = picture_five;
     }
 
     public String getCourse_state() {

@@ -41,6 +41,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+import static com.bumptech.glide.Glide.with;
+
 public class ActivityActivity extends BaseActivity implements CommonPopupWindow.ViewInterface, View.OnClickListener {
 
     @BindView(R.id.tv_title)
@@ -81,12 +83,14 @@ public class ActivityActivity extends BaseActivity implements CommonPopupWindow.
         OkHttpUtils.post()
                 .url(Internet.COURSELIST)
                 .addParams("course_type", sort)
+                .addParams("course_province", "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
                                 "(ArtActivity.java:78)" + e.getMessage());
+                        Toast.makeText(ActivityActivity.this, "wan", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -119,7 +123,8 @@ public class ActivityActivity extends BaseActivity implements CommonPopupWindow.
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.et_search:
             case R.id.iv_search://搜索
@@ -474,10 +479,10 @@ public class ActivityActivity extends BaseActivity implements CommonPopupWindow.
                 holder = (ViewHolder) convertView.getTag();
             }
             CourseSortBean courseSortBean = mlist.get(position);
-            Glide.with(ActivityActivity.this).load(Internet.BASE_URL + courseSortBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
+            with(ActivityActivity.this).load(Internet.BASE_URL + courseSortBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
             holder.tvCourse.setText(courseSortBean.getCourse_name());
             holder.tvPrice.setText("¥" + courseSortBean.getPreferential_price());//价格是放的优惠价
-            holder.popularity.setText("（" + courseSortBean.getPopularity_num() + "人已报名）");
+            holder.popularity.setText("（" + courseSortBean.getPopularity_num() + "人）");
             return convertView;
 
 

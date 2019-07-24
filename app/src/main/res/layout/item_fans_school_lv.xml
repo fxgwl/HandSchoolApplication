@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingTop="15dp"
+    android:paddingBottom="20dp">
+
+    <com.example.handschoolapplication.view.RoundImageView
+        android:id="@+id/iv_usericon"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:src="@drawable/morentouxiang"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp">
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户昵称"
+            android:textSize="17sp"
+            android:textColor="@color/t333333"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="等级："/>
+            <TextView
+                android:id="@+id/leve_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/ffa407"
+                android:textColor="@color/white"/>
+            <ImageView
+                android:id="@+id/iv_jewel1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/zuanshi"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/iv_jewel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/zuanshi"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/iv_jewel3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/zuanshi"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/iv_jewel4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/zuanshi"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/iv_jewel5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/zuanshi"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

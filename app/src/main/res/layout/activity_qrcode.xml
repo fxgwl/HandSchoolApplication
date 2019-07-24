@@ -7,12 +7,37 @@
     android:background="#fff"
     tools:context="com.example.handschoolapplication.activity.QRCodeActivity">
 
-    <include layout="@layout/title_bar_blue" />
+    <include layout="@layout/title_bar_blue"
+        android:id="@+id/title_id"/>
 
     <ImageView
         android:id="@+id/iv_qrcode"
         android:layout_width="256dp"
         android:layout_height="256dp"
-        android:layout_centerInParent="true"
-        android:background="#ffffff"/>
+        android:layout_centerHorizontal="true"
+        android:background="#ffffff"
+        android:layout_below="@+id/title_id"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_code_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/iv_qrcode"
+        android:layout_marginTop="20dp"
+        android:text="我的二维码"
+        android:textColor="@color/t333333"/>
+
+    <Button
+        android:id="@+id/btn_commit"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:text="确认"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_code_text"
+        android:background="@color/blue"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:textSize="13sp"/>
 </RelativeLayout>

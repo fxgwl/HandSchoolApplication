@@ -32,17 +32,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 
+import static com.bumptech.glide.Glide.with;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class LoveCourseFragment extends BaseFragment {
 
+    ArrayList<SaveCourseBean.DataBean> mlist = new ArrayList<>();
     //收藏的课程
     private View view;
     private ListView lvCourseLove;
     private MyLoveCourseAdapter myLoveCourseAdapter;
     private String user_id;
-    ArrayList<SaveCourseBean.DataBean> mlist = new ArrayList<>();
+    private String photo;
 
 
     public LoveCourseFragment() {
@@ -124,15 +127,10 @@ public class LoveCourseFragment extends BaseFragment {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            String photo = "";
-            if (mlist.get(position).getCourse_photo().contains(",")){
-                String[] split = mlist.get(position).getCourse_photo().split(",");
-                photo = split[0];
-            }else {
-                photo = mlist.get(position).getCourse_photo();
-            }
-            Glide.with(getActivity())
-                    .load(Internet.BASE_URL +photo)
+            photo = mlist.get(position).getPicture_one();
+
+            with(getActivity())
+                    .load(Internet.BASE_URL + photo)
                     .centerCrop()
                     .error(R.drawable.kecheng)
                     .into(holder.ivCourse);
@@ -181,15 +179,18 @@ public class LoveCourseFragment extends BaseFragment {
                     String user_id = mlist.get(position).getUser_id();
                     String course_id = mlist.get(position).getCourse_id();
                     startActivity(new Intent(getActivity(), CourseHomePagerActivity.class)
-                            .putExtra("course_id",course_id)
-                            .putExtra("schooluid",user_id));
+                            .putExtra("course_id", course_id)
+                            .putExtra("schooluid", user_id));
                 }
             });
             holder.ivShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // TODO: 2017/8/15 fenxiang
-                    showShare("我是标题","我是分享文本","","");
+                    String course_id = mlist.get(position).getCourse_id();
+                    String course_name = mlist.get(position).getCourse_name();
+                    showShare(course_name, course_name, Internet.BASE_URL + photo,
+                            "http://120.92.44.55/PrivateSchool/head/tel_zsss/kczy.jsp?course_id=" + course_id);
                 }
             });
             return convertView;

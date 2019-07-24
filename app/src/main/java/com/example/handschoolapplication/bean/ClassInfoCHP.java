@@ -56,6 +56,7 @@ public class ClassInfoCHP {
         private String school_id;
         private String user_dengji;
         private String user_id;
+        private String pingjia;
         private List<SchoolDataMapBean> schoolDataMap;
 
         public String getHead_photo() {
@@ -96,6 +97,14 @@ public class ClassInfoCHP {
 
         public void setSchoolDataMap(List<SchoolDataMapBean> schoolDataMap) {
             this.schoolDataMap = schoolDataMap;
+        }
+
+        public String getPingjia() {
+            return pingjia;
+        }
+
+        public void setPingjia(String pingjia) {
+            this.pingjia = pingjia;
         }
 
         public static class SchoolDataMapBean {

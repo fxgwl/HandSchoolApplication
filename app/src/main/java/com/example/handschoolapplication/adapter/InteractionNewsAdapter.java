@@ -73,13 +73,27 @@ public class InteractionNewsAdapter extends BaseAdapter {
                 .centerCrop()
                 .into(holder.civHead);
         holder.tvName.setText(dataBean.getSend_name());
+//        String photo = "";
+//        if (dataBean.getCourse_photo().contains(",")){
+//            photo = dataBean.getCourse_photo().split(",")[0];
+//        }else {
+//            photo = dataBean.getCourse_photo();
+//        }
+        String picture_one = dataBean.getPicture_one();
         Glide.with(context)
-                .load(Internet.BASE_URL + dataBean.getCourse_photo())
+                .load(Internet.BASE_URL + picture_one)
                 .centerCrop()
                 .into(holder.ivClass);
         holder.tvClassname.setText(dataBean.getCourse_name());
         holder.tvClassPrice.setText("价格：\t¥" + dataBean.getCourse_money());
         holder.tvNum.setText("数量：x" + dataBean.getCourse_num());
+
+        if (dataBean.getUnread() > 0) {
+            holder.tvUnRead.setVisibility(View.VISIBLE);
+            holder.tvUnRead.setText(dataBean.getUnread() + "");
+        } else {
+            holder.tvUnRead.setVisibility(View.GONE);
+        }
 
         holder.tvDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +104,10 @@ public class InteractionNewsAdapter extends BaseAdapter {
         return view;
     }
 
+
+    public interface OnDetailClickListener {
+        void onDetailClick(int position);
+    }
 
     static class ViewHolder {
         @BindView(R.id.civ_head)
@@ -106,13 +124,11 @@ public class InteractionNewsAdapter extends BaseAdapter {
         TextView tvNum;
         @BindView(R.id.tv_detail)
         TextView tvDetail;
+        @BindView(R.id.tv_un_read)
+        TextView tvUnRead;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-    }
-
-    public interface OnDetailClickListener {
-        void onDetailClick(int position);
     }
 }

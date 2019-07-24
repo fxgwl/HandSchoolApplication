@@ -2,6 +2,7 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,13 +22,27 @@ public class SelectSexActivity extends BaseActivity {
     @BindView(R.id.iv_circles)
     ImageView ivCircles;
 
-    private String sex="男";
+    private String sex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tvTitle.setText("性别");
-
+        sex = getIntent().getStringExtra("sex");
+        if (!TextUtils.isEmpty(sex)){
+            switch (sex){
+                case "男":
+                    ivCircle.setImageResource(R.drawable.hongquan);
+                    ivCircles.setImageResource(R.drawable.baiquan);
+                    sex="男";
+                    break;
+                case "女":
+                    ivCircle.setImageResource(R.drawable.baiquan);
+                    ivCircles.setImageResource(R.drawable.hongquan);
+                    sex="女";
+                    break;
+            }
+        }
     }
 
     @Override

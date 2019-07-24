@@ -34,12 +34,13 @@ public class RegisterToActivity extends BaseActivity {
                 startActivity(new Intent(RegisterToActivity.this,RegisterPersonActivity.class)
                         .putExtra("flag","no")
                         .putExtra("type","0"));
-//                finish();
+                finish();
                 break;
             case R.id.ll_company:
                 //企业注册
-                startActivity(new Intent(RegisterToActivity.this,RegisterPersonActivity.class).putExtra("type","1"));
-//                finish();
+                startActivity(new Intent(RegisterToActivity.this,RegisterPersonActivity.class)
+                        .putExtra("type","1"));
+                finish();
                 break;
         }
     }

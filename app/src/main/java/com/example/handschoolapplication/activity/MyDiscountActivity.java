@@ -58,6 +58,7 @@ public class MyDiscountActivity extends BaseActivity {
     }
 
     private void initView() {
+        Log.e("aaa","(MyDiscountActivity.java:61)<--money-->" + money);
         OkHttpUtils.post()
                 .url(Internet.DISCOUNT)
                 .addParams("user_id", user_id)
@@ -75,6 +76,7 @@ public class MyDiscountActivity extends BaseActivity {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(MyDiscountActivity.java:66)" + response);
+
                         Gson gson = new Gson();
                         mlist.clear();
                         try {
@@ -151,7 +153,7 @@ public class MyDiscountActivity extends BaseActivity {
             holder.tvClassname.setText(mlist.get(position).getCoupons_name());
             holder.tvCondition.setText("满" + mlist.get(position).getMax_money() + "元使用");
             holder.tvMoney.setText(mlist.get(position).getDiscount_amount() + "元");
-            holder.tvTime.setText(mlist.get(position).getStart_time() + "-" + mlist.get(position).getEnd_time());
+            holder.tvTime.setText(mlist.get(position).getStart_time() + "至" + mlist.get(position).getEnd_time());
             return view;
         }
 

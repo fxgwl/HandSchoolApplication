@@ -142,11 +142,7 @@ public class ApplyMessageAdapter extends BaseAdapter {
                 break;
         }
         String photo = "";
-        if (applyMessage.getCourse_photo().contains(",")){
-            photo = applyMessage.getCourse_photo().split(",")[0];
-        }else {
-            photo = applyMessage.getCourse_photo();
-        }
+        photo = applyMessage.getPicture_one();
         Glide.with(context).load(Internet.BASE_URL + photo).centerCrop().into(holder.ivCourse);//课程图片
         holder.tvCourseName.setText(applyMessage.getCourse_name());//课程名称
         holder.tvNum1.setText(applyMessage.getEnrol_num());//已报名人数

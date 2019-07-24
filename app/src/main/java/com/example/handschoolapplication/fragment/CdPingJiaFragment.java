@@ -1,6 +1,7 @@
 package com.example.handschoolapplication.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.PJDetailActivity;
 import com.example.handschoolapplication.adapter.PingJiaAdapter;
 import com.example.handschoolapplication.bean.EvaluateBean;
 import com.example.handschoolapplication.utils.InternetS;
@@ -43,11 +45,28 @@ public class CdPingJiaFragment extends Fragment {
     TextView tvEvaNum;
     private String courseId;
     private PingJiaAdapter pingjiaAdapter;
+    private ArrayList<EvaluateBean> evaluateBeanArrayList = new ArrayList<>();
 
     public CdPingJiaFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            Log.e("aaa", "(CdPingJiaFragment.java:111)<---->" + "显示");
+            initView();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            initView();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,11 +78,24 @@ public class CdPingJiaFragment extends Fragment {
         Log.e("aaa",
                 "(CdPingJiaFragment.java:50)" + courseId);
 //        Toast.makeText(getActivity(), courseId, Toast.LENGTH_SHORT).show();
+
+        pingjiaAdapter = new PingJiaAdapter(getActivity(), evaluateBeanArrayList);
+        mlvCdpingjia.setAdapter(pingjiaAdapter);
         initView();
+
+        pingjiaAdapter.setListener(new PingJiaAdapter.OnItemGoDetail() {
+            @Override
+            public void setGoToDetail(int position) {
+                Intent intent = new Intent(getActivity(), PJDetailActivity.class);
+                intent.putExtra("interact_id", evaluateBeanArrayList.get(position).getInteract_id());
+                startActivityForResult(intent, 1);
+            }
+        });
         return view;
     }
 
     private void initView() {
+        evaluateBeanArrayList.clear();
         OkHttpUtils.post()
                 .url(InternetS.ALLEVALUATE)
                 .addParams("course_id", courseId)
@@ -83,11 +115,10 @@ public class CdPingJiaFragment extends Fragment {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
                             Gson gson = new Gson();
-                            ArrayList<EvaluateBean> evaluateBeanArrayList = gson.fromJson(data.toString(), new TypeToken<ArrayList<EvaluateBean>>() {
-                            }.getType());
+                            evaluateBeanArrayList.addAll((ArrayList<EvaluateBean>) gson.fromJson(data.toString(), new TypeToken<ArrayList<EvaluateBean>>() {
+                            }.getType()));
+                            pingjiaAdapter.notifyDataSetChanged();
                             tvEvaNum.setText("评价（" + evaluateBeanArrayList.size() + "）");
-                            pingjiaAdapter = new PingJiaAdapter(getActivity(), evaluateBeanArrayList);
-                            mlvCdpingjia.setAdapter(pingjiaAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

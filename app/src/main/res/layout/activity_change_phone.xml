@@ -1,87 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#fff"
+    android:orientation="vertical"
     tools:context="com.example.handschoolapplication.activity.ChangePhoneActivity">
-<include
-    layout="@layout/title_bar_blue"/>
-<EditText
-    android:id="@+id/et_changephone_pwd"
-    android:paddingLeft="18dp"
-    android:hint="输入登录密码"
-    android:textSize="16sp"
-    android:textColor="#b3b3b3"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
-    android:layout_marginTop="30dp"
-    android:background="@drawable/shape_inputpwd"
-    android:layout_width="match_parent"
-    android:layout_height="50dp" />
+
+    <include layout="@layout/title_bar_blue" />
+
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/shape_inputpwd">
+
+        <EditText
+            android:id="@+id/et_changephone_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:hint="输入登录密码"
+            android:paddingLeft="18dp"
+            android:textColor="#b3b3b3"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_pwd_visible"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/mimabukejian"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="101dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/shape_inputpwd"
-        android:layout_width="match_parent"
-        android:layout_height="101dp">
-        <EditText
-            android:id="@+id/et_changephone_newphone"
-            android:paddingLeft="18dp"
-            android:hint="输入新手机号"
-            android:textSize="16sp"
-            android:textColor="#b3b3b3"
-            android:background="@null"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-        <TextView
-            android:background="#e6e6e6"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
+        android:orientation="vertical">
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
-        <EditText
-            android:id="@+id/et_changephone_code"
-            android:paddingLeft="18dp"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:background="@drawable/shape_inputpwd">
+            <EditText
+                android:id="@+id/et_changephone_newphone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:hint="输入新手机号"
+                android:paddingLeft="18dp"
+                android:textColor="#b3b3b3"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:layout_weight="1"/>
+            <ImageView
+                android:id="@+id/iv_del_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/guanbi"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp" />
+        </LinearLayout>
 
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@null"
-            android:layout_height="match_parent" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e6e6e6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_changephone_code"
+                android:layout_width="0dp"
+
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:paddingLeft="18dp"
+                android:singleLine="true"
+                android:imeOptions="actionDone"/>
+
             <TextView
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="#e6e6e6"
                 android:layout_width="1dp"
-                android:layout_height="match_parent" />
-<TextView
-    android:id="@+id/tv_changephone_obtaincode"
-    android:textColor="@color/t333333"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:text="获取验证码"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#e6e6e6" />
+
+            <TextView
+                android:id="@+id/tv_changephone_obtaincode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="获取验证码"
+                android:textColor="@color/t333333" />
         </LinearLayout>
     </LinearLayout>
-<TextView
-    android:id="@+id/tv_changephone_submit"
-    android:layout_marginTop="150dp"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
-    android:gravity="center"
-    android:textSize="16sp"
-    android:background="@drawable/shape_rect_blue"
-    android:text="提交"
-    android:textColor="@color/white"
-    android:layout_width="match_parent"
-    android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/tv_changephone_submit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/shape_rect_blue"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 </LinearLayout>

@@ -39,10 +39,14 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="200dp"
         android:layout_centerInParent="true"
         android:text="标题"
+        android:gravity="center"
         android:textSize="18sp"
-        android:textColor="#fff" />
+        android:textColor="#fff"
+        android:maxLines="1"
+        android:ellipsize="end"/>
         <RelativeLayout
             android:id="@+id/iv_menu"
             android:layout_width="wrap_content"
@@ -50,6 +54,7 @@
             android:layout_alignParentRight="true"
             android:paddingRight="20dp">
             <ImageView
+                android:id="@+id/iv_img_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/threepoint"

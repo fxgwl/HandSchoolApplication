@@ -55,9 +55,10 @@ public class SchoolBean {
     private String user_renqi;
     private String user_state;
     private String user_type;
+    private String change_state;
 
     public String getData_integrity() {
-        return data_integrity;
+        return data_integrity == null ? "" : data_integrity;
     }
 
     public void setData_integrity(String data_integrity) {
@@ -65,7 +66,7 @@ public class SchoolBean {
     }
 
     public String getHead_photo() {
-        return head_photo;
+        return head_photo == null ? "" : head_photo;
     }
 
     public void setHead_photo(String head_photo) {
@@ -73,7 +74,7 @@ public class SchoolBean {
     }
 
     public String getId_number() {
-        return id_number;
+        return id_number == null ? "" : id_number;
     }
 
     public void setId_number(String id_number) {
@@ -81,7 +82,7 @@ public class SchoolBean {
     }
 
     public String getMechanism_address() {
-        return mechanism_address;
+        return mechanism_address == null ? "" : mechanism_address;
     }
 
     public void setMechanism_address(String mechanism_address) {
@@ -89,7 +90,7 @@ public class SchoolBean {
     }
 
     public String getMechanism_city() {
-        return mechanism_city;
+        return mechanism_city == null ? "" : mechanism_city;
     }
 
     public void setMechanism_city(String mechanism_city) {
@@ -97,7 +98,7 @@ public class SchoolBean {
     }
 
     public String getMechanism_ctime() {
-        return mechanism_ctime;
+        return mechanism_ctime == null ? "" : mechanism_ctime;
     }
 
     public void setMechanism_ctime(String mechanism_ctime) {
@@ -105,7 +106,7 @@ public class SchoolBean {
     }
 
     public String getMechanism_name() {
-        return mechanism_name;
+        return mechanism_name == null ? "" : mechanism_name;
     }
 
     public void setMechanism_name(String mechanism_name) {
@@ -113,7 +114,7 @@ public class SchoolBean {
     }
 
     public String getMechanism_type() {
-        return mechanism_type;
+        return mechanism_type == null ? "" : mechanism_type;
     }
 
     public void setMechanism_type(String mechanism_type) {
@@ -121,7 +122,7 @@ public class SchoolBean {
     }
 
     public String getMid_photo() {
-        return mid_photo;
+        return mid_photo == null ? "" : mid_photo;
     }
 
     public void setMid_photo(String mid_photo) {
@@ -129,7 +130,7 @@ public class SchoolBean {
     }
 
     public String getQualification_prove() {
-        return qualification_prove;
+        return qualification_prove == null ? "" : qualification_prove;
     }
 
     public void setQualification_prove(String qualification_prove) {
@@ -137,7 +138,7 @@ public class SchoolBean {
     }
 
     public String getSchool_id() {
-        return school_id;
+        return school_id == null ? "" : school_id;
     }
 
     public void setSchool_id(String school_id) {
@@ -145,7 +146,7 @@ public class SchoolBean {
     }
 
     public String getSigned_num() {
-        return signed_num;
+        return signed_num == null ? "" : signed_num;
     }
 
     public void setSigned_num(String signed_num) {
@@ -153,7 +154,7 @@ public class SchoolBean {
     }
 
     public String getUser_code() {
-        return user_code;
+        return user_code == null ? "" : user_code;
     }
 
     public void setUser_code(String user_code) {
@@ -161,7 +162,7 @@ public class SchoolBean {
     }
 
     public String getUser_create_time() {
-        return user_create_time;
+        return user_create_time == null ? "" : user_create_time;
     }
 
     public void setUser_create_time(String user_create_time) {
@@ -169,7 +170,7 @@ public class SchoolBean {
     }
 
     public String getUser_dengji() {
-        return user_dengji;
+        return user_dengji == null ? "" : user_dengji;
     }
 
     public void setUser_dengji(String user_dengji) {
@@ -177,7 +178,7 @@ public class SchoolBean {
     }
 
     public String getUser_gold() {
-        return user_gold;
+        return user_gold == null ? "" : user_gold;
     }
 
     public void setUser_gold(String user_gold) {
@@ -185,7 +186,7 @@ public class SchoolBean {
     }
 
     public String getUser_id() {
-        return user_id;
+        return user_id == null ? "" : user_id;
     }
 
     public void setUser_id(String user_id) {
@@ -193,7 +194,7 @@ public class SchoolBean {
     }
 
     public String getUser_integral() {
-        return user_integral;
+        return user_integral == null ? "" : user_integral;
     }
 
     public void setUser_integral(String user_integral) {
@@ -201,7 +202,7 @@ public class SchoolBean {
     }
 
     public String getUser_password() {
-        return user_password;
+        return user_password == null ? "" : user_password;
     }
 
     public void setUser_password(String user_password) {
@@ -209,7 +210,7 @@ public class SchoolBean {
     }
 
     public String getUser_phone() {
-        return user_phone;
+        return user_phone == null ? "" : user_phone;
     }
 
     public void setUser_phone(String user_phone) {
@@ -217,7 +218,7 @@ public class SchoolBean {
     }
 
     public String getUser_renqi() {
-        return user_renqi;
+        return user_renqi == null ? "" : user_renqi;
     }
 
     public void setUser_renqi(String user_renqi) {
@@ -225,7 +226,7 @@ public class SchoolBean {
     }
 
     public String getUser_state() {
-        return user_state;
+        return user_state == null ? "" : user_state;
     }
 
     public void setUser_state(String user_state) {
@@ -233,10 +234,18 @@ public class SchoolBean {
     }
 
     public String getUser_type() {
-        return user_type;
+        return user_type == null ? "" : user_type;
     }
 
     public void setUser_type(String user_type) {
         this.user_type = user_type;
+    }
+
+    public String getChange_state() {
+        return change_state == null ? "" : change_state;
+    }
+
+    public void setChange_state(String change_state) {
+        this.change_state = change_state;
     }
 }

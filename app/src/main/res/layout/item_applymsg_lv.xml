@@ -14,7 +14,6 @@
             android:id="@+id/iv_course"
             android:layout_width="77dp"
             android:layout_height="77dp"
-            android:src="@drawable/kecheng"
             android:scaleType="fitXY"
             android:layout_marginLeft="15dp"
             android:layout_gravity="center_vertical"/>
@@ -27,12 +26,14 @@
             android:layout_marginLeft="8dp">
             <TextView
                 android:id="@+id/tv_course_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="课程名称"
+                android:text=""
                 android:textSize="16sp"
                 android:textColor="@color/t333333"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="5dp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,13 +50,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="10"
+                    android:text=""
                     android:textColor="@color/ff3c4b"/>
                 <TextView
                     android:id="@+id/tv_num2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="/20"
+                    android:text="/"
                     android:textColor="@color/t666666"
                     android:textSize="14sp"/>
             </LinearLayout>
@@ -63,7 +64,7 @@
                 android:id="@+id/tv_tearcher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="专家讲师：易中天"
+                android:text="专家讲师："
                 android:layout_marginTop="5dp"/>
         </LinearLayout>
         <ImageView

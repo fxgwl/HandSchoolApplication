@@ -7,22 +7,84 @@
     android:orientation="vertical"
     tools:context="com.example.handschoolapplication.activity.LearnNewsDetailActivity">
     <include layout="@layout/title_bar_blue"/>
+
     <TextView
-        android:id="@+id/tv_class_name"
+        android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="我的小学堂"
-        android:textColor="@color/t222222"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="20dp"
-        android:textSize="16sp"/>
-    <TextView
-        android:id="@+id/tv_content"
-        android:layout_width="wrap_content"
+        android:text="2018-09-06 12:33"
+        android:textColor="@color/c6c6c6"
+        android:textSize="12sp"
+        android:layout_marginTop="22dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="17dp"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:textSize="14sp"
-        android:text="我的绝地反击as" />
+        android:background="@drawable/bg_learn_news_ll"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="23dp"
+        android:paddingLeft="13dp"
+        android:paddingRight="20dp"
+        android:paddingTop="16dp"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/tv_class_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="亲！"
+            android:textSize="14sp"
+            android:textColor="@color/t999999"/>
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/t333333"
+            android:layout_marginTop="16dp"
+            />
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/efefef"
+            android:layout_marginTop="17dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/jigoudianhua"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="机构电话"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/t999999"
+                android:textSize="14sp"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/tv_class_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/t999999"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

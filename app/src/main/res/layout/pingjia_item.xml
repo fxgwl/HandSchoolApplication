@@ -29,7 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:src="@drawable/zuanshi"/>
+            android:src="@drawable/zuanshi"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_time"
@@ -88,17 +89,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="浏览163次"/>
+            android:text="浏览163次"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_pingjia"
             android:layout_width="60dp"
             android:layout_height="28dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/shape_pingjia"
-            android:drawableLeft="@drawable/icon_delete"
+            android:background="@drawable/pinglun"
             android:gravity="center"
-            android:padding="2dp"
-            android:text="评论"/>
+            android:padding="2dp" />
     </RelativeLayout>
 </LinearLayout>

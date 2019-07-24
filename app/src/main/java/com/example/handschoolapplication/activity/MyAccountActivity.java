@@ -2,12 +2,15 @@ package com.example.handschoolapplication.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
@@ -36,6 +39,8 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 
+import static com.bumptech.glide.Glide.with;
+
 public class MyAccountActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
@@ -45,7 +50,7 @@ public class MyAccountActivity extends BaseActivity {
     @BindView(R.id.lv_account)
     ListView lvAccount;
 
-    private List<MyAccountBean> mList;
+    private List<MyAccountBean.DataBean> mList;
     private MyAdapter myAdapter;
     private String userId;
     private double account_money;
@@ -73,20 +78,33 @@ public class MyAccountActivity extends BaseActivity {
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
                                 "(MyAccountActivity.java:68)" + e.getMessage());
+                        Toast.makeText(MyAccountActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(MyAccountActivity.java:75)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray data = jsonObject.getJSONArray("data");
-                            mList.addAll((Collection<? extends MyAccountBean>) new Gson().fromJson(data.toString(),new TypeToken<ArrayList<MyAccountBean>>(){}.getType()));
-                            myAdapter = new MyAdapter();
-                            lvAccount.setAdapter(myAdapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (TextUtils.isEmpty(response)) {
+                            Toast.makeText(MyAccountActivity.this, "暂无数据", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                int result = jsonObject.getInt("result");
+                                if (result == 0) {
+                                    MyAccountBean myAccountBean = new Gson().fromJson(response, MyAccountBean.class);
+                                    mList.addAll(myAccountBean.getData());
+                                    myAdapter.notifyDataSetChanged();
+                                } else {
+                                    Toast.makeText(MyAccountActivity.this, "暂无数据", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(MyAccountActivity.this, "数据异常", Toast.LENGTH_SHORT).show();
+                            }
+
                         }
                     }
                 });
@@ -122,6 +140,17 @@ public class MyAccountActivity extends BaseActivity {
 
     private void initView() {
         tvTitle.setText("我的账户");
+        mList = new ArrayList<>();
+        myAdapter = new MyAdapter();
+        lvAccount.setAdapter(myAdapter);
+
+        lvAccount.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(MyAccountActivity.this, DealDetailActivity.class).putExtra("myAccountBean", mList.get(position)));
+
+            }
+        });
 
     }
 
@@ -140,7 +169,7 @@ public class MyAccountActivity extends BaseActivity {
                 show(view);
                 break;
             case R.id.tv_cash://提现
-                startActivity(new Intent(MyAccountActivity.this, CashActivity.class).putExtra("money",account_money));
+                startActivity(new Intent(MyAccountActivity.this, CashActivity.class).putExtra("money", account_money));
                 break;
             case R.id.ll_account:
                 startActivity(new Intent(MyAccountActivity.this, IncomeRecordActivity.class));
@@ -191,12 +220,12 @@ public class MyAccountActivity extends BaseActivity {
                 holder = (ViewHolder) view.getTag();
             }
 
-            MyAccountBean myAccountBean = mList.get(position);
+            MyAccountBean.DataBean myAccountBean = mList.get(position);
             holder.tvHour.setText(myAccountBean.getRecord_time());
             holder.tvDay.setText(myAccountBean.getRecord_date());
             holder.tvNum.setText(myAccountBean.getMoney_info());
-            holder.tvContent.setText(myAccountBean.getUser_name());
-            Glide.with(MyAccountActivity.this).load(Internet.BASE_URL+myAccountBean.getUser_photo()).centerCrop().into(holder.civUsericon);
+            holder.tvContent.setText(myAccountBean.getUserInfo().getUser_name());
+            with(MyAccountActivity.this).load(Internet.BASE_URL + myAccountBean.getUserInfo().getHead_photo()).centerCrop().into(holder.civUsericon);
             return view;
         }
 

@@ -57,6 +57,12 @@ public class RefundFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        initDataView();
+    }
+
     private void initDataView() {
         OkHttpUtils.post()
                 .url(Internet.ORDERSTATE)
@@ -79,6 +85,7 @@ public class RefundFragment extends BaseFragment {
                             mOrderList.addAll(gson.fromJson(response, OrderBean.class).getData());
                             orderAdapter.notifyDataSetChanged();
                         } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
                     }

@@ -33,6 +33,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 
+import static com.bumptech.glide.Glide.with;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -126,8 +128,8 @@ public class LoveClassFragment extends BaseFragment {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            String school_logo = mlist.get(position).getSchool_logo();
-            Glide.with(getActivity())
+            final String school_logo = mlist.get(position).getSchool_logo();
+            with(getActivity())
                     .load(Internet.BASE_URL + school_logo)
                     .centerCrop()
                     .error(R.drawable.kecheng)
@@ -183,7 +185,10 @@ public class LoveClassFragment extends BaseFragment {
             finalHolder.llShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showShare("我是标题","我是分享文本","","");
+
+                    String school_id = mlist.get(position).getSchool_id();
+                    String school_name = mlist.get(position).getSchool_name();
+                    showShare(school_name,school_name,Internet.BASE_URL+school_logo,"http://120.92.44.55/PrivateSchool/head/tel_zsss/xtzy_sz.jsp?schoolID="+school_id);
                 }
             });
             finalHolder.tvDelet.setOnClickListener(new View.OnClickListener() {

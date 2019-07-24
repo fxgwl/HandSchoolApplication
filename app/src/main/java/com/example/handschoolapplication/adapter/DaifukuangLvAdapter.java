@@ -59,6 +59,7 @@ public class DaifukuangLvAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_lv_daifukuang, null);
             holder = new ViewHolder();
             holder.mTvOrderId = ((TextView) convertView.findViewById(R.id.tv_itemdaifukuang_orderid));
+            holder.tvTime = ((TextView) convertView.findViewById(R.id.tv_time));
             holder.mTvNickName = ((TextView) convertView.findViewById(R.id.tv_daifukuang_nickname));
             holder.mTvClassName = ((TextView) convertView.findViewById(R.id.tv_itemdaifukuang_classname));
             holder.mTvClassprice = ((TextView) convertView.findViewById(R.id.tv_itemdaifukuang_classprice));
@@ -77,9 +78,14 @@ public class DaifukuangLvAdapter extends BaseAdapter {
             holder.mTvNickName.setText(classDealManagerBean.getUserInfo().getUser_name());
         }
         holder.mTvOrderId.setText(classDealManagerBean.getOrder_id());//订单编号
-        Glide.with(mContext).load(Internet.BASE_URL + classDealManagerBean.getSchool_logo()).centerCrop().into(holder.ivClasslogo);
+
+//        String class_photo = classDealManagerBean.getClass_photo();
+//        String classPhoto = class_photo.contains(",") ? class_photo.split(",")[0] : "";
+        String picture_one = classDealManagerBean.getCourseInfo().getPicture_one();
+        Glide.with(mContext).load(Internet.BASE_URL + picture_one).centerCrop().into(holder.ivClasslogo);
         holder.mTvClassName.setText(classDealManagerBean.getClass_name());
         holder.mTvClassprice.setText("价格： ¥" + classDealManagerBean.getOrder_money());
+        holder.tvTime.setText(classDealManagerBean.getOrdre_time());
         double unitPrice = Double.parseDouble(classDealManagerBean.getOrder_money());
         holder.mTvNum.setText("数量：x" + classDealManagerBean.getCourse_num());
         double num = Double.parseDouble(classDealManagerBean.getCourse_num());
@@ -107,7 +113,8 @@ public class DaifukuangLvAdapter extends BaseAdapter {
 
 
     class ViewHolder {
-        TextView mTvOrderId, mTvNickName, mTvClassName, mTvClassprice, mTvTotalprice, mTvNum, mTvContemt;
+        TextView mTvOrderId, mTvNickName, mTvClassName, mTvClassprice, mTvTotalprice,
+                mTvNum, mTvContemt,tvTime;
         ImageView ivClasslogo;
         CircleImageView civHeadImage;
 

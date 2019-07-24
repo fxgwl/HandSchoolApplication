@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.MyOrderActivity;
+import com.example.handschoolapplication.base.BaseActivity;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -15,18 +18,18 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 
-public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
 
     private static final String TAG = ".wxapi.WXPayEntryActivity";
 
     private IWXAPI api;
-    private int recLen=3;
+    private int recLen = 3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.item_paysuccess);
-        api = WXAPIFactory.createWXAPI(this, "wx0d9ec08cde28f7b6");
+        api = WXAPIFactory.createWXAPI(this, "wx433e119bb99f2075");
         api.handleIntent(getIntent(), this);
 //        final TextView mTvTime = (TextView) findViewById(R.id.tv_paysuccess_time);
 //        TextView mTvMyOrder = (TextView) findViewById(R.id.tv_paysuccess_myorder);
@@ -67,6 +70,11 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     @Override
+    public int getContentViewId() {
+        return R.layout.activity_null_data;
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
@@ -81,17 +89,23 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onResp(BaseResp resp) {
 
         Log.e("aaa",
-            "(WXPayEntryActivity.java:46)"+resp.errStr);
+                "(WXPayEntryActivity.java:46)" + resp.errStr);
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (resp.errCode == -2) {
-                Toast.makeText(this, "取消付款！", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "取消付款！", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(WXPayEntryActivity.this, MyOrderActivity.class).putExtra("flag", "pay"));
+                finish();
             }
             if (resp.errCode == -1) {
-                Toast.makeText(this, "支付错误！", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "支付错误！", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(WXPayEntryActivity.this, MyOrderActivity.class).putExtra("flag", "pay"));
+                finish();
             }
             if (resp.errCode == 0) {
-                Toast.makeText(this, "支付成功！", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "支付成功！", Toast.LENGTH_LONG).show();
 //                queryOrder();//查询接口调用后台服务器查询是否成功
+                startActivity(new Intent(WXPayEntryActivity.this, MyOrderActivity.class).putExtra("flag", "all"));
+                finish();
             }
         }
     }

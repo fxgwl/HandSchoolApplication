@@ -4,6 +4,7 @@ package com.example.handschoolapplication.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.example.handschoolapplication.activity.InteractionNewsActivity;
 import com.example.handschoolapplication.activity.LearnNewsActivity;
 import com.example.handschoolapplication.activity.NotificationNewsActivity;
 import com.example.handschoolapplication.base.BaseFragment;
+import com.example.handschoolapplication.bean.MenuBean;
 import com.example.handschoolapplication.bean.NewsBean;
 import com.example.handschoolapplication.bean.NewsListBean;
 import com.example.handschoolapplication.utils.Internet;
@@ -30,6 +32,9 @@ import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,6 +48,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
+
+import static com.bumptech.glide.Glide.with;
 
 
 /**
@@ -60,7 +67,14 @@ public class NewsFragment extends BaseFragment {
     TextView tvNotification;
     @BindView(R.id.tv_interact_time)
     TextView tvInteractTime;
+    @BindView(R.id.tv_learn_num)
+    TextView tvLearnNum;
+    @BindView(R.id.tv_notification_num)
+    TextView tvNotificationNum;
+    @BindView(R.id.tv_interaction_num)
+    TextView tvInteractionNum;
     @BindView(R.id.tv_interact)
+
     TextView tvInteract;
     @BindView(R.id.lv_news)
     ListView lvNews;
@@ -85,17 +99,27 @@ public class NewsFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = super.onCreateView(inflater, container, savedInstanceState);
+        EventBus.getDefault().register(this);
         unbinder = ButterKnife.bind(this, view);
         userId = (String) SPUtils.get(getActivity(), "userId", "");
 
+        //判断是否存在手机号
+//        isHasPhone();
+
+        //获取消息列表接口数据
+        getNews();
+        initViewData();
+
         return view;
     }
+
 
     private void getNews() {
         newsList = new ArrayList<>();
         OkHttpUtils.post()
                 .url(InternetS.NEWSLIST)
                 .addParams("user_id", userId)
+                .addParams("user_type", "0")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -108,12 +132,17 @@ public class NewsFragment extends BaseFragment {
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(NewsFragment.java:97)" + response);
+
+                        //获取未读消息的数量
+                        getNewsNum();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String data = jsonObject.getString("data");
                             Gson gson = new Gson();
-                            if (response.contains("没有信息")){}else {
-                                newsList.addAll((Collection<? extends NewsListBean>) gson.fromJson(data.toString(), new TypeToken<ArrayList<NewsListBean>>() {
+                            if (response.contains("没有信息")) {
+                            } else {
+
+                                newsList.addAll((Collection<? extends NewsListBean>) gson.fromJson(data, new TypeToken<ArrayList<NewsListBean>>() {
                                 }.getType()));
 
                                 for (int i = 0; i < newsList.size(); i++) {
@@ -131,7 +160,7 @@ public class NewsFragment extends BaseFragment {
                                 }
                             }
 
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -149,7 +178,8 @@ public class NewsFragment extends BaseFragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa",
+                                "(NewsFragment.java:164)<---->" + e.getMessage());
                     }
 
                     @Override
@@ -168,7 +198,7 @@ public class NewsFragment extends BaseFragment {
                                     intent3.putExtra("type", "0");
                                     intent3.putExtra("course_id", newsBeanList.get(position).getCourse_id());
                                     intent3.putExtra("send_id", newsBeanList.get(position).getSend_id());
-                                    intent3.putExtra("name",newsBeanList.get(position).getSchool_name());
+                                    intent3.putExtra("name", newsBeanList.get(position).getSchool_name());
                                     startActivity(intent3);
                                 }
                             });
@@ -181,32 +211,162 @@ public class NewsFragment extends BaseFragment {
 
     }
 
+//    private void showNoLoginDialog() {
+//        final SelfDialog selfDialog = new SelfDialog(getActivity());
+//
+//        selfDialog.setMessage("是否绑定手机号?");
+//        selfDialog.setYesOnclickListener("确定", new SelfDialog.onYesOnclickListener() {
+//            @Override
+//            public void onYesClick() {
+//                startActivity(new Intent(SettingsActivity.this, RegisterPersonActivity.class)
+//                        .putExtra("flag","true")
+//                        .putExtra("type","0"));
+////                finish();
+//                selfDialog.dismiss();
+//            }
+//        });
+//
+//
+//        selfDialog.setNoOnclickListener("取消", new SelfDialog.onNoOnclickListener() {
+//            @Override
+//            public void onNoClick() {
+//
+//                selfDialog.dismiss();
+//            }
+//        });
+//        backgroundAlpha(0.6f);
+//        selfDialog.setOnDismissListener(new SettingsActivity.poponDismissListener());
+//        selfDialog.show();
+//    }
+
+    private void getNewsNum() {
+        try {
+            String userId = (String) SPUtils.get(getActivity(), "userId", "");
+            final String user_type = (String) SPUtils.get(getActivity(), "user_type", "");
+
+            Log.e("aaa",
+                    "(NewsFragment.java:291)<---->" + user_type + " id == " + userId);
+            OkHttpUtils.post()
+                    .url(Internet.UNREAD_NEWS_NUM)
+                    .addParams("user_id", userId)
+                    .addParams("user_type", "0")
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            Log.e("aaa",
+                                    "(NewsFragment.java:293)" + e.getMessage());
+                        }
+
+                        @Override
+                        public void onResponse(String response, int id) {
+                            Log.e("aaa",
+                                    "(NewsFragment.java:299)" + response);
+                            if (TextUtils.isEmpty(response)) {
+
+                            } else {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                int studyNum = jsonObject.getJSONObject("data").getInt("study");
+//                            int cousultNum = jsonObject.getJSONObject("data").getInt("consult");
+                                int informNum = jsonObject.getJSONObject("data").getInt("inform");
+                                int interactNum = jsonObject.getJSONObject("data").getInt("interact");
+
+                                if (user_type.equals("0")) {
+                                    if (studyNum > 0) {
+                                        tvLearnNum.setVisibility(View.VISIBLE);
+                                        tvLearnNum.setText(studyNum + "");
+                                    } else {
+                                        tvLearnNum.setVisibility(View.INVISIBLE);
+                                    }
+                                    if (informNum > 0) {
+                                        tvNotificationNum.setVisibility(View.VISIBLE);
+                                        tvNotificationNum.setText(informNum + "");
+                                    } else {
+                                        tvNotificationNum.setVisibility(View.INVISIBLE);
+                                    }
+                                    if (interactNum > 0) {
+                                        tvInteractionNum.setVisibility(View.VISIBLE);
+                                        tvInteractionNum.setText(interactNum + "");
+                                    } else {
+                                        tvInteractionNum.setVisibility(View.INVISIBLE);
+                                    }
+
+                                    int zong = studyNum + informNum + interactNum;
+                                    EventBus.getDefault().post(String.valueOf(zong));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_news;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void hello(MenuBean event) {
+        /* Do something */
+//        mhandler.sendEmptyMessageDelayed(event.getNum(), 50);
+        Log.e("aaa",
+                "(MainActivity.java:395)<------- NewsFragment EventBus的传递事件------->");
+        initViewData();
+        getNews();
     }
 
     @OnClick({R.id.ll_learn_news, R.id.ll_notification_news, R.id.ll_interaction_news})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_learn_news://学习消息
-                startActivity(new Intent(getActivity(), LearnNewsActivity.class));
+                startActivityForResult(new Intent(getActivity(), LearnNewsActivity.class), 0);
                 break;
             case R.id.ll_notification_news://通知消息
-                startActivity(new Intent(getActivity(), NotificationNewsActivity.class));
+                startActivityForResult(new Intent(getActivity(), NotificationNewsActivity.class), 0);
                 break;
             case R.id.ll_interaction_news://互动消息
-                startActivity(new Intent(getActivity(), InteractionNewsActivity.class));
+                startActivityForResult(new Intent(getActivity(), InteractionNewsActivity.class), 0);
                 break;
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        //获取消息列表接口数据
+        getNews();
+        initViewData();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("aaa",
+                "(NewsFragment.java:344)<---->" + "执行activityforresult方法");
+        //获取消息列表接口数据
+        getNews();
+        initViewData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        EventBus.getDefault().unregister(this);
+    }
 
     class MyAdapter extends BaseAdapter {
 
@@ -236,7 +396,7 @@ public class NewsFragment extends BaseFragment {
             } else {
                 holder = (ViewHolder) view.getTag();
             }
-            Glide.with(getActivity())
+            with(getActivity())
                     .load(Internet.BASE_URL + newsBeanList.get(position).getSchool_photo())
                     .centerCrop()
                     .into(holder.profileImage);
@@ -260,12 +420,5 @@ public class NewsFragment extends BaseFragment {
                 ButterKnife.bind(this, view);
             }
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getNews();
-        initViewData();
     }
 }

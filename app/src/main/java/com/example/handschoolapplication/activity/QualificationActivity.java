@@ -3,6 +3,7 @@ package com.example.handschoolapplication.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -38,22 +40,14 @@ import me.iwf.photopicker.PhotoPickUtils;
 import me.iwf.photopicker.PhotoPickerActivity;
 import okhttp3.Call;
 
+import static com.bumptech.glide.Glide.with;
+
 public class QualificationActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.iv_preview)
     ImageView preView1;
-    @BindView(R.id.iv_preview2)
-    ImageView preView2;
-    @BindView(R.id.iv_preview3)
-    ImageView preView3;
-    @BindView(R.id.iv_preview4)
-    ImageView preView4;
-    @BindView(R.id.iv_preview5)
-    ImageView preView5;
-    @BindView(R.id.iv_preview6)
-    ImageView preView6;
 
 
     private List<String> photo = new ArrayList<>();
@@ -64,6 +58,7 @@ public class QualificationActivity extends BaseActivity {
     private int num = 0;//点击位置
     private int length = 0;//图片数量
     private boolean isFirst = false;
+    private String qualification_prove = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +78,40 @@ public class QualificationActivity extends BaseActivity {
         tvTitle.setText("资质认证");
     }
 
-    @OnClick({R.id.rl_back, R.id.identity_tv, R.id.iv_preview, R.id.iv_preview2, R.id.iv_preview3, R.id.iv_preview4,
-            R.id.iv_preview5, R.id.iv_preview6})
+    private void initData() {
+
+        OkHttpUtils
+                .post()
+                .url(Internet.USERINFO)
+                .addParams("user_id", userId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa", "(QualificationActivity.java:352)<---->" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ClassTypeActivity.java:126)" + response);
+                        Gson gson = new Gson();
+                        SchoolInfoBean.DataBean schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
+                        qualification_prove = schoolInfo.getQualification_prove();
+                        initPhoto(qualification_prove);
+                    }
+                });
+    }
+
+    private void initPhoto(final String id_photo) {
+        photos.clear();
+        if (!TextUtils.isEmpty(id_photo))
+            with(this).load(Internet.BASE_URL + id_photo).centerCrop().into(preView1);
+        length = 1;
+        num = 1;
+    }
+
+    @OnClick({R.id.rl_back, R.id.identity_tv, R.id.iv_preview})
     public void onViewClicked(View view) {
         Intent intent = new Intent(this, PhotoPickerActivity.class);
         switch (view.getId()) {
@@ -96,21 +123,6 @@ public class QualificationActivity extends BaseActivity {
                 break;
             case R.id.iv_preview:
                 startActivityForResult(intent, 0);
-                break;
-            case R.id.iv_preview2:
-                startActivityForResult(intent, 1);
-                break;
-            case R.id.iv_preview3:
-                startActivityForResult(intent, 2);
-                break;
-            case R.id.iv_preview4:
-                startActivityForResult(intent, 3);
-                break;
-            case R.id.iv_preview5:
-                startActivityForResult(intent, 4);
-                break;
-            case R.id.iv_preview6:
-                startActivityForResult(intent, 5);
                 break;
         }
     }
@@ -133,6 +145,15 @@ public class QualificationActivity extends BaseActivity {
             }
 
         }
+        if (photos.size() < 1 && TextUtils.isEmpty(qualification_prove)) {
+            Toast.makeText(this, "请先选择资质认证图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (photos.size() < 1) {
+            finish();
+            return;
+        }
+
 
         OkHttpUtils
                 .post()
@@ -156,7 +177,7 @@ public class QualificationActivity extends BaseActivity {
                             int result = jsonObject1.getInt("result");
                             String msg = jsonObject1.getString("msg");
                             Toast.makeText(QualificationActivity.this, msg, Toast.LENGTH_SHORT).show();
-                            if (result==0){
+                            if (result == 0) {
                                 finish();
                             }
                         } catch (JSONException e) {
@@ -164,96 +185,6 @@ public class QualificationActivity extends BaseActivity {
                         }
                     }
                 });
-    }
-
-    private void initPhoto(String id_photo) {
-
-        photos.clear();
-
-        split3 = id_photo.split("\\,");
-
-        switch (split3.length) {
-            case 1:
-                Glide.with(this).load(Internet.BASE_URL + split3[0]).centerCrop().into(preView1);
-                preView2.setVisibility(View.VISIBLE);
-                preView3.setVisibility(View.GONE);
-                preView4.setVisibility(View.GONE);
-                preView5.setVisibility(View.GONE);
-                preView6.setVisibility(View.GONE);
-                length = 1;
-                num = 1;
-                break;
-            case 2:
-                Glide.with(this).load(Internet.BASE_URL + split3[0]).centerCrop().into(preView1);
-                Glide.with(this).load(Internet.BASE_URL + split3[1]).centerCrop().into(preView2);
-                preView3.setVisibility(View.VISIBLE);
-                preView4.setVisibility(View.GONE);
-                preView5.setVisibility(View.GONE);
-                preView6.setVisibility(View.GONE);
-                length = 2;
-                num = 2;
-                break;
-            case 3:
-                Glide.with(this).load(Internet.BASE_URL + split3[0]).centerCrop().into(preView1);
-                Glide.with(this).load(Internet.BASE_URL + split3[1]).centerCrop().into(preView2);
-                Glide.with(this).load(Internet.BASE_URL + split3[2]).centerCrop().into(preView3);
-                preView4.setVisibility(View.VISIBLE);
-                preView5.setVisibility(View.GONE);
-                preView6.setVisibility(View.GONE);
-                length = 3;
-                num = 3;
-                break;
-            case 4:
-                Glide.with(this).load(Internet.BASE_URL + split3[0]).centerCrop().into(preView1);
-                Glide.with(this).load(Internet.BASE_URL + split3[1]).centerCrop().into(preView2);
-                Glide.with(this).load(Internet.BASE_URL + split3[2]).centerCrop().into(preView3);
-                Glide.with(this).load(Internet.BASE_URL + split3[3]).centerCrop().into(preView4);
-                preView5.setVisibility(View.VISIBLE);
-                preView6.setVisibility(View.GONE);
-                length = 4;
-                num = 4;
-                break;
-            case 5:
-                Glide.with(this).load(Internet.BASE_URL + split3[0]).centerCrop().into(preView1);
-                Glide.with(this).load(Internet.BASE_URL + split3[1]).centerCrop().into(preView2);
-                Glide.with(this).load(Internet.BASE_URL + split3[2]).centerCrop().into(preView3);
-                Glide.with(this).load(Internet.BASE_URL + split3[3]).centerCrop().into(preView4);
-                Glide.with(this).load(Internet.BASE_URL + split3[4]).centerCrop().into(preView5);
-                preView6.setVisibility(View.VISIBLE);
-                length = 5;
-                num = 5;
-                break;
-            case 6:
-                Glide.with(this).load(Internet.BASE_URL + split3[0]).centerCrop().into(preView1);
-                Glide.with(this).load(Internet.BASE_URL + split3[1]).centerCrop().into(preView2);
-                Glide.with(this).load(Internet.BASE_URL + split3[2]).centerCrop().into(preView3);
-                Glide.with(this).load(Internet.BASE_URL + split3[3]).centerCrop().into(preView4);
-                Glide.with(this).load(Internet.BASE_URL + split3[4]).centerCrop().into(preView5);
-                Glide.with(this).load(Internet.BASE_URL + split3[5]).centerCrop().into(preView6);
-                length = 6;
-                num = 6;
-                break;
-        }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < split3.length; i++) {
-                    final int finalI = i;
-                    try {
-                        bitmap = Glide.with(QualificationActivity.this)
-                                .load(Internet.BASE_URL + split3[finalI])
-                                .asBitmap().centerCrop()
-                                .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                                .get();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                    photos.add(bitmap);
-                }
-            }
-        }).start();
     }
 
     @Override
@@ -264,56 +195,12 @@ public class QualificationActivity extends BaseActivity {
             @Override
             public void onPickSuccess(ArrayList<String> photoss) {//已经预先做了null或size为0的判断
                 Log.e("aaa", "--photos-ssss-->" + photos);
-//                for (int i = 0; i < photos.size(); i++) {
-//                    String s = MyUtiles.imageToBase64(photos.get(i));
-//                    photo.add(s);
-//                }
                 if (requestCode == 0) {
                     Log.e("aaa",
                             "(IdentityCardActivity.java:161)" + "sadsadsa");
-                    Glide.with(QualificationActivity.this).load(photoss.get(0)).centerCrop().into(preView1);
+                    with(QualificationActivity.this).load(photoss.get(0)).centerCrop().into(preView1);
                     Bitmap usericon = Compressor.getDefault(QualificationActivity.this).compressToBitmap(new File(photoss.get(0)));
-                    photos.add(0, usericon);
-                } else if (requestCode == 1) {
-                    Glide.with(QualificationActivity.this).load(photoss.get(0)).centerCrop().into(preView2);
-                    Bitmap usericon = Compressor.getDefault(QualificationActivity.this).compressToBitmap(new File(photoss.get(0)));
-                    photos.add(1, usericon);
-                    if (requestCode == num) {
-                        preView3.setVisibility(View.VISIBLE);
-                        num += 1;
-                    }
-                } else if (requestCode == 2) {
-                    Glide.with(QualificationActivity.this).load(photoss.get(0)).centerCrop().into(preView3);
-                    Bitmap usericon = Compressor.getDefault(QualificationActivity.this).compressToBitmap(new File(photoss.get(0)));
-                    photos.add(2, usericon);
-                    if (requestCode == num) {
-                        preView4.setVisibility(View.VISIBLE);
-                        num += 1;
-                    }
-                } else if (requestCode == 3) {
-                    Glide.with(QualificationActivity.this).load(photoss.get(0)).centerCrop().into(preView4);
-                    Bitmap usericon = Compressor.getDefault(QualificationActivity.this).compressToBitmap(new File(photoss.get(0)));
-                    photos.add(3, usericon);
-                    if (requestCode == num) {
-                        preView5.setVisibility(View.VISIBLE);
-                        num += 1;
-                    }
-                } else if (requestCode == 4) {
-                    Glide.with(QualificationActivity.this).load(photoss.get(0)).centerCrop().into(preView5);
-                    Bitmap usericon = Compressor.getDefault(QualificationActivity.this).compressToBitmap(new File(photoss.get(0)));
-                    photos.add(4, usericon);
-                    if (requestCode == num) {
-                        preView5.setVisibility(View.VISIBLE);
-                        num += 1;
-                    }
-                } else if (requestCode == 5) {
-                    Glide.with(QualificationActivity.this).load(photoss.get(0)).centerCrop().into(preView6);
-                    Bitmap usericon = Compressor.getDefault(QualificationActivity.this).compressToBitmap(new File(photoss.get(0)));
-                    photos.add(5, usericon);
-                    if (requestCode == num) {
-                        preView6.setVisibility(View.VISIBLE);
-                        num += 1;
-                    }
+                    photos.add(usericon);
                 }
             }
 
@@ -335,30 +222,5 @@ public class QualificationActivity extends BaseActivity {
 
         });
 
-    }
-
-    private void initData() {
-
-        OkHttpUtils
-                .post()
-                .url(Internet.USERINFO)
-                .addParams("user_id", userId)
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Log.e("aaa",
-                                "(ClassTypeActivity.java:126)" + response);
-                        Gson gson = new Gson();
-                        SchoolInfoBean.DataBean schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
-                        String qualification_prove = schoolInfo.getQualification_prove();
-                        initPhoto(qualification_prove);
-                    }
-                });
     }
 }

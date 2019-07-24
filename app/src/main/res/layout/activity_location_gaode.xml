@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_bar_blue"/>
+
+    <FrameLayout
+
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <com.amap.api.maps.MapView
+            android:id="@+id/rc_ext_amap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/rc_ext_location_marker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:background="@drawable/rc_white_bg_shape"
+            android:drawablePadding="8dp"
+            android:ellipsize="end"
+            android:padding="10dp"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:text="定位中"
+            android:textColor="@android:color/secondary_text_light"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/rc_ext_my_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="70dp"
+            android:layout_marginRight="5dp"
+            />
+    </FrameLayout>
+    <ListView
+        android:choiceMode="singleChoice"
+        android:dividerHeight="1dp"
+        android:divider="#c6c6c6"
+        android:id="@+id/lv_location"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    </ListView>
+</LinearLayout>

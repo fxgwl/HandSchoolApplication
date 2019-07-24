@@ -1,105 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:alpha="0.7"
-        ></View>
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <LinearLayout
-        android:background="#ffffff"
-        android:id="@+id/ll_news"
-        android:layout_width="match_parent"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp">
+        android:orientation="vertical"
+        android:background="@drawable/xiala">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="13dp" />
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/news" />
+        <LinearLayout
+            android:id="@+id/ll_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00ffffff"
+            android:paddingLeft="20dp"
+            android:layout_marginTop="2dp">
 
-        <TextView
-            style="@style/text_menu"
-            android:text="消息"
-            />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/news" />
+
+            <TextView
+                style="@style/text_menu"
+                android:text="消息" />
+        </LinearLayout>
+
+        <View style="@style/line"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"></View>
+
+        <LinearLayout
+            android:id="@+id/ll_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00ffffff"
+            android:paddingLeft="20dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/home" />
+
+            <TextView
+                style="@style/text_menu"
+                android:text="首页" />
+        </LinearLayout>
+
+        <View style="@style/line"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"></View>
+
+        <LinearLayout
+            android:id="@+id/ll_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00ffffff"
+            android:paddingLeft="20dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/bangzhu" />
+
+            <TextView
+                style="@style/text_menu"
+                android:text="帮助" />
+        </LinearLayout>
+
+        <View style="@style/line"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"></View>
+
+        <LinearLayout
+            android:id="@+id/ll_wode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00ffffff"
+            android:paddingLeft="20dp">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/wode" />
+
+            <TextView
+                style="@style/text_menu"
+                android:text="我的" />
+        </LinearLayout>
     </LinearLayout>
 
-    <View
-        style="@style/line"
-        ></View>
-
-    <LinearLayout
-        android:background="#ffffff"
-        android:id="@+id/ll_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp">
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/home"
-            />
-
-        <TextView
-            style="@style/text_menu"
-            android:text="首页"
-            />
-    </LinearLayout>
-
-    <View
-        style="@style/line"
-        ></View>
-
-    <LinearLayout
-        android:background="#ffffff"
-        android:id="@+id/ll_help"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp">
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/bangzhu"
-            />
-
-        <TextView
-            style="@style/text_menu"
-            android:text="帮助"
-            />
-    </LinearLayout>
-
-    <View
-        style="@style/line"
-        ></View>
-
-    <LinearLayout
-        android:background="#ffffff"
-        android:id="@+id/ll_wode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp">
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/wode" />
-
-        <TextView
-            style="@style/text_menu"
-            android:text="我的" />
-    </LinearLayout>
-
-    <View
-        style="@style/line"
-        ></View>
 
 </LinearLayout>

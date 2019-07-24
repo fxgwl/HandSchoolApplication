@@ -35,7 +35,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-
                     android:background="#E6E6E6"></View>
 
                 <com.example.handschoolapplication.view.MyListView
@@ -43,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:divider="#E6E6E6"
-                    android:dividerHeight="5dp"/>
+                    android:dividerHeight="5dp" />
             </LinearLayout>
         </ScrollView>
 

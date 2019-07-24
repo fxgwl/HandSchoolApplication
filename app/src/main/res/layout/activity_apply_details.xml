@@ -29,7 +29,7 @@
 
                     <TextView
                         style="@style/nowapplytv1"
-                        android:text="您所选择的学堂" />
+                        android:text="您所选择的机构" />
 
                     <View
                         android:layout_width="0dp"
@@ -40,7 +40,8 @@
                         android:id="@+id/tv_schoolname"
                         style="@style/nowapplytv2"
                         android:layout_marginRight="20dp"
-                        android:text="名家讲坛" />
+                        android:text="名家讲坛"
+                        android:layout_gravity="center_vertical"/>
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -62,7 +63,8 @@
                         android:id="@+id/tv_coursename"
                         style="@style/nowapplytv2"
                         android:layout_marginRight="20dp"
-                        android:text="名家讲坛" />
+                        android:text="名家讲坛"
+                        android:layout_gravity="center_vertical" />
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -75,14 +77,13 @@
                         style="@style/nowapplytv1"
                         android:text="上课时间" />
 
-                    <TextView
+                    <com.example.handschoolapplication.view.MyListView
                         android:id="@+id/tv_coursetime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
-                        android:text="周一  10:30-12:30/15:30-16:30\n周二  10:30-12:30" />
+                        android:layout_marginRight="15dp"/>
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -104,7 +105,8 @@
                         android:id="@+id/tv_personnum"
                         style="@style/nowapplytv2"
                         android:layout_marginRight="10dp"
-                        android:text="12【已报名】 /20人【总人数】" />
+                        android:text="12【已报名】 /20人【总人数】"
+                        android:layout_gravity="center_vertical" />
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -126,7 +128,8 @@
                         android:id="@+id/tv_age"
                         style="@style/nowapplytv2"
                         android:layout_marginRight="20dp"
-                        android:text="0-3岁" />
+                        android:text="0-3岁"
+                        android:layout_gravity="center_vertical" />
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -148,7 +151,8 @@
                         android:id="@+id/tv_teacher"
                         style="@style/nowapplytv2"
                         android:layout_marginRight="20dp"
-                        android:text="易中天" />
+                        android:text="易中天"
+                        android:layout_gravity="center_vertical"/>
                 </LinearLayout>
 
                 <View style="@style/line"></View>
@@ -170,7 +174,8 @@
                         android:id="@+id/tv_costtime"
                         style="@style/nowapplytv2"
                         android:layout_marginRight="20dp"
-                        android:text="800元/10节课" />
+                        android:text="800元/10节课"
+                        android:layout_gravity="center_vertical" />
                 </LinearLayout>
 
                 <View
@@ -226,7 +231,7 @@
                         android:layout_marginLeft="30dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
-                        android:text="不使用优惠券"
+                        android:text="取消使用优惠券"
                         android:textColor="#F4640D"
                         android:visibility="gone" />
 
@@ -236,7 +241,8 @@
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:text="-¥0.00" />
+                        android:text="-¥0.00"
+                        android:layout_gravity="center_vertical"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -272,6 +278,35 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/xiayiye" />
+                </LinearLayout>
+
+                <View style="@style/line"></View>
+
+                <LinearLayout
+                    android:id="@+id/ll_student_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/nowapplytv1"
+                        android:text="学生性别" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_student_sex"
+                        style="@style/nowapplytv1" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/xiayiye"
+                        android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

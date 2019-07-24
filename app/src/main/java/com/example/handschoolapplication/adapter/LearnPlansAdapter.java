@@ -178,18 +178,13 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
 
             cholder.tv_editnum.setText(TextUtils.isEmpty(product.getCourse_num()) ? 0 + "" : product.getCourse_num());
             cholder.tv_product_desc.setText(product.getClass_name());
-            cholder.tv_price.setText("价格：¥" + product.getOrder_money() + "");
+            final String class_money = product.getClass_money();
+            String money = class_money.split("元")[0];
+            cholder.tv_price.setText("价格：¥" + money + "");
             cholder.tv_count.setText(TextUtils.isEmpty(product.getCourse_num()) ? 0 + "" : product.getCourse_num());
             cholder.cb_check.setChecked(product.isChoosed());
-            String class_photo = product.getClass_photo();
-            String photo = "";
-            if (class_photo.contains(",")){
-                String[] split = class_photo.split(",");
-                photo = split[0];
-            }else {
-                photo = class_photo;
-            }
-            Glide.with(context).load(Internet.BASE_URL + photo).centerCrop().into(cholder.iv_imag);
+            String picture_one = product.getCourseInfo().getPicture_one();
+            Glide.with(context).load(Internet.BASE_URL + picture_one).centerCrop().into(cholder.iv_imag);
             cholder.cb_check.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -219,6 +214,8 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
                     intent.putExtra("school_id", product.getSchool_id());
                     intent.putExtra("course_id", product.getCourse_id());
                     intent.putExtra("schooluid", product.getUser_id());
+                    intent.putExtra("class_money", class_money);
+                    intent.putExtra("class_price_id", product.getPrice_id());
                     context.startActivity(intent);
                 }
             });

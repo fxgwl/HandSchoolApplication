@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +34,8 @@ public class LearnNewsAdapter extends BaseAdapter {
         this.mList = mList;
     }
 
+    public OnItemClickListener listener;
+
     @Override
     public int getCount() {
         if (mList != null) {
@@ -39,6 +43,10 @@ public class LearnNewsAdapter extends BaseAdapter {
         }
         return size;
 
+    }
+
+    public void setListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -52,7 +60,7 @@ public class LearnNewsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         ViewHolder holder = null;
 
         if (view == null) {
@@ -67,6 +75,27 @@ public class LearnNewsAdapter extends BaseAdapter {
         holder.tvClassName.setText(learnNewsBean.getSchool_name());//学堂昵称
         holder.tvTime.setText(learnNewsBean.getMessage_time());//通知时间
         holder.tvNewsContent.setText(learnNewsBean.getMessage_content());//通知内容
+
+        String message_state = learnNewsBean.getMessage_state();
+        if ("0".equals(message_state)){
+            holder.ivRedDot.setVisibility(View.VISIBLE);
+        }else {
+            holder.ivRedDot.setVisibility(View.GONE);
+        }
+
+        holder.civUsericon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setIconClick(position);
+            }
+        });
+
+        holder.rlNewsContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setLearnClick(position);
+            }
+        });
         return view;
     }
 
@@ -79,9 +108,18 @@ public class LearnNewsAdapter extends BaseAdapter {
         TextView tvNewsContent;
         @BindView(R.id.tv_time)
         TextView tvTime;
+        @BindView(R.id.iv_red_dot)
+        ImageView ivRedDot;
+        @BindView(R.id.rl_news_content)
+        RelativeLayout rlNewsContent;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface OnItemClickListener{
+        void setIconClick(int position);
+        void setLearnClick(int position);
     }
 }

@@ -18,7 +18,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_home_etsearch_bg"
         android:layout_below="@+id/tv_title_sss"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <EditText
             android:layout_width="0dp"

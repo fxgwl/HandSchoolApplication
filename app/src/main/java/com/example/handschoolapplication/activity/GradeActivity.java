@@ -1,5 +1,6 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,18 +31,12 @@ public class GradeActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_jewel1)
-    ImageView ivJewel1;
-    @BindView(R.id.iv_jewel2)
-    ImageView ivJewel2;
-    @BindView(R.id.iv_jewel3)
-    ImageView ivJewel3;
-    @BindView(R.id.iv_jewel4)
-    ImageView ivJewel4;
-    @BindView(R.id.iv_jewel5)
-    ImageView ivJewel5;
+    @BindView(R.id.tv_grade)
+    TextView tvGrade;
     @BindView(R.id.tv_integral_num)
     TextView tvIntegralNum;
+    @BindView(R.id.iv_class_grade)
+    ImageView ivClassGrade;
     @BindView(R.id.lv_integral)
     ListView lvIntegral;
 
@@ -60,38 +55,29 @@ public class GradeActivity extends BaseActivity {
         flag = getIntent().getStringExtra("flag");
         grade = getIntent().getStringExtra("grade");
         integral = getIntent().getStringExtra("integral");
-
-        switch (grade){
-            case "0":
-            case "":
-                break;
-            case "1":
-                ivJewel1.setVisibility(View.VISIBLE);
-                break;
-            case "2":
-                ivJewel1.setVisibility(View.VISIBLE);
-                ivJewel2.setVisibility(View.VISIBLE);
-                break;
-            case "3":
-                ivJewel1.setVisibility(View.VISIBLE);
-                ivJewel2.setVisibility(View.VISIBLE);
-                ivJewel3.setVisibility(View.VISIBLE);
-                break;
-            case "4":
-                ivJewel1.setVisibility(View.VISIBLE);
-                ivJewel2.setVisibility(View.VISIBLE);
-                ivJewel3.setVisibility(View.VISIBLE);
-                ivJewel4.setVisibility(View.VISIBLE);
-                break;
-            case "5":
-                ivJewel1.setVisibility(View.VISIBLE);
-                ivJewel2.setVisibility(View.VISIBLE);
-                ivJewel3.setVisibility(View.VISIBLE);
-                ivJewel4.setVisibility(View.VISIBLE);
-                ivJewel5.setVisibility(View.VISIBLE);
-                break;
+        if (flag.equals("com")) {
+            ivClassGrade.setVisibility(View.VISIBLE);
+            switch (grade) {
+                case "":
+                case "0":
+                    ivClassGrade.setImageResource(R.drawable.xuetangdengji_wu_zheng);
+                case "1":
+                    ivClassGrade.setImageResource(R.drawable.xuetangdengji_tong_zheng);
+                    break;
+                case "2":
+                    ivClassGrade.setImageResource(R.drawable.xuetangdengji_yin_zheng);
+                    break;
+                case "3":
+                    ivClassGrade.setImageResource(R.drawable.xuetangdengji_jin_zheng);
+                    break;
+            }
+        } else {
+            ivClassGrade.setVisibility(View.GONE);
+            tvGrade.setText("Lv." + grade);
         }
-        tvIntegralNum.setText(integral+"分");
+        int v = (int) Double.parseDouble(integral);
+        tvIntegralNum.setText(v + "分");
+
         initData();
     }
 
@@ -129,15 +115,21 @@ public class GradeActivity extends BaseActivity {
         return R.layout.activity_grade;
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_integral_more})
+    @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_integral_more,R.id.ll_grade_rule})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.ll_integral_more:
+                break;
+            case R.id.ll_grade_rule:
+                startActivity(new Intent(this, WebGradeActivity.class)
+                        .putExtra("url", "personal_rating1.html")
+                        .putExtra("title", "积分等级规则"));
                 break;
         }
     }
@@ -170,8 +162,9 @@ public class GradeActivity extends BaseActivity {
                 holder = (ViewHolder) view.getTag();
             }
             IntegralBean.DataBean interalBean = mList.get(position);
-            holder.tvContent.setText(interalBean.getIntegral_cause().equals("0") ? "签到" : "评论");
-            holder.tvNum.setText("+" + interalBean.getIntegral_num());
+            holder.tvContent.setText(interalBean.getIntegral_cause().equals("0") ? "购买加分" : "评论加分");
+            int interal = (int) Double.parseDouble(interalBean.getIntegral_num());
+            holder.tvNum.setText("+" + interal);
             holder.tvDay.setText(interalBean.getIntegral_time().split(" ")[0]);
             holder.tvHour.setText(interalBean.getIntegral_time().split(" ")[1].split(":")[0] +
                     ":" + interalBean.getIntegral_time().split(" ")[1].split(":")[1]);

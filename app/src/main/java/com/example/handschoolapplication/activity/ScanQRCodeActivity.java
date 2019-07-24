@@ -47,6 +47,7 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     private String flag;//0 去学堂
     private String user_type;
     private int REQUEST_CALL_PHONE;
+    private String school_id;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,9 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
 
         tvTitle.setText("二维码扫描");
         user_type = (String) SPUtils.get(this, "user_type", "");
+        if (user_type.equals("1")){
+            school_id = (String) SPUtils.get(this, "school_id", "");
+        }
         flag = getIntent().getStringExtra("flag");
         requestPermission();
         mQRCodeView = (ZXingView) findViewById(R.id.zxingview);
@@ -98,60 +102,82 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
     public void onScanQRCodeSuccess(String result) {
         Log.i(TAG, "result:" + result);
         vibrate();
-        if ("0".equals(user_type)) {
+        if ("0".equals(user_type)) {//个人用户
             String[] split = result.split(",");
             if ("xt".equals(split[0])) {
+                Log.e("aaa",
+                        "(ScanQRCodeActivity.java:105)<--用户类型-->"+split[0]);
                 startActivity(new Intent(this, ClassActivity.class).putExtra("school_id", split[1]));
                 ScanQRCodeActivity.this.finish();
-            } else {
-                Toast.makeText(this, "扫描结果：" + result, Toast.LENGTH_SHORT).show();
+            } else if ("gr".equals(split[0])){
+//                Toast.makeText(this, "扫描结果：" + result, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,ScanQRCodeResultActivity.class).putExtra("scanResult","扫描错误"));
+                ScanQRCodeActivity.this.finish();
+            }else {
+                startActivity(new Intent(this,ScanQRCodeResultActivity.class).putExtra("scanResult","扫描错误"));
                 ScanQRCodeActivity.this.finish();
             }
-        } else {
+        } else {//学堂用户
+            Log.e("aaa",
+                    "(ScanQRCodeActivity.java:114)<--学堂扫描二维码的-->"+result);
             String[] split = result.split(",");
             if ("gr".equals(split[0])) {
-                sign(split[1], split[2]);
-                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+                Log.e("aaa",
+                        "(ScanQRCodeActivity.java:122)<--school_id-->"+school_id);
+                sign(split[1], split[2],school_id);
+//                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+            } else if ("xt".equals(split[0])){
+                Log.e("aaa",
+                        "(ScanQRCodeActivity.java:121)<--学堂扫描二维码的-->"+result);
+                startActivity(new Intent(this, ClassActivity.class).putExtra("school_id", split[1]));
+                ScanQRCodeActivity.this.finish();
+//                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+//                ScanQRCodeActivity.this.finish();
+            }else {
+                startActivity(new Intent(this,ScanQRCodeResultActivity.class).putExtra("scanResult","扫描错误"));
                 ScanQRCodeActivity.this.finish();
             }
         }
         mQRCodeView.stopSpot();
-        ScanQRCodeActivity.this.finish();
+//        ScanQRCodeActivity.this.finish();
     }
 
-    private void sign(String learnCode, String orderId) {
-        OkHttpUtils.post()
-                .url(InternetS.SCAN_ORDER)
-                .addParams("study_num", (learnCode + "," + orderId))
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        Log.e("aaa",
-                                "(ScanQRCodeActivity.java:118)" + e.getMessage());
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Log.e("aaa",
-                                "(ScanQRCodeActivity.java:124)" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            int result = jsonObject.getInt("result");
-                            if (result == 0) {
-                                ScanQRCodeActivity.this.finish();
-                                Toast.makeText(ScanQRCodeActivity.this, "确认成功", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(ScanQRCodeActivity.this, jsonObject.getString("msg"), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+        private void sign(String learnCode, final String orderId,final String school_id) {
+            OkHttpUtils.post()
+                    .url(InternetS.SCAN_ORDER)
+                    .addParams("study_num", (learnCode + "," + orderId))
+                    .addParams("school_id", (school_id))
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            Log.e("aaa",
+                                    "(ScanQRCodeActivity.java:118)" + e.getMessage());
                         }
-                    }
-                });
-    }
+
+                        @Override
+                        public void onResponse(String response, int id) {
+                            Log.e("aaa",
+                                    "(ScanQRCodeActivity.java:124)" + response);
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                int result = jsonObject.getInt("result");
+                                if (result == 0) {
+                                    ScanQRCodeActivity.this.finish();
+                                    Toast.makeText(ScanQRCodeActivity.this, "确认成功", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(ScanQRCodeActivity.this,ScanResultActivity.class)
+                                            .putExtra("orderId",orderId));
+                                } else {
+//                                    Toast.makeText(ScanQRCodeActivity.this, jsonObject.getString("msg"), Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(ScanQRCodeActivity.this,ScanQRCodeResultActivity.class).putExtra("scanResult",jsonObject.getString("msg")));
+                                    finish();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+        }
 
     @Override
     public void onScanQRCodeOpenCameraError() {

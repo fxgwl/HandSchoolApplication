@@ -1,11 +1,17 @@
 package com.example.handschoolapplication.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,6 +24,7 @@ import com.example.handschoolapplication.bean.RecommendBean;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.ListDataSave;
 import com.example.handschoolapplication.view.MyListView;
+import com.example.handschoolapplication.view.SelfDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -67,6 +74,25 @@ public class SearchActivity extends BaseActivity {
         initViewData();
         lvRecommand.setAdapter(recommendAdapter);
         getRecommand();
+
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (TextUtils.isEmpty(etSearch.getText().toString().trim())) {
+                        Toast.makeText(SearchActivity.this, "搜索不能为空", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String search = etSearch.getText().toString().trim();
+                        history.add(search);
+                        listDataSave.setDataList("history", history);
+                        startActivity(new Intent(SearchActivity.this, SearchResultActivity.class)
+                                .putExtra("location", locations)
+                                .putExtra("search", search));
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private void getRecommand() {
@@ -78,17 +104,18 @@ public class SearchActivity extends BaseActivity {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                            "(SearchActivity.java:77)"+e.getMessage());
+                                "(SearchActivity.java:77)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                            "(SearchActivity.java:84)"+response);
+                                "(SearchActivity.java:84)" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray data = jsonObject.getJSONArray("data");
-                            recommendBeenList.addAll((Collection<? extends RecommendBean>) new Gson().fromJson(data.toString(),new TypeToken<ArrayList<RecommendBean>>(){}.getType()));
+                            recommendBeenList.addAll((Collection<? extends RecommendBean>) new Gson().fromJson(data.toString(), new TypeToken<ArrayList<RecommendBean>>() {
+                            }.getType()));
                             recommendAdapter.setLocation(locations);
                             recommendAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
@@ -99,14 +126,24 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void initViewData() {
-        listDataSave = new ListDataSave(this,"search");
+        listDataSave = new ListDataSave(this, "search");
         history = listDataSave.getDataList("history");
         mlist = new ArrayList<>();
-        if (history!=null){
+        if (history != null) {
             mlist.addAll(history);
         }
         mySearchAdapter = new MySearchAdapter();
         lvHistory.setAdapter(mySearchAdapter);
+
+        lvHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String s = mlist.get(position);
+                startActivity(new Intent(SearchActivity.this, SearchResultActivity.class)
+                        .putExtra("location", locations)
+                        .putExtra("search", s));
+            }
+        });
     }
 
     @Override
@@ -120,7 +157,7 @@ public class SearchActivity extends BaseActivity {
         return R.layout.activity_search;
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_back, R.id.iv_search,R.id.tv_clear_history})
+    @OnClick({R.id.iv_back, R.id.tv_back, R.id.iv_search, R.id.tv_clear_history})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -133,18 +170,18 @@ public class SearchActivity extends BaseActivity {
                 if (TextUtils.isEmpty(etSearch.getText().toString().trim())) {
                     Toast.makeText(this, "搜索不能为空", Toast.LENGTH_SHORT).show();
                     return;
-                }else {
+                } else {
                     String search = etSearch.getText().toString().trim();
                     history.add(search);
-                    listDataSave.setDataList("history",history);
-                    startActivity(new Intent(this,SearchResultActivity.class).putExtra("search",search));
+                    listDataSave.setDataList("history", history);
+                    startActivity(new Intent(this, SearchResultActivity.class)
+                            .putExtra("location", locations)
+                            .putExtra("search", search));
                 }
                 break;
             case R.id.tv_clear_history:
-                history.clear();
-                listDataSave.clearDataList("history");
-                mlist.clear();
-                mySearchAdapter.notifyDataSetChanged();
+
+                showDialog();
                 break;
         }
     }
@@ -155,8 +192,8 @@ public class SearchActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            if (mlist!=null){
-                size=mlist.size();
+            if (mlist != null) {
+                size = mlist.size();
             }
             return size;
         }
@@ -188,6 +225,60 @@ public class SearchActivity extends BaseActivity {
 
         class ViewHolder {
             TextView textView;
+        }
+    }
+
+    private void showDialog() {
+        final SelfDialog selfDialog = new SelfDialog(SearchActivity.this);
+
+        selfDialog.setMessage("是否清空?");
+        selfDialog.setYesOnclickListener("确定", new SelfDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                history.clear();
+                listDataSave.clearDataList("history");
+                mlist.clear();
+                mySearchAdapter.notifyDataSetChanged();
+                selfDialog.dismiss();
+
+            }
+        });
+
+
+        selfDialog.setNoOnclickListener("取消", new SelfDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+//                sign(learnCode,orderId);
+                selfDialog.dismiss();
+
+            }
+        });
+        backgroundAlpha(0.6f);
+        selfDialog.setOnDismissListener(new poponDismissListener());
+        selfDialog.show();
+    }
+
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
+    }
+
+    /**
+     * 添加弹出的popWin关闭的事件，主要是为了将背景透明度改回来
+     *
+     * @author cg
+     */
+    class poponDismissListener implements Dialog.OnDismissListener {
+        @Override
+        public void onDismiss(DialogInterface dialogInterface) {
+            backgroundAlpha(1f);
         }
     }
 }

@@ -96,14 +96,14 @@ public class CurrentCitysActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         city = (String) SPUtils.get(this, "city", "");
-        tvTitle.setText("当前城市" + "（" + this.city + "）");
+        tvTitle.setText("当前城市" + "-" + this.city + "");
         mRv = (RecyclerView) findViewById(R.id.rv);
         mRv.setLayoutManager(mManager = new LinearLayoutManager(this));
 
         mSourceDatas = new ArrayList<>();
         mHeaderDatas = new ArrayList<>();
         List<String> locationCity = new ArrayList<>();
-        locationCity.add("定位中");
+        locationCity.add(city);
         mHeaderDatas.add(new MeituanHeaderBean(locationCity, "定位城市", " "));
         List<String> recentCitys = new ArrayList<>();
         mHeaderDatas.add(new MeituanHeaderBean(recentCitys, "常驻城市", " "));
@@ -213,40 +213,6 @@ public class CurrentCitysActivity extends BaseActivity {
         initDatas(citys);
     }
 
-    @OnClick({R.id.rl_back, R.id.iv_menu})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.rl_back:
-                finish();
-                break;
-            case R.id.iv_menu:
-                show(view);
-                break;
-        }
-    }
-
-    public class GetJsonDataUtil {
-
-
-        public String getJson(Context context, String fileName) {
-
-            StringBuilder stringBuilder = new StringBuilder();
-            try {
-                AssetManager assetManager = context.getAssets();
-                BufferedReader bf = new BufferedReader(new InputStreamReader(
-                        assetManager.open(fileName)));
-                String line;
-                while ((line = bf.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return stringBuilder.toString();
-        }
-
-    }
-
     /**
      * 组织数据源
      *
@@ -300,7 +266,8 @@ public class CurrentCitysActivity extends BaseActivity {
 
                             MeituanHeaderBean header2 = mHeaderDatas.get(1);
                             List<String> recentCitys = new ArrayList<>();
-                            recentCitys.add("天津");
+                            String lastCity = (String) SPUtils.get(CurrentCitysActivity.this, "lastCity", "");
+                            recentCitys.add(lastCity);
                             header2.setCityList(recentCitys);
 
 
@@ -322,6 +289,18 @@ public class CurrentCitysActivity extends BaseActivity {
                 });
     }
 
+    @OnClick({R.id.rl_back, R.id.iv_menu})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.rl_back:
+                finish();
+                break;
+            case R.id.iv_menu:
+                show(view);
+                break;
+        }
+    }
+
     /**
      * 更新数据源
      *
@@ -340,5 +319,27 @@ public class CurrentCitysActivity extends BaseActivity {
 
         mHeaderAdapter.notifyDataSetChanged();
         mIndexBar.invalidate();
+    }
+
+    public class GetJsonDataUtil {
+
+
+        public String getJson(Context context, String fileName) {
+
+            StringBuilder stringBuilder = new StringBuilder();
+            try {
+                AssetManager assetManager = context.getAssets();
+                BufferedReader bf = new BufferedReader(new InputStreamReader(
+                        assetManager.open(fileName)));
+                String line;
+                while ((line = bf.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return stringBuilder.toString();
+        }
+
     }
 }

@@ -67,7 +67,12 @@ public class CommentManagerAdapter extends BaseAdapter {
         }
         EvaluateManagerBean evaluateManagerBean = mlist.get(position);
         holder.tvCourseName.setText(evaluateManagerBean.getCourse_name());
-        Glide.with(context).load(Internet.BASE_URL + evaluateManagerBean.getCourse_photo()).centerCrop().into(holder.ivCourse);
+        String picture_one = evaluateManagerBean.getPicture_one();
+
+//        if (evaluateManagerBean.getCourse_photo().contains(",")){
+//            Glide.with(context).load(Internet.BASE_URL+evaluateManagerBean.getCourse_photo().split(",")[0]).centerCrop().into(holder.ivCourse);
+//        }else
+        Glide.with(context).load(Internet.BASE_URL + picture_one).centerCrop().into(holder.ivCourse);
         holder.tvEavaName.setText("评价人：" + evaluateManagerBean.getSend_name());
         holder.tvContent.setText(evaluateManagerBean.getContents());
         holder.tvReplyEva.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +86,7 @@ public class CommentManagerAdapter extends BaseAdapter {
         if (replyInfo != null) {
             for (int i = 0; i < replyInfo.size(); i++) {
                 String reply_type = replyInfo.get(i).getReply_type();
-                if ("2".equals(reply_type)){
+                if ("2".equals(reply_type)) {
                     replyInfo.remove(i);
                 }
             }
@@ -89,9 +94,17 @@ public class CommentManagerAdapter extends BaseAdapter {
         }
         CmApplyAdapter cmApplyAdapter = new CmApplyAdapter(context, replyInfo);
         holder.commentmanagerLv.setAdapter(cmApplyAdapter);
+        holder.tvTime.setText(evaluateManagerBean.getInteract_time() + "");
         return view;
     }
 
+    public void setOnReplyEvaluateListener(ReplyEvaluateListener listener) {
+        this.listener = listener;
+    }
+
+    public interface ReplyEvaluateListener {
+        void toReplyEvaluate(int position);
+    }
 
     static class ViewHolder {
         @BindView(R.id.iv_course)
@@ -108,17 +121,12 @@ public class CommentManagerAdapter extends BaseAdapter {
         MyListView commentmanagerLv;
         @BindView(R.id.tv_content)
         TextView tvContent;
+        @BindView(R.id.tv_time)
+        TextView tvTime;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-    }
-
-    public interface ReplyEvaluateListener{
-        void toReplyEvaluate(int position);
-    }
-    public void setOnReplyEvaluateListener(ReplyEvaluateListener listener){
-        this.listener=listener;
     }
 
 

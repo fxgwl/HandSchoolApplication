@@ -92,8 +92,17 @@ public class DaifukuangActivity extends BaseActivity {
         lvDaifukuang.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String order_id = mList.get(position).getOrder_id();
-                startActivity(new Intent(DaifukuangActivity.this, OrderDetailActivity.class).putExtra("order_id",order_id));
+//                String order_id = mList.get(position).getCourse_id();
+                String schooluid = mList.get(position).getUser_id();
+                String course_id = mList.get(position).getCourse_id();
+                String school_id = mList.get(position).getSchool_id();
+                Intent intent = new Intent(DaifukuangActivity.this, CourseHomePagerActivity.class);
+
+                intent.putExtra("school_id", school_id);
+                intent.putExtra("course_id", course_id);
+                intent.putExtra("schooluid", schooluid);
+
+                startActivity(intent);
             }
         });
 

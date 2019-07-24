@@ -1,13 +1,17 @@
 package com.example.handschoolapplication.activity;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -21,8 +25,11 @@ import com.example.handschoolapplication.adapter.ConsultServiceAdapter;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.ConsultBean;
 import com.example.handschoolapplication.bean.ContactServiceBean;
+import com.example.handschoolapplication.bean.NewsBean;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.KeyboardChangeListener;
 import com.example.handschoolapplication.utils.SPUtils;
+import com.example.handschoolapplication.utils.SystemUtil;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -37,7 +44,7 @@ import butterknife.OnClick;
 import okhttp3.Call;
 
 
-public class HumanServiceActivity extends BaseActivity {
+public class HumanServiceActivity extends BaseActivity implements TextView.OnEditorActionListener {
 
     @BindView(R.id.rl_back)
     RelativeLayout rlBack;
@@ -49,10 +56,12 @@ public class HumanServiceActivity extends BaseActivity {
     ListView lvHumanservice;
     @BindView(R.id.tv_contact_content)
     EditText tvContactContent;
-    private String user_id;
+    @BindView(R.id.view_20dp)
+    View view20dp;
     ArrayList<ContactServiceBean.DataBean> contactList = new ArrayList<>();
-    private ConsultAdapter consultAdapter;
     ArrayList<ConsultBean.DataBean> consultList = new ArrayList<ConsultBean.DataBean>();
+    private String user_id;
+    private ConsultAdapter consultAdapter;
     private ConsultServiceAdapter contactAdapter;//人工客服
     private String type;
     private String content;
@@ -60,6 +69,7 @@ public class HumanServiceActivity extends BaseActivity {
     private String schooluid;
     private ConsultCTPAdapter consultCTPAdapter;
     private String send_id;
+    private String systemModel;//手机型号
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,48 +87,96 @@ public class HumanServiceActivity extends BaseActivity {
             course_id = getIntent().getStringExtra("course_id");
             send_id = getIntent().getStringExtra("send_id");
             consultAdapter = new ConsultAdapter(contactList, this);
+            tvContactContent.setHint("说点什么吧...");
             initView();
         } else if (type.equals("1")) {
             //学堂跟个人对话
             course_id = getIntent().getStringExtra("course_id");
             send_id = getIntent().getStringExtra("send_id");
             consultCTPAdapter = new ConsultCTPAdapter(contactList, this);
+            tvContactContent.setHint("说点什么吧...");
             initView2();
         } else {
             //人工客服对话
             contactAdapter = new ConsultServiceAdapter(consultList, this);
+            tvContactContent.setHint("请输入您想咨询的问题");
             initView3();
+        }
+
+        tvContactContent.setOnEditorActionListener(this);
+
+        systemModel = SystemUtil.getSystemModel();
+
+        if (systemModel.contains("AL")) {
+            view20dp.setVisibility(View.VISIBLE);
+        } else {
+            view20dp.setVisibility(View.GONE);
         }
     }
 
-    private void initView3() {
-        lvHumanservice.setAdapter(contactAdapter);
-        consultList.clear();
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_human_service;
+    }
+
+    private ViewTreeObserver.OnGlobalLayoutListener getGlobalLayoutListener(final View decorView, final View contentView) {
+        return new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                decorView.getWindowVisibleDisplayFrame(r);
+
+                int height = decorView.getContext().getResources().getDisplayMetrics().heightPixels;
+                int diff = height - r.bottom;
+
+                if (diff != 0) {
+                    if (contentView.getPaddingBottom() != diff) {
+                        contentView.setPadding(0, 0, 0, diff);
+                    }
+                } else {
+                    if (contentView.getPaddingBottom() != 0) {
+                        contentView.setPadding(0, 0, 0, 0);
+                    }
+                }
+            }
+        };
+    }
+
+    //
+
+    //刷新列表
+    private void initView() {
         OkHttpUtils.post()
-                .url(Internet.SERVICELIST)
+                .url(Internet.CONTACTLIST)
                 .addParams("user_id", user_id)
+                .addParams("send_id", send_id)
+                .addParams("course_id", course_id)
+                .addParams("user_type", "0")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("aaa",
-                                "(HumanServiceActivity.java:98)" + e.getMessage());
+                                "(HumanServiceActivity.java:177)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(HumanServiceActivity.java:104)" + response);
+                                "(HumanServiceActivity.java:136)" + response);
+                        lvHumanservice.setAdapter(consultAdapter);
                         if (response.contains("没有信息")) {
+                            contactList.clear();
+                            consultAdapter.notifyDataSetChanged();
                         } else {
-                            consultList.addAll(new Gson().fromJson(response, ConsultBean.class).getData());
-                            contactAdapter.notifyDataSetChanged();
+                            Gson gson = new Gson();
+                            contactList.clear();
+                            contactList.addAll(gson.fromJson(response, ContactServiceBean.class).getData());
+                            consultAdapter.notifyDataSetChanged();
                         }
                     }
                 });
     }
-
-    //
 
     private void initView2() {
 
@@ -127,11 +185,13 @@ public class HumanServiceActivity extends BaseActivity {
                 .addParams("user_id", send_id)
                 .addParams("send_id", user_id)
                 .addParams("course_id", course_id)
+                .addParams("user_type", "1")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa",
+                                "(HumanServiceActivity.java:142)" + e.getMessage());
                     }
 
                     @Override
@@ -154,47 +214,41 @@ public class HumanServiceActivity extends BaseActivity {
                 });
     }
 
-    //刷新列表
-    private void initView() {
+    private void initView3() {
+
         OkHttpUtils.post()
-                .url(Internet.CONTACTLIST)
+                .url(Internet.SERVICELIST)
                 .addParams("user_id", user_id)
-                .addParams("send_id", send_id)
-                .addParams("course_id", course_id)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa",
+                                "(HumanServiceActivity.java:98)" + e.getMessage());
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
-                                "(HumanServiceActivity.java:136)" + response);
-                        lvHumanservice.setAdapter(consultAdapter);
+                                "(HumanServiceActivity.java:104)" + response);
                         if (response.contains("没有信息")) {
-                            contactList.clear();
-                            consultAdapter.notifyDataSetChanged();
+                            consultList.clear();
+                            lvHumanservice.setAdapter(contactAdapter);
                         } else {
-                            Gson gson = new Gson();
-                            contactList.clear();
-                            contactList.addAll(gson.fromJson(response, ContactServiceBean.class).getData());
-                            consultAdapter.notifyDataSetChanged();
+                            consultList.clear();
+                            lvHumanservice.setAdapter(contactAdapter);
+                            consultList.addAll(new Gson().fromJson(response, ConsultBean.class).getData());
+                            contactAdapter.notifyDataSetChanged();
                         }
                     }
                 });
-    }
-
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_human_service;
     }
 
     @OnClick({R.id.rl_back, R.id.iv_menu, R.id.tv_contact_send})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
+                KeyBoardCancle();
                 finish();
                 break;
             case R.id.iv_menu:
@@ -210,14 +264,24 @@ public class HumanServiceActivity extends BaseActivity {
                     //给学堂发消息
 //                    sendToRobot();
                     sendToPerson();
-                } else {
+                } else if (type.equals("1")) {
                     //给个人发消息
                     sendToClass();
+                } else {
+                    sendPlatform();
                 }
                 break;
         }
     }
 
+    //强制隐藏软键盘
+    public void KeyBoardCancle() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
     private void sendToPerson() {
         OkHttpUtils.post()
@@ -290,26 +354,58 @@ public class HumanServiceActivity extends BaseActivity {
 
     }
 
-    private ViewTreeObserver.OnGlobalLayoutListener getGlobalLayoutListener(final View decorView, final View contentView) {
-        return new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                decorView.getWindowVisibleDisplayFrame(r);
+    private void sendPlatform() {
 
-                int height = decorView.getContext().getResources().getDisplayMetrics().heightPixels;
-                int diff = height - r.bottom;
-
-                if (diff != 0) {
-                    if (contentView.getPaddingBottom() != diff) {
-                        contentView.setPadding(0, 0, 0, diff);
+        OkHttpUtils.post()
+                .url(Internet.CONTACTSERVICE)
+                .addParams("user_id", user_id)
+                .addParams("message_content", content)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(HumanServiceActivity.java:246)<---->" + e.getMessage());
                     }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(HumanServiceActivity.java:252)<---->" + response);
+                        try {
+                            JSONObject json = new JSONObject(response);
+                            if (response.contains("成功")) {
+                                tvContactContent.setText("");
+                                initView3();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+        if (actionId == EditorInfo.IME_ACTION_SEND) {
+            content = tvContactContent.getText().toString();
+            if (TextUtils.isEmpty(content)) {
+                Toast.makeText(this, "请输入内容", Toast.LENGTH_SHORT).show();
+            } else {
+                if (type.equals("0")) {
+                    //给学堂发消息
+//                    sendToRobot();
+                    sendToPerson();
+                } else if (type.equals("1")) {
+                    //给个人发消息
+                    sendToClass();
                 } else {
-                    if (contentView.getPaddingBottom() != 0) {
-                        contentView.setPadding(0, 0, 0, 0);
-                    }
+                    sendPlatform();
                 }
             }
-        };
+        }
+        return false;
     }
 }

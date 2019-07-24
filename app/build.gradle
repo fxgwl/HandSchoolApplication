@@ -10,21 +10,26 @@ android {
         release {
             keyAlias 'axehome'
             keyPassword 'axehome20150908'
-            storeFile file('D:/axehome20150908.jks')
+            storeFile file('E:/axehome20150908.jks')
             storePassword 'axehome20150908'
         }
 
     }
-    compileSdkVersion 25
+    compileSdkVersion 28
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.example.handschoolapplication"
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 5
+        versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "arm64-v8a", "x86_64"
+        }
     }
     buildTypes {
         release {
@@ -73,15 +78,11 @@ dependencies {
     compile files('libs/BaiduLBS_Android.jar')
     compile files('libs/alipaySdk-20170725.jar')
     //    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
     //轮播图
-
     //圆形带背景的图片
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     //    compile 'com.google.zxing:core:3.2.1'
-
     //    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
-
     //地址选择器
     compile files('src/main/libs/MobCommons-2017.0914.1125.jar')
     compile files('src/main/libs/MobTools-2017.0914.1125.jar')
@@ -100,10 +101,19 @@ dependencies {
     compile files('src/main/libs/ShareSDK-Wechat-Favorite-3.1.0.jar')
     compile files('src/main/libs/ShareSDK-Wechat-Moments-3.1.0.jar')
     //    compile 'cn.yipianfengye.android:zxing-library:2.2'
-
     // Version 23+ is required || 要求版本23以上
     compile project(':indexlib')
     compile files('libs/alipaySdk-20170725.jar')
+    compile files('src/main/libs/jcore-android-1.2.0.jar')
+    compile files('src/main/libs/jpush-android-3.1.2.jar')
+    //高德2D地图
+    //高德地图的搜索
+    //    compile 'com.amap.api:map2d:latest.integration'
+    //定位SDK
+    //    compile 'com.amap.api:3dmap:latest.integration'
+    compile 'com.amap.api:3dmap:5.0.0'
+    compile 'com.amap.api:location:3.3.0'
+    compile 'com.amap.api:search:5.0.0'
     compile 'com.smarttop:jd-address:1.1.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -128,9 +138,15 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.zhy:flowlayout-lib:1.0.3'
     compile 'id.zelory:compressor:1.0.3'
+    compile 'com.yuyh.imgsel:library:2.0.2'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.github.gittjy:LoadingDialog:1.0.2'
+    compile 'me.leolin:ShortcutBadger:1.1.22@aar'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 }
+
 repositories {
     mavenCentral()
 }

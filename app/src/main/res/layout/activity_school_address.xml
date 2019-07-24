@@ -32,7 +32,7 @@
         android:layout_marginTop="50dp"
         android:background="@drawable/shape_schooladdress"
         android:gravity="center"
-        android:text="添加学堂地址"
+        android:text="添加机构地址"
         android:textColor="#b3b3b3"
         android:textSize="14sp"/>
 </LinearLayout>

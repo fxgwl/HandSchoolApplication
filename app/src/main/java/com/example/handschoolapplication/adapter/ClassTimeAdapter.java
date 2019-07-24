@@ -1,6 +1,8 @@
 package com.example.handschoolapplication.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -63,21 +65,52 @@ public class ClassTimeAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.timechooseWeek.setText(mlist.get(position).getName());
+
+        String name = mlist.get(position).getName();
+        if (name.contains("星期")) {
+            holder.timechooseWeek.setText(name);
+        } else {
+            String[] split = name.split(",");
+            StringBuilder sb = new StringBuilder(split[0]);
+            StringBuilder sb2 = new StringBuilder(split[1]);
+            String string = sb.toString();
+            String string2 = sb2.toString();
+            /*String string = sb.replace(0, 5, "").toString();
+            String string2 = sb2.replace(0, 5, "").toString();*/
+            holder.timechooseWeek.setText(string + "至" + string2);
+        }
+
         List<TimeHourBean> mlist = this.mlist.get(position).getMlist();
         ArrayList<String> time = new ArrayList<>();
         for (int i = 0; i < mlist.size(); i++) {
-            time.add(mlist.get(i).getTime());
-        }
-        timeAdapter = new CostAdapter(context, time);
-        timeAdapter.setCbClick(new CostAdapter.CbClick() {
-            @Override
-            public void onCBClick(int postion) {
-//                class_money = costs.get(postion);
+            String time1 = mlist.get(i).getTime();
+            Log.e("aaa",
+                    "(ClassTimeAdapter.java:72)<---->" + time1);
+
+            if (time1.contains(".")) {
+
+                String[] split = time1.split("\\.");
+                for (int j = 0; j < split.length; j++) {
+                    time.add(split[j]);
+                }
+            } else {
+                if (!TextUtils.isEmpty(mlist.get(i).getTime()))
+                    time.add(mlist.get(i).getTime());
             }
-        });
-        holder.timechooseGv.setAdapter(timeAdapter);
-        holder.timechooseGv.setTag(position);
+//            time.add(mlist.get(i).getTime());
+        }
+
+        holder.tvCourseTime.setText(time.get(0));
+
+//        timeAdapter = new CostAdapter(context, time,"");
+//        timeAdapter.setCbClick(new CostAdapter.CbClick() {
+//            @Override
+//            public void onCBClick(int postion) {
+//                class_money = costs.get(postion);
+//            }
+//        });
+//        holder.timechooseGv.setAdapter(timeAdapter);
+//        holder.timechooseGv.setTag(position);
 //        timeAdapter.setChooseItem(new TimeAdapter.ChooseItem() {
 //            @Override
 //            public void cbCheck(int position, int parentPosition, boolean cb) {
@@ -92,6 +125,8 @@ public class ClassTimeAdapter extends BaseAdapter {
         TextView timechooseWeek;
         @BindView(R.id.timechoose_gv)
         MyGridView timechooseGv;
+        @BindView(R.id.tv_course_time)
+        TextView tvCourseTime;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

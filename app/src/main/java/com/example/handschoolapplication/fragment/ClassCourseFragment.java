@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.CourseHomePagerActivity;
@@ -17,6 +18,7 @@ import com.example.handschoolapplication.adapter.ClassCourseAdapter;
 import com.example.handschoolapplication.base.BaseFragment;
 import com.example.handschoolapplication.bean.ClassCourse;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -24,6 +26,8 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +61,14 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
         lvClassCourse = (ListView) view.findViewById(R.id.lv_class_course);
         EventBus.getDefault().register(ClassCourseFragment.this);
         school_id = getArguments().getString("school_id");
-        double longitude = getArguments().getDouble("longitude");
-        double latitude = getArguments().getDouble("latitude");
-        doubles = new double[]{latitude, longitude};
+        String latitude = (String) SPUtils.get(getActivity(), "latitude", "");
+        String longitude = (String) SPUtils.get(getActivity(), "longitude", "");
+
+        Log.e("aaa",
+                "(ClassCourseFragment.java:65)<-- 本地保存的经度 -->" + latitude + " 本地保存的经度" + longitude);
+//        double longitude = getArguments().getDouble("longitude");
+//        double latitude = getArguments().getDouble("latitude");
+        doubles = new double[]{Double.parseDouble(latitude), Double.parseDouble(longitude)};
 
         mAdapter = new ClassCourseAdapter(getActivity(), mList);
         lvClassCourse.setAdapter(mAdapter);
@@ -70,7 +79,7 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
 
     private void initViewData() {
         Log.e("aaa",
-            "(ClassCourseFragment.java:69)school_idschool_id====="+school_id);
+                "(ClassCourseFragment.java:69)school_idschool_id=====" + school_id);
         OkHttpUtils.post()
                 .url(Internet.COURSEINFO)
                 .addParams("school_id", school_id)
@@ -85,7 +94,8 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
                     public void onResponse(String response, int id) {
                         Log.e("aaa",
                                 "(ClassCourseFragment.java:70)" + response);
-                        if (response.contains("没有信息")){}else {
+                        if (response.contains("没有信息")) {
+                        } else {
                             Gson gson = new Gson();
                             mList.clear();
                             mList.addAll(gson.fromJson(response, ClassCourse.class).getData());
@@ -94,11 +104,6 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
                         mAdapter.notifyDataSetChanged();
                     }
                 });
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(String event) {
-        initCourseType(event);
     }
 
     @Override
@@ -110,10 +115,19 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(ClassCourseFragment.this);
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(String event) {
+        initCourseType(event);
+        Log.e("aaa", "(ClassCourseFragment.java:119)<--点击课程筛选-->" + event);
     }
 
     //课程类型
     private void initCourseType(String s) {
+        Log.e("aaa", "(ClassCourseFragment.java:129)<--school_id-->" + school_id);
+        mList.clear();
         OkHttpUtils.post()
                 .url(Internet.COURSESTATE)
                 .addParams("school_id", school_id)
@@ -122,7 +136,7 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        Log.e("aaa", "(ClassCourseFragment.java:134)<---->" + e.getMessage());
                     }
 
                     @Override
@@ -132,9 +146,18 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
                         Gson gson = new Gson();
                         mList.clear();
                         if (response.contains("没有信息")) {
-
+                            Toast.makeText(getActivity(), "暂无数据", Toast.LENGTH_SHORT).show();
                         } else {
-                            mList.addAll(gson.fromJson(response, ClassCourse.class).getData());
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                int result = jsonObject.getInt("result");
+                                if (result == 0) {
+                                    mList.addAll(gson.fromJson(response, ClassCourse.class).getData());
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
                         mAdapter.notifyDataSetChanged();
                     }
@@ -149,9 +172,9 @@ public class ClassCourseFragment extends BaseFragment implements AdapterView.OnI
         String schooluid = dataBean.getUser_id();
 
         Intent intent = new Intent(getActivity(), CourseHomePagerActivity.class);
-        intent.putExtra("school_id",school_id);
-        intent.putExtra("course_id",course_id);
-        intent.putExtra("schooluid",schooluid);
+        intent.putExtra("school_id", school_id);
+        intent.putExtra("course_id", course_id);
+        intent.putExtra("schooluid", schooluid);
         getActivity().startActivity(intent);
     }
 }

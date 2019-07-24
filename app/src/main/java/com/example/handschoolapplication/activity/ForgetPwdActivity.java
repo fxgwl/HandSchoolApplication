@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.utils.CountDownTimerUtils;
 import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -64,17 +66,17 @@ public class ForgetPwdActivity extends BaseActivity {
             case R.id.rl_back:
                 finish();
                 break;
-            case R.id.iv_menu:                 show(view);
+            case R.id.iv_menu:
+                show(view);
                 break;
             case R.id.tv_get_code:
-                countDownTimerUtils.start();
                 getCode();
                 break;
             case R.id.btn_next:
                 String code = etCode.getText().toString().trim();
-                startActivity(new Intent(this,ForgetPwdToActivity.class)
-                        .putExtra("phone",phoneNum)
-                        .putExtra("code",code));
+                startActivity(new Intent(this, ForgetPwdToActivity.class)
+                        .putExtra("phone", phoneNum)
+                        .putExtra("code", code));
                 finish();
                 break;
         }
@@ -86,10 +88,10 @@ public class ForgetPwdActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length()==6){
+                if (s.length() == 6) {
                     mBtnNext.setBackgroundColor(Color.parseColor("#27acf6"));
                     mBtnNext.setEnabled(true);
-                }else {
+                } else {
                     mBtnNext.setBackgroundColor(Color.parseColor("#e6e6e6"));
                     mBtnNext.setEnabled(false);
                 }
@@ -104,11 +106,13 @@ public class ForgetPwdActivity extends BaseActivity {
 
     private void getCode() {
         phoneNum = etPhone.getText().toString().trim();
-        if (!phoneNum.equals(user_phone)){
+        if (TextUtils.isEmpty(phoneNum)||!MyUtiles.isPhone(phoneNum)) {
             Toast.makeText(this, "输入的手机号有误！", Toast.LENGTH_SHORT).show();
             etPhone.setText("");
             return;
         }
+
+        countDownTimerUtils.start();
         OkHttpUtils.post()
                 .url(Internet.PWD_GETCODE)
                 .addParams("user_phone", phoneNum)
