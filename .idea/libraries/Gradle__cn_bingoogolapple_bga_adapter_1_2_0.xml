@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: cn.bingoogolapple:bga-adapter-1.2.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/60a8a4823a8c18a0f5374c9443f24a300f9d944f/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/60a8a4823a8c18a0f5374c9443f24a300f9d944f/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.bingoogolapple/bga-adapter/1.2.0/4278b617bd7d2d36422e68f2c50b99b932ac3756/bga-adapter-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

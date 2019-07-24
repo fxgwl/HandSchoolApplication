@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.danielgindi:httprequest-1.2.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/7d0fa6fb42c8ba7d8c6383448f5a7b49beeaca14/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/7d0fa6fb42c8ba7d8c6383448f5a7b49beeaca14/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.danielgindi/httprequest/1.2.0/5b89b59827cd61c1c080d838e2f30ea38821017a/httprequest-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

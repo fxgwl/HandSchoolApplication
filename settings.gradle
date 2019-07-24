@@ -1,1 +1,1 @@
-include ':app', ':PhotoPicker', ':pullToRefrece', ':indexlib'
+include ':app', ':PhotoPicker', ':pullToRefrece', ':indexlib', ':imagepicker'

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.smarttop:jd-address-1.1.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/8d0dcd866762d0894ad84fca78cae72c769352cf/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/8d0dcd866762d0894ad84fca78cae72c769352cf/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.smarttop/jd-address/1.1.0/e21b884b645bd73c3e3e9aaccf88f6b6f46027e6/jd-address-1.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

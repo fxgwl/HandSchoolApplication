@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.teprinciple:updateapputils-1.2">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/b3d7489c22701357263cc89d5b5d0799226f8693/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/b3d7489c22701357263cc89d5b5d0799226f8693/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.teprinciple/updateapputils/1.2/cd45f8e3439cacdf264610e8483f4e54b5689fcf/updateapputils-1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
