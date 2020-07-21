@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -13,14 +14,25 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.blankj.utilcode.utils.ScreenUtils;
+import com.example.handschoolapplication.MyApplication;
 import com.example.handschoolapplication.R;
+import com.example.handschoolapplication.activity.AddDataActivity;
 import com.example.handschoolapplication.activity.HelpActivity;
+import com.example.handschoolapplication.activity.LoginActivity;
 import com.example.handschoolapplication.activity.MainActivity;
+import com.example.handschoolapplication.bean.AddDataInfo;
 import com.example.handschoolapplication.bean.MenuBean;
+import com.example.handschoolapplication.utils.Internet;
+import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.CommonPopupWindow;
 import com.example.handschoolapplication.view.MenuPopupWindow;
+import com.google.gson.Gson;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -34,6 +46,9 @@ import cn.sharesdk.system.text.ShortMessage;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.tencent.weibo.TencentWeibo;
 import cn.sharesdk.wechat.favorite.WechatFavorite;
+import okhttp3.Call;
+
+import static com.bumptech.glide.Glide.with;
 
 /**
  * Created by Administrator on 2017/7/20.
@@ -53,10 +68,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 //        ScreenUtils.hideStatusBar(this);
         setContentView(getContentViewId());
+        MyApplication.getInstance().addActivity(this);
         bind = ButterKnife.bind(this);
         Log.e(getClass().getSimpleName(), "--->onCreate: ");
 
+        //getInfo();
     }
+
 
     public abstract int getContentViewId();
 
@@ -308,5 +326,49 @@ public abstract class BaseActivity extends AppCompatActivity {
         // 启动分享GUI
         oks.show(BaseActivity.this);
 
+    }
+
+
+    private void getInfo() {
+        String user_id = (String) SPUtils.get(this, "userId", "");
+        if(user_id.equals("")){
+            return;
+        }
+        OkHttpUtils.post()
+                .url(Internet.EDIT_AND_ADD)
+                .addParams("user_id", user_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(AddDataActivity.java:171)<---->" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(AddDataActivity.java:177)<---->" + response);
+                        if (TextUtils.isEmpty(response) || response.contains("没有信息")) {
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                int result = jsonObject.getInt("result");
+                                if (result == 0) {
+                                    AddDataInfo addDataInfo = new Gson().fromJson(response, AddDataInfo.class);
+                                    /*20200115 fxg 改 start  0:下架，1是上架*/
+                                    if(addDataInfo.getData().getChange_state().equals("0")){
+                                        SPUtils.clear(getApplicationContext());
+                                        EventBus.getDefault().post(new MenuBean(8));
+                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                        return;
+                                    } /*20200115 fxg 改 end*/
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
     }
 }

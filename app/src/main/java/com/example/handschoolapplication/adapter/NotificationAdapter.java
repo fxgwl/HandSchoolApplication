@@ -224,6 +224,19 @@ public class NotificationAdapter extends BaseAdapter {
             }
         });
 
+        if(mList.get(position).getCoupons_state().equals("1")){
+            holder.tvContent.setTextColor(Color.parseColor("#e6e6e6"));
+            holder.tvContent.setEnabled(false);
+            holder.tvContent.setText("已过期");
+            holder.tvReceive.setText("已过期");
+            holder.rlDisImg.setEnabled(false);
+        }else if (mList.get(position).getCoupons_state().equals("2")){
+            holder.tvContent.setTextColor(Color.parseColor("#e6e6e6"));
+            holder.tvContent.setEnabled(false);
+            holder.tvContent.setText("已使用");
+            holder.tvReceive.setText("已使用");
+            holder.rlDisImg.setEnabled(false);
+        }
         return convertView;
     }
 

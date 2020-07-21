@@ -6,24 +6,38 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,14 +52,17 @@ import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bumptech.glide.Glide;
+import com.example.handschoolapplication.MyApplication;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.activity.AdvertisingActivity;
+import com.example.handschoolapplication.activity.AgreementWebActivity;
 import com.example.handschoolapplication.activity.ArtActivity;
 import com.example.handschoolapplication.activity.ChildEduActivity;
 import com.example.handschoolapplication.activity.CourseHomePagerActivity;
 import com.example.handschoolapplication.activity.CurrentCitysActivity;
 import com.example.handschoolapplication.activity.EducationActivity;
 import com.example.handschoolapplication.activity.LoginActivity;
+import com.example.handschoolapplication.activity.MainActivity;
 import com.example.handschoolapplication.activity.SearchActivity;
 import com.example.handschoolapplication.adapter.GalleryAdapter;
 import com.example.handschoolapplication.adapter.HPClassAdapter;
@@ -83,6 +100,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,7 +115,7 @@ import static com.bumptech.glide.Glide.with;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends BaseFragment implements AdapterView.OnItemClickListener {
+public class HomeFragment extends BaseFragment implements AdapterView.OnItemClickListener{
 
     public LocationClient mLocationClient = null;
     @BindView(R.id.et_search)
@@ -198,10 +217,9 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     private String user_id;
     private ArrayList<String> typeones;
     private MyLocationListener myListener = new MyLocationListener();
-    private String city = "";
+    private String city = "廊坊";
     private double[] locations;
     private boolean isLogin;
-
     private int position = 0;
 
     private ScaleAnimation sato0 = new ScaleAnimation(1, 0, 1, 1,
@@ -210,7 +228,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
     private ScaleAnimation sato1 = new ScaleAnimation(0, 1, 1, 1,
             Animation.RELATIVE_TO_PARENT, 0.5f, Animation.RELATIVE_TO_PARENT, 0.5f);
     private Animation animation;
-    private String city1 = "";
+    private String city1 = "廊坊";
     private String city2 = "";//本界面保存的city
     private ArrayList<HomeAdBean.DataBean> homeAdList;//接受所有的广告
     private ArrayList<HomeAdBean.DataBean> homeAdLists = new ArrayList<>();//筛选后的广告
@@ -362,6 +380,11 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
                 }
             }
         });
+
+        String str= (String) SPUtils.get(getContext(),"YinSi","");
+        if(str==""){
+            showPopUpWindow(ivStyleArt);
+        }
         return view;
     }
 
@@ -1271,6 +1294,7 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
         @Override
         public void onReceiveLocation(BDLocation location) {
             city = location.getCity();
+            city=city==null?"廊坊":city;
             city1 = city;
             city2 = city;
             try {
@@ -1321,4 +1345,143 @@ public class HomeFragment extends BaseFragment implements AdapterView.OnItemClic
 //        }
 //
 //    }
+
+    private void showPopUpWindow(final ImageView lpsm) {
+        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_yin_si, null);
+        final PopupWindow popWnd = new PopupWindow(getActivity());
+        popWnd.setContentView(contentView);
+//    popWnd.setWidth(263);
+//    popWnd.setHeight(320);
+        popWnd.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popWnd.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        View contentView1 = popWnd.getContentView();
+
+        Button bNo = contentView1.findViewById(R.id.b_no);
+        final Button bYes = contentView1.findViewById(R.id.b_yes);
+        TextView tvYinsi = contentView1.findViewById(R.id.tv_yinsi);
+        final ImageView ivMengban = contentView1.findViewById(R.id.iv_mengban);
+
+        final SpannableStringBuilder style = new SpannableStringBuilder();
+
+        //设置文字
+        style.append("\u3000\u3000本应用非常重视用户隐私政策并严格遵守相关的法律规定。请您仔细阅读《隐私政策》后再继续使用。如果您继续使用我们的服务，表示您已经充分阅读和理解我们协议的全部内容。\n" +
+                "\u3000\u3000本app尊重并保护所有使用服务用户的个人隐私权。为了给您提供更准确、更优质的服务，本应用会按照本隐私权政策的规定使用和披露您的个人信息。除本隐私权政策另有规定外，在未征得" +
+                "您事先许可的情况下，本应用不会将这些信息对外披露或向第三方提供。本应用会不时更新本隐私权政策。 您在同意本应用服务使用协议之时，即视为您已经同意本隐私权政策全部内容。");
+
+        //设置部分文字点击事件
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                startActivity(new Intent(getContext(), AgreementWebActivity.class)
+                        .putExtra("url","privacy_policy1.html")
+                        .putExtra("title","隐私权政策"));
+                //Toast.makeText(getActivity(), "查看协议!", Toast.LENGTH_SHORT).show();
+            }
+        };
+        style.setSpan(clickableSpan, 34, 40, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvYinsi.setText(style);
+
+        //设置部分文字颜色
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#0000FF"));
+        style.setSpan(foregroundColorSpan, 34, 40, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        //配置给TextView
+        tvYinsi.setMovementMethod(LinkMovementMethod.getInstance());
+        tvYinsi.setText(style);
+        bYes.setClickable(false);
+        bYes.setBackgroundResource(R.color.c6c6c6);
+        bNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ivMengban.setVisibility(View.GONE);
+                popWnd.dismiss();
+                MyApplication.getInstance().exit();
+            }
+        });
+        bYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getContext(),yuanyin,Toast.LENGTH_SHORT).show();
+                ivMengban.setVisibility(View.GONE);
+                popWnd.dismiss();
+                SPUtils.put(getContext(),"YinSi","yes");
+            }
+        });
+        /*rgCancel.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = (RadioButton)contentView1.findViewById(rgCancel.getCheckedRadioButtonId());
+                yuanyin=radioButton.getText().toString().trim();
+            }
+        });*/
+        CountDownTimer timer = new CountDownTimer(6*1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // TODO Auto-generated method stub
+                bYes.setText("还剩"+millisUntilFinished/1000+"秒");
+            }
+
+            @Override
+            public void onFinish() {
+                bYes.setText("确定");
+                bYes.setClickable(true);
+                bYes.setBackgroundResource(R.color.blue);
+            }
+        }.start();
+        popWnd.setTouchable(true);
+        popWnd.setFocusable(true);
+        popWnd.setOutsideTouchable(false);
+        popWnd.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        backgroundAlpha(0.6f);
+
+        ivMengban.setVisibility(View.VISIBLE);
+        //添加pop窗口关闭事件
+        popWnd.setOnDismissListener(new poponDismissListener());
+        popWnd.setTouchInterceptor(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    popWnd.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        //popWnd.showAsDropDown(mTvLine, 200, 0);
+        lpsm.post(new Runnable() {
+            @Override
+            public void run() {
+                popWnd.showAtLocation(lpsm, Gravity.CENTER, 0, 0);
+            }
+        });
+
+
+    }
+
+    /**
+     * 添加弹出的popWin关闭的事件，主要是为了将背景透明度改回来
+     *
+     * @author cg
+     */
+    class poponDismissListener implements PopupWindow.OnDismissListener {
+
+        @Override
+        public void onDismiss() {
+            // TODO Auto-generated method stub
+            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+            backgroundAlpha(1f);
+        }
+
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getActivity().getWindow().setAttributes(lp);
+    }
 }

@@ -186,6 +186,7 @@ public class PingJiaAdapter extends BaseAdapter {
         holder.tvUsername.setText(evaluateBean.getSend_name());
         holder.tvTime.setText(evaluateBean.getInteract_time());
         holder.tvContent.setText(evaluateBean.getContents());
+        holder.tvPingjia.setText("评论("+evaluateBean.getReplyInfoCount()+")条");
         List<EvaluateBean.ReplyInfoBean> replyInfo = evaluateBean.getReplyInfo();
 
         if (null != evaluateBean.getReplyInfo()) {

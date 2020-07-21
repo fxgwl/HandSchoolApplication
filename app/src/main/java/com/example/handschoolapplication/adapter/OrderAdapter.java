@@ -87,6 +87,19 @@ public class OrderAdapter extends BaseAdapter {
         holder.tvStudentName.setText(dataBean.getStudent_name());
         holder.tvStudentSex.setText(dataBean.getStudent_sex());
         String pay_type = dataBean.getPay_type();
+        if(dataBean.getPay_type()!=null){
+            switch (dataBean.getPay_type()){
+                case "0":
+                    holder.tvPayway.setText("支付宝支付");
+                    break;
+                case "1":
+                    holder.tvPayway.setText("微信支付");
+                    break;
+                case "2":
+                    holder.tvPayway.setText("线下支付");
+                    break;
+            }
+        }
 
 //        0待付款 1待确认 2待评价 3评价后 4退款中 5取消订单 6已退款
         switch (dataBean.getOrder_state()) {
@@ -162,8 +175,11 @@ public class OrderAdapter extends BaseAdapter {
                 break;
         }
 
-        if (!TextUtils.isEmpty(pay_type) && pay_type.equals("2")) {
+        /*if (!TextUtils.isEmpty(pay_type) && pay_type.equals("2")) {
             holder.tvRefund.setVisibility(View.INVISIBLE);
+        }*/
+        if (!TextUtils.isEmpty(pay_type)) {
+            holder.tvRefund.setVisibility(View.VISIBLE);
         }
         holder.tvMake.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,6 +244,7 @@ public class OrderAdapter extends BaseAdapter {
                 listener.setOnPayOrder(position);
             }
         });
+
 
         return view;
     }
@@ -304,6 +321,8 @@ public class OrderAdapter extends BaseAdapter {
         RelativeLayout rlCourseInfo;
         @BindView(R.id.tv_student_sex)
         TextView tvStudentSex;
+        @BindView(R.id.tv_payway)
+        TextView tvPayway;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

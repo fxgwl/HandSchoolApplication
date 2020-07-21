@@ -46,6 +46,7 @@ public class EvaluateBean {
     private String send_photo;
     private String send_uid;
     private String user_id;
+    private String replyInfoCount;
     private List<ReplyInfoBean> replyInfo;
 
     public String getAnonymous() {
@@ -190,6 +191,14 @@ public class EvaluateBean {
 
     public void setReplyInfo(List<ReplyInfoBean> replyInfo) {
         this.replyInfo = replyInfo;
+    }
+
+    public String getReplyInfoCount() {
+        return replyInfoCount == null ? "" : replyInfoCount;
+    }
+
+    public void setReplyInfoCount(String replyInfoCount) {
+        this.replyInfoCount = replyInfoCount;
     }
 
     public static class ReplyInfoBean {

@@ -55,6 +55,8 @@ public class IdentityCardActivity extends BaseActivity {
     ImageView ivPreview;
     @BindView(R.id.iv_preview2)
     ImageView ivPreview2;
+    @BindView(R.id.tv_state)
+    TextView tvState;
 
     private String userId, midphoto_state;
     private Bitmap bitmap, bitmap1;
@@ -65,7 +67,7 @@ public class IdentityCardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         userId = (String) SPUtils.get(this, "userId", "");
-        midphoto_state = (String) SPUtils.get(this, "midphoto_state", "");
+        //midphoto_state = (String) SPUtils.get(this, "midphoto_state", "");
         initView();
         initData();
 
@@ -102,10 +104,27 @@ public class IdentityCardActivity extends BaseActivity {
                         } else {
                             Gson gson = new Gson();
                             SchoolInfoBean.DataBean schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
-                            String mid_photo = schoolInfo.getMid_photo();
-                            String mid_photos = schoolInfo.getMid_photos();
-                            String id_number = schoolInfo.getId_number();
-                            initPhoto(mid_photo, mid_photos, id_number);
+                            String mid_photo = schoolInfo.getMidphoto_card();
+                            String mid_photos = schoolInfo.getMidphoto_cards();
+                            String id_number = schoolInfo.getId_numbers();
+                            String mid_photo_old = schoolInfo.getMid_photo();
+                            String mid_photos_old = schoolInfo.getMid_photos();
+                            String id_number_old = schoolInfo.getId_number();
+
+                            midphoto_state=schoolInfo.getMidphoto_state();
+                            if(midphoto_state.equals("0")){
+                                initPhoto(mid_photo, mid_photos, id_number);
+                            }else{
+                                initPhoto(mid_photo_old, mid_photos_old, id_number_old);
+                            }
+                            switch (midphoto_state){
+                                case "0":
+                                    tvState.setText("审核中");
+                                    break;
+                                case "2":
+                                    tvState.setText("已驳回");
+                                    break;
+                            }
                         }
 
                     }
@@ -167,6 +186,11 @@ public class IdentityCardActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.identity_tv:
+                if(midphoto_state.equals("0")){
+                    Toast.makeText(IdentityCardActivity.this, "审核中，请勿重复提交", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
                 changIdentity();
                 break;
             case R.id.iv_preview:
@@ -256,9 +280,11 @@ public class IdentityCardActivity extends BaseActivity {
                             JSONObject jsonObject1 = new JSONObject(response);
                             int result = jsonObject1.getInt("result");
                             String msg = jsonObject1.getString("msg");
-                            Toast.makeText(IdentityCardActivity.this, msg, Toast.LENGTH_SHORT).show();
                             if (result == 0) {
+                                Toast.makeText(IdentityCardActivity.this, "我们已经收到您的资质信息更改，我们会在72小时内进行审核，请关注我们应用通知。", Toast.LENGTH_SHORT).show();
                                 finish();
+                            }else{
+                                Toast.makeText(IdentityCardActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

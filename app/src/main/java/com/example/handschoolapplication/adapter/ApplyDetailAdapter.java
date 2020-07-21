@@ -102,6 +102,17 @@ public class ApplyDetailAdapter extends BaseAdapter {
                 selectMap.put(position, isChecked);
             }
         });
+        switch (mList.get(position).getOrderInfo().getPay_type()){
+            case "0":
+                holder.tvPayway.setText("支付宝支付");
+                break;
+            case "1":
+                holder.tvPayway.setText("微信支付");
+                break;
+            case "2":
+                holder.tvPayway.setText("线下支付");
+                break;
+        }
 
         holder.cbSelect.setChecked(mList.get(position).isCheck());
         return view;
@@ -157,6 +168,8 @@ public class ApplyDetailAdapter extends BaseAdapter {
         CheckBox cbSelect;
         @BindView(R.id.tv_student_name)
         TextView tvStudentName;
+        @BindView(R.id.tv_payway)
+        TextView tvPayway;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

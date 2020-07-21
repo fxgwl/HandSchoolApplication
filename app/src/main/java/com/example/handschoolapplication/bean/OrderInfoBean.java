@@ -102,6 +102,7 @@ public class OrderInfoBean {
         private String user_id;
         private String user_phone;
         private String class_people;
+        private String reject_reason;
         private List<CourseTimeInfoBean> courseTimeInfo;
 
         public String getClass_money() {
@@ -320,6 +321,13 @@ public class OrderInfoBean {
             this.courseTimeInfo = courseTimeInfo;
         }
 
+        public String getReject_reason() {
+            return reject_reason == null ? "" : reject_reason;
+        }
+
+        public void setReject_reason(String reject_reason) {
+            this.reject_reason = reject_reason;
+        }
 
         @Override
         public String toString() {

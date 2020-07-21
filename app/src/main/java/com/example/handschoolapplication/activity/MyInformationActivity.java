@@ -423,6 +423,8 @@ public class MyInformationActivity extends BaseActivity {
                     if (showRequestPermission) {
 //                        showToast("权限未申请");
                         Toast.makeText(this, "权限未获得不能上传照片！", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this, "手机系统设置->应用和通知->权限管理 进行设置", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

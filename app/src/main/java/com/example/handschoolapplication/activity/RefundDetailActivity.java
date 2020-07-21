@@ -96,7 +96,7 @@ public class RefundDetailActivity extends BaseActivity {
                                 mList.add(orderInfoBean);
                                 tvOrderId.setText(order_id);
                                 tvTime.setText("申请时间："+orderInfoBean.getData().getOrdre_time());
-                                tvReason.setText(orderInfoBean.getData().getClass_people()+"");
+                                tvReason.setText(orderInfoBean.getData().getReject_reason()+"");
                                 tvState.setText("退款中");
                                 mAdapter.notifyDataSetChanged();
                             }

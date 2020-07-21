@@ -48,6 +48,9 @@ public class QualificationActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.iv_preview)
     ImageView preView1;
+    @BindView(R.id.tv_shenhe)
+    TextView tvShenhe;
+
 
 
     private List<String> photo = new ArrayList<>();
@@ -59,6 +62,7 @@ public class QualificationActivity extends BaseActivity {
     private int length = 0;//图片数量
     private boolean isFirst = false;
     private String qualification_prove = "";
+    private String state="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,12 +97,27 @@ public class QualificationActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        Log.e("aaa",
-                                "(ClassTypeActivity.java:126)" + response);
+                        Log.e("aaa",getClass().getName()+":96===>" + response);
                         Gson gson = new Gson();
                         SchoolInfoBean.DataBean schoolInfo = gson.fromJson(response, SchoolInfoBean.class).getData();
-                        qualification_prove = schoolInfo.getQualification_prove();
-                        initPhoto(qualification_prove);
+                        /*qualification_prove = schoolInfo.getQualification_prove();
+                        initPhoto(qualification_prove);*/
+                        state=schoolInfo.getQualiprove_state();
+                        if(state.equals("0")){
+                            qualification_prove = schoolInfo.getQualification_proves();
+                            initPhoto(qualification_prove);
+                        }else{
+                            qualification_prove = schoolInfo.getQualification_prove();
+                            initPhoto(qualification_prove);
+                        }
+                        switch (schoolInfo.getQualiprove_state()){
+                            case "0":
+                                tvShenhe.setText("（审核中）");
+                                break;
+                            case "2":
+                                tvShenhe.setText("（已驳回）");
+                                break;
+                        }
                     }
                 });
     }
@@ -111,14 +130,22 @@ public class QualificationActivity extends BaseActivity {
         num = 1;
     }
 
-    @OnClick({R.id.rl_back, R.id.identity_tv, R.id.iv_preview})
+    @OnClick({R.id.rl_back, R.id.identity_tv, R.id.iv_preview,R.id.iv_menu})
     public void onViewClicked(View view) {
         Intent intent = new Intent(this, PhotoPickerActivity.class);
         switch (view.getId()) {
+            case R.id.iv_menu:
+                show(view);
+                break;
             case R.id.rl_back:
                 finish();
                 break;
             case R.id.identity_tv:
+                if(state.equals("0")){
+                    Toast.makeText(this, "审核中，请勿重复提交", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
                 changeQualification();
                 break;
             case R.id.iv_preview:
@@ -149,10 +176,10 @@ public class QualificationActivity extends BaseActivity {
             Toast.makeText(this, "请先选择资质认证图片", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (photos.size() < 1) {
+        /*if (photos.size() < 1) {
             finish();
             return;
-        }
+        }*/
 
 
         OkHttpUtils
@@ -176,9 +203,12 @@ public class QualificationActivity extends BaseActivity {
                             JSONObject jsonObject1 = new JSONObject(response);
                             int result = jsonObject1.getInt("result");
                             String msg = jsonObject1.getString("msg");
-                            Toast.makeText(QualificationActivity.this, msg, Toast.LENGTH_SHORT).show();
+
                             if (result == 0) {
+                                Toast.makeText(QualificationActivity.this, "我们已经收到您的资质信息更改，我们会在72小时内进行审核，请关注我们应用通知。", Toast.LENGTH_SHORT).show();
                                 finish();
+                            }else{
+                                Toast.makeText(QualificationActivity.this, msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

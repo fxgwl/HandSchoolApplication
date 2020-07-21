@@ -29,6 +29,7 @@ import com.example.handschoolapplication.bean.ReplyInfoThree;
 import com.example.handschoolapplication.utils.FilterEmojiTextWatcher;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.KeybordS;
+import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.utils.SystemUtil;
 import com.example.handschoolapplication.view.KeyMapDialog;
@@ -86,6 +87,8 @@ public class PJDetailActivity extends BaseActivity implements KeyMapDialog.SendB
     RelativeLayout rlParent;
     @BindView(R.id.view_20dp)
     View view20Dp;
+    @BindView(R.id.ll_course)
+    LinearLayout llCourse;
     ArrayList<PJDetailBean.DataBean.ReplyInfoBean> replyInfoBeens = new ArrayList<PJDetailBean.DataBean.ReplyInfoBean>();
     //    ArrayList<PJDetailBean.DataBean.ReplyInfoBean> replyInfoBeens2 = new ArrayList<PJDetailBean.DataBean.ReplyInfoBean>();
     ArrayList<ReplyInfoThree.DataBean> replyInfoBeens2 = new ArrayList<ReplyInfoThree.DataBean>();
@@ -105,6 +108,7 @@ public class PJDetailActivity extends BaseActivity implements KeyMapDialog.SendB
     private String beReplyId = "";//被回复人的Id
     private String beReplyOrderId = "";//被回复的订单Id
     private String beReplyInteractId = "";//被回复的订单Id
+    private int browse_num=0;
 
 
     @Override
@@ -138,6 +142,9 @@ public class PJDetailActivity extends BaseActivity implements KeyMapDialog.SendB
                     toa.show();
 //                    startActivity(new Intent(PJDetailActivity.this,LoginActivity.class));
                 } else {
+                    if(user_type.equals("1")){
+                        return;
+                    }
                     beReplyId = replyInfoBeens2.get(position).getSender_id();
                     beReplyOrderId = replyInfoBeens2.get(position).getOrder_id();
                     beReplyInteractId = replyInfoBeens2.get(position).getInteract_id();
@@ -249,8 +256,8 @@ public class PJDetailActivity extends BaseActivity implements KeyMapDialog.SendB
                             int size = 0;
                             if (null != replyInfoBeens2)
                                 size = replyInfoBeens2.size();
-                            int browse_num = dataBean.getBrowse_num();
-                            tvPjnum.setText(size + "条评论    " + browse_num + "条浏览");
+                            browse_num = dataBean.getBrowse_num();
+                            //tvPjnum.setText(size + "条评论    " + browse_num + "条浏览");
                             for (int i = 0; i < dataBean.getReplyInfo().size(); i++) {
                                 if (!"2".equals(dataBean.getReplyInfo().get(i).getReply_type())) {
                                     replyInfoBeens.add(dataBean.getReplyInfo().get(i));
@@ -261,13 +268,17 @@ public class PJDetailActivity extends BaseActivity implements KeyMapDialog.SendB
                             pjdAdapter.notifyDataSetChanged();
 //                            pjdAdapter2.notifyDataSetChanged();
                         } else {
-                            int browse_num = dataBean.getBrowse_num();
-                            tvPjnum.setText("0条评论    " + browse_num + "条浏览");
+                            browse_num = dataBean.getBrowse_num();
+                            //tvPjnum.setText("0条评论    " + browse_num + "条浏览");
 
                         }
+                        GetReply();
                     }
                 });
 
+    }
+
+    public void GetReply(){
         HashMap<String, String> params = new HashMap<>();
         params.put("interact_id", interact_id);
         params.put("page", "1");
@@ -296,6 +307,7 @@ public class PJDetailActivity extends BaseActivity implements KeyMapDialog.SendB
                         if (data != null) {
                             replyInfoBeens2.addAll(data);
                         }
+                        tvPjnum.setText(replyInfoThree.getCount() + "条评论    " + browse_num + "条浏览");
                         Log.e("aaa",
                                 "(PJDetailActivity.java:268)<--replyInfoBeens2.size()-->" + replyInfoBeens2.size());
                         pjdAdapter2.notifyDataSetChanged();
@@ -308,7 +320,7 @@ public class PJDetailActivity extends BaseActivity implements KeyMapDialog.SendB
         return R.layout.activity_pjdetail;
     }
 
-    @OnClick({R.id.rl_back, R.id.tv_reply, R.id.tv_additional_pj})
+    @OnClick({R.id.rl_back, R.id.tv_reply, R.id.tv_additional_pj,R.id.ll_course})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_back:
@@ -323,7 +335,7 @@ public class PJDetailActivity extends BaseActivity implements KeyMapDialog.SendB
                 }
                 HashMap<String, String> params = new HashMap<>();
                 params.put("sender_id", user_id);
-                params.put("replier_id", dataBean.getUser_id());
+                params.put("replier_id", dataBean.getSend_uid());
                 params.put("records", reply);
                 params.put("interact_id", interact_id);
                 params.put("critic_type", "0");
@@ -408,6 +420,11 @@ public class PJDetailActivity extends BaseActivity implements KeyMapDialog.SendB
 
                 keyMapDialog = new KeyMapDialog("回复：", this, "0");
                 keyMapDialog.show(getSupportFragmentManager(), "view");
+                break;
+            case R.id.ll_course:
+                Intent intent = new Intent(this, CourseHomePagerActivity.class);
+                intent.putExtra("course_id", dataBean.getCourse_id());
+                startActivity(intent);
                 break;
         }
     }

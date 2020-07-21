@@ -9,7 +9,7 @@ public class Internet {
         public static final String BASE_URL = "http://m.xczsss.com/PrivateSchool/";//正式域名
 //    public static final String BASE_URL = "http://47.93.31.94/PrivateSchool/";//测试域名
 
-//    public static final String BASE_URL = "http://157.10.1.36/PrivateSchool/";//本地服务器
+    //public static final String BASE_URL = "http://157.10.1.117/PrivateSchool/";//本地服务器
 
     //注册登录等相关
 
@@ -46,6 +46,8 @@ public class Internet {
     public static final String USERIDCARD = BASE_URL + "UserInfo/usercard";
     //个人信息
     public static final String USERINFO = BASE_URL + "UserInfo/getoneUser";
+    //修改机构名称
+    public static final String modifyCompanyName = BASE_URL + "UserInfo/modifyCompanyName";
     //添加地址
     public static final String ADDADDRESS = BASE_URL + "SchoolAddress/insertSchoolAddress";
     //获取地址列表

@@ -19,6 +19,7 @@ import com.example.handschoolapplication.bean.CarListBean;
 import com.example.handschoolapplication.bean.GroupInfo;
 import com.example.handschoolapplication.utils.Internet;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -180,6 +181,8 @@ public class LearnPlansAdapter extends BaseExpandableListAdapter {
             cholder.tv_product_desc.setText(product.getClass_name());
             final String class_money = product.getClass_money();
             String money = class_money.split("元")[0];
+            DecimalFormat df = new DecimalFormat("0.00");
+            money=df.format(Double.valueOf(money));
             cholder.tv_price.setText("价格：¥" + money + "");
             cholder.tv_count.setText(TextUtils.isEmpty(product.getCourse_num()) ? 0 + "" : product.getCourse_num());
             cholder.cb_check.setChecked(product.isChoosed());

@@ -141,7 +141,7 @@ public class RegisterPersonActivity extends BaseActivity {
             case R.id.tv_xieyi:
                 String url = "";
                 if (type.equals("1")) {
-                    url = "merchant_service1.html";
+                    url = "merchant_service.html";
                 } else {
                     url = "user_service1.html";
                 }

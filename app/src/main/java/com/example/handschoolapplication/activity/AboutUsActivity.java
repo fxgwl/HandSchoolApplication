@@ -77,7 +77,7 @@ public class AboutUsActivity extends BaseActivity {
             case R.id.ll_fuwuxieyi:
                 if (type.equals("com")){
                     startActivity(new Intent(this,AgreementWebActivity.class)
-                            .putExtra("url","merchant _service.html")
+                            .putExtra("url","merchant_service.html")
                             .putExtra("title","商户服务协议"));
                 }else {
                     startActivity(new Intent(this,AgreementWebActivity.class)

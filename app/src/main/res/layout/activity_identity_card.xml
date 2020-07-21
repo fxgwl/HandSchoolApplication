@@ -49,6 +49,13 @@
                 android:layout_gravity="center_vertical"
                 android:text="身份证"
                 android:textColor="@color/blue" />
+            <TextView
+                android:id="@+id/tv_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text=""
+                android:layout_marginTop="20dp"/>
         </RelativeLayout>
 
         <LinearLayout

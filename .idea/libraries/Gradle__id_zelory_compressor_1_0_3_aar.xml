@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: id.zelory:compressor:1.0.3@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/transforms-1/files-1.1/compressor-1.0.3.aar/4c33607831e81365f73cef20e417f68f/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/transforms-1/files-1.1/compressor-1.0.3.aar/4c33607831e81365f73cef20e417f68f/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/modules-2/files-2.1/id.zelory/compressor/1.0.3/399c215b2c5d23ef00239c98d5173425faaa531e/compressor-1.0.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

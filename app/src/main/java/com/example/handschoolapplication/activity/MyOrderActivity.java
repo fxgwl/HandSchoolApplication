@@ -191,7 +191,11 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
                 String order_id = dataBean.getOrder_id();//订单Id
                 String school_id = dataBean.getSchool_id();
                 String order_state = dataBean.getOrder_state();
-                showDialog(class_teacher, order_id,school_id,order_state);
+                if(dataBean.getPay_type().equals("2")){
+                    showDialog2(class_teacher, order_id,school_id,order_state);
+                }else{
+                    showDialog(class_teacher, order_id,school_id,order_state);
+                }
             }
 
             @Override
@@ -445,6 +449,7 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
             public void onYesClick() {
                 cancelOrder(dataBean, position);
                 selfDialog.dismiss();
+                backgroundAlpha(1f);
             }
         });
 
@@ -453,10 +458,11 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onNoClick() {
                 selfDialog.dismiss();
+                backgroundAlpha(1f);
             }
         });
         backgroundAlpha(0.6f);
-        selfDialog.setOnDismissListener(new poponDismissListener());
+        //selfDialog.setOnDismissListener(new poponDismissListener());
         selfDialog.show();
     }
 
@@ -495,6 +501,7 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
 //                        .putExtra("learnCode", "gr,"+learnCode + "," + orderId)
 //                        .putExtra("flag", "LC"));
                 selfDialog.dismiss();
+                backgroundAlpha(1f);
                 showDialog2(learnCode, orderId,school_id,order_state);
 
             }
@@ -506,12 +513,12 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
             public void onNoClick() {
 //                sign(learnCode,orderId);
                 selfDialog.dismiss();
+                backgroundAlpha(1f);
                 showDialog3(learnCode, orderId,school_id,order_state);
-
             }
         });
         backgroundAlpha(0.6f);
-        selfDialog.setOnDismissListener(new poponDismissListener());
+        //selfDialog.setOnDismissListener(new poponDismissListener());
         selfDialog.show();
     }
 
@@ -529,6 +536,7 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
                         .putExtra("flag", "LC")
                         .putExtra("order_state", order_state), 0);
                 selfDialog2.dismiss();
+                backgroundAlpha(1f);
             }
         });
 
@@ -538,10 +546,11 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
             public void onNoClick() {
 
                 selfDialog2.dismiss();
+                backgroundAlpha(1f);
             }
         });
         backgroundAlpha(0.6f);
-        selfDialog2.setOnDismissListener(new poponDismissListener());
+        //selfDialog2.setOnDismissListener(new poponDismissListener());
         selfDialog2.show();
     }
 
@@ -556,7 +565,7 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
 //                cancelOrder(dataBean, position);
                 selfDialog3.dismiss();
                 sign(learnCode, orderId,school_id);
-
+                backgroundAlpha(1f);
             }
         });
 
@@ -566,10 +575,11 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
             public void onNoClick() {
                 getData(state);
                 selfDialog3.dismiss();
+                backgroundAlpha(1f);
             }
         });
         backgroundAlpha(0.6f);
-        selfDialog3.setOnDismissListener(new poponDismissListener());
+        //selfDialog3.setOnDismissListener(new poponDismissListener());
         selfDialog3.show();
     }
 
@@ -631,10 +641,10 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
      *
      * @author cg
      */
-    class poponDismissListener implements Dialog.OnDismissListener {
+   /* class poponDismissListener implements Dialog.OnDismissListener {
         @Override
         public void onDismiss(DialogInterface dialogInterface) {
             backgroundAlpha(1f);
         }
-    }
+    }*/
 }

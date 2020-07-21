@@ -171,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="付款方式"
+                    android:text="支付方式"
                     android:textColor="@color/t333333"
                     android:textSize="14sp" />
 

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.android.support:support-v4:22.0.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/transforms-1/files-1.1/support-v4-22.0.0.aar/184c30ab008a0a6da63c8dfa0051e56c/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/transforms-1/files-1.1/support-v4-22.0.0.aar/184c30ab008a0a6da63c8dfa0051e56c/res" />
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/transforms-1/files-1.1/support-v4-22.0.0.aar/184c30ab008a0a6da63c8dfa0051e56c/jars/libs/internal_impl-22.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/modules-2/files-2.1/com.android.support/support-v4/22.0.0/dd094fe480a5e2a2776cbd8402b1a02fb3cab411/support-v4-22.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

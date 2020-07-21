@@ -301,6 +301,7 @@ public class CashActivity extends BaseActivity {
             cash_way="微信";
             if(!MyApplication.open_id.isEmpty()){
                 map.put("cash_way", cash_way);
+                map.put("cash_num", MyApplication.open_id);
                 map.put("openid",MyApplication.open_id);
                 }else{
                 Toast.makeText(getApplication(),"请重新获取微信授权",Toast.LENGTH_SHORT).show();

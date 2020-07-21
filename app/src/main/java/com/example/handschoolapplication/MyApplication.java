@@ -1,6 +1,8 @@
 package com.example.handschoolapplication;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.mob.MobSDK;
@@ -8,6 +10,8 @@ import com.mob.MobSDK;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -21,7 +25,21 @@ public class MyApplication extends Application {
     public static String selectCity;
     public static String open_id="";
     public static int loginkg=1;
+    private List<Activity> activityList = new LinkedList();
+    private static MyApplication application;
 
+    public static Context getContext() {
+        return application;
+    }
+    public static MyApplication getInstance() {
+
+        synchronized (Application.class){
+            if (null == application) {
+                application = new MyApplication();
+            }
+            return application;
+        }
+    }
     @Override
     public void onCreate() {
         super.onCreate();
@@ -63,6 +81,23 @@ public class MyApplication extends Application {
             mHiddenApiWarningShown.setAccessible(true); mHiddenApiWarningShown.setBoolean(activityThread, true);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    // 添加Activity到容器中
+    public void addActivity(Activity activity) {
+        activityList.add(activity);
+    }
+
+    public void exit() {
+        for (Activity activity : activityList) {
+            activity.finish();
+        }
+        System.exit(0);
+    }
+
+    public void out() {
+        for (Activity activity : activityList) {
+            activity.finish();
         }
     }
 }

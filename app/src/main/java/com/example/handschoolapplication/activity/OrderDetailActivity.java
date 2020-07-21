@@ -102,6 +102,7 @@ public class OrderDetailActivity extends BaseActivity {
     private String course_id;
     private String classPhone;//学堂的电话号码
     private int MY_PERMISSIONS_REQUEST_CALL_PHONE;
+    private String payway="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +175,7 @@ public class OrderDetailActivity extends BaseActivity {
                                 mList.add(orderInfoBean.getData());
                                 mAdapter.notifyDataSetChanged();
                                 String school_name = orderInfoBean.getData().getSchool_name();
+                                payway=orderInfoBean.getData().getPay_type();
                                 //        0待付款 1待确认 2待评价 3评价后 4退款 5取消订单 6已退款
 
                                 //        0待付款 1待确认 2待评价 3评价后 4退款中 5取消订单 6已退款
@@ -461,7 +463,11 @@ public class OrderDetailActivity extends BaseActivity {
         selfDialog.setNoOnclickListener("取消", new SelfDialog.onNoOnclickListener() {
             @Override
             public void onNoClick() {
-                sign(learnCode, orderId, school_id);
+                if(payway.equals("2")){
+
+                }else{
+                    sign(learnCode, orderId, school_id);
+                }
                 selfDialog.dismiss();
             }
         });
@@ -544,7 +550,15 @@ public class OrderDetailActivity extends BaseActivity {
 //                showToast("权限已申请");
             } else {
 //                showToast("权限已拒绝");
-                Toast.makeText(this, "权限未获得，不能拨打电话", Toast.LENGTH_SHORT).show();
+                boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(OrderDetailActivity.this, permissions[0]);
+                if (showRequestPermission) {
+//                        Toast.makeText(this, "权限未申请", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "权限未获得，不能拨打电话", Toast.LENGTH_SHORT).show();
+                    //requestPermission();
+                }else{
+                    Toast.makeText(this, "手机系统设置->应用和通知->权限管理 进行设置", Toast.LENGTH_SHORT).show();
+                    //showUnLoginDialog("点开手机系统设置->应用和通知->权限管理",0);
+                }
             }
         }
     }

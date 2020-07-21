@@ -39,7 +39,7 @@ public class HumanServiceSActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         tvTitle.setText("客服");
         String text = tvServicePhone.getText().toString();
-        BackgroundColorSpan blueSpan = new BackgroundColorSpan(R.color.blue);
+        BackgroundColorSpan blueSpan = new BackgroundColorSpan(getResources().getColor(R.color.blue));
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
         builder.setSpan(blueSpan,4,text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvServicePhone.setText(builder.toString());
@@ -82,7 +82,15 @@ public class HumanServiceSActivity extends BaseActivity {
                 //拨打电话
                 callClass("0316-2018088");
             } else {
-                Toast.makeText(this, "未获得打电话权限", Toast.LENGTH_SHORT).show();
+                boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(HumanServiceSActivity.this, permissions[0]);
+                if (showRequestPermission) {
+//                        Toast.makeText(this, "权限未申请", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "未获得打电话权限", Toast.LENGTH_SHORT).show();
+                    //requestPermission();
+                }else{
+                    Toast.makeText(this, "手机系统设置->应用和通知->权限管理 进行设置", Toast.LENGTH_SHORT).show();
+                    //showUnLoginDialog("点开手机系统设置->应用和通知->权限管理",0);
+                }
                 finish();
             }
         }

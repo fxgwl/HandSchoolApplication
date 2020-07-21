@@ -179,7 +179,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="43dp"
+                    android:layout_height="wrap_content"
                     android:background="#fff"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -187,9 +187,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="退款账户："
+                        android:text="@string/back_money"
                         android:textColor="@color/t333333"
                         android:textSize="15sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="退款账户："
+                        android:textColor="@color/t333333"
+                        android:textSize="15sp"
+                        android:visibility="gone"/>
 
                     <EditText
                         android:id="@+id/et_account"
@@ -197,7 +204,8 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/t333333"
                         android:textSize="15sp"
-                        android:background="#f7f7f7"/>
+                        android:background="#f7f7f7"
+                        android:visibility="gone"/>
                 </LinearLayout>
             </LinearLayout>
 

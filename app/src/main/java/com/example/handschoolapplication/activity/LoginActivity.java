@@ -1,10 +1,18 @@
 package com.example.handschoolapplication.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,6 +32,7 @@ import android.widget.Toast;
 import com.example.handschoolapplication.MyApplication;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.MenuBean;
 import com.example.handschoolapplication.bean.SchoolBean;
 import com.example.handschoolapplication.bean.ThreeUserBean;
 import com.example.handschoolapplication.bean.UserBean;
@@ -32,10 +41,12 @@ import com.example.handschoolapplication.utils.ListDataSave;
 import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.view.CommonPopupWindow;
+import com.example.handschoolapplication.view.SelfDialog;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -114,6 +125,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
     private boolean pwdVisible = false;//密码可见状态  默认不可见
     private double exitTime = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,7 +173,6 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
             }
         }
     }
-
     private void login(final String phone, String pwd) {
 
 //        if (!MyUtiles.isPhone(phone)) {
@@ -200,6 +211,13 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                             String msg = jsonObject.getString("msg");
                             Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
                             List<String> history = dataSave.getDataList("history");
+                            /*20200115 fxg 改 start*/
+                            if(jsonObject.getInt("result")==0){
+                            }else{
+
+                                return;
+                            } /*20200115 fxg 改 end*/
+
                             boolean flag = false;
                             for (int i = 0; i < history.size(); i++) {
                                 if (history.get(i).equals(phone)) {
@@ -240,13 +258,13 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                                 SPUtils.put(LoginActivity.this, "flag", "1");
                                 setTagAndAlias(schoolBean.getUser_id());
                                 //change_state  0待审核  1审核通过 2驳回审核
-                                if (schoolBean.getChange_state().equals("0") || schoolBean.getChange_state().equals("1")) {
+                                /*if (schoolBean.getChange_state().equals("0") || schoolBean.getChange_state().equals("1")) {
                                     setTagAndAlias(schoolBean.getUser_id());
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 } else {
                                     startActivity(new Intent(LoginActivity.this, AddDataActivity.class));
-                                }
-
+                                }*/
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                             }
 
@@ -382,7 +400,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         Platform sina = ShareSDK.getPlatform(SinaWeibo.NAME);
         sina.SSOSetting(false);  //设置false表示使用SSO授权方式
         if (!sina.isClientValid()) {
-            Toast.makeText(LoginActivity.this, "微博未安装,请先安装微信", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "微博未安装,请先安装微博", Toast.LENGTH_LONG).show();
         }
         sina.setPlatformActionListener(this); // 设置分享事件回调
 //        wechat.showUser(null);//授权并获取用户信息
@@ -393,7 +411,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         Platform qq = ShareSDK.getPlatform(QQ.NAME);
         qq.SSOSetting(false);  //设置false表示使用SSO授权方式
         if (!qq.isClientValid()) {
-            Toast.makeText(LoginActivity.this, "QQ未安装,请先安装微信", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "QQ未安装,请先安装QQ", Toast.LENGTH_LONG).show();
         }
         qq.setPlatformActionListener(this); // 设置分享事件回调
 //        wechat.showUser(null);//授权并获取用户信息

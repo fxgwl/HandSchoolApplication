@@ -116,6 +116,7 @@ public class SchoolInformationActivity extends BaseActivity {
     private SchoolInfoBean.DataBean schoolInfo;
     private String mechanism_type = "";
     private int REQUEST_LIST_CODE = 1;
+    private String schoolNameState="";
 
 
     @Override
@@ -189,8 +190,8 @@ public class SchoolInformationActivity extends BaseActivity {
                                     tvSchoolinfoShenfenrenzheng.setText(schoolInfo.getId_number());
 //                        tvSchoolinfoQualification.setText(schoolInfo.getQualification_prove());
                                     mechanism_type = schoolInfo.getMechanism_type();
-                                    if (TextUtils.isEmpty(schoolInfo.getId_number()) || TextUtils.isEmpty(schoolInfo.getMid_photo())
-                                            || TextUtils.isEmpty(schoolInfo.getMid_photos())) {
+                                    if (TextUtils.isEmpty(schoolInfo.getId_number()) || TextUtils.isEmpty(schoolInfo.getMidphoto_card())
+                                            || TextUtils.isEmpty(schoolInfo.getMidphoto_cards())) {
                                         tvIsAdd.setVisibility(View.VISIBLE);
                                     } else {
                                         tvIsAdd.setVisibility(View.GONE);
@@ -208,12 +209,35 @@ public class SchoolInformationActivity extends BaseActivity {
 
                                     qualiprove_state = schoolInfo.getQualiprove_state();
                                     midphoto_state = schoolInfo.getMidphoto_state();
+                                    schoolNameState=schoolInfo.getMechanism_name_state();
+
+                                    switch (schoolNameState){
+                                        case "0":
+                                            tvSchoolinfoSchoolname.setText("审核中");
+                                            break;
+                                        case "1":
+                                            tvSchoolinfoSchoolname.setText(schoolInfo.getMechanism_name());
+                                            break;
+                                        case "2":
+                                            tvSchoolinfoSchoolname.setText("初审驳回");
+                                            break;
+                                        case "3":
+                                            tvSchoolinfoSchoolname.setText("审核中");
+                                            break;
+                                        case "4":
+                                            tvSchoolinfoSchoolname.setText("复审驳回");
+                                            break;
+                                    }
 
                                     if ("0".equals(qualiprove_state)) {
                                         tvSchoolinfoQualification.setText("审核中");
+                                    }else if("2".equals(qualiprove_state)){
+                                        tvSchoolinfoQualification.setText("已驳回");
                                     }
                                     if ("0".equals(SchoolInformationActivity.this.midphoto_state)) {
                                         tvSchoolinfoShenfenrenzheng.setText("审核中");
+                                    }else if("2".equals(SchoolInformationActivity.this.midphoto_state)){
+                                        tvSchoolinfoShenfenrenzheng.setText("已驳回");
                                     }
                                 }
                             } catch (JSONException e) {
@@ -296,6 +320,8 @@ public class SchoolInformationActivity extends BaseActivity {
                     if (showRequestPermission) {
 //                        showToast("权限未申请");
                         Toast.makeText(this, "权限未获得不能上传照片！", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this, "手机系统设置->应用和通知->权限管理 进行设置", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -361,7 +387,7 @@ public class SchoolInformationActivity extends BaseActivity {
 
 
     @OnClick({R.id.rl_back, R.id.iv_menu, R.id.ll_schoolinfo_logo, R.id.ll_schoolinfo_schoolclass,
-            R.id.ll_schoolinfo_shenfenrenzheng, R.id.ll_schoolinfo_qualification,
+            R.id.ll_schoolinfo_shenfenrenzheng, R.id.ll_schoolinfo_qualification,R.id.ll_schoolinfo_schoolname,
             R.id.ll_schoolinfo_schooladdress, R.id.btn_schoolinfo_save, R.id.ll_change_phone, R.id.ll_near_school})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -378,7 +404,7 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             //学堂类别
             case R.id.ll_schoolinfo_schoolclass:
-                startActivity(new Intent(this, ClassTypeActivity.class));
+                startActivityForResult(new Intent(this, ClassTypeActivity.class),1);
                 break;
             //身份认证
             case R.id.ll_schoolinfo_shenfenrenzheng:
@@ -411,6 +437,9 @@ public class SchoolInformationActivity extends BaseActivity {
                 break;
             case R.id.ll_change_phone:
                 startActivity(new Intent(SchoolInformationActivity.this, ChangePhoneActivity.class));
+                break;
+            case R.id.ll_schoolinfo_schoolname:
+                startActivityForResult(new Intent(this, UpdateSchoolNameActivity.class), 1);
                 break;
         }
     }

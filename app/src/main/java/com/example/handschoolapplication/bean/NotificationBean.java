@@ -62,6 +62,7 @@ public class NotificationBean {
 
         private int coupons_id;
         private String coupons_name;
+        private String coupons_state;
         private String coupons_type;
         private String discount_amount;
         private String end_time;
@@ -89,6 +90,14 @@ public class NotificationBean {
 
         public void setCoupons_name(String coupons_name) {
             this.coupons_name = coupons_name;
+        }
+
+        public String getCoupons_state() {
+            return coupons_state == null ? "" : coupons_state;
+        }
+
+        public void setCoupons_state(String coupons_state) {
+            this.coupons_state = coupons_state;
         }
 
         public String getCoupons_type() {

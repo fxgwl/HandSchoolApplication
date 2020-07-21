@@ -99,6 +99,8 @@ public class CarListBean implements Serializable {
         private String user_id;
         private String user_phone;
         private String student_name;
+        private String student_sex;
+
         private List<CourseTimeInfoBean> courseTimeInfo;
 
         public String getClass_money() {
@@ -291,6 +293,14 @@ public class CarListBean implements Serializable {
 
         public void setStudent_name(String student_name) {
             this.student_name = student_name;
+        }
+
+        public String getStudent_sex() {
+            return student_sex == null ? "" : student_sex;
+        }
+
+        public void setStudent_sex(String student_sex) {
+            this.student_sex = student_sex;
         }
 
         public List<CourseTimeInfoBean> getCourseTimeInfo() {

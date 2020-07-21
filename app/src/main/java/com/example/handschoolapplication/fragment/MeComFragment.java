@@ -26,6 +26,7 @@ import com.example.handschoolapplication.activity.CommentManagerActivity;
 import com.example.handschoolapplication.activity.DealManagerActivity;
 import com.example.handschoolapplication.activity.GradeComActivity;
 import com.example.handschoolapplication.activity.HelpActivity;
+import com.example.handschoolapplication.activity.LoginActivity;
 import com.example.handschoolapplication.activity.MyAccountActivity;
 import com.example.handschoolapplication.activity.QRCodeActivity;
 import com.example.handschoolapplication.activity.ScanQRCodeActivity;
@@ -34,12 +35,18 @@ import com.example.handschoolapplication.activity.SettingsActivity;
 import com.example.handschoolapplication.activity.SignActivity;
 import com.example.handschoolapplication.activity.WebGradeActivity;
 import com.example.handschoolapplication.base.BaseFragment;
+import com.example.handschoolapplication.bean.AddDataInfo;
+import com.example.handschoolapplication.bean.MenuBean;
 import com.example.handschoolapplication.bean.SchoolInfoBean;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -269,13 +276,13 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
                     Toast.makeText(getActivity(), "数据错误，暂时不能编辑", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (change_state.equals("2")) {
+                /*if (change_state.equals("2")) {
                     Toast.makeText(getActivity(), "审核未通过，请重新提交资料", Toast.LENGTH_SHORT).show();
                     startActivityForResult(new Intent(getActivity(), AddDataActivity.class), 0);
                 } else if (change_state.equals("0")) {
 //                    startActivity(new Intent(getActivity(), LoginActivity.class));
                     Toast.makeText(getActivity(), "审核通过后才能编辑资料", Toast.LENGTH_SHORT).show();
-                } else
+                } else*/
                     startActivityForResult(new Intent(getActivity(), SchoolInformationActivity.class), 0);
                 break;
             case R.id.ll_scan://扫一扫
@@ -306,12 +313,13 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
                     Toast.makeText(getActivity(), "数据错误，暂时不能编辑资料", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (change_state.equals("2")) {
+                /*if (change_state.equals("2")) {
                     startActivity(new Intent(getActivity(), AddDataActivity.class));
                 } else if (change_state.equals("0")) {
 //                    startActivity(new Intent(getActivity(), LoginActivity.class));
                     Toast.makeText(getActivity(), "审核过后才能编辑资料", Toast.LENGTH_SHORT).show();
-                } else startActivityForResult(new Intent(getActivity(), SchoolInformationActivity.class),0);
+                } else*/
+                startActivityForResult(new Intent(getActivity(), SchoolInformationActivity.class),0);
                 break;
             case R.id.rl_class_grade://学堂等级
                 if (dataBean==null){
@@ -352,6 +360,9 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         initView();
+        if(!hidden){
+            getInfo();
+        }
     }
 
     @Override
@@ -382,5 +393,48 @@ public class MeComFragment extends BaseFragment implements EasyPermissions.Permi
         if (!EasyPermissions.hasPermissions(getActivity(), perms)) {
             EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
         }
+    }
+
+    private void getInfo() {
+        /*String user_id = (String) SPUtils.get(getContext(), "userId", "");
+        if(user_id.equals("")){
+            return;
+        }*/
+        OkHttpUtils.post()
+                .url(Internet.EDIT_AND_ADD)
+                .addParams("user_id", user_id)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(AddDataActivity.java:171)<---->" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(AddDataActivity.java:177)<---->" + response);
+                        if (TextUtils.isEmpty(response) || response.contains("没有信息")) {
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                int result = jsonObject.getInt("result");
+                                if (result == 0) {
+                                    AddDataInfo addDataInfo = new Gson().fromJson(response, AddDataInfo.class);
+                                    /*20200115 fxg 改 start  0:下架，1是上架*/
+                                    if(addDataInfo.getData().getChange_state().equals("0")){
+                                        SPUtils.clear(getActivity());
+                                        EventBus.getDefault().post(new MenuBean(8));
+                                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                                        return;
+                                    } /*20200115 fxg 改 end*/
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
     }
 }

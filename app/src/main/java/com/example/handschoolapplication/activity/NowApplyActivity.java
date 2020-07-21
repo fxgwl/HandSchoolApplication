@@ -119,6 +119,7 @@ public class NowApplyActivity extends BaseActivity {
     private String school_id;
     private String m;//课程费用
     private double money;
+    private double talmoney;
     private String user_id;
     private String user_phone;
     private double g;
@@ -255,15 +256,18 @@ public class NowApplyActivity extends BaseActivity {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
                 if (tag == 0) {
                     ivGolddiscount.setImageResource(R.drawable.baiquan);
                     money = money + g;
+                    d=0.0;
                     tag = 1;
                 }else{
                     money=money+d;
@@ -275,37 +279,50 @@ public class NowApplyActivity extends BaseActivity {
                 double v = Double.parseDouble(disMoney);
                 if (v > n) {
                     Toast.makeText(NowApplyActivity.this, "您的金币数量不足", Toast.LENGTH_SHORT).show();
-                    d=0;
-                    etInputGoldNum.setText("");
+                    d=0.0;
+                    tvGoldMoney.setText("¥" + new DecimalFormat("0.00").format(d));
+                    getTalMoney();
+                    //tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(money));
+                    //etInputGoldNum.setText("");
+                    return;
                 } else if (v == n) {
                     d = (v / rate);
                     if (money - d <= 0) {
                         Toast.makeText(NowApplyActivity.this, "抵扣超出金额上限", Toast.LENGTH_SHORT).show();
-                        etInputGoldNum.setText("");
+                        //etInputGoldNum.setText("");
+                        d=0.0;
+                        tvGoldMoney.setText("¥" + new DecimalFormat("0.00").format(d));
+                        getTalMoney();
+                        //tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(money));
+                        return;
                     } else {
                         ivGolddiscount.setImageResource(R.drawable.hongquan);
                         tvGoldMoney.setText("¥" + new DecimalFormat("0.00").format(d));
                         money = money - d;
-                        tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(money));
-                        d=0;
+                        getTalMoney();
+                        //tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(money));
                         tag = 0;
                     }
                 } else {
                     d = (v / rate);
                     if (money - d <= 0) {
                         Toast.makeText(NowApplyActivity.this, "抵扣超出金额上限", Toast.LENGTH_SHORT).show();
-                        etInputGoldNum.setText("");
+                       // etInputGoldNum.setText("");
+                        d=0.0;
+                        tvGoldMoney.setText("¥" + new DecimalFormat("0.00").format(d));
+                        getTalMoney();
+                        //tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(money));
+                        return;
                     } else {
                         money = money - d;
                         tvGoldMoney.setText("¥" + new DecimalFormat("0.00").format(d));
-                        tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(money));
+                        getTalMoney();
+                        //tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(money));
+                        tag = 1;
                     }
 
                 }
-            }
 
-            @Override
-            public void afterTextChanged(Editable s) {
             }
         });
 
@@ -410,7 +427,11 @@ public class NowApplyActivity extends BaseActivity {
                     Toast.makeText(this, "请填写上课学生姓名！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                initPayPop(allMoney);
+                if(discount!=0){
+                    initPayPop(String.valueOf(talmoney));
+                }else{
+                    initPayPop(allMoney);
+                }
                 break;
             case R.id.tv_discount:
                 user_phone = (String) SPUtils.get(this, "user_phone", "");
@@ -429,13 +450,21 @@ public class NowApplyActivity extends BaseActivity {
 
                 break;
             case R.id.tv_user_discount://不使用优惠券
-                money += discount;
+                //money += discount;
                 tvAllmoney.setText("¥" + (new DecimalFormat("0.00").format(money)));
                 discount = 0;
                 tvDiscount.setText("¥" + "0.00");
                 tvUserDiscount.setVisibility(View.GONE);
                 break;
             case R.id.iv_golddiscount:
+                if (tag == 0) {
+                    ivGolddiscount.setImageResource(R.drawable.baiquan);
+                    money = money + g;
+                    d=0.0;
+                }else{
+                    money=money+d;
+                    d=0.0;
+                }
                 if (money - g <= 0) {
                     Toast.makeText(this, "不能全部选择", Toast.LENGTH_SHORT).show();
                     return;
@@ -449,7 +478,7 @@ public class NowApplyActivity extends BaseActivity {
                 } else {
                     ivGolddiscount.setImageResource(R.drawable.baiquan);
                     tag = 1;
-                    money = money + g-d;
+                    //money = money + g-d;
                     tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(money));
                     tvGoldMoney.setText("¥0.00");
                 }
@@ -701,7 +730,9 @@ public class NowApplyActivity extends BaseActivity {
                             String prepayid = jsonObject.getString("prepayid");
                             String sign = jsonObject.getString("sign");
                             String timestamp = jsonObject.getString("timestamp");
-
+                            if(!jsonObject.getString("newOrderId").isEmpty()){
+                                order_id=jsonObject.getString("newOrderId");
+                            }
 
                             PayReq request = new PayReq();
                             request.appId = appid;
@@ -732,11 +763,18 @@ public class NowApplyActivity extends BaseActivity {
         window.setAttributes(lp);
     }
 
-        private void cashPay() {
+    private void cashPay() {
+        String trim = etInputGoldNum.getText().toString().trim();
+        if (TextUtils.isEmpty(trim)) {
+            trim = "0";
+        }
         HashMap<String, String> params = new HashMap<>();
         params.put("order_id", order_id);
         params.put("order_state", "1");
         params.put("pay_type", "2");
+        params.put("is_gold", trim + "");
+        params.put("is_coupons", coupons_id + "");
+
         OkHttpUtils.post()
                 .url(Internet.PAY_CASH)
                 .params(params)
@@ -778,14 +816,14 @@ public class NowApplyActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 11) {
-            if (discount != 0) {
+            /*if (discount != 0) {
                 money += discount;
-            }
+            }*/
             discount = data.getDoubleExtra("discount", 0);
             coupons_id = data.getIntExtra("coupons_id", 0);
             tvDiscount.setText("-¥" + discount);
-            money = money - discount;
-            String trim = tvGoldMoney.getText().toString().trim();
+            //money = money - discount;
+            /*String trim = tvGoldMoney.getText().toString().trim();
             double v = 0.0;
             if (trim.contains("¥")) {
                 String[] s = trim.split("¥");
@@ -796,9 +834,11 @@ public class NowApplyActivity extends BaseActivity {
 
             if (v > 0) {
                 money -= v;
-            }
-            tvAllmoney.setText("¥" + (new DecimalFormat("0.00").format(money)));
+            }*/
+            getTalMoney();
             tvUserDiscount.setVisibility(View.VISIBLE);
+            /*tvAllmoney.setText("¥" + (new DecimalFormat("0.00").format(money)));
+            tvUserDiscount.setVisibility(View.VISIBLE);*/
         } else if (requestCode == 2 && resultCode == 22) {
             tvStudentName.setText(data.getStringExtra("student")+"("+data.getStringExtra("sex")+")");
             tvStudentSex.setText(data.getStringExtra("sex"));
@@ -818,5 +858,10 @@ public class NowApplyActivity extends BaseActivity {
             //Log.v("List_noteTypeActivity:", "我是关闭事件");
             backgroundAlpha(1f);
         }
+    }
+
+    public void getTalMoney(){
+        talmoney=money-discount;
+        tvAllmoney.setText("¥" + (new DecimalFormat("0.00").format(talmoney)));
     }
 }

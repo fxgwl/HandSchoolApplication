@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: cn.bingoogolapple:bga-zbar:1.1.9@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/transforms-1/files-1.1/bga-zbar-1.1.9.aar/6ae4aa7b56def182dbf9bc3cba46a93c/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/transforms-1/files-1.1/bga-zbar-1.1.9.aar/6ae4aa7b56def182dbf9bc3cba46a93c/res" />
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/transforms-1/files-1.1/bga-zbar-1.1.9.aar/6ae4aa7b56def182dbf9bc3cba46a93c/jars/libs/zbar.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/modules-2/files-2.1/cn.bingoogolapple/bga-zbar/1.1.9/82e70fe481ba0ee1499bced56e197067fdb2049a/bga-zbar-1.1.9-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

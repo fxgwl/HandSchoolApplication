@@ -1,8 +1,10 @@
 package com.example.handschoolapplication.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -11,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,6 +49,7 @@ import com.example.handschoolapplication.utils.MyUtiles;
 import com.example.handschoolapplication.utils.RomUtil;
 import com.example.handschoolapplication.utils.SPUtils;
 import com.example.handschoolapplication.utils.SystemUtil;
+import com.example.handschoolapplication.view.SelfDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -158,6 +162,11 @@ public class MainActivity extends BaseActivity {
     private boolean b;
     private long exitTime = 0;
 
+    private String[] permissions = new String[]{
+          Manifest.permission.ACCESS_FINE_LOCATION
+    };
+    private ArrayList<String> mPermission = new ArrayList<>();
+    private int REQUEST_CODE_ACCESS_COARSE_LOCATION;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -370,7 +379,7 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private void requestPermission() {
+    /*private void requestPermission() {
         //判断Android版本是否大于23
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
@@ -383,6 +392,136 @@ public class MainActivity extends BaseActivity {
             }
         } else {
             //API 版本在23以下
+        }
+    }*/
+
+    private void requestPermission() {
+        //判断Android版本是否大于23
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mPermission.clear();
+            for (int i = 0; i < permissions.length; i++) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+                    mPermission.add(permissions[i]);
+                }
+            }
+            if (mPermission.isEmpty()) {//未授予的权限为空，表示都授予了
+//                Toast.makeText(SplashActivity.this, "已经授权", Toast.LENGTH_LONG).show();
+//                getVersionInfo();
+                tvHome.setTextColor(Color.parseColor("#333333"));
+                ivHome.setImageResource(R.drawable.home);
+                tvFind.setTextColor(Color.parseColor("#27acf6"));
+                ivFind.setImageResource(R.drawable.finds);
+                tvNews.setTextColor(Color.parseColor("#333333"));
+                ivNews.setImageResource(R.drawable.news);
+                tvPlan.setTextColor(Color.parseColor("#333333"));
+                ivPlan.setImageResource(R.drawable.plan);
+                tvMe.setTextColor(Color.parseColor("#333333"));
+                ivMe.setImageResource(R.drawable.me);
+                if (findFragment == null) findFragment = new FindFragment();
+                addOrShowFragment(getSupportFragmentManager(), findFragment);
+//                MyUtiles.setStatusTextColor(false,MainActivity.this);
+                MyUtiles.setStatusBar(this, false, false);
+            } else {//请求权限方法
+                String[] permissions = mPermission.toArray(new String[mPermission.size()]);//将List转为数组
+                ActivityCompat.requestPermissions(MainActivity.this, permissions, REQUEST_CODE_ACCESS_COARSE_LOCATION);
+            }
+//            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+//            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this, new String[]{
+//                        Manifest.permission.ACCESS_COARSE_LOCATION,
+//                        Manifest.permission.CALL_PHONE
+//                        ,Manifest.permission.READ_PHONE_STATE
+//                        ,Manifest.permission.ACCESS_FINE_LOCATION
+//                        ,Manifest.permission.READ_EXTERNAL_STORAGE
+//                },REQUEST_CODE_ACCESS_COARSE_LOCATION);
+//                Log.e("aaa",
+//                    "(SplashActivity.java:111)"+"请求获取权限");
+//            } else {
+//                Log.e("aaa",
+//                        "(SplashActivity.java:111)"+"已获取权限");
+//                //已有权限
+//                checkAutoLogin();
+//            }
+        } else {
+            Log.e("aaa",
+                    "(SplashActivity.java:111)" + "不用获取权限");
+            //API 版本在23以下
+//            checkWebEnvironment();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE_ACCESS_COARSE_LOCATION) {
+
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    //判断是否勾选禁止后不再询问
+                    boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permissions[i]);
+                    if (showRequestPermission) {
+//                        Toast.makeText(this, "权限未申请", Toast.LENGTH_SHORT).show();
+                        showUnLoginDialog("为了更好的应用体验，需要获取您的位置(服近商家服务)！",1);
+                        //requestPermission();
+                    }else{
+                        showUnLoginDialog("点开手机系统设置->应用和通知->权限管理",0);
+                    }
+                }
+            }
+
+            Log.e("aaa",
+                    "(SplashActivity.java:176)<--运行自动登录-->");
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void showUnLoginDialog(String text, final int type) {
+        final SelfDialog selfDialog = new SelfDialog(MainActivity.this);
+        selfDialog.setMessage(text);
+        selfDialog.setYesOnclickListener("确定", new SelfDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                if(type==0){
+                    selfDialog.dismiss();
+                }else if(type==1){
+                    selfDialog.dismiss();
+                    requestPermission();
+                }
+            }
+        });
+
+
+        selfDialog.setNoOnclickListener("取消", new SelfDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                selfDialog.dismiss();
+            }
+        });
+        backgroundAlpha(0.6f);
+        selfDialog.setOnDismissListener(new poponDismissListener());
+        selfDialog.show();
+    }
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
+    }
+
+    /**
+     * 添加弹出的dialog关闭的事件，主要是为了将背景透明度改回来
+     *
+     * @author cg
+     */
+    class poponDismissListener implements Dialog.OnDismissListener {
+
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            //Log.v("List_noteTypeActivity:", "我是关闭事件");
+            backgroundAlpha(1f);
         }
     }
 
@@ -406,7 +545,8 @@ public class MainActivity extends BaseActivity {
                 MyUtiles.setStatusBar(this, false, false);
                 break;
             case R.id.ll_find:
-                tvHome.setTextColor(Color.parseColor("#333333"));
+                requestPermission();
+                /*tvHome.setTextColor(Color.parseColor("#333333"));
                 ivHome.setImageResource(R.drawable.home);
                 tvFind.setTextColor(Color.parseColor("#27acf6"));
                 ivFind.setImageResource(R.drawable.finds);
@@ -419,7 +559,7 @@ public class MainActivity extends BaseActivity {
                 if (findFragment == null) findFragment = new FindFragment();
                 addOrShowFragment(getSupportFragmentManager(), findFragment);
 //                MyUtiles.setStatusTextColor(false,MainActivity.this);
-                MyUtiles.setStatusBar(this, false, false);
+                MyUtiles.setStatusBar(this, false, false);*/
                 break;
             case R.id.ll_news:
                 tvHome.setTextColor(Color.parseColor("#333333"));
@@ -513,11 +653,11 @@ public class MainActivity extends BaseActivity {
             // 如果当前fragment未被添加，则添加到Fragment管理器中
             transaction.hide(currentFragment)
                     .add(R.id.fl_fragment,
-                            fragment).commit();
+                            fragment).commitAllowingStateLoss();
         } else {
 
             // 如果当前fragment已被添加，则显示即可
-            transaction.hide(currentFragment).show(fragment).commit();
+            transaction.hide(currentFragment).show(fragment).commitAllowingStateLoss();
         }
         currentFragment = fragment;
     }

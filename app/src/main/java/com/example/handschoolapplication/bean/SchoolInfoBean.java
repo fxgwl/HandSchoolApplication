@@ -74,14 +74,18 @@ public class SchoolInfoBean {
         private String data_integrity;
         private String head_photo;
         private String id_number;
+        private String id_numbers;
         private String mechanism_address;
         private String mechanism_city;
         private String mechanism_ctime;
         private String mechanism_name;
         private String mechanism_type;
-        private String mid_photo;
+        private String midphoto_card;
+        private String midphoto_cards;
         private String mid_photos;
+        private String mid_photo;
         private String qualification_prove;
+        private String qualification_proves;
         private String school_id;
         private String signed_num;
         private String user_code;
@@ -103,6 +107,10 @@ public class SchoolInfoBean {
         private String change_state;
         private String qualiprove_state;
         private String midphoto_state;
+        private String mechanism_name_des;
+        private String mechanism_name_img;
+        private String mechanism_name_new;
+        private String mechanism_name_state;
 
         public String getData_integrity() {
             return data_integrity == null ? "" : data_integrity;
@@ -168,20 +176,20 @@ public class SchoolInfoBean {
             this.mechanism_type = mechanism_type;
         }
 
-        public String getMid_photo() {
-            return mid_photo == null ? "" : mid_photo;
+        public String getMidphoto_card() {
+            return midphoto_card == null ? "" : midphoto_card;
         }
 
-        public void setMid_photo(String mid_photo) {
-            this.mid_photo = mid_photo;
+        public void setMidphoto_card(String midphoto_card) {
+            this.midphoto_card = midphoto_card;
         }
 
-        public String getMid_photos() {
-            return mid_photos == null ? "" : mid_photos;
+        public String getMidphoto_cards() {
+            return midphoto_cards == null ? "" : midphoto_cards;
         }
 
-        public void setMid_photos(String mid_photos) {
-            this.mid_photos = mid_photos;
+        public void setMidphoto_cards(String midphoto_cards) {
+            this.midphoto_cards = midphoto_cards;
         }
 
         public String getQualification_prove() {
@@ -358,6 +366,70 @@ public class SchoolInfoBean {
 
         public void setMidphoto_state(String midphoto_state) {
             this.midphoto_state = midphoto_state;
+        }
+
+        public String getMechanism_name_des() {
+            return mechanism_name_des == null ? "" : mechanism_name_des;
+        }
+
+        public void setMechanism_name_des(String mechanism_name_des) {
+            this.mechanism_name_des = mechanism_name_des;
+        }
+
+        public String getMechanism_name_img() {
+            return mechanism_name_img == null ? "" : mechanism_name_img;
+        }
+
+        public void setMechanism_name_img(String mechanism_name_img) {
+            this.mechanism_name_img = mechanism_name_img;
+        }
+
+        public String getMechanism_name_new() {
+            return mechanism_name_new == null ? "" : mechanism_name_new;
+        }
+
+        public void setMechanism_name_new(String mechanism_name_new) {
+            this.mechanism_name_new = mechanism_name_new;
+        }
+
+        public String getMechanism_name_state() {
+            return mechanism_name_state == null ? "" : mechanism_name_state;
+        }
+
+        public void setMechanism_name_state(String mechanism_name_state) {
+            this.mechanism_name_state = mechanism_name_state;
+        }
+
+        public String getId_numbers() {
+            return id_numbers == null ? "" : id_numbers;
+        }
+
+        public void setId_numbers(String id_numbers) {
+            this.id_numbers = id_numbers;
+        }
+
+        public String getMid_photos() {
+            return mid_photos == null ? "" : mid_photos;
+        }
+
+        public void setMid_photos(String mid_photos) {
+            this.mid_photos = mid_photos;
+        }
+
+        public String getMid_photo() {
+            return mid_photo == null ? "" : mid_photo;
+        }
+
+        public void setMid_photo(String mid_photo) {
+            this.mid_photo = mid_photo;
+        }
+
+        public String getQualification_proves() {
+            return qualification_proves == null ? "" : qualification_proves;
+        }
+
+        public void setQualification_proves(String qualification_proves) {
+            this.qualification_proves = qualification_proves;
         }
 
         public class RatiosBean{

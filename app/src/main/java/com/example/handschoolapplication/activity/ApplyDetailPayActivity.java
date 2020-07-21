@@ -130,7 +130,7 @@ public class ApplyDetailPayActivity extends BaseActivity {
 
     private String[] studentsName;//学生姓名集合
     private String[] orderIds;//学生姓名集合
-    private int couponsIds[];
+    private int couponsIds[];//0是过期 ，1正常，2已使用
     private double[] unitPrice;
     private double totalPrice;
     private int tag = 1;
@@ -151,6 +151,9 @@ public class ApplyDetailPayActivity extends BaseActivity {
         user_id = (String) SPUtils.get(this, "userId", "");
         orderBean = (ArrayList<CarListBean.DataBean>) getIntent().getSerializableExtra("orderBean");
         studentsName = new String[orderBean.size()];
+        for(int i=0;i<orderBean.size();i++){
+            studentsName[i]=orderBean.get(i).getStudent_name();
+        }
         couponsIds = new int[orderBean.size()];
         orderIds = new String[orderBean.size()];
         unitPrice = new double[orderBean.size()];
@@ -184,9 +187,14 @@ public class ApplyDetailPayActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 if (tag == 0) {
                     ivGolddiscount.setImageResource(R.drawable.baiquan);
                     totalPrice = totalPrice + g;
+                    d=0.0;
                     tag = 1;
                 }else{
                     totalPrice=totalPrice+d;
@@ -199,19 +207,24 @@ public class ApplyDetailPayActivity extends BaseActivity {
                 if (v > n) {
                     Toast.makeText(ApplyDetailPayActivity.this, "您的金币数量不足", Toast.LENGTH_SHORT).show();
                     d=0;
-                    etInputGoldNum.setText("");
+                    //etInputGoldNum.setText("");
+                    tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice));
+                    return;
                 } else if (v == n) {
                     d = (v / rate);
 
                     if (totalPrice - d <= 0) {
                         Toast.makeText(ApplyDetailPayActivity.this, "抵扣超出金额上限", Toast.LENGTH_SHORT).show();
-                        etInputGoldNum.setText("");
+                        //etInputGoldNum.setText("");
+                        d=0.0;
+                        tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice));
+                        return;
                     } else {
                         ivGolddiscount.setImageResource(R.drawable.hongquan);
                         tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(d));
                         totalPrice = totalPrice - d;
                         tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice));
-                        d=0;
+                        d=0.0;
                         tag = 0;
                     }
                     /*if (totalPrice-d>0){
@@ -224,16 +237,20 @@ public class ApplyDetailPayActivity extends BaseActivity {
                         Toast.makeText(ApplyDetailPayActivity.this, "抵扣超出金额上限", Toast.LENGTH_SHORT).show();
                         etInputGoldNum.setText("");
                     }*/
-                    
+
                 } else {
                     d = (v / rate);
                     if (totalPrice - d <= 0) {
                         Toast.makeText(ApplyDetailPayActivity.this, "抵扣超出金额上限", Toast.LENGTH_SHORT).show();
-                        etInputGoldNum.setText("");
+                        //etInputGoldNum.setText("");
+                        d=0.0;
+                        tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice));
+                        return;
                     } else {
                         totalPrice = totalPrice - d;
                         tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(d));
                         tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice));
+                        tag=1;
                     }
                     /*if (totalPrice-d>0){
                         tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(d));
@@ -244,10 +261,6 @@ public class ApplyDetailPayActivity extends BaseActivity {
                     }*/
 
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
             }
         });
     }
@@ -332,12 +345,26 @@ public class ApplyDetailPayActivity extends BaseActivity {
                 show(view);
                 break;
             case R.id.tv_nowapply_config:
+                for(int i=0;i<orderBean.size();i++){
+                    if(studentsName[i].isEmpty()){
+                        Toast.makeText(getApplication(),"请前往报名详情中填写学生姓名",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
                 Log.e("aaa",
                         "(ApplyDetailPayActivity.java:272)----------" + tvAllmoney.getText().toString().trim());
                 String totalMoney = tvAllmoney.getText().toString().trim().split("¥")[1];
                 initPayPop(totalMoney);
                 break;
             case R.id.iv_golddiscount:
+                if (tag == 0) {
+                    ivGolddiscount.setImageResource(R.drawable.baiquan);
+                    totalPrice = totalPrice + g;
+                    d=0.0;
+                }else{
+                    totalPrice=totalPrice+d;
+                    d=0.0;
+                }
                 if (totalPrice-g<=0){
                     Toast.makeText(this, "不能全部抵扣", Toast.LENGTH_SHORT).show();
                     return;
@@ -345,13 +372,13 @@ public class ApplyDetailPayActivity extends BaseActivity {
                 if (tag == 1) {
                     ivGolddiscount.setImageResource(R.drawable.hongquan);
                     tag = 0;
-                    totalPrice = totalPrice - g+d;
+                    totalPrice = totalPrice - g;
                     tvAllmoney.setText("¥" + totalPrice);
                     tvMoneyNum.setText("¥" + new DecimalFormat("0.00").format(g));
                 } else {
                     ivGolddiscount.setImageResource(R.drawable.baiquan);
                     tag = 1;
-                    totalPrice = totalPrice + g-d;
+                    //totalPrice = totalPrice + g-d;
                     tvAllmoney.setText("¥" + new DecimalFormat("0.00").format(totalPrice));
                     tvMoneyNum.setText("¥0.00");
                 }
@@ -625,9 +652,11 @@ public class ApplyDetailPayActivity extends BaseActivity {
                             String prepayid = jsonObject.getString("prepayid");
                             String sign = jsonObject.getString("sign");
                             String timestamp = jsonObject.getString("timestamp");
-
+                            if(!jsonObject.getString("newOrderId").isEmpty()){
+                                orderIds=jsonObject.getString("newOrderId").split("a");
+                            }
                             Log.e("aaa",
-                                    "(ApplyDetailPayActivity.java:402)prepayid ===" + prepayid);
+                                    "(ApplyDetailPayActivity.java:402)prepayid ===" + prepayid+orderIds);
                             PayReq request = new PayReq();
                             request.appId = appid;
                             request.partnerId = partnerid;
@@ -652,7 +681,10 @@ public class ApplyDetailPayActivity extends BaseActivity {
     }
 
     private void cashPay() {
-
+        String trim = etInputGoldNum.getText().toString().trim();
+        if (TextUtils.isEmpty(trim)) {
+            trim = "0";
+        }
         String orderIdItem = "";
         String studentItem = "";
         String couponsIdItem = "";
@@ -682,6 +714,8 @@ public class ApplyDetailPayActivity extends BaseActivity {
         params.put("order_id", orderIdItem);
         params.put("order_state", "1");
         params.put("pay_type", "2");
+        params.put("is_coupons", couponsIdItem);
+        params.put("is_gold", trim + "");
         OkHttpUtils.post()
                 .url(Internet.PAY_CASH)
                 .params(params)
@@ -757,7 +791,8 @@ public class ApplyDetailPayActivity extends BaseActivity {
             }else {
 
             }
-            tvAllmoney.setText("¥" + (totalPrice));
+            DecimalFormat df = new DecimalFormat(".00");
+            tvAllmoney.setText("¥" + (df.format(totalPrice)));
         }
     }
 

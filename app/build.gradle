@@ -10,19 +10,19 @@ android {
         release {
             keyAlias 'axehome'
             keyPassword 'axehome20150908'
-            storeFile file('E:/axehome20150908.jks')
+            storeFile file('D:/axehome20150908.jks')
             storePassword 'axehome20150908'
         }
 
     }
     compileSdkVersion 28
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "com.example.handschoolapplication"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 5
-        versionName "1.4"
+        versionName "1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -69,81 +69,81 @@ android {
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(':PhotoPicker')
-    compile project(':pullToRefrece')
-    compile files('libs/BaiduLBS_Android.jar')
-    compile files('libs/alipaySdk-20170725.jar')
+    implementation project(':PhotoPicker')
+    implementation project(':pullToRefrece')
+    implementation files('libs/BaiduLBS_Android.jar')
+    implementation files('libs/alipaySdk-20170725.jar')
     //    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     //轮播图
     //圆形带背景的图片
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     //    compile 'com.google.zxing:core:3.2.1'
     //    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
     //地址选择器
-    compile files('src/main/libs/MobCommons-2017.0914.1125.jar')
-    compile files('src/main/libs/MobTools-2017.0914.1125.jar')
-    compile files('src/main/libs/ShareSDK-Alipay-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-Alipay-Core-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-Alipay-Moments-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-Core-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-QQ-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-QZone-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-Renren-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-ShortMessage-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-SinaWeibo-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-TencentWeibo-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-Wechat-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-Wechat-Core-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-Wechat-Favorite-3.1.0.jar')
-    compile files('src/main/libs/ShareSDK-Wechat-Moments-3.1.0.jar')
+    implementation files('src/main/libs/MobCommons-2017.0914.1125.jar')
+    implementation files('src/main/libs/MobTools-2017.0914.1125.jar')
+    implementation files('src/main/libs/ShareSDK-Alipay-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-Alipay-Core-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-Alipay-Moments-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-Core-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-QQ-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-QZone-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-Renren-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-ShortMessage-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-SinaWeibo-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-TencentWeibo-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-Wechat-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-Wechat-Core-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-Wechat-Favorite-3.1.0.jar')
+    implementation files('src/main/libs/ShareSDK-Wechat-Moments-3.1.0.jar')
     //    compile 'cn.yipianfengye.android:zxing-library:2.2'
     // Version 23+ is required || 要求版本23以上
-    compile project(':indexlib')
-    compile files('libs/alipaySdk-20170725.jar')
-    compile files('src/main/libs/jcore-android-1.2.0.jar')
-    compile files('src/main/libs/jpush-android-3.1.2.jar')
+    implementation project(':indexlib')
+    implementation files('libs/alipaySdk-20170725.jar')
+    implementation files('src/main/libs/jcore-android-1.2.0.jar')
+    implementation files('src/main/libs/jpush-android-3.1.2.jar')
     //高德2D地图
     //高德地图的搜索
     //    compile 'com.amap.api:map2d:latest.integration'
     //定位SDK
     //    compile 'com.amap.api:3dmap:latest.integration'
-    compile 'com.amap.api:3dmap:5.0.0'
-    compile 'com.amap.api:location:3.3.0'
-    compile 'com.amap.api:search:5.0.0'
-    compile 'com.smarttop:jd-address:1.1.0'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.jakewharton:butterknife:8.7.0'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.bigkoo:convenientbanner:2.0.5'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.github.danielgindi:httprequest:1.2.0'
-    compile 'com.zhy:okhttputils:2.6.2'
-    compile 'com.google.code.gson:gson:2.8.1'
-    compile 'com.alibaba:fastjson:1.2.37'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.blankj:utilcode:1.1.5'
-    compile 'com.teprinciple:updateapputils:1.2'
-    compile 'com.google.zxing:core:3.3.0'
-    compile 'cn.bingoogolapple:bga-qrcodecore:1.1.9@aar'
-    compile 'cn.bingoogolapple:bga-zxing:1.1.9@aar'
-    compile 'cn.bingoogolapple:bga-zbar:1.1.9@aar'
-    compile 'pub.devrel:easypermissions:1.0.0'
-    compile 'cn.bingoogolapple:bga-photopicker:1.2.3@aar'
-    compile 'cn.bingoogolapple:bga-adapter:1.2.0@aar'
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-    compile 'com.zhy:flowlayout-lib:1.0.3'
-    compile 'id.zelory:compressor:1.0.3'
-    compile 'com.yuyh.imgsel:library:2.0.2'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.github.gittjy:LoadingDialog:1.0.2'
-    compile 'me.leolin:ShortcutBadger:1.1.22@aar'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.amap.api:3dmap:5.0.0'
+    implementation 'com.amap.api:location:3.3.0'
+    implementation 'com.amap.api:search:5.0.0'
+    implementation 'com.smarttop:jd-address:1.1.0'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.jakewharton:butterknife:8.7.0'
+    implementation 'com.android.support:support-v4:25.3.1'
+    implementation 'com.bigkoo:convenientbanner:2.0.5'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.github.danielgindi:httprequest:1.2.0'
+    implementation 'com.zhy:okhttputils:2.6.2'
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'com.alibaba:fastjson:1.2.37'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.blankj:utilcode:1.1.5'
+    implementation 'com.teprinciple:updateapputils:1.2'
+    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'cn.bingoogolapple:bga-qrcodecore:1.1.9@aar'
+    implementation 'cn.bingoogolapple:bga-zxing:1.1.9@aar'
+    implementation 'cn.bingoogolapple:bga-zbar:1.1.9@aar'
+    implementation 'pub.devrel:easypermissions:1.0.0'
+    implementation 'cn.bingoogolapple:bga-photopicker:1.2.3@aar'
+    implementation 'cn.bingoogolapple:bga-adapter:1.2.0@aar'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    implementation 'com.zhy:flowlayout-lib:1.0.3'
+    implementation 'id.zelory:compressor:1.0.3'
+    implementation 'com.yuyh.imgsel:library:2.0.2'
+    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'com.github.gittjy:LoadingDialog:1.0.2'
+    implementation 'me.leolin:ShortcutBadger:1.1.22@aar'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    testImplementation 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 }
 

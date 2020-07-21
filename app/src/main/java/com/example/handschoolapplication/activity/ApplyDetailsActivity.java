@@ -74,7 +74,7 @@ public class ApplyDetailsActivity extends BaseActivity {
         order = (CarListBean.DataBean) getIntent().getSerializableExtra("order");
         String studentName = getIntent().getStringExtra("student");
         if (!TextUtils.isEmpty(studentName))
-        tvStudentName.setText(studentName);
+        tvStudentName.setText(studentName+" ("+order.getStudent_sex()+")");
         school_id = order.getSchool_id();
         initView();
 

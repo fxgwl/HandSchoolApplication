@@ -14,13 +14,17 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
+import com.example.handschoolapplication.bean.OrderBean;
+import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.InternetS;
 import com.example.handschoolapplication.utils.SPUtils;
+import com.example.handschoolapplication.view.SelfDialog;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -124,7 +128,8 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
             if ("gr".equals(split[0])) {
                 Log.e("aaa",
                         "(ScanQRCodeActivity.java:122)<--school_id-->"+school_id);
-                sign(split[1], split[2],school_id);
+                OrderDetail(split[1], split[2]);
+                //sign(split[1], split[2],school_id);
 //                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
             } else if ("xt".equals(split[0])){
                 Log.e("aaa",
@@ -241,5 +246,80 @@ public class ScanQRCodeActivity extends BaseActivity implements QRCodeView.Deleg
                 show(view);
                 break;
         }
+    }
+
+    public void OrderDetail(final String learnCode,final String orderId){
+        OkHttpUtils.post()
+                .url(Internet.BASE_URL+"OrderInfo/getOrderDetails")
+                .addParams("order_id", orderId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("aaa",
+                                "(ScanQRCodeActivity.java:256)" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("aaa",
+                                "(ScanQRCodeActivity.java:262)" + response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            int result = jsonObject.getInt("result");
+                            if (result == 0) {
+                                OrderBean.DataBean bean= com.alibaba.fastjson.JSONObject.parseObject(jsonObject.getString("data"),OrderBean.DataBean.class);
+                                if(bean.getPay_type().equals("2")){
+                                    showDialog(learnCode, orderId,school_id);
+                                }else{
+                                    sign(learnCode, orderId,school_id);
+                                }
+                            } else {
+//                                    Toast.makeText(ScanQRCodeActivity.this, jsonObject.getString("msg"), Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    private void showDialog(final String learnCode, final String orderId,final String school_id) {
+        final SelfDialog selfDialog = new SelfDialog(this);
+
+        selfDialog.setMessage("当前支付方式为线下支付");
+        selfDialog.setYesOnclickListener("是", new SelfDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+//                cancelOrder(dataBean, position);
+                selfDialog.dismiss();
+                sign(learnCode, orderId,school_id);
+                backgroundAlpha(1f);
+            }
+        });
+
+
+        selfDialog.setNoOnclickListener("否", new SelfDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                selfDialog.dismiss();
+                backgroundAlpha(1f);
+                finish();
+            }
+        });
+        backgroundAlpha(0.6f);
+        //selfDialog3.setOnDismissListener(new poponDismissListener());
+        selfDialog.show();
+    }
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
     }
 }

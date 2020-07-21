@@ -68,6 +68,7 @@ public class DaifukuangLvAdapter extends BaseAdapter {
             holder.mTvContemt = ((TextView) convertView.findViewById(R.id.tv_itemdaifukuang_contemt));
             holder.civHeadImage = ((CircleImageView) convertView.findViewById(R.id.civ_itendaifukuang_usericon));
             holder.ivClasslogo = ((ImageView) convertView.findViewById(R.id.iv_itemdaifukuang_classlogo));
+            holder.tvPayway=((TextView) convertView.findViewById(R.id.tv_payway));
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -108,13 +109,26 @@ public class DaifukuangLvAdapter extends BaseAdapter {
                 holder.mTvContemt.setText("取消的订单");
                 break;
         }
+        if(classDealManagerBean.getPay_type()!=null){
+            switch (classDealManagerBean.getPay_type()) {
+                case "0":
+                    holder.tvPayway.setText("支付宝支付");
+                    break;
+                case "1":
+                    holder.tvPayway.setText("微信支付");
+                    break;
+                case "2":
+                    holder.tvPayway.setText("线下支付");
+                    break;
+            }
+        }
         return convertView;
     }
 
 
     class ViewHolder {
         TextView mTvOrderId, mTvNickName, mTvClassName, mTvClassprice, mTvTotalprice,
-                mTvNum, mTvContemt,tvTime;
+                mTvNum, mTvContemt,tvTime,tvPayway;
         ImageView ivClasslogo;
         CircleImageView civHeadImage;
 

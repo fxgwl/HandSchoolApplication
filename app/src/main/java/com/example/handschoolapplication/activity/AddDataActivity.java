@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.example.handschoolapplication.R;
 import com.example.handschoolapplication.base.BaseActivity;
 import com.example.handschoolapplication.bean.AddDataInfo;
+import com.example.handschoolapplication.bean.MenuBean;
 import com.example.handschoolapplication.utils.IDCard;
 import com.example.handschoolapplication.utils.Internet;
 import com.example.handschoolapplication.utils.SPUtils;
@@ -47,6 +48,7 @@ import com.yuyh.library.imgsel.config.ISListConfig;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -254,6 +256,13 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
                                 int result = jsonObject.getInt("result");
                                 if (result == 0) {
                                     AddDataInfo addDataInfo = new Gson().fromJson(response, AddDataInfo.class);
+                                    /*20200115 fxg 改 start  0:下架，1是上架*/
+                                    if(addDataInfo.getData().getChange_state().equals("0")){
+                                        SPUtils.clear(getApplicationContext());
+                                        EventBus.getDefault().post(new MenuBean(8));
+                                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                        return;
+                                    } /*20200115 fxg 改 end*/
                                     String mechanism_name = addDataInfo.getData().getMechanism_name();//机构名称
                                     String mechanism_city = addDataInfo.getData().getMechanism_city();//所在省市
                                     String mechanism_ctime = addDataInfo.getData().getMechanism_ctime();//成立时间
@@ -501,6 +510,8 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
                     }
                 }
                 params.put("qualification_prove", jsonObject.toString());//资质证明
+            }else{
+                params.put("qualification_prove", "");//资质证明
             }
 
             if (idencardStr[0] != null && idencardStr[1] != null) {
@@ -600,7 +611,8 @@ public class AddDataActivity extends BaseActivity implements OnAddressSelectedLi
                                 if (flag.equals("1")) {
                                     finish();
                                 } else {
-                                    startActivity(new Intent(AddDataActivity.this, LoginActivity.class)
+
+                                    startActivity(new Intent(AddDataActivity.this, RegisterAdActivity.class)
                                             .putExtra("from", "register")
                                             .putExtra("phone", phone)
                                             .putExtra("password", password)

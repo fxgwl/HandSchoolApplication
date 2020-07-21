@@ -39,6 +39,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -306,6 +307,8 @@ public class LearnPlanFragment extends BaseFragment implements LearnPlansAdapter
                 }
             }
         }
+        DecimalFormat df = new DecimalFormat("0.00");
+        totalPrice=Double.valueOf(df.format(totalPrice));
         tvHeji.setText("合计:  ¥" + totalPrice);
     }
 

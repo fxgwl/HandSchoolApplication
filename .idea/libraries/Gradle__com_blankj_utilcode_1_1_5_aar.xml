@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.blankj:utilcode:1.1.5@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/transforms-1/files-1.1/utilcode-1.1.5.aar/0c427f65d258bb1dfef832a07b5365ab/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/transforms-1/files-1.1/utilcode-1.1.5.aar/0c427f65d258bb1dfef832a07b5365ab/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/caches/modules-2/files-2.1/com.blankj/utilcode/1.1.5/e903afd581cf333a344ec84bd48bc441251c6ed2/utilcode-1.1.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

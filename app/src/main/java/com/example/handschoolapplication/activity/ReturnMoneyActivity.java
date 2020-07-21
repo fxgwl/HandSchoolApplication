@@ -124,19 +124,19 @@ public class ReturnMoneyActivity extends BaseActivity {
             case R.id.tv_submit:
                 String class_people = tvTuireason.getText().toString();
                 account = etAccount.getText().toString().trim();//用户填写的退款账号
-                if (TextUtils.isEmpty(class_people)) {
+                /*if (TextUtils.isEmpty(class_people)) {
                     Toast.makeText(this, "请填写退款原因", Toast.LENGTH_SHORT).show();
                     return;
-                }
+                }*/
 
-                if (TextUtils.isEmpty(account)) {
+                /*if (TextUtils.isEmpty(account)) {
                     Toast.makeText(this, "请输入退款账号！", Toast.LENGTH_SHORT).show();
                     return;
-                }
+                }*/
                 OkHttpUtils.post()
                         .url(Internet.RETURNMONEY)
                         .addParams("order_id", ordernum)
-                        .addParams("class_people", class_people)
+                        .addParams("reject_reason", class_people==null?"":class_people)
                         .addParams("alipay_num", account)
                         .addParams("order_money", String.valueOf(v))
                         .build()

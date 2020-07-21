@@ -196,11 +196,12 @@ public class SettingsActivity extends BaseActivity {
                 if (type.equals("per"))
                     startActivity(new Intent(this, MyInformationActivity.class));
                 else {
-                    if (change_state.equals("2")) {
+                    /*if (change_state.equals("2")) {
                         startActivity(new Intent(this, AddDataActivity.class));
                     } else if (change_state.equals("0")) {
                         Toast.makeText(this, "审核过后才能编辑资料", Toast.LENGTH_SHORT).show();
-                    } else startActivity(new Intent(this, SchoolInformationActivity.class));
+                    } else */
+                    startActivity(new Intent(this, SchoolInformationActivity.class));
                 }
                 break;
             //修改手机号
